@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+build/
+*.log
+.env*
+!.env.example
+.DS_Store
+next-env.d.ts
+.agents/
+.claude/
+.codex/
+.codex-remote-attachments/

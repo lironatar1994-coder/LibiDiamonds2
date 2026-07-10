@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #faf8f3;
+  --color-cream: #f2ede3;
+  --color-sand: #e9e1d0;
+  --color-line: #e4ddcc;
+  --color-ink: #211e18;
+  --color-ink-soft: #3a352c;
+  --color-stone: #6e6758;
+  --color-gold: #a88d53;
+  --color-gold-deep: #86713f;
+  --color-espresso: #2a2319;
+  --color-champagne: #d8caa6;
+
+  --font-display: var(--font-frank), "Frank Ruhl Libre", serif;
+  --font-body: var(--font-assistant), "Assistant", sans-serif;
+}
+
+body {
+  background-color: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Soft gradient backdrop behind jewelry illustrations */
+.art-bg {
+  background: radial-gradient(
+    120% 100% at 50% 0%,
+    #fdfcf8 0%,
+    #f5f0e5 55%,
+    #ece4d2 100%
+  );
+}
+
+.art-bg-dark {
+  background: radial-gradient(
+    120% 100% at 50% 0%,
+    #f3eee2 0%,
+    #e9e0cc 60%,
+    #ddd2b8 100%
+  );
+}
+
+.hero-editorial {
+  background:
+    radial-gradient(90% 80% at 78% 42%, rgba(216, 202, 166, 0.22) 0%, rgba(250, 248, 243, 0) 64%),
+    #faf8f3;
+}
+
+.hero-ring-light {
+  position: absolute;
+  inset: 12% 2% 2%;
+  background:
+    radial-gradient(52% 44% at 52% 55%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.18) 58%, rgba(255, 255, 255, 0) 72%),
+    radial-gradient(62% 30% at 52% 78%, rgba(168, 141, 83, 0.2) 0%, rgba(168, 141, 83, 0) 70%);
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.section-champagne {
+  background:
+    radial-gradient(80% 56% at 50% 0%, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0) 58%),
+    linear-gradient(180deg, #f7f2e8 0%, #f2eadb 100%);
+}
+
+.section-proof {
+  background:
+    linear-gradient(90deg, rgba(250, 248, 243, 0.72) 0%, rgba(233, 225, 208, 0.74) 50%, rgba(250, 248, 243, 0.72) 100%);
+}
+
+.footer-warm {
+  background:
+    linear-gradient(180deg, #efe8d9 0%, #e8dec9 100%);
+}
+
+/* header nav link — gold hairline grows from center on hover */
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-soft);
+  transition: color 0.25s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover {
+  color: var(--color-ink);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.brand-logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--color-ink);
+  direction: ltr;
+  line-height: 1;
+  text-align: center;
+}
+
+.brand-logo-asset {
+  display: block;
+  width: 7.1rem;
+  height: auto;
+}
+
+.brand-logo-name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.82rem;
+  font-weight: 500;
+  letter-spacing: 0.31em;
+  padding-left: 0.31em;
+  width: 5.45rem;
+}
+
+.brand-logo-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  margin-top: 0.28rem;
+  width: 4.8rem;
+}
+
+.brand-logo-rule::before,
+.brand-logo-rule::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: rgba(168, 141, 83, 0.42);
+}
+
+.brand-logo-rule span {
+  display: block;
+  width: 0.28rem;
+  height: 0.28rem;
+  border: 1px solid var(--color-gold);
+  transform: rotate(45deg);
+  background: rgba(250, 248, 243, 0.8);
+}
+
+.brand-logo-subtitle {
+  display: block;
+  margin-top: 0.34rem;
+  font-size: 0.55rem;
+  letter-spacing: 0.46em;
+  padding-left: 0.46em;
+  width: 5.45rem;
+  color: var(--color-stone);
+}
+
+.brand-logo-minimal .brand-logo-subtitle {
+  margin-top: 0.34rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.44em;
+  padding-left: 0.44em;
+}
+
+.brand-logo-signature .brand-logo-name {
+  font-size: 1.72rem;
+  letter-spacing: 0.34em;
+  padding-left: 0.34em;
+  width: 5.65rem;
+}
+
+.brand-logo-signature .brand-logo-subtitle {
+  width: 5.65rem;
+  letter-spacing: 0.5em;
+  padding-left: 0.5em;
+}
+
+.brand-logo-footer {
+  align-items: flex-start;
+}
+
+.brand-logo-footer .brand-logo-name {
+  font-size: 1.45rem;
+}
+
+.brand-logo-footer .brand-logo-rule {
+  width: 4.2rem;
+}
+
+/* Section eyebrow label */
+.eyebrow {
+  color: var(--color-gold-deep);
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--color-espresso);
+  color: var(--color-ivory);
+  padding: 0.9rem 2.2rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  transition: background-color 0.25s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-gold-deep);
+}
+
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(168, 141, 83, 0.7);
+  background-color: rgba(250, 248, 243, 0.62);
+  color: var(--color-ink);
+  padding: 0.86rem 1.55rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.045em;
+  backdrop-filter: blur(10px);
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.btn-whatsapp:hover {
+  border-color: var(--color-gold-deep);
+  background-color: rgba(255, 255, 255, 0.82);
+  color: var(--color-gold-deep);
+}
+
+.hero-desktop-inline {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .hero-desktop-inline {
+    display: inline-flex;
+  }
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-ink);
+  color: var(--color-ink);
+  padding: 0.9rem 2.2rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  transition: all 0.25s ease;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-ink);
+  color: var(--color-ivory);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-up-delay {
+  animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+/* staggered entrance for the full-screen menu */
+.menu-item {
+  animation: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* hero entrance cascade — pair with inline animation-delay */
+.cascade {
+  animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* the ring settles gently into place on load, then rests */
+@keyframes hero-settle {
+  from {
+    transform: scale(1.045) translateY(10px);
+  }
+  to {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.hero-settle {
+  animation: hero-settle 2.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* quiet scroll cue at the hero's base */
+@keyframes scroll-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(9px);
+    opacity: 0.2;
+  }
+}
+
+.scroll-hint {
+  animation: scroll-hint 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* hide scrollbars on mobile product rails */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* FAQ accordion (native <details>) */
+details.faq-item summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+details.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+details.faq-item summary .faq-icon {
+  transition: transform 0.25s ease;
+}
+
+details.faq-item[open] summary .faq-icon {
+  transform: rotate(45deg);
+}
