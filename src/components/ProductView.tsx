@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { metalNames, productImage, type Product, type Metal } from "@/data/products";
+import { metalNames, productImages, type Product, type Metal } from "@/data/products";
 import { formatPrice, waLink } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/icons";
 
@@ -17,9 +17,11 @@ const confidenceItems = ["IGI/GIA", "משלוח מבוטח", "התאמת מיד�
 export default function ProductView({ product }: { product: Product }) {
   const [metal, setMetal] = useState<Metal>(product.metals[0]);
   const [caratIdx, setCaratIdx] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(0);
   const [showStickyCta, setShowStickyCta] = useState(false);
 
   const carat = product.carats[caratIdx];
+  const images = productImages(product);
   const message = `היי, אשמח לפרטים על ${product.name} — ${carat.label}, ${metalNames[metal]} (${formatPrice(carat.price)})`;
 
   useEffect(() => {
@@ -34,21 +36,46 @@ export default function ProductView({ product }: { product: Product }) {
       <div className="grid gap-6 pb-24 lg:grid-cols-2 lg:gap-16 lg:pb-0">
         {/* gallery */}
         <div>
-          <div className="art-bg relative aspect-square overflow-hidden">
+          <div className="art-bg relative aspect-square overflow-hidden bg-[#f7f6f1]">
             <Image
-              src={productImage(product)}
-              alt={product.name}
+              key={images[selectedImage].src}
+              src={images[selectedImage].src}
+              alt={images[selectedImage].alt}
               fill
               priority
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
+              className="animate-fade-up object-cover"
             />
           </div>
+          {images.length > 1 && (
+            <div className="mt-3 grid grid-cols-2 gap-3 sm:mt-4 sm:max-w-[18rem]">
+              {images.map((image, index) => (
+                <button
+                  key={image.src}
+                  type="button"
+                  onClick={() => setSelectedImage(index)}
+                  aria-label={`הצגת תמונה ${index + 1} של ${product.name}`}
+                  aria-pressed={selectedImage === index}
+                  className={`relative aspect-square overflow-hidden border bg-[#f7f6f1] transition-colors ${
+                    selectedImage === index ? "border-ink" : "border-line hover:border-stone"
+                  }`}
+                >
+                  <Image
+                    src={image.src}
+                    alt=""
+                    fill
+                    sizes="144px"
+                    className="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* details */}
         <div>
-          <h1 className="font-display text-3xl font-medium sm:text-4xl">{product.name}</h1>
+          <h1 className="font-display text-[1.85rem] font-medium leading-tight sm:text-4xl">{product.name}</h1>
           <p className="mt-2 text-sm text-stone">{product.subtitle}</p>
           <p className="mt-4 text-2xl tracking-wide lg:mt-5">{formatPrice(carat.price)}</p>
           <div className="mt-5 grid grid-cols-3 gap-px border border-line bg-line text-center text-xs text-ink-soft">
@@ -63,7 +90,7 @@ export default function ProductView({ product }: { product: Product }) {
             <p className="text-sm font-semibold">
               גוון זהב: <span className="font-normal text-stone">{metalNames[metal]}</span>
             </p>
-            <div className="mt-3 flex gap-3">
+            <div className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               {product.metals.map((m) => (
                 <button
                   key={m}
@@ -71,20 +98,25 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setMetal(m)}
                   aria-label={metalNames[m]}
                   aria-pressed={metal === m}
-                  className={`h-11 w-11 rounded-full border-2 transition-all ${
-                    metal === m ? "border-ink" : "border-transparent hover:border-line"
+                  className={`flex min-h-12 items-center gap-2.5 border px-3 py-2 text-sm transition-colors ${
+                    metal === m
+                      ? "border-ink bg-white text-ink"
+                      : "border-line bg-ivory text-ink-soft hover:border-stone"
                   }`}
-                  style={{ backgroundColor: METAL_SWATCH[m] }}
-                />
+                >
+                  <span
+                    className="h-4 w-4 shrink-0 rounded-full border border-black/10 shadow-inner"
+                    style={{ backgroundColor: METAL_SWATCH[m] }}
+                    aria-hidden
+                  />
+                  <span className="whitespace-nowrap">{metalNames[m]}</span>
+                </button>
               ))}
             </div>
           </div>
 
           <div className="mt-7 lg:mt-8">
-            <div className="flex items-end justify-between gap-4">
-              <p className="text-sm font-semibold">משקל יהלום</p>
-              <p className="text-xs tracking-[0.12em] text-stone">המחיר מתעדכן לפי בחירה</p>
-            </div>
+            <p className="text-sm font-semibold">משקל יהלום</p>
             <div className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-3" dir="rtl">
               {product.carats.map((c, i) => (
                 <button
@@ -92,18 +124,12 @@ export default function ProductView({ product }: { product: Product }) {
                   type="button"
                   onClick={() => setCaratIdx(i)}
                   aria-pressed={i === caratIdx}
-                  className={`group relative min-h-[88px] border px-4 py-3 text-right transition-colors ${
+                  className={`group min-h-[82px] border px-3 py-3 text-right transition-colors sm:px-4 ${
                     i === caratIdx
                       ? "border-ink bg-ink text-ivory"
                       : "border-line bg-ivory hover:border-gold"
                   }`}
                 >
-                  <span
-                    className={`absolute left-3 top-3 h-2 w-2 rounded-full ${
-                      i === caratIdx ? "bg-gold" : "bg-line group-hover:bg-gold"
-                    }`}
-                    aria-hidden
-                  />
                   <span className="block font-display text-lg leading-tight">{c.label}</span>
                   <span
                     className={`mt-2 block text-sm font-semibold tracking-wide ${
@@ -128,7 +154,7 @@ export default function ProductView({ product }: { product: Product }) {
               בדיקת זמינות ומחיר בוואטסאפ
             </a>
             <p className="text-center text-xs text-stone">
-              מענה אישי ומהיר · ללא התחייבות · אפשרות לפגישה אישית
+              ליווי אישי בבחירת האבן, הזהב והמידה.
             </p>
           </div>
 

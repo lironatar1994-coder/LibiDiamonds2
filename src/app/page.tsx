@@ -5,10 +5,11 @@ import { WhatsAppIcon } from "@/components/icons";
 import {
   categories,
   products,
+  productImages,
   type CategorySlug,
   type Product,
 } from "@/data/products";
-import { site, waLink, defaultWaMessage, assetPath } from "@/lib/site";
+import { site, waLink, defaultWaMessage, assetPath, formatPrice } from "@/lib/site";
 
 const faqs = [
   {
@@ -59,37 +60,55 @@ function SectionHeading({
   );
 }
 
-/* Mobile: a composed two-column edit; desktop: the complete grid. */
-function ProductRail({
-  items,
-  desktopCols,
-}: {
-  items: Product[];
-  desktopCols: 3 | 4;
-}) {
+function EditorialBestsellers({ items }: { items: Product[] }) {
+  const [featured, ...secondary] = items;
+  const featuredImages = productImages(featured);
+  const featuredImage = featuredImages[1] ?? featuredImages[0];
+
   return (
-        <div
-          className={`mt-7 grid grid-cols-2 gap-x-3 gap-y-8 sm:mt-10 sm:gap-x-5 lg:mt-12 lg:gap-x-6 lg:gap-y-10 ${
-        desktopCols === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"
-      }`}
-    >
-      {items.map((p, index) => (
-        <div
-          key={p.slug}
-          className={index > 3 ? "hidden lg:block" : "block"}
-        >
-          <ProductCard product={p} />
+    <div className="mt-7 sm:mt-9 lg:mt-10">
+      <Link
+        href={`/product/${featured.slug}`}
+        className="editorial-product-feature group grid overflow-hidden lg:grid-cols-[1.45fr_0.55fr]"
+      >
+        <div className="relative aspect-[4/3] overflow-hidden lg:aspect-[16/7]">
+          <Image
+            src={featuredImage.src}
+            alt={featuredImage.alt}
+            fill
+            sizes="(min-width: 1024px) 70vw, 100vw"
+            className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.018]"
+          />
         </div>
-      ))}
+        <div className="flex items-center justify-center px-5 py-7 text-center lg:px-8 lg:py-10">
+          <div>
+            <h3 className="font-display text-2xl font-medium sm:text-3xl">{featured.name}</h3>
+            <p className="mt-2 font-display text-lg text-ink-soft">
+              החל מ־{formatPrice(featured.priceFrom)}
+            </p>
+            <span className="mt-5 inline-block border-b border-gold/60 pb-1 text-xs font-semibold tracking-[0.1em] text-ink-soft transition-colors group-hover:border-gold-deep group-hover:text-ink">
+              לצפייה בפריט
+            </span>
+          </div>
+        </div>
+      </Link>
+
+      <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 lg:mt-10 lg:grid-cols-5 lg:gap-x-5 lg:gap-y-0">
+        {secondary.map((product, index) => (
+          <div key={product.slug} className={index > 3 ? "hidden lg:block" : "block"}>
+            <ProductCard product={product} variant="compact" />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
 const categoryImages: Record<CategorySlug, string> = {
-  rings: assetPath("/images/products/aura-solitaire-ring.webp"),
-  earrings: assetPath("/images/products/stella-diamond-studs.webp"),
-  necklaces: assetPath("/images/products/riviera-tennis-necklace.webp"),
-  bracelets: assetPath("/images/products/icon-tennis-bracelet.webp"),
+  rings: assetPath("/images/products/v2/aura-solitaire-ring-primary.webp"),
+  earrings: assetPath("/images/products/v2/stella-diamond-studs-primary.webp"),
+  necklaces: assetPath("/images/products/v2/riviera-tennis-necklace-primary.webp"),
+  bracelets: assetPath("/images/products/v2/icon-tennis-bracelet-primary.webp"),
 };
 
 const diamondShapes = [
@@ -147,16 +166,16 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────── */}
-      <section className="hero-editorial relative isolate overflow-hidden border-b border-line">
+      <section className="hero-editorial relative isolate overflow-hidden">
         <div className="absolute inset-0 lg:hidden">
           <Image
-            src={assetPath("/images/hero/home-hero-ring-mobile-portrait.webp")}
+            src={assetPath("/images/hero/v2/home-hero-mobile.webp")}
             alt="טבעת יהלום מעבדה בזהב צהוב על שיש בהיר"
             fill
             priority
             unoptimized
             sizes="100vw"
-            className="hero-settle object-cover object-[center_58%]"
+            className="hero-settle object-cover object-[center_62%]"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,248,243,0.9)_0%,rgba(250,248,243,0.7)_34%,rgba(250,248,243,0.08)_62%,rgba(250,248,243,0.78)_100%)]" />
         </div>
@@ -202,51 +221,48 @@ export default function HomePage() {
 
           <div className="animate-fade-up relative hidden lg:order-last lg:block lg:min-h-[520px]">
             <div className="hero-ring-light" />
-            <div className="absolute left-[48%] top-1/2 z-10 w-[132%] max-w-none -translate-x-1/2 -translate-y-1/2 sm:w-[104%] lg:w-[114%]">
-              <Image
-                src={assetPath("/images/hero/home-hero-ring-flat-cutout.webp")}
-                alt="טבעת יהלום מעבדה מרכזית בזהב צהוב"
-                width={1143}
-                height={643}
-                priority
-                unoptimized
-                sizes="(min-width: 1024px) 58vw, 100vw"
-                className="hero-settle h-auto w-full"
-              />
-            </div>
+            <Image
+              src={assetPath("/images/hero/v2/home-hero-desktop.webp")}
+              alt="טבעת יהלום מעבדה מרכזית בזהב צהוב"
+              fill
+              priority
+              unoptimized
+              sizes="58vw"
+              className="hero-settle z-10 object-cover object-[72%_center]"
+            />
           </div>
         </div>
 
       </section>
 
       {/* ── Bestsellers ───────────────────────────────────── */}
-      <section className="section-gallery border-b border-line py-11 lg:py-20">
+      <section className="section-gallery py-10 lg:py-18">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title="הבחירות של LIBI" />
-          <ProductRail items={bestsellers} desktopCols={3} />
+          <EditorialBestsellers items={bestsellers} />
         </div>
       </section>
 
       {/* ── Shop by diamond shape ────────────────────────── */}
-      <section className="section-champagne border-y border-line py-11 lg:py-20">
+      <section className="section-diamond-light py-10 lg:py-18">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title="בחרו את החיתוך" variant="centered" />
-          <div className="mt-6 grid grid-cols-3 gap-x-2 gap-y-5 sm:mt-8 sm:gap-x-6 sm:gap-y-8 lg:mt-11 lg:grid-cols-6 lg:gap-5">
+          <div className="mt-6 grid grid-cols-3 gap-x-2 gap-y-5 sm:mt-8 sm:gap-x-6 sm:gap-y-8 lg:mt-9 lg:grid-cols-6 lg:gap-5">
             {diamondShapes.map((shape) => (
               <a
                 key={shape.type}
                 href={waLink(`היי, אשמח לבדוק יהלום בצורת ${shape.name}`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col items-center justify-center px-1 py-1 text-center transition-colors lg:border-y lg:border-gold/20 lg:px-2 lg:py-7 lg:hover:border-gold/80"
+                className="group flex flex-col items-center justify-center px-1 py-1 text-center"
               >
-                <div className="relative h-[78px] w-[78px] min-[390px]:h-[86px] min-[390px]:w-[86px] sm:h-[118px] sm:w-[118px] lg:h-[124px] lg:w-[124px]">
+                <div className="shape-stone-field relative h-[82px] w-[82px] min-[390px]:h-[90px] min-[390px]:w-[90px] sm:h-[122px] sm:w-[122px] lg:h-[132px] lg:w-[132px]">
                   <Image
                     src={shape.image}
                     alt={`יהלום בחיתוך ${shape.name}`}
                     fill
                     sizes="(min-width: 1024px) 124px, (min-width: 640px) 118px, 92px"
-                    className="mix-blend-multiply object-contain transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    className="mix-blend-multiply object-contain p-[9%] transition-transform duration-700 ease-out group-hover:scale-[1.045]"
                   />
                 </div>
                 <div>
@@ -259,24 +275,24 @@ export default function HomePage() {
       </section>
 
       {/* ── Categories ───────────────────────────────────── */}
-      <section className="section-gallery border-b border-line">
-        <div className="mx-auto max-w-7xl px-4 py-11 sm:px-6 lg:px-8 lg:py-20">
+      <section className="section-gallery">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-18">
           <SectionHeading title="הקולקציה" />
-          <div className="mt-7 grid grid-cols-2 gap-x-3 gap-y-6 lg:mt-12 lg:grid-cols-4 lg:gap-6">
+          <div className="mt-7 grid grid-cols-2 gap-x-3 gap-y-6 lg:mt-10 lg:grid-cols-5 lg:gap-6">
             {categories.map((cat) => {
               return (
               <Link
                 key={cat.slug}
                 href={`/jewelry/${cat.slug}`}
-                className="group block"
+                className={`group block ${cat.slug === "rings" ? "lg:col-span-2" : "lg:col-span-1"}`}
               >
-                <div className="art-bg-dark relative aspect-[4/5] overflow-hidden border border-line/70 transition-colors duration-300 group-hover:border-gold/55">
+                <div className={`art-bg-dark relative overflow-hidden ${cat.slug === "rings" ? "aspect-[4/5] lg:aspect-[8/5]" : "aspect-[4/5]"}`}>
                   <Image
                     src={categoryImages[cat.slug]}
                     alt={cat.name}
                     fill
-                    sizes="(min-width: 1024px) 25vw, 50vw"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    sizes={cat.slug === "rings" ? "(min-width: 1024px) 40vw, 50vw" : "(min-width: 1024px) 20vw, 50vw"}
+                    className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035] ${cat.slug === "rings" ? "lg:object-[center_57%]" : ""}`}
                   />
                 </div>
                 <div className="flex items-center justify-center pt-3 lg:pt-4">
@@ -287,6 +303,16 @@ export default function HomePage() {
             })}
           </div>
         </div>
+      </section>
+
+      <section className="relative aspect-[4/5] overflow-hidden sm:aspect-[16/9] lg:aspect-[16/7]" aria-label="צילום אווירה של טבעת אורה">
+        <Image
+          src={assetPath("/images/editorial/bridal-still-life.webp")}
+          alt="טבעת סוליטר אורה על אבן בהירה לצד נייר משובח ומשי שנהב"
+          fill
+          sizes="100vw"
+          className="object-cover object-[center_60%]"
+        />
       </section>
 
       {/* ── Trust strip ──────────────────────────────────── */}
@@ -302,24 +328,24 @@ export default function HomePage() {
       </section>
 
       {/* ── Consultation CTA ─────────────────────────────── */}
-      <section className="section-cta-signature border-y border-line px-4 py-9 sm:px-6 lg:px-8 lg:py-14">
+      <section className="section-cta-signature px-4 py-9 text-ivory sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-5 text-center lg:flex-row lg:gap-8 lg:text-right">
-          <div className="hidden h-px flex-1 bg-gold/30 lg:block" />
+          <div className="hidden h-px flex-1 bg-champagne/35 lg:block" />
           <h2 className="max-w-lg font-display text-2xl font-medium leading-tight sm:text-4xl">
-            מתלבטים בין דגמים?
+            נבחר יחד את היהלום הנכון.
           </h2>
-          <span className="hidden h-2 w-2 rotate-45 border border-gold/70 lg:block" aria-hidden />
+          <span className="hidden h-2 w-2 rotate-45 border border-champagne/65 lg:block" aria-hidden />
           <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
             <a
               href={waLink("היי, אשמח לייעוץ אישי בבחירת תכשיט")}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary w-full sm:w-auto"
+              className="btn-inverse w-full sm:w-auto"
             >
               <WhatsAppIcon className="h-4 w-4" />
               ייעוץ אישי בוואטסאפ
             </a>
-            <Link href="/jewelry/rings" className="btn-outline hidden w-full border-ink-soft/65 sm:inline-flex sm:w-auto">
+            <Link href="/jewelry/rings" className="btn-outline-inverse hidden w-full sm:inline-flex sm:w-auto">
               טבעות יהלום
             </Link>
           </div>
@@ -327,7 +353,7 @@ export default function HomePage() {
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────── */}
-      <section className="border-t border-line bg-cream/45 py-8 lg:py-14">
+      <section className="section-faq py-8 lg:py-14">
         <div className="mx-auto max-w-2xl px-4 sm:px-6">
           <h2 className="text-center font-display text-xl font-medium sm:text-3xl">
             פרטים שכדאי לדעת

@@ -20,6 +20,11 @@ export interface CaratOption {
   price: number;
 }
 
+export interface ProductGalleryImage {
+  src: string;
+  alt: string;
+}
+
 export interface Product {
   slug: string;
   name: string;
@@ -36,12 +41,30 @@ export interface Product {
     cert: string;
   };
   description: string;
+  gallery?: ProductGalleryImage[];
   featured?: boolean;
   bestseller?: boolean;
 }
 
-export function productImage(product: Pick<Product, "slug">): string {
-  return assetPath(`/images/products/${product.slug}.webp`);
+export function productImages(
+  product: Pick<Product, "slug" | "name" | "gallery">,
+): ProductGalleryImage[] {
+  const images = product.gallery?.length
+    ? product.gallery
+    : [
+        {
+          src: `/images/products/${product.slug}.webp`,
+          alt: product.name,
+        },
+      ];
+
+  return images.map((image) => ({ ...image, src: assetPath(image.src) }));
+}
+
+export function productImage(
+  product: Pick<Product, "slug" | "name" | "gallery">,
+): string {
+  return productImages(product)[0].src;
 }
 
 export interface Category {
@@ -110,14 +133,18 @@ export const products: Product[] = [
     metals: ["yellow", "white", "rose"],
     specs: { color: "E–F", clarity: "VS1", cut: "Excellent", cert: "IGI" },
     description:
-      "הסוליטר הקלאסי בגרסה המדויקת ביותר שלו: יהלום מעבדה עגול בליטוש Excellent, מורם על ראש עדין בארבע שיניים שמכניס מקסימום אור לאבן. חישוק דק ומעוגל שנעים לענוד כל יום — והאבן עושה את כל העבודה.",
+      "יהלום עגול מורם בשיבוץ ארבע שיניים על חישוק זהב חלק ומעוגל. הפרופיל הנקי משאיר את האבן פתוחה לאור ונוח לענידה יומיומית.",
+    gallery: [
+      { src: "/images/products/v2/aura-solitaire-ring-primary.webp", alt: "טבעת אורה בזהב צהוב במבט חזיתי" },
+      { src: "/images/products/v2/aura-solitaire-ring-detail.webp", alt: "פרופיל שיבוץ ארבע השיניים של טבעת אורה" },
+    ],
     featured: true,
     bestseller: true,
   },
   {
     slug: "nova-halo-ring",
     name: "טבעת היילו ״נובה״",
-    subtitle: "אבן מרכזית מוקפת יהלומים · נוכחות מקסימלית",
+    subtitle: "אבן מרכזית עגולה · היילו בשורה אחת",
     category: "rings",
     art: "halo",
     priceFrom: 6400,
@@ -129,7 +156,11 @@ export const products: Product[] = [
     metals: ["yellow", "white", "rose"],
     specs: { color: "E–F", clarity: "VS1", cut: "Excellent", cert: "IGI" },
     description:
-      "עיטור היילו — עיגול יהלומים קטנים סביב האבן המרכזית — גורם לאבן להיראות גדולה בכשליש ומגביר את הנצנוץ מכל זווית. הבחירה של מי שרוצה נוכחות, בלי לוותר על עדינות הקו.",
+      "יהלום עגול מוקף בשורה אחת של יהלומים קטנים על חישוק זהב מלוטש. סל ההיילו יוצר מסגרת אחידה סביב האבן ושומר על פרופיל מאוזן.",
+    gallery: [
+      { src: "/images/products/v2/nova-halo-ring-primary.webp", alt: "טבעת נובה בזהב ורוד במבט חזיתי" },
+      { src: "/images/products/v2/nova-halo-ring-detail.webp", alt: "פרופיל סל ההיילו של טבעת נובה" },
+    ],
     featured: true,
     bestseller: true,
   },
@@ -154,7 +185,7 @@ export const products: Product[] = [
   {
     slug: "lumiere-pave-ring",
     name: "טבעת פאווה ״לומייר״",
-    subtitle: "חישוק משובץ יהלומים · אור לאורך כל הדרך",
+    subtitle: "אבן עגולה · פאווה עדין לאורך הכתפיים",
     category: "rings",
     art: "pave",
     priceFrom: 5600,
@@ -166,13 +197,17 @@ export const products: Product[] = [
     metals: ["yellow", "white", "rose"],
     specs: { color: "E–F", clarity: "VS1", cut: "Excellent", cert: "IGI" },
     description:
-      "אבן מרכזית על חישוק משובץ יהלומים קטנים בשיבוץ פאווה צפוף. הטבעת נוצצת מכל כיוון, גם כשהיד בתנועה — עיצוב עשיר שנשאר עדין.",
+      "יהלום עגול בשיבוץ ארבע שיניים, עם שורת פאווה צפופה לאורך שתי כתפי החישוק. השיבוץ הנמוך משאיר את קו הטבעת עדין ומדגיש את האבן המרכזית.",
+    gallery: [
+      { src: "/images/products/v2/lumiere-pave-ring-primary.webp", alt: "טבעת לומייר בזהב צהוב במבט חזיתי" },
+      { src: "/images/products/v2/lumiere-pave-ring-detail.webp", alt: "פרט שיבוץ הפאווה והאבן המרכזית בטבעת לומייר" },
+    ],
     bestseller: true,
   },
   {
     slug: "stella-diamond-studs",
     name: "עגילים צמודים ״סטלה״",
-    subtitle: "זוג יהלומי מעבדה עגולים · קלאסיקה יומיומית",
+    subtitle: "זוג יהלומים עגולים · שיבוץ ארבע שיניים",
     category: "earrings",
     art: "studs",
     priceFrom: 2900,
@@ -185,7 +220,11 @@ export const products: Product[] = [
     metals: ["yellow", "white", "rose"],
     specs: { color: "E–F", clarity: "VS1", cut: "Excellent", cert: "IGI" },
     description:
-      "העגיל הראשון שכל אחת צריכה: זוג יהלומי מעבדה עגולים בשיבוץ שיניים עדין, על סוגר בורג נוח ובטוח. מהבוקר במשרד ועד ערב חתונה — הם פשוט תמיד נכונים.",
+      "זוג יהלומים עגולים תואמים, כל אחד מוחזק בארבע שיניים על בסיס זהב לבן. מבנה הסל הפתוח מציג את האבן גם מהצד ושומר על פרופיל נקי באוזן.",
+    gallery: [
+      { src: "/images/products/v2/stella-diamond-studs-primary.webp", alt: "זוג עגילי סטלה בזהב לבן במבט קדמי" },
+      { src: "/images/products/v2/stella-diamond-studs-detail.webp", alt: "פרופיל הסל והמוטות של עגילי סטלה" },
+    ],
     featured: true,
     bestseller: true,
   },
@@ -209,7 +248,7 @@ export const products: Product[] = [
   {
     slug: "luna-diamond-hoops",
     name: "חישוקי יהלומים ״לונה״",
-    subtitle: "חישוק קלאסי משובץ · תנועה ואור",
+    subtitle: "שורת יהלומים קדמית · סגירה צירית",
     category: "earrings",
     art: "hoops",
     priceFrom: 5200,
@@ -221,13 +260,17 @@ export const products: Product[] = [
     metals: ["yellow", "white", "rose"],
     specs: { color: "F–G", clarity: "VS2", cut: "Excellent", cert: "IGI" },
     description:
-      "חישוק זהב בקוטר מדויק — לא קטן מדי, לא דרמטי מדי — משובץ יהלומי מעבדה לכל אורך החזית. זז עם התנועה שלך ותופס אור בכל צעד.",
+      "חישוקי זהב ורוד עם שורת יהלומים עגולים לאורך החזית וסגירה צירית רציפה. הקוטר הבינוני שומר על נוכחות ברורה בלי להכביד על קו האוזן.",
+    gallery: [
+      { src: "/images/products/v2/luna-diamond-hoops-primary.webp", alt: "חישוקי לונה בזהב ורוד במבט קדמי" },
+      { src: "/images/products/v2/luna-diamond-hoops-detail.webp", alt: "פרט הסגירה הצירית ושורת היהלומים בחישוקי לונה" },
+    ],
     bestseller: true,
   },
   {
     slug: "riviera-tennis-necklace",
     name: "שרשרת טניס ״ריביירה״",
-    subtitle: "שורת יהלומים רציפה · הצהרה שקטה",
+    subtitle: "שורת יהלומים רציפה · שיבוץ ארבע שיניים",
     category: "necklaces",
     art: "tennis-necklace",
     priceFrom: 16900,
@@ -239,7 +282,11 @@ export const products: Product[] = [
     metals: ["yellow", "white"],
     specs: { color: "F–G", clarity: "VS2", cut: "Excellent", cert: "IGI" },
     description:
-      "שורה רציפה של יהלומי מעבדה עגולים, משובצים אחד־אחד בשיבוץ ידני. פריט שעד לא מזמן היה שמור למעטים — והיום, בזכות יהלומי מעבדה, אפשרי באמת. הפריט הנחשק ביותר שלנו.",
+      "שורה רציפה של יהלומים עגולים בשיבוץ ארבע שיניים ובחיבור גמיש בין החוליות. סוגר קופסה עם מנגנון בטיחות משלים את המבנה האחיד סביב הצוואר.",
+    gallery: [
+      { src: "/images/products/v2/riviera-tennis-necklace-primary.webp", alt: "שרשרת ריביירה בזהב לבן במבט על" },
+      { src: "/images/products/v2/riviera-tennis-necklace-detail.webp", alt: "פרט סוגר הקופסה ושורת היהלומים בשרשרת ריביירה" },
+    ],
     featured: true,
     bestseller: true,
   },
@@ -282,7 +329,7 @@ export const products: Product[] = [
   {
     slug: "icon-tennis-bracelet",
     name: "צמיד טניס ״אייקון״",
-    subtitle: "הקלאסיקה המוחלטת · יהלום אחרי יהלום",
+    subtitle: "שורת יהלומים רציפה · סוגר בטיחות כפול",
     category: "bracelets",
     art: "tennis-bracelet",
     priceFrom: 8900,
@@ -294,7 +341,11 @@ export const products: Product[] = [
     metals: ["yellow", "white", "rose"],
     specs: { color: "F–G", clarity: "VS2", cut: "Excellent", cert: "IGI" },
     description:
-      "צמיד הטניס הוא אחד הפריטים הבודדים שאף פעם לא יוצאים מהאופנה. שורת יהלומי מעבדה זהים, סוגר בטיחות כפול, ונצנוץ שרואים מהצד השני של החדר.",
+      "שורת יהלומים עגולים מחוברת בחוליות גמישות ומסתיימת בסוגר קופסה עם אבטחה כפולה. בתי האבן הפתוחים שומרים על קו אחיד ומאפשרים לאור לעבור דרך כל יהלום.",
+    gallery: [
+      { src: "/images/products/v2/icon-tennis-bracelet-primary.webp", alt: "צמיד אייקון בזהב לבן במבט על" },
+      { src: "/images/products/v2/icon-tennis-bracelet-detail.webp", alt: "פרט הסוגר והחוליות בצמיד אייקון" },
+    ],
     featured: true,
     bestseller: true,
   },

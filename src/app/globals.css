@@ -31,22 +31,22 @@ h3,
   font-family: var(--font-display);
 }
 
-/* Soft gradient backdrop behind jewelry illustrations */
+/* Neutral gallery light keeps colorless stones crisp. */
 .art-bg {
   background: radial-gradient(
     120% 100% at 50% 0%,
-    #fdfcf8 0%,
-    #f5f0e5 55%,
-    #ece4d2 100%
+    #ffffff 0%,
+    #f8f8f5 55%,
+    #efeee9 100%
   );
 }
 
 .art-bg-dark {
   background: radial-gradient(
     120% 100% at 50% 0%,
-    #f3eee2 0%,
-    #e9e0cc 60%,
-    #ddd2b8 100%
+    #faf9f5 0%,
+    #f0eee7 60%,
+    #e4e1d8 100%
   );
 }
 
@@ -72,33 +72,38 @@ h3,
     linear-gradient(180deg, #f7f2e8 0%, #f2eadb 100%);
 }
 
+.section-diamond-light {
+  background:
+    radial-gradient(62% 48% at 50% 0%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 68%),
+    #eef2f2;
+}
+
 .section-gallery {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.58) 0%, rgba(250, 248, 243, 0.9) 100%),
-    #fffdfa;
+    linear-gradient(180deg, #fff 0%, #fcfcfa 100%);
 }
 
 .section-proof {
-  background:
-    linear-gradient(90deg, rgba(250, 248, 243, 0.72) 0%, rgba(233, 225, 208, 0.74) 50%, rgba(250, 248, 243, 0.72) 100%);
+  background: #f5f3ed;
 }
 
 .section-cta-signature {
-  background:
-    radial-gradient(34rem 11rem at 80% 48%, rgba(216, 202, 166, 0.22) 0%, rgba(216, 202, 166, 0) 70%),
-    linear-gradient(180deg, #faf8f3 0%, #f4edde 100%);
+  background: #272119;
 }
 
 .footer-warm {
   background:
-    radial-gradient(42rem 16rem at 50% 0%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 62%),
-    linear-gradient(180deg, #efe8d9 0%, #e8dec9 100%);
+    radial-gradient(42rem 16rem at 50% 0%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0) 62%),
+    linear-gradient(180deg, #f0ede6 0%, #e7e2d8 100%);
+}
+
+.section-faq {
+  background: #f8f7f3;
 }
 
 .product-card-frame {
   box-shadow: 0 18px 42px rgba(42, 35, 25, 0);
   transition:
-    border-color 0.3s ease,
     box-shadow 0.3s ease,
     transform 0.3s ease;
 }
@@ -106,6 +111,29 @@ h3,
 .group:hover .product-card-frame {
   box-shadow: 0 18px 42px rgba(42, 35, 25, 0.07);
   transform: translateY(-2px);
+}
+
+.editorial-product-feature {
+  background: #f3f0e9;
+}
+
+.shape-stone-field {
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 46% 38%, #ffffff 0%, #fbfbf8 54%, #e5e9e8 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(33, 30, 24, 0.035),
+    0 14px 32px rgba(35, 44, 45, 0.06);
+  transition:
+    box-shadow 0.5s ease,
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .shape-stone-field {
+  box-shadow:
+    inset 0 0 0 1px rgba(168, 141, 83, 0.14),
+    0 18px 38px rgba(35, 44, 45, 0.1);
+  transform: translateY(-3px);
 }
 
 .product-card-trust {
@@ -346,6 +374,49 @@ h3,
   color: var(--color-ivory);
 }
 
+.btn-inverse {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(250, 248, 243, 0.92);
+  background: var(--color-ivory);
+  color: var(--color-espresso);
+  padding: 0.9rem 2.2rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.btn-inverse:hover {
+  border-color: var(--color-champagne);
+  background: #fff;
+  color: var(--color-gold-deep);
+}
+
+.btn-outline-inverse {
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(216, 202, 166, 0.62);
+  color: var(--color-ivory);
+  padding: 0.9rem 2.2rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.btn-outline-inverse:hover {
+  border-color: var(--color-champagne);
+  background: rgba(250, 248, 243, 0.08);
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -378,15 +449,17 @@ h3,
 /* the ring settles gently into place on load, then rests */
 @keyframes hero-settle {
   from {
-    transform: scale(1.045) translateY(10px);
+    opacity: 0.88;
+    transform: scale(1.025) translateY(7px);
   }
   to {
+    opacity: 1;
     transform: scale(1) translateY(0);
   }
 }
 
 .hero-settle {
-  animation: hero-settle 2.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hero-settle 1.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* quiet scroll cue at the hero's base */
