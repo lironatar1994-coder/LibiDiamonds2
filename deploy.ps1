@@ -87,7 +87,7 @@ if ($remoteExists) {
     }
 
     Write-Host "Connecting to server and triggering git-based remote deploy..." -ForegroundColor Blue
-    $REMOTE_CMD = "if [ ! -d $REMOTE_DIR/.git ]; then git clone $REMOTE_REPO $REMOTE_DIR; fi && cd $REMOTE_DIR && git remote set-url origin $REMOTE_REPO && git fetch origin main && git reset --hard origin/main && sed -i 's/\r$//' deploy_linux.sh && chmod +x deploy_linux.sh && bash deploy_linux.sh"
+    $REMOTE_CMD = "mkdir -p $REMOTE_DIR && cd $REMOTE_DIR && if [ ! -d .git ]; then git init && git remote add origin $REMOTE_REPO; else git remote set-url origin $REMOTE_REPO; fi && git fetch origin main && git reset --hard origin/main && sed -i 's/\r$//' deploy_linux.sh && chmod +x deploy_linux.sh && bash deploy_linux.sh"
     ssh $SSH_HOST $REMOTE_CMD
 } else {
     if ($NoDirectFallback) {
