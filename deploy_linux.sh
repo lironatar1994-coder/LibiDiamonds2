@@ -12,6 +12,7 @@ PROCESS_NAME="libi-diamonds"
 FRONTEND_PORT="${FRONTEND_PORT:-3102}"
 ROUTE_BASE="/LibiDiamonds"
 LOWER_ROUTE_BASE="/libidiamonds"
+PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://vee-app.co.il$ROUTE_BASE}"
 NGINX_CONF="/etc/nginx/sites-available/vee-app.co.il.conf"
 NGINX_SNIPPET="/etc/nginx/snippets/libi-diamonds-locations.conf"
 
@@ -57,12 +58,14 @@ log "Installing dependencies..."
 cd "$APP_ROOT"
 run_npm_install
 
-log "Building Next.js app for $ROUTE_BASE..."
-NEXT_BASE_PATH="$ROUTE_BASE" NEXT_PUBLIC_BASE_PATH="$ROUTE_BASE" npm run build
+log "Building Next.js app for $PUBLIC_SITE_URL..."
+NEXT_BASE_PATH="$ROUTE_BASE" NEXT_PUBLIC_BASE_PATH="$ROUTE_BASE" \
+    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" npm run build
 
 log "Starting/restarting PM2 process $PROCESS_NAME on port $FRONTEND_PORT..."
 pm2 delete "$PROCESS_NAME" > /dev/null 2>&1 || true
 PORT="$FRONTEND_PORT" NEXT_BASE_PATH="$ROUTE_BASE" NEXT_PUBLIC_BASE_PATH="$ROUTE_BASE" \
+    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" \
     pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start
 pm2 save > /dev/null
 
