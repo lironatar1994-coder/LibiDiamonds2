@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
 # ==============================================================================
-# LIBI DIAMONDS Production Deployment Script (Server-Side)
+# LIBI DIAMONDS 2 Production Deployment Script (Server-Side)
 # ==============================================================================
 
 set -euo pipefail
 
 APP_ROOT="$(pwd)"
-REMOTE_REPO="https://github.com/lironatar1994-coder/LibiDiamonds.git"
-PROCESS_NAME="libi-diamonds"
-FRONTEND_PORT="${FRONTEND_PORT:-3102}"
-ROUTE_BASE="/LibiDiamonds"
-LOWER_ROUTE_BASE="/libidiamonds"
+REMOTE_REPO="https://github.com/lironatar1994-coder/LibiDiamonds2.git"
+PROCESS_NAME="libi-diamonds-2"
+FRONTEND_PORT="${FRONTEND_PORT:-3103}"
+ROUTE_BASE="/LibiDiamonds2"
+LOWER_ROUTE_BASE="/libidiamonds2"
 PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://vee-app.co.il$ROUTE_BASE}"
 NGINX_CONF="/etc/nginx/sites-available/vee-app.co.il.conf"
-NGINX_SNIPPET="/etc/nginx/snippets/libi-diamonds-locations.conf"
+NGINX_SNIPPET="/etc/nginx/snippets/libi-diamonds-2-locations.conf"
 
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -43,7 +43,7 @@ run_npm_install() {
     fi
 }
 
-log "Starting LIBI DIAMONDS deployment..."
+log "Starting LIBI DIAMONDS 2 deployment..."
 
 if [ "${SKIP_GIT_SYNC:-0}" != "1" ]; then
     log "Syncing repository from origin/main..."
@@ -142,5 +142,5 @@ done
 
 curl -kfsS --resolve vee-app.co.il:443:127.0.0.1 "https://vee-app.co.il$ROUTE_BASE" > /dev/null
 
-log "LIBI DIAMONDS deployment complete." "SUCCESS"
+log "LIBI DIAMONDS 2 deployment complete." "SUCCESS"
 log "Public: https://vee-app.co.il$ROUTE_BASE" "SUCCESS"

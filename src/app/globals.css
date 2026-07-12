@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ivory: #faf8f3;
-  --color-cream: #f2ede3;
-  --color-sand: #e9e1d0;
-  --color-line: #e4ddcc;
-  --color-ink: #211e18;
-  --color-ink-soft: #3a352c;
-  --color-stone: #6e6758;
-  --color-gold: #a88d53;
-  --color-gold-deep: #86713f;
-  --color-espresso: #2a2319;
-  --color-champagne: #d8caa6;
+  --color-ivory: #fafaf8;
+  --color-cream: #f2f3f3;
+  --color-sand: #dfe2e3;
+  --color-line: #d8dcde;
+  --color-ink: #111111;
+  --color-ink-soft: #2b2d2e;
+  --color-stone: #6b7073;
+  --color-gold: #b79a62;
+  --color-gold-deep: #806d47;
+  --color-espresso: #111111;
+  --color-champagne: #d7dadb;
 
   --font-display: var(--font-frank), "Frank Ruhl Libre", serif;
   --font-body: var(--font-assistant), "Assistant", sans-serif;
@@ -36,24 +36,22 @@ h3,
   background: radial-gradient(
     120% 100% at 50% 0%,
     #ffffff 0%,
-    #f8f8f5 55%,
-    #efeee9 100%
+    #f5f6f6 55%,
+    #e7e9e9 100%
   );
 }
 
 .art-bg-dark {
   background: radial-gradient(
     120% 100% at 50% 0%,
-    #faf9f5 0%,
-    #f0eee7 60%,
-    #e4e1d8 100%
+    #fafafa 0%,
+    #eceeee 60%,
+    #d9dcdd 100%
   );
 }
 
 .hero-editorial {
-  background:
-    radial-gradient(90% 80% at 78% 42%, rgba(216, 202, 166, 0.22) 0%, rgba(250, 248, 243, 0) 64%),
-    #faf8f3;
+  background: #ecebea;
 }
 
 .hero-ring-light {
@@ -68,37 +66,37 @@ h3,
 
 .section-champagne {
   background:
-    radial-gradient(80% 56% at 50% 0%, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0) 58%),
-    linear-gradient(180deg, #f7f2e8 0%, #f2eadb 100%);
+    radial-gradient(80% 56% at 50% 0%, rgba(255, 255, 255, 0.66) 0%, rgba(255, 255, 255, 0) 58%),
+    linear-gradient(180deg, #f1f3f3 0%, #e4e7e8 100%);
 }
 
 .section-diamond-light {
   background:
     radial-gradient(62% 48% at 50% 0%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 68%),
-    #eef2f2;
+    #edf0f1;
 }
 
 .section-gallery {
   background:
-    linear-gradient(180deg, #fff 0%, #fcfcfa 100%);
+    linear-gradient(180deg, #fff 0%, #f9fafa 100%);
 }
 
 .section-proof {
-  background: #f5f3ed;
+  background: #e9eced;
 }
 
 .section-cta-signature {
-  background: #272119;
+  background: #111111;
 }
 
 .footer-warm {
   background:
-    radial-gradient(42rem 16rem at 50% 0%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0) 62%),
-    linear-gradient(180deg, #f0ede6 0%, #e7e2d8 100%);
+    radial-gradient(42rem 16rem at 50% 0%, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0) 62%),
+    linear-gradient(180deg, #eceeee 0%, #dfe2e3 100%);
 }
 
 .section-faq {
-  background: #f8f7f3;
+  background: #f4f5f5;
 }
 
 .product-card-frame {
@@ -114,7 +112,7 @@ h3,
 }
 
 .editorial-product-feature {
-  background: #f3f0e9;
+  background: #eceeee;
 }
 
 .shape-stone-field {
@@ -447,62 +445,6 @@ h3,
 
 .hero-settle {
   animation: hero-settle 1.65s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes hero-cinemagraph-drift {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.01);
-  }
-}
-
-@keyframes hero-cinemagraph-glint {
-  0%,
-  100% {
-    opacity: 0;
-    transform: translateX(-10%);
-  }
-  42% {
-    opacity: 0.08;
-  }
-  58% {
-    opacity: 0.04;
-  }
-  70% {
-    opacity: 0;
-    transform: translateX(10%);
-  }
-}
-
-.hero-cinemagraph-media {
-  overflow: hidden;
-}
-
-.hero-cinemagraph-media img {
-  animation: hero-cinemagraph-drift 6s ease-in-out infinite;
-}
-
-.hero-cinemagraph-glint {
-  position: absolute;
-  width: 23%;
-  aspect-ratio: 1;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.75) 0%, rgba(255, 248, 222, 0.22) 34%, rgba(255, 255, 255, 0) 72%);
-  pointer-events: none;
-  animation: hero-cinemagraph-glint 6s ease-in-out infinite;
-}
-
-.hero-cinemagraph-glint-mobile {
-  left: 38.5%;
-  top: 51%;
-}
-
-.hero-cinemagraph-glint-desktop {
-  left: 58%;
-  top: 37%;
 }
 
 /* quiet scroll cue at the hero's base */

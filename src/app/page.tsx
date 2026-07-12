@@ -189,30 +189,43 @@ export default function HomePage() {
       <section className="hero-editorial relative isolate overflow-hidden">
         <div className="absolute inset-0 lg:hidden">
           <Image
-            src={assetPath("/images/hero/v2/home-hero-mobile.webp")}
-            alt="טבעת יהלום מעבדה בזהב צהוב על שיש בהיר"
+            src={assetPath("/images/hero/mineral/hero-mobile.webp")}
+            alt="טבעת יהלום מעבדה בזהב צהוב על משטח טרוורטין פיסולי"
             fill
             priority
             unoptimized
             sizes="100vw"
-            className="hero-settle object-cover object-[center_62%]"
+            className="hero-settle object-cover object-center"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,248,243,0.9)_0%,rgba(250,248,243,0.7)_34%,rgba(250,248,243,0.08)_62%,rgba(250,248,243,0.78)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,250,248,0.9)_0%,rgba(250,250,248,0.68)_32%,rgba(250,250,248,0.04)_61%,rgba(250,250,248,0.2)_100%)]" />
         </div>
 
-        <div className="relative z-10 mx-auto grid min-h-[calc(74svh-60px)] max-w-7xl items-start px-4 py-4 sm:px-6 lg:min-h-[min(82vh,760px)] lg:grid-cols-[0.86fr_1.14fr] lg:items-center lg:gap-10 lg:px-8 lg:py-14">
-          <div className="pt-3 text-center sm:pt-10 lg:order-first lg:max-w-lg lg:pt-0 lg:text-right">
+        <div className="absolute inset-0 hidden lg:block">
+          <Image
+            src={assetPath("/images/hero/mineral/hero-desktop.webp")}
+            alt="טבעת יהלום מעבדה בזהב צהוב על קצה אבן מינרלית"
+            fill
+            priority
+            unoptimized
+            sizes="100vw"
+            className="hero-settle object-cover"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(250,250,248,0.95)_0%,rgba(250,250,248,0.84)_32%,rgba(250,250,248,0.18)_58%,rgba(250,250,248,0)_72%)]" />
+        </div>
+
+        <div dir="ltr" className="relative z-10 mx-auto grid min-h-[calc(74svh-60px)] max-w-7xl items-start px-4 py-4 sm:px-6 lg:min-h-[min(82vh,760px)] lg:grid-cols-2 lg:items-center lg:px-8 lg:py-14">
+          <div dir="rtl" className="pt-3 text-center sm:pt-10 lg:col-start-1 lg:max-w-lg lg:pt-0 lg:text-right">
             <h1
               className="cascade mx-auto max-w-[8ch] font-display text-[2.75rem] font-light leading-[1.04] text-ink sm:text-6xl lg:mx-0 xl:text-7xl"
               style={{ animationDelay: "90ms" }}
             >
-              נוכחות אמיתית.
+              היהלום במרכז.
             </h1>
             <p
               className="cascade mx-auto mt-5 hidden max-w-[26rem] text-sm leading-7 tracking-[0.08em] text-stone sm:text-base lg:mx-0 lg:block"
               style={{ animationDelay: "150ms" }}
             >
-              יהלומי מעבדה מוסמכים בזהב 14K/18K.
+              יהלומי מעבדה מוסמכים. עיצוב מדויק בזהב 14K/18K.
             </p>
             <div
               className="cascade mt-5 flex flex-col items-center gap-3 sm:mt-7 lg:mt-10 lg:flex-row lg:justify-start"
@@ -239,18 +252,6 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="animate-fade-up relative hidden lg:order-last lg:block lg:min-h-[520px]">
-            <div className="hero-ring-light" />
-            <Image
-              src={assetPath("/images/hero/v2/home-hero-desktop.webp")}
-              alt="טבעת יהלום מעבדה מרכזית בזהב צהוב"
-              fill
-              priority
-              unoptimized
-              sizes="58vw"
-              className="hero-settle z-10 object-cover object-[72%_center]"
-            />
-          </div>
         </div>
 
       </section>

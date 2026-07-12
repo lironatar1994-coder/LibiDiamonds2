@@ -11,7 +11,7 @@ export const site = {
   currency: "ILS",
   serviceArea: "ישראל",
   logo: "/icon.svg",
-  socialImage: "/images/hero/v2/home-hero-desktop.webp",
+  socialImage: "/images/hero/mineral/hero-desktop.webp",
   // TODO: replace with the real business WhatsApp number (international format, no +)
   whatsapp: "972500000000",
   phoneDisplay: "050-000-0000",

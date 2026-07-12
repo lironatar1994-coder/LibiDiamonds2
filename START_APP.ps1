@@ -1,8 +1,8 @@
 $ErrorActionPreference = "Stop"
 
 $ProjectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
-$Port = 3000
-$PortRange = 3000..3015
+$Port = 3001
+$PortRange = 3001..3015
 
 Set-Location $ProjectRoot
 
@@ -27,7 +27,7 @@ function Stop-ProjectPreviewServers {
 }
 
 Write-Host ""
-Write-Host "LIBI DIAMONDS local dev server"
+Write-Host "LIBI DIAMONDS 2 local dev server"
 Write-Host "Project: $ProjectRoot"
 Write-Host ""
 

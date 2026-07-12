@@ -1,9 +1,9 @@
 # ==============================================================================
-# LIBI DIAMONDS Deployment Script (Local Windows)
+# LIBI DIAMONDS 2 Deployment Script (Local Windows)
 # ==============================================================================
 
 param (
-    [string]$CommitMessage = "Deploy LIBI DIAMONDS",
+    [string]$CommitMessage = "Deploy LIBI DIAMONDS 2",
     [switch]$SkipCheck,
     [switch]$NoDirectFallback
 )
@@ -12,11 +12,11 @@ $ErrorActionPreference = "Stop"
 
 $SSH_HOST = "root@vee-app.co.il"
 $SSH_DOMAIN = "vee-app.co.il"
-$REMOTE_REPO = "https://github.com/lironatar1994-coder/LibiDiamonds.git"
-$REMOTE_DIR = "/root/LibiDiamonds"
-$ARCHIVE_NAME = "libi-diamonds-deploy.tar.gz"
+$REMOTE_REPO = "https://github.com/lironatar1994-coder/LibiDiamonds2.git"
+$REMOTE_DIR = "/root/LibiDiamonds2"
+$ARCHIVE_NAME = "libi-diamonds-2-deploy.tar.gz"
 
-Write-Host "--- Starting LIBI DIAMONDS Deployment ---" -ForegroundColor Cyan
+Write-Host "--- Starting LIBI DIAMONDS 2 Deployment ---" -ForegroundColor Cyan
 
 if (-not $SkipCheck) {
     Write-Host "Checking server connectivity..." -ForegroundColor Gray
@@ -124,7 +124,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "`n================================================" -ForegroundColor Green
-Write-Host "      LIBI DIAMONDS DEPLOYED SUCCESSFULLY" -ForegroundColor Green
+Write-Host "      LIBI DIAMONDS 2 DEPLOYED SUCCESSFULLY" -ForegroundColor Green
 Write-Host "================================================" -ForegroundColor Green
-Write-Host "Public: https://vee-app.co.il/LibiDiamonds" -ForegroundColor Cyan
+Write-Host "Public: https://vee-app.co.il/LibiDiamonds2" -ForegroundColor Cyan
 Write-Host "GitHub target: $REMOTE_REPO" -ForegroundColor Cyan

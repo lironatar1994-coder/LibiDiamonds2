@@ -8,7 +8,7 @@ Built with **Next.js 15 + Tailwind CSS 4** (App Router, fully static output).
 
 ```bash
 npm install
-npm run dev    # http://localhost:3000
+npm run dev -- --port 3001    # http://localhost:3001
 npm run build  # production build (all pages pre-rendered)
 ```
 
