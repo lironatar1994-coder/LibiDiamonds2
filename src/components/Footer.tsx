@@ -85,7 +85,8 @@ export default function Footer() {
             rel="noopener noreferrer"
           >
             <WhatsAppIcon className="h-4 w-4" />
-            <span>ייעוץ אישי בוואטסאפ</span>
+            <span>ייעוץ בוואטסאפ</span>
+            <span dir="ltr" className="text-stone">{site.phoneDisplay}</span>
           </a>
           <span className="hidden h-1 w-1 rotate-45 bg-gold/60 sm:block" aria-hidden />
           <a className="transition-colors hover:text-gold" href={`mailto:${site.email}`}>

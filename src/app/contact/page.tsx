@@ -40,7 +40,7 @@ export default function ContactPage() {
                   className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gold"
                 >
                   <WhatsAppIcon className="h-5 w-5 text-gold" />
-                  פתיחת שיחה בוואטסאפ
+                  <span>וואטסאפ · <span dir="ltr">{site.phoneDisplay}</span></span>
                 </a>
               </li>
               <li>
@@ -66,26 +66,6 @@ export default function ContactPage() {
             </ul>
           </div>
 
-          <div className="border border-line p-8">
-            <h2 className="font-display text-xl">שעות מענה</h2>
-            <dl className="mt-5 space-y-2 text-sm text-ink-soft">
-              <div className="flex justify-between">
-                <dt>ראשון–חמישי</dt>
-                <dd>9:00–19:00</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt>שישי וערבי חג</dt>
-                <dd>9:00–13:00</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt>שבת</dt>
-                <dd>סגור</dd>
-              </div>
-            </dl>
-            <p className="mt-5 text-xs leading-relaxed text-stone">
-              פגישות אישיות להתרשמות מהאבנים — בתיאום מראש.
-            </p>
-          </div>
         </div>
       </div>
     </div>

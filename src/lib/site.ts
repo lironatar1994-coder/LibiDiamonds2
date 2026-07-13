@@ -12,9 +12,9 @@ export const site = {
   serviceArea: "ישראל",
   logo: "/icon.svg",
   socialImage: "/images/hero/mineral/hero-desktop.webp",
-  // TODO: replace with the real business WhatsApp number (international format, no +)
-  whatsapp: "972500000000",
-  email: "hello@libidiamonds.co.il",
+  whatsapp: "972508611888",
+  phoneDisplay: "050-8611888",
+  email: "Libidiamonds@gmail.com",
   instagram: "https://www.instagram.com/libidiamonds",
 };
 

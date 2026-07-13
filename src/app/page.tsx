@@ -303,7 +303,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#f1f0ec]" aria-labelledby="bespoke-inspiration-title">
+      <section className="section-bespoke" aria-labelledby="bespoke-inspiration-title">
         <div className="mx-auto grid max-w-7xl lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="relative aspect-[5/4] overflow-hidden sm:aspect-[16/10] lg:aspect-[4/5]">
             <Image

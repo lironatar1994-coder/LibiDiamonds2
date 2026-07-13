@@ -2,16 +2,16 @@
 
 @theme {
   --color-ivory: #fafaf8;
-  --color-cream: #f2f3f3;
-  --color-sand: #dfe2e3;
-  --color-line: #d8dcde;
+  --color-cream: #f3f4f2;
+  --color-sand: #e2e4e2;
+  --color-line: #dadcd9;
   --color-ink: #111111;
   --color-ink-soft: #2b2d2e;
-  --color-stone: #6b7073;
+  --color-stone: #686d6c;
   --color-gold: #b79a62;
   --color-gold-deep: #806d47;
   --color-espresso: #111111;
-  --color-champagne: #d7dadb;
+  --color-champagne: #d6d8d5;
 
   --font-display: var(--font-frank), "Frank Ruhl Libre", serif;
   --font-body: var(--font-assistant), "Assistant", sans-serif;
@@ -67,22 +67,26 @@ h3,
 .section-champagne {
   background:
     radial-gradient(80% 56% at 50% 0%, rgba(255, 255, 255, 0.66) 0%, rgba(255, 255, 255, 0) 58%),
-    linear-gradient(180deg, #f1f3f3 0%, #e4e7e8 100%);
+    linear-gradient(180deg, #f2f3f1 0%, #e6e8e5 100%);
 }
 
 .section-diamond-light {
   background:
     radial-gradient(62% 48% at 50% 0%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 68%),
-    #edf0f1;
+    #eef0ef;
 }
 
 .section-gallery {
   background:
-    linear-gradient(180deg, #fff 0%, #f9fafa 100%);
+    linear-gradient(180deg, #fff 0%, #fafaf8 100%);
+}
+
+.section-bespoke {
+  background: #f1f0ec;
 }
 
 .section-proof {
-  background: #e9eced;
+  background: #e8eae8;
 }
 
 .section-cta-signature {
@@ -92,11 +96,11 @@ h3,
 .footer-warm {
   background:
     radial-gradient(42rem 16rem at 50% 0%, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0) 62%),
-    linear-gradient(180deg, #eceeee 0%, #dfe2e3 100%);
+    linear-gradient(180deg, #eceeec 0%, #dfe2df 100%);
 }
 
 .section-faq {
-  background: #f4f5f5;
+  background: #f4f5f3;
 }
 
 .product-card-frame {
@@ -112,7 +116,7 @@ h3,
 }
 
 .editorial-product-feature {
-  background: #eceeee;
+  background: #eceeec;
 }
 
 .shape-stone-field {

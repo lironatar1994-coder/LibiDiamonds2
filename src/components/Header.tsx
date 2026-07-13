@@ -145,7 +145,7 @@ export default function Header() {
               <WhatsAppIcon className="h-4 w-4" />
               בדיקת זמינות ומחיר בוואטסאפ
             </a>
-            <div className="mt-5 flex items-center justify-between text-xs text-stone">
+            <div className="mt-5 flex items-center justify-center text-xs text-stone">
               <a
                 href={site.instagram}
                 target="_blank"
@@ -156,7 +156,6 @@ export default function Header() {
                 <InstagramIcon className="h-4 w-4" />
                 libidiamonds@
               </a>
-              <span>א׳–ה׳ 9:00–19:00 · ו׳ 9:00–13:00</span>
             </div>
           </div>
         </div>
