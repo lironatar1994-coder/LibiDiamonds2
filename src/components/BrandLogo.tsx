@@ -15,10 +15,14 @@ export default function BrandLogo({
   // the footer sits on graphite, so it takes the inverse asset by default
   tone = size === "footer" ? "inverse" : "ink",
 }: BrandLogoProps) {
+  // footer shows the full lockup (heart mark + wordmark) tuned for its size
   const asset =
-    tone === "inverse"
-      ? "/brand/libi-diamonds-logo-inverse.svg"
-      : "/brand/libi-diamonds-logo.svg";
+    size === "footer"
+      ? "/brand/libi-diamonds-logo-footer.svg"
+      : tone === "inverse"
+        ? "/brand/libi-diamonds-logo-inverse.svg"
+        : "/brand/libi-diamonds-logo.svg";
+  const height = size === "footer" ? "250" : "150";
   return (
     <Link
       href="/"
@@ -31,7 +35,7 @@ export default function BrandLogo({
         alt=""
         className="brand-logo-asset"
         width="360"
-        height="150"
+        height={height}
         aria-hidden="true"
       />
     </Link>

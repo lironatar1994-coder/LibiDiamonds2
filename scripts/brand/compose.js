@@ -66,6 +66,18 @@ function primary(colName, colSub, colMarkOutline, colFacet) {
 
 const markOnly = (colOutline, colFacet) => svgDoc(100, 100, mark(colOutline, colFacet));
 
+// Footer lockup: like primary, but the mark is larger and its strokes are
+// boosted so the heart stays crisp at the footer's ~9rem display width.
+function footerLockup(colName, colSub, colMarkOutline, colFacet) {
+  return svgDoc(
+    360,
+    250,
+    `  <g transform="translate(145 4) scale(0.7)">${mark(colMarkOutline, colFacet, { outlineW: 4.4, facetW: 2.9 })}</g>
+  <g transform="translate(${cx(360, libi.width)} 172)"><path d="${libi.d}" fill="${colName}"/></g>
+  <g transform="translate(${cx(360, diamonds.width)} 206)"><path d="${diamonds.d}" fill="${colSub}"/></g>`
+  );
+}
+
 const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" fill="${INK}"/>
   <g transform="translate(6.4 6.4) scale(0.512)">${mark(CHAMPAGNE, CHAMPAGNE, { outlineW: 4.2, facetW: 2.6 })}</g>
@@ -77,5 +89,6 @@ fs.writeFileSync(path.join(OUT, "libi-diamonds-logo-primary.svg"), primary(INK, 
 fs.writeFileSync(path.join(OUT, "libi-diamonds-logo-primary-inverse.svg"), primary(IVORY, SUBTLE, IVORY, GOLD));
 fs.writeFileSync(path.join(OUT, "libi-diamonds-mark.svg"), markOnly(INK, GOLD));
 fs.writeFileSync(path.join(OUT, "libi-diamonds-mark-inverse.svg"), markOnly(IVORY, GOLD));
+fs.writeFileSync(path.join(OUT, "libi-diamonds-logo-footer.svg"), footerLockup(IVORY, SUBTLE, IVORY, GOLD));
 fs.writeFileSync(path.join(ROOT, "src", "app", "icon.svg"), favicon);
 console.log("logo kit written to public/brand + src/app/icon.svg");
