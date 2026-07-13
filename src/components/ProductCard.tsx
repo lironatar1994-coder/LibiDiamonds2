@@ -11,7 +11,6 @@ export default function ProductCard({
   product: Product;
   variant?: "standard" | "compact";
 }) {
-  const badge = product.featured && !product.bestseller ? "בחירת הסטודיו" : null;
   const images = productImages(product);
   const detailImage = images[1];
   const compact = variant === "compact";
@@ -19,11 +18,6 @@ export default function ProductCard({
   return (
     <Link href={`/product/${product.slug}`} className="group block">
       <div className="art-bg product-card-frame relative aspect-square overflow-hidden bg-ivory">
-        {badge && (
-          <span className="absolute right-3 top-3 z-10 border border-gold/30 bg-white/88 px-3 py-1 text-[0.66rem] font-semibold tracking-[0.1em] text-ink-soft backdrop-blur-sm">
-            {badge}
-          </span>
-        )}
         <Image
           src={images[0].src}
           alt={images[0].alt}
@@ -51,9 +45,6 @@ export default function ProductCard({
         </h3>
         <p className={`font-display font-medium tracking-[0.02em] text-ink ${compact ? "mt-1 text-[0.95rem] sm:mt-2 sm:text-base" : "mt-1.5 text-base sm:mt-2.5 sm:text-[1.08rem]"}`}>
           החל מ־{formatPrice(product.priceFrom)}
-        </p>
-        <p className={`product-card-trust mt-1.5 justify-center font-semibold tracking-[0.1em] text-stone/75 sm:mt-2 sm:tracking-[0.13em] ${compact ? "text-[0.55rem] sm:text-[0.6rem]" : "text-[0.58rem] sm:text-[0.64rem]"}`}>
-          תעודה + אחריות
         </p>
       </div>
     </Link>

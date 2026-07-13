@@ -15,8 +15,7 @@ export default function ContactPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <header className="max-w-2xl">
-        <p className="eyebrow">צור קשר</p>
-        <h1 className="mt-3 font-display text-4xl font-medium">נשמח לדבר</h1>
+        <h1 className="font-display text-4xl font-medium">נשמח לדבר</h1>
         <p className="mt-4 leading-relaxed text-stone">
           מתלבטים? רוצים לראות אבנים? מחפשים משהו שלא באתר? הדרך הכי מהירה
           אלינו היא וואטסאפ — אבל כל דרך אחרת עובדת גם.

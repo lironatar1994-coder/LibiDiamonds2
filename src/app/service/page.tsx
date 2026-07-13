@@ -50,8 +50,7 @@ export default function ServicePage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
       <header>
-        <p className="eyebrow">שירות ומדיניות</p>
-        <h1 className="mt-3 font-display text-4xl font-medium">
+        <h1 className="font-display text-4xl font-medium">
           משלוחים, אחריות והחזרות
         </h1>
         <p className="mt-4 leading-relaxed text-stone">

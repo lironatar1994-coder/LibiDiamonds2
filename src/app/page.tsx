@@ -244,12 +244,6 @@ export default function HomePage() {
                 ייעוץ אישי בוואטסאפ
               </a>
             </div>
-            <p
-              className="cascade mx-auto mt-5 hidden text-xs tracking-[0.12em] text-stone lg:mx-0 lg:block"
-              style={{ animationDelay: "280ms" }}
-            >
-              IGI/GIA · אחריות מלאה · משלוח מבוטח
-            </p>
           </div>
 
         </div>

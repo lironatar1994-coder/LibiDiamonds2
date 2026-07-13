@@ -186,6 +186,10 @@ export const products: Product[] = [
     specs: { color: "E–F", clarity: "VS1", cut: "Excellent", cert: "IGI" },
     description:
       "שלוש אבנים, סיפור אחד: אבן מרכזית ושתי אבני צד שמלוות אותה. עיצוב קלאסי עם משמעות — עבר, הווה ועתיד — ופרופיל מאוזן שמחמיא לכל יד.",
+    gallery: [
+      { src: "/images/products/v4/trio-three-stone-ring-primary.webp", alt: "טבעת טריו מזהב לבן עם יהלום מרכזי ושתי אבני צד במבט חזיתי" },
+      { src: "/images/products/v4/trio-three-stone-ring-detail.webp", alt: "תקריב שיבוץ שלוש האבנים והפרופיל של טבעת טריו" },
+    ],
     featured: true,
   },
   {
@@ -251,6 +255,10 @@ export const products: Product[] = [
     specs: { color: "E–F", clarity: "VS2", cut: "Excellent", cert: "IGI" },
     description:
       "כל עגיל הוא יהלום מרכזי מוקף שורת יהלומים קטנים — מראה גדול ונוצץ יותר מהמשקל בפועל. בחירה מצוינת למי שרוצה נוכחות באוזן בלי כבדות.",
+    gallery: [
+      { src: "/images/products/v4/glow-halo-earrings-primary.webp", alt: "זוג עגילי גלואו מזהב צהוב עם יהלום מרכזי והיילו במבט קדמי" },
+      { src: "/images/products/v4/glow-halo-earrings-detail.webp", alt: "תקריב פרופיל ההיילו, המוטות והסוגרים של עגילי גלואו" },
+    ],
   },
   {
     slug: "luna-diamond-hoops",
@@ -291,8 +299,8 @@ export const products: Product[] = [
     description:
       "שורה רציפה של יהלומים עגולים בשיבוץ ארבע שיניים ובחיבור גמיש בין החוליות. סוגר קופסה עם מנגנון בטיחות משלים את המבנה האחיד סביב הצוואר.",
     gallery: [
-      { src: "/images/products/v3/riviera-tennis-necklace-primary.webp", alt: "שרשרת ריביירה בזהב לבן במבט על" },
-      { src: "/images/products/v2/riviera-tennis-necklace-detail.webp", alt: "פרט סוגר הקופסה ושורת היהלומים בשרשרת ריביירה" },
+      { src: "/images/products/v4/riviera-tennis-necklace-primary.webp", alt: "שרשרת ריביירה מזהב לבן במבט על מלא" },
+      { src: "/images/products/v4/riviera-tennis-necklace-detail.webp", alt: "תקריב סוגר הקופסה ושורת היהלומים בשרשרת ריביירה" },
     ],
     featured: true,
     bestseller: true,
@@ -314,7 +322,8 @@ export const products: Product[] = [
     description:
       "יהלום מעבדה אחד, בדיוק במרכז. תליון הסוליטר הוא המתנה הקלאסית ביותר שיש — עדין מספיק ליום־יום, משמעותי מספיק לרגעים הגדולים.",
     gallery: [
-      { src: "/images/products/v3/claire-solitaire-pendant-primary.webp", alt: "תליון קלייר בזהב צהוב במבט על" },
+      { src: "/images/products/v4/claire-solitaire-pendant-primary.webp", alt: "תליון קלייר מזהב צהוב ויהלום עגול במבט על" },
+      { src: "/images/products/v4/claire-solitaire-pendant-detail.webp", alt: "תקריב ארבע השיניים, הסל והחיבור לשרשרת בתליון קלייר" },
     ],
     featured: true,
     bestseller: true,
@@ -336,7 +345,8 @@ export const products: Product[] = [
     description:
       "היהלום עטוף במסגרת זהב מלאה — שיבוץ בצל (Bezel) שנותן מראה מודרני, נקי ועמיד במיוחד. השרשרת של מי שאוהבת שקט עיצובי.",
     gallery: [
-      { src: "/images/products/v3/drop-bezel-necklace-primary.webp", alt: "שרשרת דרופ בזהב ורוד ושיבוץ בזל במבט על" },
+      { src: "/images/products/v4/drop-bezel-necklace-primary.webp", alt: "שרשרת דרופ מזהב ורוד עם יהלום בשיבוץ בזל במבט על" },
+      { src: "/images/products/v4/drop-bezel-necklace-detail.webp", alt: "תקריב מסגרת הבזל והחיבור לשרשרת בתליון דרופ" },
     ],
   },
   {
@@ -356,8 +366,8 @@ export const products: Product[] = [
     description:
       "שורת יהלומים עגולים מחוברת בחוליות גמישות ומסתיימת בסוגר קופסה עם אבטחה כפולה. בתי האבן הפתוחים שומרים על קו אחיד ומאפשרים לאור לעבור דרך כל יהלום.",
     gallery: [
-      { src: "/images/products/v3/icon-tennis-bracelet-primary.webp", alt: "צמיד אייקון בזהב לבן במבט על" },
-      { src: "/images/products/v2/icon-tennis-bracelet-detail.webp", alt: "פרט הסוגר והחוליות בצמיד אייקון" },
+      { src: "/images/products/v4/icon-tennis-bracelet-primary.webp", alt: "צמיד טניס אייקון מזהב לבן במבט מלא" },
+      { src: "/images/products/v4/icon-tennis-bracelet-detail.webp", alt: "תקריב הסוגר הכפול והחוליות בצמיד אייקון" },
     ],
     featured: true,
     bestseller: true,
@@ -379,7 +389,8 @@ export const products: Product[] = [
     description:
       "חישוק זהב חלק ונקי, ובמרכזו יהלום מעבדה אחד בשיבוץ בצל. הצמיד שעונדים ולא מורידים — לבד או בשכבות עם שעון וצמידים נוספים.",
     gallery: [
-      { src: "/images/products/v3/one-diamond-bangle-primary.webp", alt: "צמיד וואן בזהב צהוב ויהלום בשיבוץ בזל" },
+      { src: "/images/products/v4/one-diamond-bangle-primary.webp", alt: "צמיד וואן מזהב צהוב עם יהלום יחיד בשיבוץ בזל" },
+      { src: "/images/products/v4/one-diamond-bangle-detail.webp", alt: "תקריב היהלום ומסגרת הבזל בצמיד וואן" },
     ],
     bestseller: true,
   },

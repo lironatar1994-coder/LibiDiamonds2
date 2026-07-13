@@ -86,14 +86,13 @@ export default async function CategoryPage({ params }: Props) {
         ))}
       </div>
 
-      <aside className="mt-20 border-t border-line pt-10">
-        <p className="text-sm text-stone">להמשיך לעיין:</p>
-        <div className="mt-4 flex flex-wrap gap-3">
+      <aside className="mt-16 border-t border-line pt-8 sm:mt-20 sm:pt-10" aria-label="קטגוריות נוספות">
+        <div className="flex flex-nowrap justify-center divide-x divide-gold/35" dir="rtl">
           {others.map((c) => (
             <Link
               key={c.slug}
               href={`/jewelry/${c.slug}`}
-              className="border border-line px-5 py-2.5 text-sm transition-colors hover:border-gold hover:text-gold-deep"
+              className="px-5 py-1 text-sm text-ink-soft transition-colors hover:text-gold-deep focus-visible:text-gold-deep sm:px-7"
             >
               {c.name}
             </Link>

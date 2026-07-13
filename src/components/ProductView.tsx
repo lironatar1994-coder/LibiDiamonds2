@@ -60,6 +60,13 @@ export default function ProductView({ product }: { product: Product }) {
   const carat = product.carats[caratIdx];
   const images = productImages(product);
   const message = `היי, אשמח לפרטים על ${product.name} — ${carat.label}, ${metalNames[metal]} (${formatPrice(carat.price)})`;
+  const metalGridClass = product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2";
+  const caratGridClass =
+    product.carats.length === 4
+      ? "grid-cols-2 sm:grid-cols-4"
+      : product.carats.length === 3
+        ? "grid-cols-3"
+        : "grid-cols-2";
 
   useEffect(() => {
     const update = () => setShowStickyCta(window.scrollY > 360);
@@ -133,11 +140,8 @@ export default function ProductView({ product }: { product: Product }) {
           </div>
 
           <section className="pt-7 lg:pt-8">
-            <div className="flex items-baseline justify-between gap-4">
-              <p className="text-sm font-semibold">גוון הזהב</p>
-              <p className="text-xs text-stone">{metalNames[metal]}</p>
-            </div>
-            <div className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+            <p className="text-sm font-semibold">גוון הזהב</p>
+            <div className={`mt-3 grid gap-2.5 ${metalGridClass}`}>
               {product.metals.map((option) => (
                 <button
                   key={option}
@@ -145,14 +149,14 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setMetal(option)}
                   aria-label={metalNames[option]}
                   aria-pressed={metal === option}
-                  className={`flex min-h-12 items-center gap-2.5 border px-3 py-2 text-sm transition-colors ${
+                  className={`flex min-h-12 items-center justify-center gap-2 border px-2 py-2 text-[0.78rem] transition-colors min-[390px]:text-sm ${
                     metal === option
                       ? "border-gold-deep bg-selection text-ink"
                       : "border-line bg-white text-ink-soft hover:border-stone"
                   }`}
                 >
                   <span
-                    className="h-4 w-4 shrink-0 rounded-full border border-black/10 shadow-inner"
+                    className="h-3.5 w-3.5 shrink-0 rounded-full border border-black/10 shadow-inner"
                     style={{ backgroundColor: METAL_SWATCH[option] }}
                     aria-hidden
                   />
@@ -164,21 +168,21 @@ export default function ProductView({ product }: { product: Product }) {
 
           <section className="pt-7 lg:pt-8">
             <p className="text-sm font-semibold">משקל היהלום</p>
-            <div className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-3" dir="rtl">
+            <div className={`mt-3 grid gap-2.5 ${caratGridClass}`} dir="rtl">
               {product.carats.map((option, index) => (
                 <button
                   key={option.label}
                   type="button"
                   onClick={() => setCaratIdx(index)}
                   aria-pressed={index === caratIdx}
-                  className={`min-h-[82px] border px-3 py-3 text-right transition-colors sm:px-4 ${
+                  className={`min-h-[92px] border px-2.5 py-3 text-right transition-colors sm:px-3 ${
                     index === caratIdx
                       ? "border-ink bg-ink text-ivory"
                       : "border-line bg-white text-ink hover:border-gold-deep"
                   }`}
                 >
-                  <span className="block font-display text-lg leading-tight">{option.label}</span>
-                  <span className={`mt-2 block text-sm font-semibold tracking-wide ${index === caratIdx ? "text-ivory" : "text-ink"}`}>
+                  <span className="block font-display text-base leading-tight sm:text-lg">{option.label}</span>
+                  <span className={`mt-2 block text-[0.78rem] font-semibold tracking-wide sm:text-sm ${index === caratIdx ? "text-ivory" : "text-ink"}`}>
                     {formatPrice(option.price)}
                   </span>
                 </button>
