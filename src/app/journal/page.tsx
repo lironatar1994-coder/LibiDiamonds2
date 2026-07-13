@@ -49,7 +49,7 @@ export default function JournalPage() {
 
       <Link href={`/journal/${featuredGuide.slug}`} className="group mt-8 block sm:mt-10">
         <article className="grid items-center gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(19rem,0.65fr)] lg:gap-12">
-          <div className="relative aspect-[3/2] overflow-hidden bg-[#f1efe9]">
+          <div className="relative aspect-[3/2] overflow-hidden bg-warm-stone">
             <Image
               src={assetPath(featuredGuide.cover.src)}
               alt={featuredGuide.cover.alt}
@@ -73,7 +73,7 @@ export default function JournalPage() {
         {moreGuides.map((guide) => (
           <Link key={guide.slug} href={`/journal/${guide.slug}`} className="group block">
             <article>
-              <div className="relative aspect-[3/2] overflow-hidden bg-[#f1efe9]">
+              <div className="relative aspect-[3/2] overflow-hidden bg-warm-stone">
                 <Image
                   src={assetPath(guide.cover.src)}
                   alt={guide.cover.alt}

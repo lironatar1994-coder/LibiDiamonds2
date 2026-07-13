@@ -75,7 +75,7 @@ function SectionHeading({
   return (
     <div className={`flex items-center gap-5 sm:gap-7 ${className}`}>
       <h2 className="shrink-0 font-display text-[2rem] font-medium leading-none sm:text-4xl">{title}</h2>
-      <span className="h-px flex-1 bg-gradient-to-l from-gold/55 to-transparent" aria-hidden />
+      <span className="h-px flex-1 bg-gold/35" aria-hidden />
     </div>
   );
 }
@@ -197,7 +197,7 @@ export default function HomePage() {
             sizes="100vw"
             className="hero-settle object-cover object-center"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,250,248,0.9)_0%,rgba(250,250,248,0.68)_32%,rgba(250,250,248,0.04)_61%,rgba(250,250,248,0.2)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,246,242,0.9)_0%,rgba(247,246,242,0.68)_32%,rgba(247,246,242,0.04)_61%,rgba(247,246,242,0.2)_100%)]" />
         </div>
 
         <div className="absolute inset-0 hidden lg:block">
@@ -210,7 +210,7 @@ export default function HomePage() {
             sizes="100vw"
             className="hero-settle object-cover"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(250,250,248,0.95)_0%,rgba(250,250,248,0.84)_32%,rgba(250,250,248,0.18)_58%,rgba(250,250,248,0)_72%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,246,242,0.95)_0%,rgba(247,246,242,0.84)_32%,rgba(247,246,242,0.18)_58%,rgba(247,246,242,0)_72%)]" />
         </div>
 
         <div dir="ltr" className="relative z-10 mx-auto grid min-h-[calc(74svh-60px)] max-w-7xl items-start px-4 py-4 sm:px-6 lg:min-h-[min(82vh,760px)] lg:grid-cols-2 lg:items-center lg:px-8 lg:py-14">
@@ -273,7 +273,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Categories ───────────────────────────────────── */}
-      <section className="section-gallery">
+      <section className="section-ivory">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-18">
           <SectionHeading title="הקולקציה" />
           <div className="mt-7 grid grid-cols-2 gap-x-3 gap-y-6 lg:mt-10 lg:grid-cols-5 lg:gap-6">
@@ -341,7 +341,7 @@ export default function HomePage() {
       <CustomerVoices reviews={reviews} />
 
       {/* ── Trust strip ──────────────────────────────────── */}
-      <section className="section-proof" aria-label="פרטי שירות ואחריות">
+      <section className="section-proof border-y border-line" aria-label="פרטי שירות ואחריות">
         <div className="mx-auto grid max-w-3xl grid-cols-2 px-4 py-3 text-center sm:flex sm:items-center sm:justify-center sm:gap-x-4 sm:px-8 sm:py-5">
           {["יהלומים מוסמכים", "זהב 14K/18K", "משלוח מבוטח", "אחריות מלאה"].map((item, index) => (
             <span
@@ -373,7 +373,7 @@ export default function HomePage() {
           <div className="mt-7 grid gap-8 lg:mt-9 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.55fr)] lg:gap-10">
             <Link href={`/journal/${featuredJournalGuide.slug}`} className="group block">
               <article>
-                <div className="relative aspect-[3/2] overflow-hidden bg-[#f1efe9]">
+                <div className="relative aspect-[3/2] overflow-hidden bg-warm-stone">
                   <Image
                     src={assetPath(featuredJournalGuide.cover.src)}
                     alt={featuredJournalGuide.cover.alt}
@@ -395,7 +395,7 @@ export default function HomePage() {
               {secondaryJournalGuides.map((guide) => (
                 <Link key={guide.slug} href={`/journal/${guide.slug}`} className="group block border-b border-line py-5 first:pt-5 lg:first:pt-0">
                   <article className="grid grid-cols-[7.25rem_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[9rem_minmax(0,1fr)] lg:grid-cols-1 lg:items-start lg:gap-0">
-                    <div className="relative aspect-[4/3] overflow-hidden bg-[#f1efe9] lg:aspect-[3/2]">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-warm-stone lg:aspect-[3/2]">
                       <Image
                         src={assetPath(guide.cover.src)}
                         alt={guide.cover.alt}

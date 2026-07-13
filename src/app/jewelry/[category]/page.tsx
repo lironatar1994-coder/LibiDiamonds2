@@ -68,7 +68,7 @@ export default async function CategoryPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <nav className="text-xs text-stone" aria-label="פירורי לחם">
-        <Link href="/" className="hover:text-gold">
+        <Link href="/" className="hover:text-gold-deep">
           ראשי
         </Link>
         <span className="mx-2">/</span>

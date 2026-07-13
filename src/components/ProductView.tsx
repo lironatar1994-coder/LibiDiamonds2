@@ -72,7 +72,7 @@ export default function ProductView({ product }: { product: Product }) {
     <>
       <div className="grid gap-9 lg:grid-cols-[minmax(0,1.15fr)_minmax(23rem,0.85fr)] lg:items-start lg:gap-16 xl:gap-20">
         <section className="lg:sticky lg:top-28">
-          <div className="art-bg relative aspect-square overflow-hidden bg-[#f7f6f1]">
+          <div className="art-bg relative aspect-square overflow-hidden bg-ivory">
             <Image
               key={images[selectedImage].src}
               src={images[selectedImage].src}
@@ -94,9 +94,9 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setSelectedImage(index)}
                   aria-label={`הצגת תמונה ${index + 1} של ${product.name}`}
                   aria-pressed={selectedImage === index}
-                  className={`relative aspect-square w-20 overflow-hidden bg-[#f7f6f1] transition-all sm:w-24 ${
+                  className={`relative aspect-square w-20 overflow-hidden bg-ivory transition-all sm:w-24 ${
                     selectedImage === index
-                      ? "ring-1 ring-ink ring-offset-2 ring-offset-ivory"
+                      ? "ring-1 ring-ink ring-offset-2 ring-offset-white"
                       : "opacity-70 hover:opacity-100"
                   }`}
                 >
@@ -147,8 +147,8 @@ export default function ProductView({ product }: { product: Product }) {
                   aria-pressed={metal === option}
                   className={`flex min-h-12 items-center gap-2.5 border px-3 py-2 text-sm transition-colors ${
                     metal === option
-                      ? "border-gold-deep bg-[#f1ecdf] text-ink"
-                      : "border-line bg-ivory text-ink-soft hover:border-stone"
+                      ? "border-gold-deep bg-selection text-ink"
+                      : "border-line bg-white text-ink-soft hover:border-stone"
                   }`}
                 >
                   <span
@@ -174,7 +174,7 @@ export default function ProductView({ product }: { product: Product }) {
                   className={`min-h-[82px] border px-3 py-3 text-right transition-colors sm:px-4 ${
                     index === caratIdx
                       ? "border-ink bg-ink text-ivory"
-                      : "border-line bg-ivory text-ink hover:border-gold"
+                      : "border-line bg-white text-ink hover:border-gold-deep"
                   }`}
                 >
                   <span className="block font-display text-lg leading-tight">{option.label}</span>
@@ -223,7 +223,7 @@ export default function ProductView({ product }: { product: Product }) {
             </h2>
             <div className="mt-5 grid gap-5 sm:grid-cols-2">
               <figure>
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#f7f6f1]">
+                <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
                   <Image
                     src={assetPath("/images/trust/v1/libi-packaging-mockup.webp")}
                     alt="הדמיה של אריזת LIBI DIAMONDS בגוון שנהב"
@@ -239,7 +239,7 @@ export default function ProductView({ product }: { product: Product }) {
               </figure>
 
               <figure>
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#f7f6f1]">
+                <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
                   <Image
                     src={assetPath("/images/trust/v1/certificate-sample-mockup.webp")}
                     alt="דוגמה כללית למבנה של תעודה גמולוגית"
@@ -300,7 +300,7 @@ export default function ProductView({ product }: { product: Product }) {
       </section>
 
       {showStickyCta && (
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-ivory/95 px-4 py-3 shadow-[0_-8px_24px_rgba(33,30,24,0.08)] backdrop-blur lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-ivory/95 px-4 py-3 shadow-[0_-8px_24px_rgba(18,19,19,0.08)] backdrop-blur lg:hidden">
           <div className="mx-auto flex max-w-md items-center gap-3">
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs text-stone">{product.name}</p>

@@ -1,17 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ivory: #fafaf8;
-  --color-cream: #f3f4f2;
-  --color-sand: #e2e4e2;
-  --color-line: #dadcd9;
-  --color-ink: #111111;
-  --color-ink-soft: #2b2d2e;
-  --color-stone: #686d6c;
-  --color-gold: #b79a62;
-  --color-gold-deep: #806d47;
-  --color-espresso: #111111;
-  --color-champagne: #d6d8d5;
+  --color-ivory: #f7f6f2;
+  --color-cream: #e3e5e3;
+  --color-platinum: #e3e5e3;
+  --color-warm-stone: #f0ece4;
+  --color-selection: #f0eee8;
+  --color-sand: #e3e5e3;
+  --color-line: #d6d8d5;
+  --color-ink: #121313;
+  --color-ink-soft: #2c2e2d;
+  --color-stone: #686b69;
+  --color-gold: #a88f60;
+  --color-gold-deep: #756343;
+  --color-espresso: #121313;
+  --color-champagne: #a88f60;
+  --color-footer-muted: #c6c8c5;
+  --color-footer-subtle: #9ea29f;
 
   --font-display: var(--font-frank), "Frank Ruhl Libre", serif;
   --font-body: var(--font-assistant), "Assistant", sans-serif;
@@ -33,74 +38,44 @@ h3,
 
 /* Neutral gallery light keeps colorless stones crisp. */
 .art-bg {
-  background: radial-gradient(
-    120% 100% at 50% 0%,
-    #ffffff 0%,
-    #f5f6f6 55%,
-    #e7e9e9 100%
-  );
+  background: #f7f6f2;
 }
 
 .art-bg-dark {
-  background: radial-gradient(
-    120% 100% at 50% 0%,
-    #fafafa 0%,
-    #eceeee 60%,
-    #d9dcdd 100%
-  );
+  background: #f7f6f2;
 }
 
 .hero-editorial {
-  background: #ecebea;
-}
-
-.hero-ring-light {
-  position: absolute;
-  inset: 12% 2% 2%;
-  background:
-    radial-gradient(52% 44% at 52% 55%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.18) 58%, rgba(255, 255, 255, 0) 72%),
-    radial-gradient(62% 30% at 52% 78%, rgba(168, 141, 83, 0.2) 0%, rgba(168, 141, 83, 0) 70%);
-  filter: blur(1px);
-  pointer-events: none;
-}
-
-.section-champagne {
-  background:
-    radial-gradient(80% 56% at 50% 0%, rgba(255, 255, 255, 0.66) 0%, rgba(255, 255, 255, 0) 58%),
-    linear-gradient(180deg, #f2f3f1 0%, #e6e8e5 100%);
+  background: #f7f6f2;
 }
 
 .section-diamond-light {
-  background:
-    radial-gradient(62% 48% at 50% 0%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 68%),
-    #eef0ef;
+  background: #e3e5e3;
 }
 
 .section-gallery {
-  background:
-    linear-gradient(180deg, #fff 0%, #fafaf8 100%);
+  background: #ffffff;
+}
+
+.section-ivory {
+  background: #f7f6f2;
 }
 
 .section-bespoke {
-  background: #f1f0ec;
+  background: #f0ece4;
 }
 
 .section-proof {
-  background: #e8eae8;
+  background: #ffffff;
 }
 
-.section-cta-signature {
-  background: #111111;
-}
-
-.footer-warm {
-  background:
-    radial-gradient(42rem 16rem at 50% 0%, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0) 62%),
-    linear-gradient(180deg, #eceeec 0%, #dfe2df 100%);
+.footer-graphite {
+  background: #121313;
+  color: #f7f6f2;
 }
 
 .section-faq {
-  background: #f4f5f3;
+  background: #f7f6f2;
 }
 
 .product-card-frame {
@@ -111,12 +86,12 @@ h3,
 }
 
 .group:hover .product-card-frame {
-  box-shadow: 0 18px 42px rgba(42, 35, 25, 0.07);
+  box-shadow: 0 18px 42px rgba(18, 19, 19, 0.07);
   transform: translateY(-2px);
 }
 
 .editorial-product-feature {
-  background: #eceeec;
+  background: #f7f6f2;
 }
 
 .shape-stone-field {
@@ -134,7 +109,7 @@ h3,
   content: "";
   width: 1.1rem;
   height: 1px;
-  background: rgba(168, 141, 83, 0.26);
+  background: rgba(168, 143, 96, 0.3);
 }
 
 @media (max-width: 639px) {
@@ -228,7 +203,7 @@ h3,
   content: "";
   height: 1px;
   flex: 1;
-  background: rgba(168, 141, 83, 0.42);
+  background: rgba(168, 143, 96, 0.42);
 }
 
 .brand-logo-rule span {
@@ -237,7 +212,7 @@ h3,
   height: 0.28rem;
   border: 1px solid var(--color-gold);
   transform: rotate(45deg);
-  background: rgba(250, 248, 243, 0.8);
+  background: rgba(247, 246, 242, 0.8);
 }
 
 .brand-logo-subtitle {
@@ -286,6 +261,24 @@ h3,
   align-items: center;
 }
 
+.footer-graphite .brand-logo {
+  color: var(--color-ivory);
+}
+
+.footer-graphite .brand-logo-subtitle {
+  color: var(--color-footer-subtle);
+}
+
+.footer-graphite .brand-logo-rule::before,
+.footer-graphite .brand-logo-rule::after {
+  background: rgba(168, 143, 96, 0.55);
+}
+
+.footer-graphite .brand-logo-rule span {
+  border-color: var(--color-gold);
+  background: var(--color-ink);
+}
+
 /* Section eyebrow label */
 .eyebrow {
   color: var(--color-gold-deep);
@@ -308,7 +301,7 @@ h3,
 }
 
 .btn-primary:hover {
-  background-color: var(--color-gold-deep);
+  background-color: var(--color-ink-soft);
 }
 
 .btn-whatsapp {
@@ -332,7 +325,12 @@ h3,
 .btn-whatsapp:hover {
   border-color: var(--color-gold-deep);
   background-color: rgba(255, 255, 255, 0.82);
-  color: var(--color-gold-deep);
+  color: var(--color-ink);
+}
+
+:is(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-gold-deep);
+  outline-offset: 3px;
 }
 
 .hero-desktop-inline {
@@ -361,49 +359,6 @@ h3,
 .btn-outline:hover {
   background-color: var(--color-ink);
   color: var(--color-ivory);
-}
-
-.btn-inverse {
-  display: inline-flex;
-  min-height: 46px;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border: 1px solid rgba(250, 248, 243, 0.92);
-  background: var(--color-ivory);
-  color: var(--color-espresso);
-  padding: 0.9rem 2.2rem;
-  font-size: 0.95rem;
-  letter-spacing: 0.06em;
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease,
-    color 0.25s ease;
-}
-
-.btn-inverse:hover {
-  border-color: var(--color-champagne);
-  background: #fff;
-  color: var(--color-gold-deep);
-}
-
-.btn-outline-inverse {
-  min-height: 46px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(216, 202, 166, 0.62);
-  color: var(--color-ivory);
-  padding: 0.9rem 2.2rem;
-  font-size: 0.95rem;
-  letter-spacing: 0.06em;
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.btn-outline-inverse:hover {
-  border-color: var(--color-champagne);
-  background: rgba(250, 248, 243, 0.08);
 }
 
 @keyframes fade-up {

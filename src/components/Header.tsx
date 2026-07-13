@@ -84,7 +84,7 @@ export default function Header() {
               href={waLink(defaultWaMessage)}
               target="_blank"
               rel="noopener noreferrer"
-              className="-me-2 flex h-11 w-11 items-center justify-center text-ink transition-colors hover:text-gold"
+              className="-me-2 flex h-11 w-11 items-center justify-center text-ink transition-colors hover:text-gold-deep"
               aria-label={`בדיקת זמינות ומחיר בוואטסאפ עם ${site.name}`}
               title="בדיקת זמינות ומחיר בוואטסאפ"
             >
