@@ -40,7 +40,7 @@ export default function ContactPage() {
                   className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gold"
                 >
                   <WhatsAppIcon className="h-5 w-5 text-gold" />
-                  וואטסאפ: {site.phoneDisplay}
+                  פתיחת שיחה בוואטסאפ
                 </a>
               </li>
               <li>

@@ -14,7 +14,6 @@ export const site = {
   socialImage: "/images/hero/mineral/hero-desktop.webp",
   // TODO: replace with the real business WhatsApp number (international format, no +)
   whatsapp: "972500000000",
-  phoneDisplay: "050-000-0000",
   email: "hello@libidiamonds.co.il",
   instagram: "https://www.instagram.com/libidiamonds",
 };
