@@ -52,6 +52,25 @@ const serviceItems = [
   },
 ];
 
+const packagingByCategory: Record<Product["category"], { src: string; alt: string }> = {
+  rings: {
+    src: "/images/trust/v1/libi-packaging-mockup.webp",
+    alt: "הדמיה של אריזת טבעת LIBI DIAMONDS בגוון שנהב",
+  },
+  earrings: {
+    src: "/images/trust/v2/libi-packaging-earrings-mockup.webp",
+    alt: "הדמיה של אריזת עגילים LIBI DIAMONDS עם מגש זוגי בגוון שנהב",
+  },
+  necklaces: {
+    src: "/images/trust/v2/libi-packaging-necklaces-mockup.webp",
+    alt: "הדמיה של אריזת שרשרת LIBI DIAMONDS עם מגש רחב בגוון שנהב",
+  },
+  bracelets: {
+    src: "/images/trust/v2/libi-packaging-bracelets-mockup.webp",
+    alt: "הדמיה של אריזת צמיד LIBI DIAMONDS עם מגש מאורך בגוון שנהב",
+  },
+};
+
 export default function ProductView({ product }: { product: Product }) {
   const [metal, setMetal] = useState<Metal>(product.defaultMetal ?? product.metals[0]);
   const [caratIdx, setCaratIdx] = useState(0);
@@ -60,6 +79,7 @@ export default function ProductView({ product }: { product: Product }) {
 
   const carat = product.carats[caratIdx];
   const images = productImages(product, metal);
+  const packaging = packagingByCategory[product.category];
   const message = `היי, אשמח לפרטים על ${product.name} — ${carat.label}, ${metalNames[metal]} (${formatPrice(carat.price)})`;
   const metalGridClass = product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2";
   const caratGridClass =
@@ -237,8 +257,8 @@ export default function ProductView({ product }: { product: Product }) {
               <figure>
                 <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
                   <Image
-                    src={assetPath("/images/trust/v1/libi-packaging-mockup.webp")}
-                    alt="הדמיה של אריזת LIBI DIAMONDS בגוון שנהב"
+                    src={assetPath(packaging.src)}
+                    alt={packaging.alt}
                     fill
                     sizes="(min-width: 1024px) 21vw, (min-width: 640px) 46vw, 100vw"
                     className="object-cover"
