@@ -3,7 +3,13 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { metalNames, productImages, type Product, type Metal } from "@/data/products";
+import {
+  metalNames,
+  productImages,
+  type CaratScope,
+  type Metal,
+  type Product,
+} from "@/data/products";
 import { assetPath, formatPrice, waLink } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/icons";
 import ProductMedia from "@/components/ProductMedia";
@@ -14,7 +20,12 @@ const METAL_SWATCH: Record<Metal, string> = {
   rose: "#d6a289",
 };
 
-const confidenceItems = ["IGI/GIA", "משלוח מבוטח", "התאמת מידה ראשונה"];
+const CARAT_SCOPE_COPY: Record<CaratScope, { legend: string; qualifier: string }> = {
+  center: { legend: "משקל האבן המרכזית", qualifier: "קראט" },
+  single: { legend: "משקל היהלום", qualifier: "קראט" },
+  pair: { legend: "משקל כולל לזוג", qualifier: "קראט סה״כ" },
+  total: { legend: "משקל יהלומים כולל", qualifier: "קראט סה״כ" },
+};
 
 const libiStandardItems = [
   {
@@ -75,12 +86,13 @@ export default function ProductView({ product }: { product: Product }) {
   const [metal, setMetal] = useState<Metal>(product.defaultMetal ?? product.metals[0]);
   const [caratIdx, setCaratIdx] = useState(0);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [showStickyCta, setShowStickyCta] = useState(false);
 
   const carat = product.carats[caratIdx];
   const images = productImages(product, metal);
   const packaging = packagingByCategory[product.category];
-  const message = `היי, אשמח לפרטים על ${product.name} — ${carat.label}, ${metalNames[metal]} (${formatPrice(carat.price)})`;
+  const caratCopy = CARAT_SCOPE_COPY[product.caratScope];
+  const caratLabel = `${carat.value} ${caratCopy.qualifier}`;
+  const message = `היי, אשמח לפרטים על ${product.name} — ${caratLabel}, ${metalNames[metal]} (${formatPrice(carat.price)})`;
   const metalGridClass = product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2";
   const caratGridClass =
     product.carats.length === 4
@@ -90,20 +102,13 @@ export default function ProductView({ product }: { product: Product }) {
         : "grid-cols-2";
 
   useEffect(() => {
-    const update = () => setShowStickyCta(window.scrollY > 360);
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, []);
-
-  useEffect(() => {
     setSelectedImage(0);
   }, [metal]);
 
   return (
     <>
-      <div className="grid gap-9 lg:grid-cols-[minmax(0,1.15fr)_minmax(23rem,0.85fr)] lg:items-start lg:gap-16 xl:gap-20">
-        <section className="lg:sticky lg:top-28">
+      <div className="grid gap-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(23rem,0.85fr)] lg:items-start lg:gap-16 xl:gap-20">
+        <section className="-mx-4 sm:mx-0 lg:sticky lg:top-28">
           <ProductMedia
             key={images[selectedImage].src}
             image={images[selectedImage]}
@@ -115,7 +120,7 @@ export default function ProductView({ product }: { product: Product }) {
           />
 
           {images.length > 1 && (
-            <div className="mt-3 flex gap-3 sm:mt-4">
+            <div className="mt-3 flex justify-center gap-2.5 px-4 sm:mt-4 sm:justify-start sm:px-0">
               {images.map((image, index) => (
                 <button
                   key={image.src}
@@ -123,10 +128,10 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setSelectedImage(index)}
                   aria-label={`הצגת תמונה ${index + 1} של ${product.name}`}
                   aria-pressed={selectedImage === index}
-                  className={`relative aspect-square w-20 overflow-hidden bg-ivory transition-all sm:w-24 ${
+                  className={`relative aspect-square w-[4.5rem] overflow-hidden border bg-ivory transition-[border-color,opacity] sm:w-24 ${
                     selectedImage === index
-                      ? "ring-1 ring-ink ring-offset-2 ring-offset-white"
-                      : "opacity-70 hover:opacity-100"
+                      ? "border-ink opacity-100"
+                      : "border-transparent opacity-65 hover:opacity-100"
                   }`}
                 >
                   <ProductMedia
@@ -143,32 +148,21 @@ export default function ProductView({ product }: { product: Product }) {
         </section>
 
         <section className="min-w-0">
-          <header className="border-b border-line pb-6 lg:pb-7">
-            <h1 className="font-display text-[2.15rem] font-medium leading-[1.1] sm:text-5xl lg:text-[3.15rem]">
+          <header className="pb-1 lg:border-b lg:border-line lg:pb-7">
+            <h1 className="font-display text-[2rem] font-medium leading-[1.12] sm:text-5xl lg:text-[3.15rem]">
               {product.name}
             </h1>
-            <p className="mt-3 text-sm tracking-[0.03em] text-stone sm:text-base">{product.subtitle}</p>
-            <div className="mt-7 lg:mt-9">
-              <div>
-                <p className="text-xs font-semibold tracking-[0.12em] text-stone">החל מ־</p>
-                <p className="mt-1 font-display text-3xl font-medium tracking-wide text-ink sm:text-4xl">
-                  {formatPrice(carat.price)}
-                </p>
-              </div>
+            <p className="mt-2.5 text-sm leading-6 text-stone sm:text-base">{product.subtitle}</p>
+            <div className="mt-5 flex items-baseline gap-2 lg:mt-8">
+              <span className="text-xs font-semibold text-stone">החל מ־</span>
+              <span className="font-display text-[2rem] font-medium leading-none text-ink sm:text-4xl">
+                {formatPrice(carat.price)}
+              </span>
             </div>
           </header>
 
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line py-4 text-[0.7rem] font-semibold tracking-[0.08em] text-ink-soft sm:gap-x-5 sm:text-xs">
-            {confidenceItems.map((item, index) => (
-              <span key={item} className="flex items-center gap-x-4 sm:gap-x-5">
-                {index > 0 && <span className="h-1 w-1 rotate-45 bg-gold/70" aria-hidden />}
-                {item}
-              </span>
-            ))}
-          </div>
-
-          <section className="pt-7 lg:pt-8">
-            <p className="text-sm font-semibold">גוון הזהב</p>
+          <fieldset className="pt-6 lg:pt-8">
+            <legend className="text-sm font-semibold">גוון הזהב</legend>
             <div className={`mt-3 grid gap-2.5 ${metalGridClass}`}>
               {product.metals.map((option) => (
                 <button
@@ -177,9 +171,9 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setMetal(option)}
                   aria-label={metalNames[option]}
                   aria-pressed={metal === option}
-                  className={`flex min-h-12 items-center justify-center gap-2 border px-2 py-2 text-[0.78rem] transition-colors min-[390px]:text-sm ${
+                  className={`flex min-h-12 items-center justify-center gap-2 border px-2 py-2 text-sm transition-colors ${
                     metal === option
-                      ? "border-gold-deep bg-selection text-ink"
+                      ? "border-ink bg-selection text-ink"
                       : "border-line bg-white text-ink-soft hover:border-stone"
                   }`}
                 >
@@ -192,38 +186,41 @@ export default function ProductView({ product }: { product: Product }) {
                 </button>
               ))}
             </div>
-          </section>
+          </fieldset>
 
-          <section className="pt-7 lg:pt-8">
-            <p className="text-sm font-semibold">משקל היהלום</p>
+          <fieldset className="pt-6 lg:pt-8">
+            <legend className="text-sm font-semibold">{caratCopy.legend}</legend>
             <div className={`mt-3 grid gap-2.5 ${caratGridClass}`} dir="rtl">
               {product.carats.map((option, index) => (
                 <button
-                  key={option.label}
+                  key={`${option.value}-${option.price}`}
                   type="button"
                   onClick={() => setCaratIdx(index)}
                   aria-pressed={index === caratIdx}
-                  className={`min-h-[92px] border px-2.5 py-3 text-right transition-colors sm:px-3 ${
+                  aria-label={`${option.value} ${caratCopy.qualifier}, ${formatPrice(option.price)}`}
+                  className={`flex min-h-[96px] min-w-0 flex-col items-center justify-center border px-1.5 py-3 text-center transition-colors sm:px-3 ${
                     index === caratIdx
                       ? "border-ink bg-ink text-ivory"
                       : "border-line bg-white text-ink hover:border-gold-deep"
                   }`}
                 >
-                  <span className="block font-display text-base leading-tight sm:text-lg">{option.label}</span>
-                  <span className={`mt-2 block text-[0.78rem] font-semibold tracking-wide sm:text-sm ${index === caratIdx ? "text-ivory" : "text-ink"}`}>
+                  <span className="block font-display text-xl leading-none" dir="ltr">{option.value}</span>
+                  <span className={`mt-1.5 block whitespace-nowrap text-[0.68rem] leading-none ${index === caratIdx ? "text-footer-muted" : "text-stone"}`}>
+                    {caratCopy.qualifier}
+                  </span>
+                  <span className={`mt-2.5 block whitespace-nowrap text-xs font-semibold tracking-wide sm:text-sm ${index === caratIdx ? "text-ivory" : "text-ink"}`}>
                     {formatPrice(option.price)}
                   </span>
                 </button>
               ))}
             </div>
-          </section>
+          </fieldset>
 
-          <div className="mt-8 border-t border-line pt-6 lg:mt-9">
-            <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="btn-primary w-full">
+          <div className="mt-7 lg:mt-8">
+            <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="btn-primary min-h-[52px] w-full">
               <WhatsAppIcon className="h-4 w-4" />
               בדיקת זמינות ומחיר בוואטסאפ
             </a>
-            <p className="mt-3 text-center text-xs text-stone">ליווי אישי בבחירת האבן, הזהב והמידה.</p>
           </div>
 
           <section className="mt-9 border-y border-line py-6 lg:mt-10 lg:py-7">
@@ -305,7 +302,7 @@ export default function ProductView({ product }: { product: Product }) {
       </div>
 
       <section
-        className="mt-14 mb-24 border-y border-line py-10 sm:mt-16 sm:py-12 lg:mt-20 lg:mb-0 lg:grid lg:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] lg:gap-16 lg:py-16"
+        className="mt-14 border-y border-line py-10 sm:mt-16 sm:py-12 lg:mt-20 lg:grid lg:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] lg:gap-16 lg:py-16"
         aria-labelledby="libi-standard-title"
       >
         <div>
@@ -330,26 +327,6 @@ export default function ProductView({ product }: { product: Product }) {
           ))}
         </ol>
       </section>
-
-      {showStickyCta && (
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-ivory/95 px-4 py-3 shadow-[0_-8px_24px_rgba(18,19,19,0.08)] backdrop-blur lg:hidden">
-          <div className="mx-auto flex max-w-md items-center gap-3">
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-xs text-stone">{product.name}</p>
-              <p className="font-semibold tracking-wide">{formatPrice(carat.price)}</p>
-            </div>
-            <a
-              href={waLink(message)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center justify-center gap-2 bg-ink px-4 py-3 text-sm text-ivory"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              בדיקת זמינות
-            </a>
-          </div>
-        </div>
-      )}
     </>
   );
 }
