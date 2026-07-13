@@ -89,7 +89,7 @@ function EditorialBestsellers({ items }: { items: Product[] }) {
     <div className="mt-7 sm:mt-9 lg:mt-10">
       <Link
         href={`/product/${featured.slug}`}
-        className="editorial-product-feature group grid overflow-hidden lg:grid-cols-[1.45fr_0.55fr]"
+        className="group grid lg:grid-cols-[1.45fr_0.55fr] lg:items-center"
       >
         <div className="relative aspect-[4/3] overflow-hidden lg:aspect-[16/7]">
           <Image
@@ -100,15 +100,12 @@ function EditorialBestsellers({ items }: { items: Product[] }) {
             className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.018]"
           />
         </div>
-        <div className="flex items-center justify-center px-5 py-7 text-center lg:px-8 lg:py-10">
+        <div className="flex items-center justify-center px-1 pt-4 text-center sm:pt-5 lg:px-8 lg:py-8">
           <div>
-            <h3 className="font-display text-2xl font-medium sm:text-3xl">{featured.name}</h3>
-            <p className="mt-2 font-display text-lg text-ink-soft">
+            <h3 className="font-display text-[1.35rem] font-medium sm:text-3xl">{featured.name}</h3>
+            <p className="mt-1.5 font-display text-base text-ink-soft sm:text-lg">
               החל מ־{formatPrice(featured.priceFrom)}
             </p>
-            <span className="mt-5 inline-block border-b border-gold/60 pb-1 text-xs font-semibold tracking-[0.1em] text-ink-soft transition-colors group-hover:border-gold-deep group-hover:text-ink">
-              לצפייה בפריט
-            </span>
           </div>
         </div>
       </Link>
