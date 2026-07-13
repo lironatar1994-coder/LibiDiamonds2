@@ -156,104 +156,12 @@ h3,
   }
 }
 
-.brand-logo-name {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 1.82rem;
-  font-weight: 500;
-  letter-spacing: 0.31em;
-  padding-left: 0.31em;
-  width: 5.45rem;
-}
-
-.brand-logo-rule {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.42rem;
-  margin-top: 0.28rem;
-  width: 4.8rem;
-}
-
-.brand-logo-rule::before,
-.brand-logo-rule::after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  background: rgba(168, 143, 96, 0.42);
-}
-
-.brand-logo-rule span {
-  display: block;
-  width: 0.28rem;
-  height: 0.28rem;
-  border: 1px solid var(--color-gold);
-  transform: rotate(45deg);
-  background: rgba(247, 246, 242, 0.8);
-}
-
-.brand-logo-subtitle {
-  display: block;
-  margin-top: 0.34rem;
-  font-size: 0.55rem;
-  letter-spacing: 0.46em;
-  padding-left: 0.46em;
-  width: 5.45rem;
-  color: var(--color-stone);
-}
-
-.brand-logo-minimal .brand-logo-subtitle {
-  margin-top: 0.34rem;
-  font-size: 0.5rem;
-  letter-spacing: 0.44em;
-  padding-left: 0.44em;
-}
-
-.brand-logo-signature .brand-logo-name {
-  font-size: 1.72rem;
-  letter-spacing: 0.34em;
-  padding-left: 0.34em;
-  width: 5.65rem;
-}
-
-.brand-logo-signature .brand-logo-subtitle {
-  width: 5.65rem;
-  letter-spacing: 0.5em;
-  padding-left: 0.5em;
-}
-
-.brand-logo-footer {
-  align-items: flex-start;
-}
-
-.brand-logo-footer .brand-logo-name {
-  font-size: 1.45rem;
-}
-
-.brand-logo-footer .brand-logo-rule {
-  width: 4.2rem;
+.brand-logo-footer .brand-logo-asset {
+  width: 8.4rem;
 }
 
 .footer-logo-centered {
   align-items: center;
-}
-
-.footer-graphite .brand-logo {
-  color: var(--color-ivory);
-}
-
-.footer-graphite .brand-logo-subtitle {
-  color: var(--color-footer-subtle);
-}
-
-.footer-graphite .brand-logo-rule::before,
-.footer-graphite .brand-logo-rule::after {
-  background: rgba(168, 143, 96, 0.55);
-}
-
-.footer-graphite .brand-logo-rule span {
-  border-color: var(--color-gold);
-  background: var(--color-ink);
 }
 
 /* Section eyebrow label */

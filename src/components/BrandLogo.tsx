@@ -5,40 +5,35 @@ type BrandLogoProps = {
   className?: string;
   onClick?: () => void;
   size?: "header" | "footer";
-  variant?: "minimal" | "signature";
+  tone?: "ink" | "inverse";
 };
 
 export default function BrandLogo({
   className = "",
   onClick,
   size = "header",
-  variant = size === "header" ? "minimal" : "signature",
+  // the footer sits on graphite, so it takes the inverse asset by default
+  tone = size === "footer" ? "inverse" : "ink",
 }: BrandLogoProps) {
+  const asset =
+    tone === "inverse"
+      ? "/brand/libi-diamonds-logo-inverse.svg"
+      : "/brand/libi-diamonds-logo.svg";
   return (
     <Link
       href="/"
       onClick={onClick}
-      className={`brand-logo brand-logo-${size} brand-logo-${variant} ${className}`}
+      className={`brand-logo brand-logo-${size} ${className}`}
       aria-label="LIBI DIAMONDS"
     >
-      {variant === "minimal" ? (
-        <img
-          src={assetPath("/brand/libi-diamonds-logo.svg")}
-          alt=""
-          className="brand-logo-asset"
-          width="360"
-          height="150"
-          aria-hidden="true"
-        />
-      ) : (
-        <>
-          <span className="brand-logo-name">LIBI</span>
-          <span className="brand-logo-rule" aria-hidden>
-            <span />
-          </span>
-          <span className="brand-logo-subtitle">DIAMONDS</span>
-        </>
-      )}
+      <img
+        src={assetPath(asset)}
+        alt=""
+        className="brand-logo-asset"
+        width="360"
+        height="150"
+        aria-hidden="true"
+      />
     </Link>
   );
 }

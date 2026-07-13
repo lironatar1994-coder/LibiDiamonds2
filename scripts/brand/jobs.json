@@ -1,0 +1,8 @@
+[
+  { "id": "libi-bodoni", "font": "C:/Windows/Fonts/BOD_R.TTF", "text": "LIBI", "size": 60, "tracking": 0.16 },
+  { "id": "diamonds-bodoni", "font": "C:/Windows/Fonts/BOD_R.TTF", "text": "DIAMONDS", "size": 16.5, "tracking": 0.52 },
+  { "id": "libi-perpetua", "font": "C:/Windows/Fonts/PERTILI.TTF", "text": "LIBI", "size": 60, "tracking": 0.16 },
+  { "id": "diamonds-perpetua", "font": "C:/Windows/Fonts/PERTILI.TTF", "text": "DIAMONDS", "size": 16.5, "tracking": 0.52 },
+  { "id": "libi-garamond", "font": "C:/Windows/Fonts/GARA.TTF", "text": "LIBI", "size": 60, "tracking": 0.16 },
+  { "id": "l-mono-bodoni", "font": "C:/Windows/Fonts/BOD_R.TTF", "text": "L", "size": 60, "tracking": 0 }
+]
