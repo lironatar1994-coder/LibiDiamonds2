@@ -14,3 +14,5 @@ next-env.d.ts
 .media-reports/
 .media-cache/
 public/images/products/catalog/.staging/
+__pycache__/
+*.pyc

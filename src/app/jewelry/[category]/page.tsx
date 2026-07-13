@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ProductCard from "@/components/ProductCard";
+import CategoryCatalog from "@/components/CategoryCatalog";
 import {
   categories,
   getCategory,
@@ -80,11 +80,7 @@ export default async function CategoryPage({ params }: Props) {
         <p className="mt-4 leading-relaxed text-stone">{cat.description}</p>
       </header>
 
-      <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-3 lg:gap-x-6">
-        {items.map((p) => (
-          <ProductCard key={p.slug} product={p} />
-        ))}
-      </div>
+      <CategoryCatalog items={items} category={cat.slug} />
 
       <aside className="mt-16 border-t border-line pt-8 sm:mt-20 sm:pt-10" aria-label="קטגוריות נוספות">
         <div className="flex flex-nowrap justify-center divide-x divide-gold/35" dir="rtl">

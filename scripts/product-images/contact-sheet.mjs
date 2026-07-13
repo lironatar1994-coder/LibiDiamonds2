@@ -6,6 +6,7 @@ import {
   ensureDirectories,
   exists,
   outputPath,
+  productMetals,
   reportDirectory,
   selectedProducts,
 } from "./common.mjs";
@@ -14,17 +15,20 @@ await ensureDirectories();
 const entries = [];
 
 for (const product of selectedProducts()) {
-  for (const view of product.views) {
-    const path = outputPath(product, view);
-    if (!(await exists(path))) continue;
-    const image = await readFile(path);
-    entries.push({
-      slug: product.slug,
-      category: product.category,
-      view,
-      filename: basename(path),
-      dataUrl: `data:image/webp;base64,${image.toString("base64")}`,
-    });
+  for (const metal of productMetals(product)) {
+    for (const view of product.views) {
+      const path = outputPath(product, metal, view);
+      if (!(await exists(path))) continue;
+      const image = await readFile(path);
+      entries.push({
+        slug: product.slug,
+        category: product.category,
+        metal,
+        view,
+        filename: basename(path),
+        dataUrl: `data:image/webp;base64,${image.toString("base64")}`,
+      });
+    }
   }
 }
 
@@ -40,12 +44,12 @@ for (const [surfaceIndex, background] of config.previewSurfaces.entries()) {
   const composites = [];
 
   for (const [index, entry] of entries.entries()) {
-    const image = await sharp(outputPath(entry, entry.view))
+    const image = await sharp(outputPath(entry, entry.metal, entry.view))
       .resize(330, 330, { fit: "contain" })
       .webp({ quality: 86 })
       .toBuffer();
     const label = Buffer.from(
-      `<svg width="340" height="55" xmlns="http://www.w3.org/2000/svg"><text x="170" y="22" text-anchor="middle" font-family="Arial" font-size="15" fill="#121313">${entry.slug}</text><text x="170" y="43" text-anchor="middle" font-family="Arial" font-size="12" fill="#686b69">${entry.view}</text></svg>`,
+      `<svg width="340" height="55" xmlns="http://www.w3.org/2000/svg"><text x="170" y="22" text-anchor="middle" font-family="Arial" font-size="15" fill="#121313">${entry.slug}</text><text x="170" y="43" text-anchor="middle" font-family="Arial" font-size="12" fill="#686b69">${entry.metal} / ${entry.view}</text></svg>`,
     );
     const column = index % columns;
     const row = Math.floor(index / columns);
@@ -71,7 +75,7 @@ const cards = entries
     (entry) => `
       <article class="item">
         <div class="surface"><img src="${entry.dataUrl}" alt="" /></div>
-        <strong>${entry.slug}</strong><span>${entry.category} / ${entry.view}</span>
+        <strong>${entry.slug}</strong><span>${entry.category} / ${entry.metal} / ${entry.view}</span>
       </article>`,
   )
   .join("");

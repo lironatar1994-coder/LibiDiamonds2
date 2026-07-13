@@ -6,6 +6,7 @@ import {
   exists,
   inspectImage,
   outputPath,
+  productMetals,
   reportDirectory,
   selectedProducts,
 } from "./common.mjs";
@@ -50,21 +51,22 @@ async function colorCastWarning(path) {
 }
 
 for (const product of selectedProducts()) {
-  for (const view of product.views) {
-    const path = outputPath(product, view);
-    const errors = [];
-    const warnings = [];
+  for (const metal of productMetals(product)) {
+    for (const view of product.views) {
+      const path = outputPath(product, metal, view);
+      const errors = [];
+      const warnings = [];
 
-    if (!(await exists(path))) {
-      if (strict) {
-        errors.push("missing-output");
-        failures += 1;
+      if (!(await exists(path))) {
+        if (strict) {
+          errors.push("missing-output");
+          failures += 1;
+        }
+        results.push({ slug: product.slug, metal, view, status: "missing", errors, warnings });
+        continue;
       }
-      results.push({ slug: product.slug, view, status: "missing", errors, warnings });
-      continue;
-    }
 
-    const image = await inspectImage(path, product, view);
+      const image = await inspectImage(path, product, view);
     if (image.width !== config.outputSize || image.height !== config.outputSize) {
       errors.push("wrong-dimensions");
     }
@@ -81,10 +83,11 @@ for (const product of selectedProducts()) {
     if (cast) warnings.push(cast);
     warnings.push("manual-primary-detail-identity-review-required");
 
-    if (errors.length > 0) failures += 1;
-    results.push({
+      if (errors.length > 0) failures += 1;
+      results.push({
       slug: product.slug,
       category: product.category,
+      metal,
       view,
       status: errors.length === 0 ? "pass" : "fail",
       errors,
@@ -93,7 +96,8 @@ for (const product of selectedProducts()) {
       occupancy: Number(image.occupancy.toFixed(4)),
       targetOccupancy: image.targetOccupancy,
       margins: image.margins,
-    });
+      });
+    }
   }
 }
 
@@ -111,7 +115,7 @@ await writeFile(
 
 for (const result of results) {
   console.log(
-    `${result.status.toUpperCase()} ${result.slug}-${result.view}` +
+    `${result.status.toUpperCase()} ${result.slug}-${result.metal}-${result.view}` +
       (result.errors.length ? `: ${result.errors.join(", ")}` : ""),
   );
 }

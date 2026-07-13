@@ -2,7 +2,16 @@ import { assetPath } from "@/lib/site";
 
 export type Metal = "yellow" | "white" | "rose";
 export type CategorySlug = "rings" | "earrings" | "necklaces" | "bracelets";
-export type DiamondShape = "round" | "oval" | "emerald" | "cushion" | "pear" | "princess";
+export type DiamondShape =
+  | "round"
+  | "oval"
+  | "emerald"
+  | "cushion"
+  | "pear"
+  | "princess"
+  | "marquise"
+  | "radiant"
+  | "asscher";
 export type ArtType =
   | "solitaire"
   | "halo"
@@ -39,6 +48,7 @@ export interface Product {
   priceFrom: number;
   carats: CaratOption[];
   metals: Metal[];
+  defaultMetal?: Metal;
   specs: {
     color: string;
     clarity: string;
@@ -47,14 +57,20 @@ export interface Product {
   };
   description: string;
   gallery?: ProductGalleryImage[];
+  galleryByMetal?: Partial<Record<Metal, ProductGalleryImage[]>>;
   featured?: boolean;
   bestseller?: boolean;
 }
 
 export function productImages(
-  product: Pick<Product, "slug" | "name" | "gallery">,
+  product: Pick<Product, "slug" | "name" | "gallery" | "galleryByMetal" | "defaultMetal" | "metals">,
+  metal?: Metal,
 ): ProductGalleryImage[] {
-  const images = product.gallery?.length
+  const selectedMetal = metal ?? product.defaultMetal ?? product.metals[0];
+  const metalGallery = selectedMetal ? product.galleryByMetal?.[selectedMetal] : undefined;
+  const images = metalGallery?.length
+    ? metalGallery
+    : product.gallery?.length
     ? product.gallery
     : [
         {
@@ -67,9 +83,30 @@ export function productImages(
 }
 
 export function productImage(
-  product: Pick<Product, "slug" | "name" | "gallery">,
+  product: Pick<Product, "slug" | "name" | "gallery" | "galleryByMetal" | "defaultMetal" | "metals">,
+  metal?: Metal,
 ): string {
-  return productImages(product)[0].src;
+  return productImages(product, metal)[0].src;
+}
+
+export function metalGallery(
+  slug: string,
+  productName: string,
+  metal: Extract<Metal, "yellow" | "white">,
+): ProductGalleryImage[] {
+  const metalLabel = metal === "yellow" ? "זהב צהוב" : "זהב לבן";
+  return [
+    {
+      src: `/images/products/catalog/${slug}-${metal}-primary.webp`,
+      alt: `${productName} ב${metalLabel} - מבט ראשי`,
+      view: "primary",
+    },
+    {
+      src: `/images/products/catalog/${slug}-${metal}-detail.webp`,
+      alt: `${productName} ב${metalLabel} - תקריב פרטים`,
+      view: "detail",
+    },
+  ];
 }
 
 export interface Category {
@@ -121,7 +158,24 @@ export const categories: Category[] = [
   },
 ];
 
-export const products: Product[] = [
+type NewCatalogProduct = Omit<Product, "metals" | "specs"> & {
+  specs?: Product["specs"];
+};
+
+function newCatalogProduct(product: NewCatalogProduct): Product {
+  return {
+    ...product,
+    metals: ["yellow", "white"],
+    specs: product.specs ?? {
+      color: "E–F",
+      clarity: "VS1–VS2",
+      cut: "Excellent",
+      cert: "IGI",
+    },
+  };
+}
+
+const catalogProducts: Product[] = [
   {
     slug: "aura-solitaire-ring",
     name: "טבעת סוליטר ״אורה״",
@@ -397,7 +451,414 @@ export const products: Product[] = [
     ],
     bestseller: true,
   },
+  newCatalogProduct({
+    slug: "elara-oval-hidden-halo-ring",
+    name: "טבעת אובל ״אלרה״",
+    subtitle: "אובל מוארך · היילו נסתר מתחת לאבן",
+    category: "rings",
+    diamondShape: "oval",
+    art: "solitaire",
+    priceFrom: 6900,
+    carats: [
+      { label: "1.00 קראט", price: 6900 },
+      { label: "1.50 קראט", price: 9400 },
+      { label: "2.00 קראט", price: 12400 },
+      { label: "3.00 קראט", price: 17400 },
+    ],
+    description:
+      "יהלום אובל מורם בסל עדין, עם שורת יהלומים נסתרת שמופיעה רק במבט מן הצד. החישוק נשאר חלק בחלקו האחורי ונוח להתאמת טבעת נישואין.",
+    featured: true,
+    bestseller: true,
+  }),
+  newCatalogProduct({
+    slug: "atelier-emerald-cathedral-ring",
+    name: "טבעת אמרלד ״אטלייה״",
+    subtitle: "חיתוך מדרגות · כתפי Cathedral",
+    category: "rings",
+    diamondShape: "emerald",
+    art: "solitaire",
+    priceFrom: 6800,
+    carats: [
+      { label: "1.00 קראט", price: 6800 },
+      { label: "1.50 קראט", price: 9300 },
+      { label: "2.00 קראט", price: 12300 },
+      { label: "3.00 קראט", price: 17200 },
+    ],
+    description:
+      "יהלום אמרלד מלבני עם פינות מוגנות, על כתפיים שעולות בהדרגה אל הסל. הפרופיל האדריכלי מדגיש את קווי המדרגות ושומר על בסיס יציב.",
+    featured: true,
+    bestseller: true,
+  }),
+  newCatalogProduct({
+    slug: "marais-marquise-solitaire-ring",
+    name: "טבעת מרקיזה ״מארה״",
+    subtitle: "מרקיזה מוארכת · שש נקודות אחיזה",
+    category: "rings",
+    diamondShape: "marquise",
+    art: "solitaire",
+    priceFrom: 6600,
+    carats: [
+      { label: "1.00 קראט", price: 6600 },
+      { label: "1.50 קראט", price: 9100 },
+      { label: "2.00 קראט", price: 12100 },
+    ],
+    description:
+      "חיתוך מרקיזה מוצב לאורך האצבע, עם שיניים ייעודיות שמגינות על שני הקצוות המחודדים. חישוק מעוגל ונקי משאיר את הצללית המוארכת במרכז.",
+    bestseller: true,
+  }),
+  newCatalogProduct({
+    slug: "celeste-radiant-pave-ring",
+    name: "טבעת רדיאנט ״סלסט״",
+    subtitle: "רדיאנט מלבני · פאווה והיילו נסתר",
+    category: "rings",
+    diamondShape: "radiant",
+    art: "pave",
+    priceFrom: 7600,
+    carats: [
+      { label: "1.00 קראט מרכזי", price: 7600 },
+      { label: "1.50 קראט מרכזי", price: 10200 },
+      { label: "2.00 קראט מרכזי", price: 13600 },
+    ],
+    description:
+      "יהלום רדיאנט מלבני בסל ארבע שיניים, עם היילו נסתר ושורת פאווה לאורך הכתפיים. פינות האבן נשארות מוגנות והחישוק מתכנס בעדינות אל המרכז.",
+    featured: true,
+  }),
+  newCatalogProduct({
+    slug: "velour-cushion-solitaire-ring",
+    name: "טבעת קושן ״ולור״",
+    subtitle: "קושן מרובע רך · סל ארבע שיניים",
+    category: "rings",
+    diamondShape: "cushion",
+    art: "solitaire",
+    priceFrom: 6500,
+    carats: [
+      { label: "1.00 קראט", price: 6500 },
+      { label: "1.50 קראט", price: 8900 },
+      { label: "2.00 קראט", price: 11900 },
+    ],
+    description:
+      "יהלום קושן עם פינות מעוגלות בסל פתוח וקומפקטי. החישוק החלק פוגש את האבן בקו נקי ומאפשר לענוד לצדה טבעת נוספת ללא עומס חזותי.",
+  }),
+  newCatalogProduct({
+    slug: "seren-pear-solitaire-ring",
+    name: "טבעת טיפה ״סרן״",
+    subtitle: "חיתוך טיפה · קצה מוגן",
+    category: "rings",
+    diamondShape: "pear",
+    art: "solitaire",
+    priceFrom: 6600,
+    carats: [
+      { label: "1.00 קראט", price: 6600 },
+      { label: "1.50 קראט", price: 9200 },
+      { label: "2.00 קראט", price: 12300 },
+    ],
+    description:
+      "יהלום טיפה מוצב לאורך האצבע, עם שן V שמגינה על הקצה ושתי שיניים תומכות בצד הרחב. הסל נמוך יחסית כדי לשמור על פרופיל מאוזן.",
+  }),
+  newCatalogProduct({
+    slug: "axis-princess-solitaire-ring",
+    name: "טבעת פרינסס ״אקסיס״",
+    subtitle: "חיתוך מרובע · ארבע פינות מוגנות",
+    category: "rings",
+    diamondShape: "princess",
+    art: "solitaire",
+    priceFrom: 6200,
+    carats: [
+      { label: "1.00 קראט", price: 6200 },
+      { label: "1.50 קראט", price: 8500 },
+      { label: "2.00 קראט", price: 11300 },
+    ],
+    description:
+      "יהלום פרינסס מרובע במסגרת ארבע שיניים שמכסות את הפינות הרגישות. חישוק שטוח-מעוגל ממשיך את הגיאומטריה מבלי להתחרות בברק של האבן.",
+  }),
+  newCatalogProduct({
+    slug: "deco-asscher-bezel-ring",
+    name: "טבעת אשר ״דקו״",
+    subtitle: "חיתוך אשר · שיבוץ בזל לרוחב",
+    category: "rings",
+    diamondShape: "asscher",
+    art: "solitaire",
+    priceFrom: 7300,
+    carats: [
+      { label: "1.00 קראט", price: 7300 },
+      { label: "1.50 קראט", price: 9900 },
+      { label: "2.00 קראט", price: 13200 },
+    ],
+    description:
+      "יהלום אשר מרובע מוצב לרוחב בתוך מסגרת בזל דקה. השיבוץ עוטף את ההיקף, מדגיש את מבנה המדרגות ומייצר פרופיל נמוך וחלק.",
+  }),
+  newCatalogProduct({
+    slug: "heritage-six-prong-ring",
+    name: "טבעת שש שיניים ״הריטג׳״",
+    subtitle: "יהלום עגול · סל שש שיניים",
+    category: "rings",
+    diamondShape: "round",
+    art: "solitaire",
+    priceFrom: 5000,
+    carats: [
+      { label: "0.70 קראט", price: 5000 },
+      { label: "1.00 קראט", price: 6500 },
+      { label: "1.50 קראט", price: 9000 },
+      { label: "2.00 קראט", price: 12000 },
+    ],
+    description:
+      "סוליטר עגול בשיבוץ שש שיניים שמחלק את התמיכה באופן סימטרי סביב האבן. החישוק מתחדד מעט ליד הסל ומשאיר את קו המתאר של היהלום ברור.",
+    bestseller: true,
+  }),
+  newCatalogProduct({
+    slug: "ribbon-twist-pave-ring",
+    name: "טבעת טוויסט ״ריבון״",
+    subtitle: "שתי כתפיים נשזרות · פאווה בצד אחד",
+    category: "rings",
+    diamondShape: "round",
+    art: "pave",
+    priceFrom: 5900,
+    carats: [
+      { label: "0.70 קראט מרכזי", price: 5900 },
+      { label: "1.00 קראט מרכזי", price: 7500 },
+      { label: "1.50 קראט מרכזי", price: 10100 },
+    ],
+    description:
+      "שתי כתפיים נשזרות מתחת ליהלום המרכזי; האחת חלקה והשנייה משובצת פאווה. החיבור נשמר סימטרי מאחור כדי שהטבעת תשב ישר על האצבע.",
+  }),
+  newCatalogProduct({
+    slug: "contour-diamond-band",
+    name: "טבעת קונטור ״ליין״",
+    subtitle: "קשת עדינה · שורת יהלומים",
+    category: "rings",
+    diamondShape: "round",
+    art: "pave",
+    priceFrom: 3200,
+    carats: [
+      { label: "0.20 קראט סה״כ", price: 3200 },
+      { label: "0.35 קראט סה״כ", price: 4200 },
+      { label: "0.50 קראט סה״כ", price: 5600 },
+    ],
+    description:
+      "טבעת נישואין בקשת רכה שנועדה להיצמד לסל של טבעת אירוסין. היהלומים משובצים בחצי הקדמי והחלק האחורי נשאר חלק להתאמת מידה.",
+  }),
+  newCatalogProduct({
+    slug: "mosaic-baguette-band",
+    name: "טבעת בגט ״מוזאיק״",
+    subtitle: "בגט ועגול לסירוגין · חצי איטרניטי",
+    category: "rings",
+    diamondShape: "emerald",
+    art: "pave",
+    priceFrom: 4500,
+    carats: [
+      { label: "0.45 קראט סה״כ", price: 4500 },
+      { label: "0.70 קראט סה״כ", price: 6200 },
+      { label: "1.00 קראט סה״כ", price: 7900 },
+    ],
+    description:
+      "יהלומי בגט ויהלומים עגולים מסודרים לסירוגין לאורך חצי החישוק. מסגרות דקות מפרידות בין החיתוכים ושומרות על קו אחיד לאורך הטבעת.",
+  }),
+  newCatalogProduct({
+    slug: "aria-oval-studs",
+    name: "עגילי אובל ״אריה״",
+    subtitle: "זוג יהלומים אובליים · ארבע שיניים",
+    category: "earrings",
+    diamondShape: "oval",
+    art: "studs",
+    priceFrom: 3400,
+    carats: [
+      { label: "0.50 קראט סה״כ", price: 3400 },
+      { label: "1.00 קראט סה״כ", price: 5800 },
+      { label: "1.50 קראט סה״כ", price: 8600 },
+      { label: "2.00 קראט סה״כ", price: 11200 },
+    ],
+    description:
+      "שני יהלומי אובל תואמים בסלי ארבע שיניים, עם מוט ישר וסוגר פרפר. הכיוון האנכי מאריך את הצללית ושומר על מרחק נקי מתנוך האוזן.",
+    bestseller: true,
+  }),
+  newCatalogProduct({
+    slug: "orbit-bezel-studs",
+    name: "עגילי בזל ״אורביט״",
+    subtitle: "יהלומים עגולים · מסגרת מלאה",
+    category: "earrings",
+    diamondShape: "round",
+    art: "studs",
+    priceFrom: 3200,
+    carats: [
+      { label: "0.50 קראט סה״כ", price: 3200 },
+      { label: "1.00 קראט סה״כ", price: 5200 },
+      { label: "1.50 קראט סה״כ", price: 7900 },
+      { label: "2.00 קראט סה״כ", price: 10400 },
+    ],
+    description:
+      "כל יהלום מוקף מסגרת בזל דקה שמגינה על ההיקף ויוצרת קצה חלק. הגב פתוח לאור ומתחבר למוט ישר עם סוגר פרפר.",
+  }),
+  newCatalogProduct({
+    slug: "petite-diamond-huggies",
+    name: "חישוקי האגי ״פטיט״",
+    subtitle: "חישוק קטן · שורת פאווה קדמית",
+    category: "earrings",
+    art: "hoops",
+    priceFrom: 3600,
+    carats: [
+      { label: "0.20 קראט סה״כ", price: 3600 },
+      { label: "0.35 קראט סה״כ", price: 4900 },
+      { label: "0.50 קראט סה״כ", price: 6800 },
+    ],
+    description:
+      "חישוקים קטנים שיושבים קרוב לתנוך, עם שורת יהלומים בחזית וסגירת קליק משולבת. החלק הפנימי מלוטש כדי לשמור על מגע חלק.",
+    bestseller: true,
+  }),
+  newCatalogProduct({
+    slug: "inside-out-diamond-hoops",
+    name: "חישוקי Inside-Out ״קונטור״",
+    subtitle: "יהלומים בחזית ובחלק הפנימי האחורי",
+    category: "earrings",
+    art: "hoops",
+    priceFrom: 6200,
+    carats: [
+      { label: "1.00 קראט סה״כ", price: 6200 },
+      { label: "1.50 קראט סה״כ", price: 8900 },
+      { label: "2.50 קראט סה״כ", price: 12900 },
+    ],
+    description:
+      "יהלומים משובצים בחלק החיצוני הקדמי ובחלק הפנימי האחורי של כל חישוק, כך שנוצרת שורת אור רציפה במבט חזיתי. הסגירה הצירית נטמעת בפרופיל.",
+  }),
+  newCatalogProduct({
+    slug: "cascade-graduated-tennis-necklace",
+    name: "שרשרת טניס מדורגת ״קסקייד״",
+    subtitle: "יהלומים גדלים בהדרגה אל המרכז",
+    category: "necklaces",
+    art: "tennis-necklace",
+    priceFrom: 17900,
+    carats: [
+      { label: "5.00 קראט סה״כ", price: 17900 },
+      { label: "8.00 קראט סה״כ", price: 26900 },
+      { label: "12.00 קראט סה״כ", price: 35900 },
+    ],
+    description:
+      "שורת יהלומים עגולים שגדלים בהדרגה משני הצדדים אל מרכז השרשרת. החוליות גמישות והסוגר הוא סוגר קופסה עם אבטחה נוספת.",
+    featured: true,
+    bestseller: true,
+  }),
+  newCatalogProduct({
+    slug: "constellation-station-necklace",
+    name: "שרשרת יהלומים ״קונסטליישן״",
+    subtitle: "יהלומי בזל במרווחים קבועים",
+    category: "necklaces",
+    art: "bezel-pendant",
+    priceFrom: 5900,
+    carats: [
+      { label: "1.00 קראט סה״כ", price: 5900 },
+      { label: "1.50 קראט סה״כ", price: 8500 },
+      { label: "2.50 קראט סה״כ", price: 11900 },
+    ],
+    description:
+      "יהלומים עגולים בשיבוץ בזל משולבים לאורך שרשרת עדינה במרווחים מדודים. כל בית אבן מחובר משני צדדיו כדי לשמור על כיוון יציב.",
+  }),
+  newCatalogProduct({
+    slug: "east-west-oval-pendant",
+    name: "תליון אובל ״איסט־ווסט״",
+    subtitle: "אובל לרוחב · שיבוץ בזל",
+    category: "necklaces",
+    diamondShape: "oval",
+    art: "bezel-pendant",
+    priceFrom: 3900,
+    carats: [
+      { label: "0.50 קראט", price: 3900 },
+      { label: "0.80 קראט", price: 5900 },
+      { label: "1.20 קראט", price: 8500 },
+    ],
+    description:
+      "יהלום אובל מוצב לרוחב בתוך מסגרת בזל דקה, עם חיבור נסתר לשרשרת משני צדי הבית. המבנה שומר את התליון ישר ומפחית סיבוב בזמן ענידה.",
+  }),
+  newCatalogProduct({
+    slug: "pear-solitaire-pendant",
+    name: "תליון טיפה ״סול״",
+    subtitle: "יהלום טיפה · סל שלוש שיניים",
+    category: "necklaces",
+    diamondShape: "pear",
+    art: "pendant",
+    priceFrom: 3600,
+    carats: [
+      { label: "0.50 קראט", price: 3600 },
+      { label: "0.80 קראט", price: 5600 },
+      { label: "1.20 קראט", price: 8200 },
+    ],
+    description:
+      "יהלום טיפה בסל שלוש שיניים, עם הגנה מלאה לקצה המחודד ולולאת חיבור קטנה מעל האבן. השרשרת עוברת בחופשיות ומאפשרת לתליון להתיישר במרכז.",
+  }),
+  newCatalogProduct({
+    slug: "fine-two-prong-tennis-bracelet",
+    name: "צמיד טניס ״פיין״",
+    subtitle: "שיבוץ ארבע שיניים פתוח · קו יהלומים קל",
+    category: "bracelets",
+    art: "tennis-bracelet",
+    priceFrom: 6900,
+    carats: [
+      { label: "2.00 קראט סה״כ", price: 6900 },
+      { label: "3.00 קראט סה״כ", price: 9900 },
+      { label: "5.00 קראט סה״כ", price: 13900 },
+    ],
+    description:
+      "כל יהלום מוחזק בארבע שיניים דקות שמותירות את צדי האבן פתוחים לאור. החוליות גמישות והצמיד נסגר בסוגר קופסה עם לשונית בטיחות.",
+    featured: true,
+    bestseller: true,
+  }),
+  newCatalogProduct({
+    slug: "emerald-bezel-tennis-bracelet",
+    name: "צמיד אמרלד ״מסגרת״",
+    subtitle: "אבני אמרלד לרוחב · בזל מלא",
+    category: "bracelets",
+    art: "tennis-bracelet",
+    priceFrom: 14900,
+    carats: [
+      { label: "4.00 קראט סה״כ", price: 14900 },
+      { label: "6.00 קראט סה״כ", price: 20900 },
+      { label: "9.00 קראט סה״כ", price: 28900 },
+    ],
+    description:
+      "יהלומי אמרלד מוצבים לרוחב בתוך מסגרות בזל מחוברות. החיבורים מוסתרים בין הבתים כדי לשמור על רצף מלבני וסיבוב חופשי סביב פרק היד.",
+  }),
+  newCatalogProduct({
+    slug: "crescendo-graduated-tennis-bracelet",
+    name: "צמיד טניס מדורג ״קרשנדו״",
+    subtitle: "יהלומים גדלים בהדרגה אל המרכז",
+    category: "bracelets",
+    art: "tennis-bracelet",
+    priceFrom: 9900,
+    carats: [
+      { label: "3.00 קראט סה״כ", price: 9900 },
+      { label: "5.00 קראט סה״כ", price: 14900 },
+      { label: "8.00 קראט סה״כ", price: 20900 },
+    ],
+    description:
+      "יהלומים עגולים מדורגים בגודל משני צדי הצמיד אל אבן מרכזית גדולה יותר. החוליות נשארות גמישות והסוגר נטמע בקו השיבוץ.",
+  }),
+  newCatalogProduct({
+    slug: "crossline-diamond-bangle",
+    name: "צמיד קרוס ״קרוסליין״",
+    subtitle: "שתי זרועות מצטלבות · פאווה בחזית",
+    category: "bracelets",
+    art: "bangle",
+    priceFrom: 5200,
+    carats: [
+      { label: "0.50 קראט סה״כ", price: 5200 },
+      { label: "0.80 קראט סה״כ", price: 7600 },
+      { label: "1.20 קראט סה״כ", price: 10900 },
+    ],
+    description:
+      "צמיד קשיח סגור ששתי זרועותיו מצטלבות פעם אחת בחזית; אחת מלוטשת והשנייה משובצת יהלומי פאווה. הציר והנעילה מוסתרים בחלק האחורי.",
+  }),
 ];
+
+export const products: Product[] = catalogProducts.map((product) => {
+  const defaultMetal: Metal = product.category === "rings" ? "yellow" : "white";
+  return {
+    ...product,
+    metals: ["yellow", "white"],
+    defaultMetal,
+    galleryByMetal: {
+      yellow: metalGallery(product.slug, product.name, "yellow"),
+      white: metalGallery(product.slug, product.name, "white"),
+    },
+  };
+});
 
 export function getProduct(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);

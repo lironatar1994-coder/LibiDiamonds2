@@ -37,12 +37,16 @@ export function selectedProducts() {
   return products;
 }
 
-export function masterPath(product, view) {
-  return resolve(masterRoot, product.slug, `${view}.png`);
+export function productMetals(product) {
+  return product.metals?.length ? product.metals : ["yellow", "white"];
 }
 
-export function outputPath(product, view) {
-  return resolve(outputDirectory, `${product.slug}-${view}.webp`);
+export function masterPath(product, metal, view) {
+  return resolve(masterRoot, product.slug, metal, `${view}.png`);
+}
+
+export function outputPath(product, metal, view) {
+  return resolve(outputDirectory, `${product.slug}-${metal}-${view}.webp`);
 }
 
 export function targetOccupancy(product, view) {
@@ -135,6 +139,6 @@ export async function inspectImage(path, product, view) {
   };
 }
 
-export function publicImagePath(product, view) {
-  return `/images/products/catalog/${product.slug}-${view}.webp`;
+export function publicImagePath(product, metal, view) {
+  return `/images/products/catalog/${product.slug}-${metal}-${view}.webp`;
 }

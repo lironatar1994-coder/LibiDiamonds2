@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "images:prepare": "python scripts/product-images/prepare_masters.py",
     "images:render": "node scripts/product-images/render.mjs",
     "images:validate": "node scripts/product-images/validate.mjs --strict",
     "images:contact-sheet": "node scripts/product-images/contact-sheet.mjs",

@@ -53,13 +53,13 @@ const serviceItems = [
 ];
 
 export default function ProductView({ product }: { product: Product }) {
-  const [metal, setMetal] = useState<Metal>(product.metals[0]);
+  const [metal, setMetal] = useState<Metal>(product.defaultMetal ?? product.metals[0]);
   const [caratIdx, setCaratIdx] = useState(0);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showStickyCta, setShowStickyCta] = useState(false);
 
   const carat = product.carats[caratIdx];
-  const images = productImages(product);
+  const images = productImages(product, metal);
   const message = `היי, אשמח לפרטים על ${product.name} — ${carat.label}, ${metalNames[metal]} (${formatPrice(carat.price)})`;
   const metalGridClass = product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2";
   const caratGridClass =
@@ -75,6 +75,10 @@ export default function ProductView({ product }: { product: Product }) {
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
+
+  useEffect(() => {
+    setSelectedImage(0);
+  }, [metal]);
 
   return (
     <>
