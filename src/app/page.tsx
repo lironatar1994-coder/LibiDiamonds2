@@ -303,40 +303,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#eee8dc]" aria-labelledby="bespoke-inspiration-title">
+      <section className="bg-[#f1f0ec]" aria-labelledby="bespoke-inspiration-title">
         <div className="mx-auto grid max-w-7xl lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-          <div className="relative aspect-[4/5] overflow-hidden sm:aspect-[16/11] lg:aspect-[4/5]">
+          <div className="relative aspect-[5/4] overflow-hidden sm:aspect-[16/10] lg:aspect-[4/5]">
             <Image
               src={assetPath("/images/editorial/v2/bespoke-inspiration.webp")}
               alt="טבעת יהלום מזהב צהוב לצד סקיצה בעיפרון"
               fill
               sizes="(min-width: 1024px) 54vw, 100vw"
-              className="object-cover"
+              className="object-cover object-[center_62%] lg:object-center"
             />
           </div>
 
-          <div className="px-5 py-10 text-center sm:px-10 sm:py-14 lg:px-14 lg:py-16 lg:text-right xl:px-20">
+          <div className="px-5 py-8 text-center sm:px-10 sm:py-11 lg:px-14 lg:py-16 lg:text-right xl:px-20">
             <h2
               id="bespoke-inspiration-title"
-              className="font-display text-[2rem] font-medium leading-tight sm:text-4xl lg:text-[2.7rem]"
+              className="font-display text-[1.9rem] font-medium leading-tight sm:text-4xl lg:text-[2.7rem]"
             >
               יש לכם השראה לתכשיט?
             </h2>
-            <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-stone sm:text-base sm:leading-8 lg:mx-0">
-              שלחו לנו תמונה, סקיצה או רעיון. נתאים יחד את האבן, הזהב והפרופורציות ליצירה אישית משלכם.
+            <p className="mx-auto mt-3 max-w-sm text-sm leading-7 text-stone sm:mt-4 sm:text-base lg:mx-0">
+              שלחו תמונה, סקיצה או רעיון. נבחר יחד אבן, זהב ופרופורציות.
             </p>
             <a
               href={waLink("היי, יש לי השראה לתכשיט ואשמח לבדוק אפשרות לעיצוב אישי")}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary mt-7 w-full sm:w-auto"
+              className="btn-primary mt-6 px-6 sm:mt-7 sm:px-8"
             >
               <WhatsAppIcon className="h-4 w-4" />
               שליחת ההשראה בוואטסאפ
             </a>
-            <p className="mt-4 text-xs leading-5 text-stone">
-              העיצוב יותאם אישית ולא יועתק אחד לאחד.
-            </p>
           </div>
         </div>
       </section>
@@ -344,39 +341,19 @@ export default function HomePage() {
       <CustomerVoices reviews={reviews} />
 
       {/* ── Trust strip ──────────────────────────────────── */}
-      <section className="section-proof border-y border-line">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-5 py-4 text-center sm:px-8 lg:py-6">
+      <section className="section-proof" aria-label="פרטי שירות ואחריות">
+        <div className="mx-auto grid max-w-3xl grid-cols-2 px-4 py-3 text-center sm:flex sm:items-center sm:justify-center sm:gap-x-4 sm:px-8 sm:py-5">
           {["יהלומים מוסמכים", "זהב 14K/18K", "משלוח מבוטח", "אחריות מלאה"].map((item, index) => (
-            <span key={item} className="flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.08em] text-ink-soft sm:text-sm">
-              {index > 0 && <span className="hidden h-1 w-1 rotate-45 bg-gold/65 sm:block" aria-hidden />}
-              {item}
+            <span
+              key={item}
+              className={`flex min-h-9 items-center justify-center gap-4 px-2 text-[0.69rem] font-semibold text-ink-soft sm:min-h-0 sm:px-0 sm:text-sm ${
+                index % 2 === 0 ? "border-l border-line sm:border-l-0" : ""
+              } ${index < 2 ? "border-b border-line sm:border-b-0" : ""}`}
+            >
+              {index > 0 && <span className="hidden h-1 w-1 rotate-45 bg-gold/60 sm:block" aria-hidden />}
+              <span>{item}</span>
             </span>
           ))}
-        </div>
-      </section>
-
-      {/* ── Consultation CTA ─────────────────────────────── */}
-      <section className="section-cta-signature px-4 py-9 text-ivory sm:px-6 lg:px-8 lg:py-14">
-        <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-5 text-center lg:flex-row lg:gap-8 lg:text-right">
-          <div className="hidden h-px flex-1 bg-champagne/35 lg:block" />
-          <h2 className="max-w-lg font-display text-2xl font-medium leading-tight sm:text-4xl">
-            נבחר יחד את היהלום הנכון.
-          </h2>
-          <span className="hidden h-2 w-2 rotate-45 border border-champagne/65 lg:block" aria-hidden />
-          <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
-            <a
-              href={waLink("היי, אשמח לייעוץ אישי בבחירת תכשיט")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-inverse w-full sm:w-auto"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              ייעוץ אישי בוואטסאפ
-            </a>
-            <Link href="/jewelry/rings" className="btn-outline-inverse hidden w-full sm:inline-flex sm:w-auto">
-              טבעות יהלום
-            </Link>
-          </div>
         </div>
       </section>
 
