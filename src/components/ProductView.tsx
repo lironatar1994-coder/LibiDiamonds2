@@ -31,22 +31,22 @@ const libiStandardItems = [
   {
     title: "בחירה לפי המראה, לא רק לפי המספרים",
     detail:
-      "אנחנו מחברים בין נתוני האבן לבין התוצאה על היד: קראט, צבע, ניקיון וליטוש נבחנים לצד מבנה השיבוץ, גוון הזהב והתקציב.",
+      "נתוני האבן נבחנים לצד המראה בפועל: הפרופורציות, מבנה השיבוץ, גוון הזהב והתקציב.",
   },
   {
     title: "התאמה לפני תחילת העבודה",
     detail:
-      "משקל האבן, גוון הזהב והמידה נסגרים יחד, כדי שהפרופורציות, גובה השיבוץ ונוחות הענידה יתאימו לבחירה הסופית.",
+      "משקל האבן, גוון הזהב והמידה נסגרים יחד מראש, כדי לשמור על פרופורציות ונוחות ענידה.",
   },
   {
     title: "שקיפות מלאה בהזמנה",
     detail:
-      "לפני האישור מקבלים סיכום ברור של האבן והתכשיט, המחיר הסופי, סוג התעודה ומועד האספקה המשוער — בלי פרטים שנשארים פתוחים.",
+      "לפני האישור תקבלו סיכום של התכשיט, המחיר הסופי, סוג התעודה ומועד האספקה המשוער.",
   },
   {
     title: "ליווי גם אחרי המסירה",
     detail:
-      "התכשיט מגיע עם תעודה גמולוגית לאבן המרכזית, אחריות על השיבוץ והמתכת, משלוח מבוטח והתאמת מידה ראשונה.",
+      "התכשיט מגיע עם תעודה גמולוגית, אחריות על השיבוץ והמתכת, משלוח מבוטח והתאמת מידה ראשונה.",
   },
 ];
 
@@ -302,27 +302,26 @@ export default function ProductView({ product }: { product: Product }) {
       </div>
 
       <section
-        className="mt-14 border-y border-line py-10 sm:mt-16 sm:py-12 lg:mt-20 lg:grid lg:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] lg:gap-16 lg:py-16"
+        className="mt-10 sm:mt-12 lg:mt-16 lg:grid lg:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] lg:gap-16"
         aria-labelledby="libi-standard-title"
       >
         <div>
-          <p className="text-[0.68rem] font-semibold tracking-[0.2em] text-gold-deep">LIBI DIAMONDS</p>
-          <h2 id="libi-standard-title" className="mt-3 max-w-xs font-display text-3xl font-medium leading-tight sm:text-4xl">
+          <h2 id="libi-standard-title" className="max-w-xs font-display text-3xl font-medium leading-tight sm:text-4xl">
             הסטנדרט של LIBI.
           </h2>
         </div>
 
-        <ol className="mt-8 border-t border-line lg:mt-0">
+        <ol className="mt-6 border-t border-line lg:mt-0">
           {libiStandardItems.map((item, index) => (
             <li
               key={item.title}
-              className="grid grid-cols-[2rem_minmax(0,1fr)] gap-3 border-b border-line py-5 sm:grid-cols-[2.5rem_minmax(10rem,0.72fr)_minmax(0,1.28fr)] sm:gap-5 sm:py-6"
+              className="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-3 border-b border-line py-4 sm:grid-cols-[2.5rem_minmax(10rem,0.72fr)_minmax(0,1.28fr)] sm:gap-x-5 sm:py-5"
             >
               <span className="pt-0.5 font-display text-sm text-gold-deep" aria-hidden>
                 {String(index + 1).padStart(2, "0")}
               </span>
               <h3 className="font-display text-xl font-medium leading-snug sm:text-[1.35rem]">{item.title}</h3>
-              <p className="col-start-2 mt-1 text-sm leading-7 text-stone sm:col-start-3 sm:mt-0">{item.detail}</p>
+              <p className="col-start-2 mt-1 text-sm leading-6 text-stone sm:col-start-3 sm:mt-0 sm:leading-7">{item.detail}</p>
             </li>
           ))}
         </ol>
