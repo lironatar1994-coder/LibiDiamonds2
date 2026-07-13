@@ -6,6 +6,7 @@ import Link from "next/link";
 import { metalNames, productImages, type Product, type Metal } from "@/data/products";
 import { assetPath, formatPrice, waLink } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/icons";
+import ProductMedia from "@/components/ProductMedia";
 
 const METAL_SWATCH: Record<Metal, string> = {
   yellow: "#c9a35e",
@@ -79,18 +80,15 @@ export default function ProductView({ product }: { product: Product }) {
     <>
       <div className="grid gap-9 lg:grid-cols-[minmax(0,1.15fr)_minmax(23rem,0.85fr)] lg:items-start lg:gap-16 xl:gap-20">
         <section className="lg:sticky lg:top-28">
-          <div className="art-bg relative aspect-square overflow-hidden bg-ivory">
-            <Image
-              key={images[selectedImage].src}
-              src={images[selectedImage].src}
-              alt={images[selectedImage].alt}
-              fill
-              priority
-              fetchPriority="high"
-              sizes="(min-width: 1024px) 56vw, 100vw"
-              className="animate-fade-up object-cover"
-            />
-          </div>
+          <ProductMedia
+            key={images[selectedImage].src}
+            image={images[selectedImage]}
+            priority
+            fetchPriority="high"
+            sizes="(min-width: 1024px) 56vw, 100vw"
+            className="aspect-square"
+            imageClassName="animate-fade-up object-cover"
+          />
 
           {images.length > 1 && (
             <div className="mt-3 flex gap-3 sm:mt-4">
@@ -107,7 +105,13 @@ export default function ProductView({ product }: { product: Product }) {
                       : "opacity-70 hover:opacity-100"
                   }`}
                 >
-                  <Image src={image.src} alt="" fill sizes="96px" className="object-cover" />
+                  <ProductMedia
+                    image={image}
+                    decorative
+                    sizes="96px"
+                    className="h-full w-full"
+                    imageClassName="object-cover"
+                  />
                 </button>
               ))}
             </div>

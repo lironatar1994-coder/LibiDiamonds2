@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard";
+import ProductMedia from "@/components/ProductMedia";
 import CustomerVoices from "@/components/CustomerVoices";
 import DiamondShapeSelector from "@/components/DiamondShapeSelector";
 import { WhatsAppIcon } from "@/components/icons";
@@ -91,15 +92,12 @@ function EditorialBestsellers({ items }: { items: Product[] }) {
         href={`/product/${featured.slug}`}
         className="group grid lg:grid-cols-[1.45fr_0.55fr] lg:items-center"
       >
-        <div className="relative aspect-[4/3] overflow-hidden lg:aspect-[16/7]">
-          <Image
-            src={featuredImage.src}
-            alt={featuredImage.alt}
-            fill
-            sizes="(min-width: 1024px) 70vw, 100vw"
-            className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.018]"
-          />
-        </div>
+        <ProductMedia
+          image={featuredImage}
+          sizes="(min-width: 1024px) 70vw, 100vw"
+          className="aspect-[4/3] lg:aspect-[16/7]"
+          imageClassName="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.018]"
+        />
         <div className="flex items-center justify-center px-1 pt-4 text-center sm:pt-5 lg:px-8 lg:py-8">
           <div>
             <h3 className="font-display text-[1.35rem] font-medium sm:text-3xl">{featured.name}</h3>
@@ -122,10 +120,10 @@ function EditorialBestsellers({ items }: { items: Product[] }) {
 }
 
 const categoryImages: Record<CategorySlug, string> = {
-  rings: assetPath("/images/products/v2/aura-solitaire-ring-primary.webp"),
-  earrings: assetPath("/images/products/v2/stella-diamond-studs-primary.webp"),
-  necklaces: assetPath("/images/products/v3/riviera-tennis-necklace-primary.webp"),
-  bracelets: assetPath("/images/products/v3/icon-tennis-bracelet-primary.webp"),
+  rings: assetPath("/images/products/catalog/aura-solitaire-ring-primary.webp"),
+  earrings: assetPath("/images/products/catalog/stella-diamond-studs-primary.webp"),
+  necklaces: assetPath("/images/products/catalog/riviera-tennis-necklace-primary.webp"),
+  bracelets: assetPath("/images/products/catalog/icon-tennis-bracelet-primary.webp"),
 };
 
 const diamondShapes = [
@@ -275,15 +273,12 @@ export default function HomePage() {
                 href={`/jewelry/${cat.slug}`}
                 className={`group block ${cat.slug === "rings" ? "lg:col-span-2" : "lg:col-span-1"}`}
               >
-                <div className={`art-bg-dark relative overflow-hidden ${cat.slug === "rings" ? "aspect-[4/5] lg:aspect-[8/5]" : "aspect-[4/5]"}`}>
-                  <Image
-                    src={categoryImages[cat.slug]}
-                    alt={cat.name}
-                    fill
-                    sizes={cat.slug === "rings" ? "(min-width: 1024px) 40vw, 50vw" : "(min-width: 1024px) 20vw, 50vw"}
-                    className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035] ${cat.slug === "rings" ? "lg:object-[center_57%]" : ""}`}
-                  />
-                </div>
+                <ProductMedia
+                  image={{ src: categoryImages[cat.slug], alt: cat.name }}
+                  sizes={cat.slug === "rings" ? "(min-width: 1024px) 40vw, 50vw" : "(min-width: 1024px) 20vw, 50vw"}
+                  className={cat.slug === "rings" ? "aspect-[4/5] lg:aspect-[8/5]" : "aspect-[4/5]"}
+                  imageClassName={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035] ${cat.slug === "rings" ? "lg:object-[center_57%]" : ""}`}
+                />
                 <div className="flex items-center justify-center pt-3 lg:pt-4">
                   <h3 className="font-display text-lg lg:text-xl">{cat.name}</h3>
                 </div>

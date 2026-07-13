@@ -24,6 +24,9 @@ export interface CaratOption {
 export interface ProductGalleryImage {
   src: string;
   alt: string;
+  view?: "primary" | "detail";
+  legacy?: boolean;
+  objectPosition?: string;
 }
 
 export interface Product {
@@ -138,8 +141,8 @@ export const products: Product[] = [
     description:
       "יהלום עגול מורם בשיבוץ ארבע שיניים על חישוק זהב חלק ומעוגל. הפרופיל הנקי משאיר את האבן פתוחה לאור ונוח לענידה יומיומית.",
     gallery: [
-      { src: "/images/products/v2/aura-solitaire-ring-primary.webp", alt: "טבעת אורה בזהב צהוב במבט חזיתי" },
-      { src: "/images/products/v2/aura-solitaire-ring-detail.webp", alt: "פרופיל שיבוץ ארבע השיניים של טבעת אורה" },
+      { src: "/images/products/catalog/aura-solitaire-ring-primary.webp", alt: "טבעת אורה בזהב צהוב במבט חזיתי", view: "primary", legacy: true },
+      { src: "/images/products/catalog/aura-solitaire-ring-detail.webp", alt: "פרופיל שיבוץ ארבע השיניים של טבעת אורה", view: "detail", legacy: true },
       { src: "/images/editorial/mineral/diamond-macro.webp", alt: "תקריב מאקרו של היהלום והשיבוץ בטבעת אורה" },
     ],
     featured: true,
@@ -163,8 +166,8 @@ export const products: Product[] = [
     description:
       "יהלום עגול מוקף בשורה אחת של יהלומים קטנים על חישוק זהב מלוטש. סל ההיילו יוצר מסגרת אחידה סביב האבן ושומר על פרופיל מאוזן.",
     gallery: [
-      { src: "/images/products/v2/nova-halo-ring-primary.webp", alt: "טבעת נובה בזהב ורוד במבט חזיתי" },
-      { src: "/images/products/v2/nova-halo-ring-detail.webp", alt: "פרופיל סל ההיילו של טבעת נובה" },
+      { src: "/images/products/catalog/nova-halo-ring-primary.webp", alt: "טבעת נובה בזהב ורוד במבט חזיתי", view: "primary", legacy: true },
+      { src: "/images/products/catalog/nova-halo-ring-detail.webp", alt: "פרופיל סל ההיילו של טבעת נובה", view: "detail", legacy: true },
     ],
     featured: true,
     bestseller: true,
@@ -187,8 +190,8 @@ export const products: Product[] = [
     description:
       "שלוש אבנים, סיפור אחד: אבן מרכזית ושתי אבני צד שמלוות אותה. עיצוב קלאסי עם משמעות — עבר, הווה ועתיד — ופרופיל מאוזן שמחמיא לכל יד.",
     gallery: [
-      { src: "/images/products/v4/trio-three-stone-ring-primary.webp", alt: "טבעת טריו מזהב לבן עם יהלום מרכזי ושתי אבני צד במבט חזיתי" },
-      { src: "/images/products/v4/trio-three-stone-ring-detail.webp", alt: "תקריב שיבוץ שלוש האבנים והפרופיל של טבעת טריו" },
+      { src: "/images/products/catalog/trio-three-stone-ring-primary.webp", alt: "טבעת טריו מזהב לבן עם יהלום מרכזי ושתי אבני צד במבט חזיתי", view: "primary", legacy: true },
+      { src: "/images/products/catalog/trio-three-stone-ring-detail.webp", alt: "תקריב שיבוץ שלוש האבנים והפרופיל של טבעת טריו", view: "detail", legacy: true },
     ],
     featured: true,
   },
@@ -210,8 +213,8 @@ export const products: Product[] = [
     description:
       "יהלום עגול בשיבוץ ארבע שיניים, עם שורת פאווה צפופה לאורך שתי כתפי החישוק. השיבוץ הנמוך משאיר את קו הטבעת עדין ומדגיש את האבן המרכזית.",
     gallery: [
-      { src: "/images/products/v2/lumiere-pave-ring-primary.webp", alt: "טבעת לומייר בזהב צהוב במבט חזיתי" },
-      { src: "/images/products/v2/lumiere-pave-ring-detail.webp", alt: "פרט שיבוץ הפאווה והאבן המרכזית בטבעת לומייר" },
+      { src: "/images/products/catalog/lumiere-pave-ring-primary.webp", alt: "טבעת לומייר בזהב צהוב במבט חזיתי", view: "primary", legacy: true },
+      { src: "/images/products/catalog/lumiere-pave-ring-detail.webp", alt: "פרט שיבוץ הפאווה והאבן המרכזית בטבעת לומייר", view: "detail", legacy: true },
     ],
     bestseller: true,
   },
@@ -233,8 +236,8 @@ export const products: Product[] = [
     description:
       "זוג יהלומים עגולים תואמים, כל אחד מוחזק בארבע שיניים על בסיס זהב לבן. מבנה הסל הפתוח מציג את האבן גם מהצד ושומר על פרופיל נקי באוזן.",
     gallery: [
-      { src: "/images/products/v2/stella-diamond-studs-primary.webp", alt: "זוג עגילי סטלה בזהב לבן במבט קדמי" },
-      { src: "/images/products/v2/stella-diamond-studs-detail.webp", alt: "פרופיל הסל והמוטות של עגילי סטלה" },
+      { src: "/images/products/catalog/stella-diamond-studs-primary.webp", alt: "זוג עגילי סטלה בזהב לבן במבט קדמי", view: "primary", legacy: true },
+      { src: "/images/products/catalog/stella-diamond-studs-detail.webp", alt: "פרופיל הסל והמוטות של עגילי סטלה", view: "detail", legacy: true },
     ],
     featured: true,
     bestseller: true,
@@ -256,8 +259,8 @@ export const products: Product[] = [
     description:
       "כל עגיל הוא יהלום מרכזי מוקף שורת יהלומים קטנים — מראה גדול ונוצץ יותר מהמשקל בפועל. בחירה מצוינת למי שרוצה נוכחות באוזן בלי כבדות.",
     gallery: [
-      { src: "/images/products/v4/glow-halo-earrings-primary.webp", alt: "זוג עגילי גלואו מזהב צהוב עם יהלום מרכזי והיילו במבט קדמי" },
-      { src: "/images/products/v4/glow-halo-earrings-detail.webp", alt: "תקריב פרופיל ההיילו, המוטות והסוגרים של עגילי גלואו" },
+      { src: "/images/products/catalog/glow-halo-earrings-primary.webp", alt: "זוג עגילי גלואו מזהב צהוב עם יהלום מרכזי והיילו במבט קדמי", view: "primary", legacy: true },
+      { src: "/images/products/catalog/glow-halo-earrings-detail.webp", alt: "תקריב פרופיל ההיילו, המוטות והסוגרים של עגילי גלואו", view: "detail", legacy: true },
     ],
   },
   {
@@ -277,8 +280,8 @@ export const products: Product[] = [
     description:
       "חישוקי זהב ורוד עם שורת יהלומים עגולים לאורך החזית וסגירה צירית רציפה. הקוטר הבינוני שומר על נוכחות ברורה בלי להכביד על קו האוזן.",
     gallery: [
-      { src: "/images/products/v2/luna-diamond-hoops-primary.webp", alt: "חישוקי לונה בזהב ורוד במבט קדמי" },
-      { src: "/images/products/v2/luna-diamond-hoops-detail.webp", alt: "פרט הסגירה הצירית ושורת היהלומים בחישוקי לונה" },
+      { src: "/images/products/catalog/luna-diamond-hoops-primary.webp", alt: "חישוקי לונה בזהב ורוד במבט קדמי", view: "primary", legacy: true },
+      { src: "/images/products/catalog/luna-diamond-hoops-detail.webp", alt: "פרט הסגירה הצירית ושורת היהלומים בחישוקי לונה", view: "detail", legacy: true },
     ],
     bestseller: true,
   },
@@ -299,8 +302,8 @@ export const products: Product[] = [
     description:
       "שורה רציפה של יהלומים עגולים בשיבוץ ארבע שיניים ובחיבור גמיש בין החוליות. סוגר קופסה עם מנגנון בטיחות משלים את המבנה האחיד סביב הצוואר.",
     gallery: [
-      { src: "/images/products/v4/riviera-tennis-necklace-primary.webp", alt: "שרשרת ריביירה מזהב לבן במבט על מלא" },
-      { src: "/images/products/v4/riviera-tennis-necklace-detail.webp", alt: "תקריב סוגר הקופסה ושורת היהלומים בשרשרת ריביירה" },
+      { src: "/images/products/catalog/riviera-tennis-necklace-primary.webp", alt: "שרשרת ריביירה מזהב לבן במבט על מלא", view: "primary", legacy: true },
+      { src: "/images/products/catalog/riviera-tennis-necklace-detail.webp", alt: "תקריב סוגר הקופסה ושורת היהלומים בשרשרת ריביירה", view: "detail", legacy: true },
     ],
     featured: true,
     bestseller: true,
@@ -322,8 +325,8 @@ export const products: Product[] = [
     description:
       "יהלום מעבדה אחד, בדיוק במרכז. תליון הסוליטר הוא המתנה הקלאסית ביותר שיש — עדין מספיק ליום־יום, משמעותי מספיק לרגעים הגדולים.",
     gallery: [
-      { src: "/images/products/v4/claire-solitaire-pendant-primary.webp", alt: "תליון קלייר מזהב צהוב ויהלום עגול במבט על" },
-      { src: "/images/products/v4/claire-solitaire-pendant-detail.webp", alt: "תקריב ארבע השיניים, הסל והחיבור לשרשרת בתליון קלייר" },
+      { src: "/images/products/catalog/claire-solitaire-pendant-primary.webp", alt: "תליון קלייר מזהב צהוב ויהלום עגול במבט על", view: "primary", legacy: true },
+      { src: "/images/products/catalog/claire-solitaire-pendant-detail.webp", alt: "תקריב ארבע השיניים, הסל והחיבור לשרשרת בתליון קלייר", view: "detail", legacy: true },
     ],
     featured: true,
     bestseller: true,
@@ -345,8 +348,8 @@ export const products: Product[] = [
     description:
       "היהלום עטוף במסגרת זהב מלאה — שיבוץ בצל (Bezel) שנותן מראה מודרני, נקי ועמיד במיוחד. השרשרת של מי שאוהבת שקט עיצובי.",
     gallery: [
-      { src: "/images/products/v4/drop-bezel-necklace-primary.webp", alt: "שרשרת דרופ מזהב ורוד עם יהלום בשיבוץ בזל במבט על" },
-      { src: "/images/products/v4/drop-bezel-necklace-detail.webp", alt: "תקריב מסגרת הבזל והחיבור לשרשרת בתליון דרופ" },
+      { src: "/images/products/catalog/drop-bezel-necklace-primary.webp", alt: "שרשרת דרופ מזהב ורוד עם יהלום בשיבוץ בזל במבט על", view: "primary", legacy: true },
+      { src: "/images/products/catalog/drop-bezel-necklace-detail.webp", alt: "תקריב מסגרת הבזל והחיבור לשרשרת בתליון דרופ", view: "detail", legacy: true },
     ],
   },
   {
@@ -366,8 +369,8 @@ export const products: Product[] = [
     description:
       "שורת יהלומים עגולים מחוברת בחוליות גמישות ומסתיימת בסוגר קופסה עם אבטחה כפולה. בתי האבן הפתוחים שומרים על קו אחיד ומאפשרים לאור לעבור דרך כל יהלום.",
     gallery: [
-      { src: "/images/products/v4/icon-tennis-bracelet-primary.webp", alt: "צמיד טניס אייקון מזהב לבן במבט מלא" },
-      { src: "/images/products/v4/icon-tennis-bracelet-detail.webp", alt: "תקריב הסוגר הכפול והחוליות בצמיד אייקון" },
+      { src: "/images/products/catalog/icon-tennis-bracelet-primary.webp", alt: "צמיד טניס אייקון מזהב לבן במבט מלא", view: "primary", legacy: true },
+      { src: "/images/products/catalog/icon-tennis-bracelet-detail.webp", alt: "תקריב הסוגר הכפול והחוליות בצמיד אייקון", view: "detail", legacy: true },
     ],
     featured: true,
     bestseller: true,
@@ -389,8 +392,8 @@ export const products: Product[] = [
     description:
       "חישוק זהב חלק ונקי, ובמרכזו יהלום מעבדה אחד בשיבוץ בצל. הצמיד שעונדים ולא מורידים — לבד או בשכבות עם שעון וצמידים נוספים.",
     gallery: [
-      { src: "/images/products/v4/one-diamond-bangle-primary.webp", alt: "צמיד וואן מזהב צהוב עם יהלום יחיד בשיבוץ בזל" },
-      { src: "/images/products/v4/one-diamond-bangle-detail.webp", alt: "תקריב היהלום ומסגרת הבזל בצמיד וואן" },
+      { src: "/images/products/catalog/one-diamond-bangle-primary.webp", alt: "צמיד וואן מזהב צהוב עם יהלום יחיד בשיבוץ בזל", view: "primary", legacy: true },
+      { src: "/images/products/catalog/one-diamond-bangle-detail.webp", alt: "תקריב היהלום ומסגרת הבזל בצמיד וואן", view: "detail", legacy: true },
     ],
     bestseller: true,
   },

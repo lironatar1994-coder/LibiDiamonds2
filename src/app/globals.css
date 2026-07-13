@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  --catalog-background: #f7f6f2;
+}
+
 @theme {
   --color-ivory: #f7f6f2;
   --color-cream: #e3e5e3;
@@ -38,11 +42,16 @@ h3,
 
 /* Neutral gallery light keeps colorless stones crisp. */
 .art-bg {
-  background: #f7f6f2;
+  background: var(--catalog-background);
 }
 
 .art-bg-dark {
-  background: #f7f6f2;
+  background: var(--catalog-background);
+}
+
+.product-media-surface {
+  background: var(--catalog-background);
+  isolation: isolate;
 }
 
 .hero-editorial {

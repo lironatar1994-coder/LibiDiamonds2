@@ -11,3 +11,6 @@ next-env.d.ts
 .claude/
 .codex/
 .codex-remote-attachments/
+.media-reports/
+.media-cache/
+public/images/products/catalog/.staging/

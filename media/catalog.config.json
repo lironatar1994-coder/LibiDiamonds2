@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "catalogBackground": "#f7f6f2",
+  "outputDirectory": "public/images/products/catalog",
+  "defaultMasterRoot": "../LibiDiamondsAssets/masters",
+  "outputSize": 1600,
+  "maxOutputBytes": 275000,
+  "minimumMasterSize": 2400,
+  "alphaThreshold": 3,
+  "edgePadding": 24,
+  "occupancyTolerance": 0.045,
+  "occupancy": {
+    "rings": 0.68,
+    "earrings": 0.58,
+    "necklaces": 0.82,
+    "bracelets": 0.82,
+    "detail": 0.84
+  },
+  "previewSurfaces": ["#f7f6f2", "#ffffff", "#e3e5e3"]
+}

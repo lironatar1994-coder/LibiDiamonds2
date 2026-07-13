@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "products": [
+    { "slug": "aura-solitaire-ring", "category": "rings", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v2/aura-solitaire-ring-primary.webp", "detail": "public/images/products/v2/aura-solitaire-ring-detail.webp" } },
+    { "slug": "nova-halo-ring", "category": "rings", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v2/nova-halo-ring-primary.webp", "detail": "public/images/products/v2/nova-halo-ring-detail.webp" } },
+    { "slug": "trio-three-stone-ring", "category": "rings", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v4/trio-three-stone-ring-primary.webp", "detail": "public/images/products/v4/trio-three-stone-ring-detail.webp" } },
+    { "slug": "lumiere-pave-ring", "category": "rings", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v2/lumiere-pave-ring-primary.webp", "detail": "public/images/products/v2/lumiere-pave-ring-detail.webp" } },
+    { "slug": "stella-diamond-studs", "category": "earrings", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v2/stella-diamond-studs-primary.webp", "detail": "public/images/products/v2/stella-diamond-studs-detail.webp" } },
+    { "slug": "glow-halo-earrings", "category": "earrings", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v4/glow-halo-earrings-primary.webp", "detail": "public/images/products/v4/glow-halo-earrings-detail.webp" } },
+    { "slug": "luna-diamond-hoops", "category": "earrings", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v2/luna-diamond-hoops-primary.webp", "detail": "public/images/products/v2/luna-diamond-hoops-detail.webp" } },
+    { "slug": "riviera-tennis-necklace", "category": "necklaces", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v4/riviera-tennis-necklace-primary.webp", "detail": "public/images/products/v4/riviera-tennis-necklace-detail.webp" } },
+    { "slug": "claire-solitaire-pendant", "category": "necklaces", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v4/claire-solitaire-pendant-primary.webp", "detail": "public/images/products/v4/claire-solitaire-pendant-detail.webp" } },
+    { "slug": "drop-bezel-necklace", "category": "necklaces", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v4/drop-bezel-necklace-primary.webp", "detail": "public/images/products/v4/drop-bezel-necklace-detail.webp" } },
+    { "slug": "icon-tennis-bracelet", "category": "bracelets", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v4/icon-tennis-bracelet-primary.webp", "detail": "public/images/products/v4/icon-tennis-bracelet-detail.webp" } },
+    { "slug": "one-diamond-bangle", "category": "bracelets", "legacyResolution": true, "views": ["primary", "detail"], "legacySources": { "primary": "public/images/products/v4/one-diamond-bangle-primary.webp", "detail": "public/images/products/v4/one-diamond-bangle-detail.webp" } }
+  ]
+}

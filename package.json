@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "images:render": "node scripts/product-images/render.mjs",
+    "images:validate": "node scripts/product-images/validate.mjs --strict",
+    "images:contact-sheet": "node scripts/product-images/contact-sheet.mjs",
+    "images:check": "npm run images:render && npm run images:validate && npm run images:contact-sheet"
   },
   "dependencies": {
     "next": "^15.3.3",
@@ -17,6 +21,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4.1.8",
     "typescript": "^5"
   }

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { Product } from "@/data/products";
 import { productImages } from "@/data/products";
 import { formatPrice } from "@/lib/site";
+import ProductMedia from "@/components/ProductMedia";
 
 export default function ProductCard({
   product,
@@ -17,28 +17,18 @@ export default function ProductCard({
 
   return (
     <Link href={`/product/${product.slug}`} className="group block">
-      <div className="art-bg product-card-frame relative aspect-square overflow-hidden bg-ivory">
-        <Image
-          src={images[0].src}
-          alt={images[0].alt}
-          fill
-          sizes={compact ? "(min-width: 1024px) 20vw, 50vw" : "(min-width: 1024px) 33vw, 50vw"}
-          className={`object-cover transition-all duration-700 ease-out ${
+      <ProductMedia
+        image={images[0]}
+        secondaryImage={detailImage}
+        sizes={compact ? "(min-width: 1024px) 20vw, 50vw" : "(min-width: 1024px) 33vw, 50vw"}
+        className="product-card-frame aspect-square"
+        imageClassName={`object-cover transition-all duration-700 ease-out ${
             detailImage
               ? "group-hover:scale-[1.015] group-hover:opacity-0 group-focus-visible:opacity-0"
               : "group-hover:scale-[1.025]"
           }`}
-        />
-        {detailImage && (
-          <Image
-            src={detailImage.src}
-            alt=""
-            fill
-            sizes={compact ? "(min-width: 1024px) 20vw, 50vw" : "(min-width: 1024px) 33vw, 50vw"}
-            className="pointer-events-none object-cover opacity-0 transition-all duration-700 ease-out group-hover:scale-[1.015] group-hover:opacity-100 group-focus-visible:opacity-100"
-          />
-        )}
-      </div>
+        secondaryImageClassName="pointer-events-none object-cover opacity-0 transition-all duration-700 ease-out group-hover:scale-[1.015] group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
       <div className={`px-0.5 text-center sm:px-1 ${compact ? "pt-3 sm:pt-4" : "pt-3 sm:pt-5"}`}>
         <h3 className={`font-display leading-snug transition-colors group-hover:text-gold-deep ${compact ? "text-[0.9rem] sm:text-base" : "text-[0.95rem] sm:text-lg"}`}>
           {product.name}
