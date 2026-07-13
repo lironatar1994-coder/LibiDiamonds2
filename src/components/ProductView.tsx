@@ -205,7 +205,7 @@ export default function ProductView({ product }: { product: Product }) {
                   }`}
                 >
                   <span className="block font-display text-xl leading-none" dir="ltr">{option.value}</span>
-                  <span className={`mt-1.5 block whitespace-nowrap text-[0.68rem] leading-none ${index === caratIdx ? "text-footer-muted" : "text-stone"}`}>
+                  <span className={`mt-1.5 block whitespace-nowrap text-[0.75rem] leading-none ${index === caratIdx ? "text-footer-muted" : "text-stone"}`}>
                     {caratCopy.qualifier}
                   </span>
                   <span className={`mt-2.5 block whitespace-nowrap text-xs font-semibold tracking-wide sm:text-sm ${index === caratIdx ? "text-ivory" : "text-ink"}`}>
@@ -223,32 +223,32 @@ export default function ProductView({ product }: { product: Product }) {
             </a>
           </div>
 
-          <section className="mt-9 border-y border-line py-6 lg:mt-10 lg:py-7">
-            <dl className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-4">
+          <section className="mt-7 border-t border-line pt-5 lg:mt-9 lg:pt-6">
+            <dl className="grid grid-cols-2 gap-x-10 gap-y-4 text-right sm:grid-cols-4 sm:gap-x-5">
               {[
                 ["צבע", product.specs.color],
                 ["ניקיון", product.specs.clarity],
                 ["ליטוש", product.specs.cut],
                 ["תעודה", product.specs.cert],
               ].map(([label, value]) => (
-                <div key={label}>
+                <div key={label} className="min-w-0">
                   <dt className="text-[0.68rem] font-semibold tracking-[0.09em] text-stone">{label}</dt>
-                  <dd className="mt-1.5 text-sm font-semibold text-ink">{value}</dd>
+                  <dd className="mt-1 text-[0.95rem] font-semibold text-ink">{value}</dd>
                 </div>
               ))}
             </dl>
-            <p className="mt-7 max-w-xl text-sm leading-7 text-stone sm:text-[0.98rem]">{product.description}</p>
+            <p className="mt-5 max-w-[34rem] text-right text-sm leading-7 text-stone sm:text-[0.98rem]">{product.description}</p>
             <Link
               href="/journal/why-choose-a-lab-diamond"
-              className="mt-5 inline-block border-b border-gold/55 pb-1 text-xs font-semibold tracking-[0.06em] text-ink-soft hover:border-gold hover:text-ink"
+              className="mt-4 inline-block border-b border-gold/55 pb-1 text-xs font-semibold tracking-[0.04em] text-ink-soft hover:border-gold hover:text-ink"
             >
-              למה לבחור יהלום מעבדה?
+              על יהלומי המעבדה של LIBI
             </Link>
           </section>
 
-          <section className="border-b border-line py-8 lg:py-10" aria-labelledby="order-includes-title">
+          <section className="mt-7 border-t border-line pb-8 pt-7 lg:mt-9 lg:pb-10 lg:pt-9" aria-labelledby="order-includes-title">
             <h2 id="order-includes-title" className="font-display text-2xl font-medium sm:text-3xl">
-              מה מצורף להזמנה.
+              מה מצורף להזמנה
             </h2>
             <div className="mt-5 grid gap-5 sm:grid-cols-2">
               <figure>
