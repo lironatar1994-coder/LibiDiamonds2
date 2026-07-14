@@ -240,6 +240,7 @@ export default function ProductView({ product }: { product: Product }) {
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
+      scrollTrackToSlide(galleryTrackRef, selectedImageRef.current, "auto");
     };
   }, [viewerOpen]);
 
