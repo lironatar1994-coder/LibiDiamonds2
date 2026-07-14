@@ -330,6 +330,16 @@ export default function ProductView({ product }: { product: Product }) {
             >
               <ShareGlyph className="h-5 w-5" />
             </button>
+            {product.tryOn?.enabled && product.category === "rings" && (
+              <button
+                type="button"
+                onClick={() => setTryOnOpen(true)}
+                className="absolute right-3 top-3 flex min-h-11 items-center gap-2 border border-black/10 bg-white/88 px-3.5 text-[0.8rem] font-semibold text-ink backdrop-blur-sm"
+              >
+                <TryOnGlyph className="h-5 w-5" />
+                לנסות על היד
+              </button>
+            )}
             {linkCopied && (
               <span role="status" className="absolute bottom-[4.25rem] right-3 bg-ink/90 px-3 py-1.5 text-xs text-ivory">
                 הקישור הועתק
@@ -387,6 +397,16 @@ export default function ProductView({ product }: { product: Product }) {
             >
               <ShareGlyph className="h-5 w-5" />
             </button>
+            {product.tryOn?.enabled && product.category === "rings" && (
+              <button
+                type="button"
+                onClick={() => setTryOnOpen(true)}
+                className="absolute right-4 top-4 flex min-h-11 items-center gap-2 border border-black/10 bg-white/88 px-4 text-sm font-semibold text-ink backdrop-blur-sm transition-colors hover:bg-white"
+              >
+                <TryOnGlyph className="h-5 w-5" />
+                לנסות על היד
+              </button>
+            )}
             {linkCopied && (
               <span role="status" className="absolute bottom-[4.75rem] right-4 bg-ink/90 px-3 py-1.5 text-xs text-ivory">
                 הקישור הועתק
@@ -527,18 +547,6 @@ export default function ProductView({ product }: { product: Product }) {
             <p className="mt-2.5 text-center text-xs leading-5 text-stone">ליווי אישי ואספקה תוך 7 עד 14 ימי עסקים.</p>
           </div>
 
-          {product.tryOn?.enabled && product.category === "rings" && (
-            <div className="pt-3.5">
-              <button
-                type="button"
-                onClick={() => setTryOnOpen(true)}
-                className="flex min-h-[50px] w-full items-center justify-center gap-2.5 border border-ink bg-transparent px-5 text-sm font-semibold tracking-[0.035em] text-ink transition-colors hover:bg-ink hover:text-ivory"
-              >
-                <TryOnGlyph className="h-5 w-5" />
-                לראות את הטבעת על היד
-              </button>
-            </div>
-          )}
         </section>
       </div>
 
