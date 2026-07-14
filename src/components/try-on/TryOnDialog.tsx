@@ -9,6 +9,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { createPortal } from "react-dom";
+import type { HandLandmarker } from "@mediapipe/tasks-vision";
 import { assetPath } from "@/lib/site";
 import { metalNames, type Metal, type TryOnConfig } from "@/data/products";
 import {
@@ -33,25 +34,6 @@ interface TryOnDialogProps {
   metal: Metal;
   config: TryOnConfig;
 }
-
-interface WorkerFrameMessage {
-  type: "frame";
-  hands: HandPoint[][];
-  timestamp: number;
-}
-
-interface WorkerReadyMessage {
-  type: "ready";
-  delegate: "GPU" | "CPU";
-}
-
-interface WorkerErrorMessage {
-  type: "error";
-  code: "model" | "frame";
-  message: string;
-}
-
-type WorkerResponse = WorkerFrameMessage | WorkerReadyMessage | WorkerErrorMessage;
 
 function ToolIcon({ name, className = "h-5 w-5" }: { name: "camera" | "switch" | "freeze" | "reset" | "upload" | "close"; className?: string }) {
   if (name === "close") {
@@ -137,9 +119,10 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
   const videoRef = useRef<HTMLVideoElement>(null);
   const photoRef = useRef<HTMLImageElement>(null);
   const photoUrlRef = useRef<string | null>(null);
-  const workerRef = useRef<Worker | null>(null);
-  const workerReadyRef = useRef(false);
+  const landmarkerRef = useRef<HandLandmarker | null>(null);
+  const analysisCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const framePendingRef = useRef(false);
+  const lastDetectionTimestampRef = useRef(0);
   const latestHandRef = useRef<HandPoint[] | null>(null);
   const lastHandAtRef = useRef(0);
   const smoothedPoseRef = useRef<RingPose | null>(null);
@@ -210,52 +193,57 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
 
   useEffect(() => {
     if (!open) return;
+    let cancelled = false;
     setModelState("loading");
-    workerReadyRef.current = false;
-    const worker = new Worker(new URL("./tryOn.worker.ts", import.meta.url), { type: "module" });
-    workerRef.current = worker;
-    worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
-      if (event.data.type === "ready") {
-        workerReadyRef.current = true;
-        setModelState("ready");
-        return;
-      }
-      if (event.data.type === "frame") {
-        framePendingRef.current = false;
-        const hand = choosePrimaryHand(event.data.hands);
-        if (hand) {
-          latestHandRef.current = hand;
-          lastHandAtRef.current = performance.now();
-          setTrackingVisible(true);
-        } else if (performance.now() - lastHandAtRef.current > 350) {
-          latestHandRef.current = null;
-          smoothedPoseRef.current = null;
-          setTrackingVisible(false);
+    setCameraError("");
+
+    void (async () => {
+      try {
+        const { FilesetResolver, HandLandmarker: HandLandmarkerClass } = await import("@mediapipe/tasks-vision");
+        const vision = await FilesetResolver.forVisionTasks(assetPath("/try-on/v1/wasm"));
+        const options = {
+          baseOptions: {
+            modelAssetPath: assetPath("/try-on/v1/models/hand_landmarker.task"),
+          },
+          runningMode: "VIDEO" as const,
+          numHands: 2,
+          minHandDetectionConfidence: 0.55,
+          minHandPresenceConfidence: 0.5,
+          minTrackingConfidence: 0.5,
+        };
+
+        let landmarker: HandLandmarker;
+        try {
+          landmarker = await HandLandmarkerClass.createFromOptions(vision, {
+            ...options,
+            baseOptions: { ...options.baseOptions, delegate: "GPU" },
+          });
+        } catch {
+          landmarker = await HandLandmarkerClass.createFromOptions(vision, {
+            ...options,
+            baseOptions: { ...options.baseOptions, delegate: "CPU" },
+          });
         }
-        return;
-      }
-      framePendingRef.current = false;
-      if (event.data.code === "model") {
+
+        if (cancelled) {
+          landmarker.close();
+          return;
+        }
+        landmarkerRef.current = landmarker;
+        setModelState("ready");
+      } catch (error) {
+        if (cancelled) return;
+        console.error("Ring try-on hand tracking failed to initialize", error);
         setModelState("error");
         setCameraError("לא הצלחנו לטעון את זיהוי היד במכשיר הזה.");
       }
-    };
-    worker.onerror = () => {
-      framePendingRef.current = false;
-      setModelState("error");
-      setCameraError("זיהוי היד אינו זמין כרגע. נסו שוב מאוחר יותר.");
-    };
-    worker.postMessage({
-      type: "init",
-      wasmRoot: assetPath("/try-on/v1/wasm"),
-      modelPath: assetPath("/try-on/v1/models/hand_landmarker.task"),
-    });
+    })();
 
     return () => {
-      worker.postMessage({ type: "close" });
-      worker.terminate();
-      workerRef.current = null;
-      workerReadyRef.current = false;
+      cancelled = true;
+      landmarkerRef.current?.close();
+      landmarkerRef.current = null;
+      analysisCanvasRef.current = null;
       framePendingRef.current = false;
     };
   }, [open]);
@@ -273,35 +261,50 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
     return () => { active = false; };
   }, [open, selectedAssets]);
 
-  const sendFrame = useCallback(async (source: CanvasImageSource) => {
-    if (!workerRef.current || !workerReadyRef.current || framePendingRef.current) return;
+  const sendFrame = useCallback((source: HTMLVideoElement | HTMLImageElement) => {
+    const landmarker = landmarkerRef.current;
+    if (!landmarker || framePendingRef.current) return;
     try {
       framePendingRef.current = true;
       const sourceWidth = source instanceof HTMLVideoElement
         ? source.videoWidth
-        : source instanceof HTMLImageElement
-          ? source.naturalWidth
-          : 0;
+        : source.naturalWidth;
       const sourceHeight = source instanceof HTMLVideoElement
         ? source.videoHeight
-        : source instanceof HTMLImageElement
-          ? source.naturalHeight
-          : 0;
-      const resizeScale = sourceWidth && sourceHeight ? Math.min(1, 960 / Math.max(sourceWidth, sourceHeight)) : 1;
-      const bitmap = resizeScale < 1
-        ? await createImageBitmap(source, {
-            resizeWidth: Math.round(sourceWidth * resizeScale),
-            resizeHeight: Math.round(sourceHeight * resizeScale),
-            resizeQuality: "high",
-          })
-        : await createImageBitmap(source);
-      workerRef.current?.postMessage(
-        { type: "frame", bitmap, timestamp: performance.now() },
-        [bitmap],
-      );
-    } catch {
-      framePendingRef.current = false;
+        : source.naturalHeight;
+      if (!sourceWidth || !sourceHeight) return;
+
+      const resizeScale = Math.min(1, 720 / Math.max(sourceWidth, sourceHeight));
+      const analysisCanvas = analysisCanvasRef.current ?? document.createElement("canvas");
+      analysisCanvasRef.current = analysisCanvas;
+      const analysisWidth = Math.max(1, Math.round(sourceWidth * resizeScale));
+      const analysisHeight = Math.max(1, Math.round(sourceHeight * resizeScale));
+      if (analysisCanvas.width !== analysisWidth) analysisCanvas.width = analysisWidth;
+      if (analysisCanvas.height !== analysisHeight) analysisCanvas.height = analysisHeight;
+      const analysisContext = analysisCanvas.getContext("2d", { alpha: false });
+      if (!analysisContext) return;
+      analysisContext.drawImage(source, 0, 0, analysisCanvas.width, analysisCanvas.height);
+
+      const timestamp = Math.max(performance.now(), lastDetectionTimestampRef.current + 1);
+      lastDetectionTimestampRef.current = timestamp;
+      const result = landmarker.detectForVideo(analysisCanvas, timestamp);
+      const hands = result.landmarks.map((hand) => hand.map(({ x, y, z }) => ({ x, y, z })));
+      const hand = choosePrimaryHand(hands);
+      if (hand) {
+        latestHandRef.current = hand;
+        lastHandAtRef.current = performance.now();
+        setTrackingVisible(true);
+      } else if (performance.now() - lastHandAtRef.current > 350) {
+        latestHandRef.current = null;
+        smoothedPoseRef.current = null;
+        setTrackingVisible(false);
+      }
+    } catch (error) {
+      console.error("Ring try-on hand tracking failed", error);
       setCameraError("לא הצלחנו לקרוא את התמונה במכשיר הזה.");
+    } finally {
+      framePendingRef.current = false;
+      lastDetectionRequestRef.current = performance.now();
     }
   }, []);
 
@@ -310,7 +313,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
     latestHandRef.current = null;
     smoothedPoseRef.current = null;
     setTrackingVisible(false);
-    void sendFrame(photoRef.current);
+    sendFrame(photoRef.current);
   }, [modelState, mode, open, photoReady, sendFrame]);
 
   useEffect(() => {
@@ -346,9 +349,9 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
         sourceWidth = source.videoWidth;
         sourceHeight = source.videoHeight;
         mirrored = facingMode === "user";
-        if (!frozen && modelState === "ready" && now - lastDetectionRequestRef.current > 72) {
+        if (!frozen && modelState === "ready" && now - lastDetectionRequestRef.current > 110) {
           lastDetectionRequestRef.current = now;
-          void sendFrame(source);
+          sendFrame(source);
         }
       } else if (mode === "photo" && photoReady && photoRef.current?.naturalWidth) {
         source = photoRef.current;
