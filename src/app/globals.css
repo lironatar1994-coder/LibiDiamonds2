@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --catalog-background: #f7f6f2;
+  --catalog-background: #f8f9f7;
 }
 
 @theme {
   --color-ivory: #f7f6f2;
-  --color-cream: #e3e5e3;
-  --color-platinum: #e3e5e3;
-  --color-platinum-soft: #efefeb;
+  --color-cream: #e1e4e2;
+  --color-platinum: #e1e4e2;
+  --color-platinum-soft: #e9ece9;
   --color-warm-stone: #f0ece4;
   --color-selection: #f0eee8;
   --color-sand: #e3e5e3;
@@ -76,7 +76,13 @@ h3,
 }
 
 .section-proof {
-  background: #ffffff;
+  background: #121313;
+  border-color: #2c2f2e;
+  color: #f7f6f2;
+}
+
+.section-proof span {
+  color: #e9ebe8;
 }
 
 .footer-graphite {
