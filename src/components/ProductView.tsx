@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import {
   metalNames,
   productImages,
+  productSpin,
   type CaratScope,
   type Metal,
   type Product,
@@ -13,8 +14,10 @@ import {
 import { assetPath, formatPrice, waLink } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/icons";
 import ProductMedia from "@/components/ProductMedia";
+import ProductHelpSheet, { type ProductHelpTopic } from "@/components/product/ProductHelpSheet";
 
 const TryOnDialog = dynamic(() => import("@/components/try-on/TryOnDialog"), { ssr: false });
+const RingSpinViewer = dynamic(() => import("@/components/product/RingSpinViewer"), { ssr: false });
 
 function TryOnGlyph({ className }: { className?: string }) {
   return (
@@ -41,6 +44,15 @@ function ShareGlyph({ className }: { className?: string }) {
       <path d="M12 14.5v-11" strokeLinecap="round" />
       <path d="m8.5 7 3.5-3.5L15.5 7" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M8 11H5.5v9.5h13V11H16" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function InfoGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" className={className} aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 10.75v5M12 7.8h.01" strokeLinecap="round" />
     </svg>
   );
 }
@@ -104,6 +116,8 @@ export default function ProductView({ product }: { product: Product }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [tryOnOpen, setTryOnOpen] = useState(false);
+  const [spinOpen, setSpinOpen] = useState(false);
+  const [activeHelp, setActiveHelp] = useState<ProductHelpTopic | null>(null);
   const [summaryPassed, setSummaryPassed] = useState(false);
   const [primaryCtaVisible, setPrimaryCtaVisible] = useState(false);
   const [relatedReached, setRelatedReached] = useState(false);
@@ -119,6 +133,7 @@ export default function ProductView({ product }: { product: Product }) {
 
   const carat = product.carats[caratIdx];
   const images = productImages(product, metal);
+  const spinAsset = productSpin(product, metal);
   const packaging = packagingByCategory[product.category];
   const caratCopy = CARAT_SCOPE_COPY[product.caratScope];
   const caratLabel = `${carat.value} ${caratCopy.qualifier}`;
@@ -131,7 +146,7 @@ export default function ProductView({ product }: { product: Product }) {
         : "grid-cols-2";
   const detailImage = images.find((image) => image.view === "detail" || image.view === "profile") ?? images[1] ?? images[0];
   const showMobileSticky =
-    summaryPassed && scrolledUp && !primaryCtaVisible && !relatedReached && !viewerOpen && !tryOnOpen;
+    summaryPassed && scrolledUp && !primaryCtaVisible && !relatedReached && !viewerOpen && !tryOnOpen && !spinOpen && !activeHelp;
 
   useEffect(() => {
     selectedImageRef.current = selectedImage;
@@ -217,8 +232,33 @@ export default function ProductView({ product }: { product: Product }) {
   }, [viewerOpen]);
 
   const openViewer = (index: number) => {
+    setActiveHelp(null);
+    setSpinOpen(false);
+    setTryOnOpen(false);
     setSelectedImage(index);
     setViewerOpen(true);
+  };
+
+  const openHelp = (topic: ProductHelpTopic) => {
+    setViewerOpen(false);
+    setSpinOpen(false);
+    setTryOnOpen(false);
+    setActiveHelp(topic);
+  };
+
+  const openSpin = () => {
+    if (!spinAsset) return;
+    setViewerOpen(false);
+    setTryOnOpen(false);
+    setActiveHelp(null);
+    setSpinOpen(true);
+  };
+
+  const openTryOn = () => {
+    setViewerOpen(false);
+    setSpinOpen(false);
+    setActiveHelp(null);
+    setTryOnOpen(true);
   };
 
   const syncSelectedFromTrack = (track: HTMLDivElement | null) => {
@@ -287,6 +327,17 @@ export default function ProductView({ product }: { product: Product }) {
             <span className="pointer-events-none absolute bottom-3 left-3 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm" aria-hidden>
               <ZoomGlyph className="h-5 w-5" />
             </span>
+            {spinAsset && (
+              <button
+                type="button"
+                onClick={openSpin}
+                className="absolute left-3 top-3 flex h-11 min-w-11 items-center justify-center border border-black/10 bg-white/88 px-3 text-xs font-semibold text-ink backdrop-blur-sm"
+                aria-label={`תצוגת 360 מעלות של ${product.name}`}
+                title="תצוגת 360 מעלות"
+              >
+                360°
+              </button>
+            )}
             <button
               type="button"
               onClick={handleShare}
@@ -298,7 +349,7 @@ export default function ProductView({ product }: { product: Product }) {
             {product.tryOn?.enabled && product.category === "rings" && (
               <button
                 type="button"
-                onClick={() => setTryOnOpen(true)}
+                onClick={openTryOn}
                 className="absolute right-3 top-3 flex min-h-11 items-center gap-2 border border-black/10 bg-white/88 px-3.5 text-[0.8rem] font-semibold text-ink backdrop-blur-sm"
               >
                 <TryOnGlyph className="h-5 w-5" />
@@ -362,10 +413,21 @@ export default function ProductView({ product }: { product: Product }) {
             >
               <ShareGlyph className="h-5 w-5" />
             </button>
+            {spinAsset && (
+              <button
+                type="button"
+                onClick={openSpin}
+                className="absolute left-4 top-4 flex h-11 min-w-11 items-center justify-center border border-black/10 bg-white/88 px-3 text-xs font-semibold text-ink backdrop-blur-sm transition-colors hover:bg-white"
+                aria-label={`תצוגת 360 מעלות של ${product.name}`}
+                title="תצוגת 360 מעלות"
+              >
+                360°
+              </button>
+            )}
             {product.tryOn?.enabled && product.category === "rings" && (
               <button
                 type="button"
-                onClick={() => setTryOnOpen(true)}
+                onClick={openTryOn}
                 className="absolute right-4 top-4 flex min-h-11 items-center gap-2 border border-black/10 bg-white/88 px-4 text-sm font-semibold text-ink backdrop-blur-sm transition-colors hover:bg-white"
               >
                 <TryOnGlyph className="h-5 w-5" />
@@ -440,12 +502,31 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </header>
 
-          <p className="mt-4 border-y border-line py-2.5 text-center text-[0.72rem] font-medium text-stone" dir="ltr">
-            {product.specs.cert} · {product.specs.color} · {product.specs.clarity} · {product.specs.cut}
-          </p>
+          <div className="mt-4 flex min-h-11 items-center justify-center gap-2 border-y border-line py-2 text-[0.72rem] font-medium text-stone">
+            <span dir="ltr">{product.specs.cert} · {product.specs.color} · {product.specs.clarity} · {product.specs.cut}</span>
+            <button
+              type="button"
+              onClick={() => openHelp("certificate")}
+              className="flex h-8 w-8 shrink-0 items-center justify-center text-stone transition-colors hover:text-ink"
+              aria-label="מידע על התעודה והמפרט"
+            >
+              <InfoGlyph className="h-4 w-4" />
+            </button>
+          </div>
 
           <fieldset className="pt-5 lg:pt-6">
-            <legend className="text-[0.7rem] font-semibold text-stone">גוון המתכת</legend>
+            <legend className="sr-only">גוון המתכת</legend>
+            <div className="flex items-center gap-1">
+              <span className="text-[0.7rem] font-semibold text-stone">גוון המתכת</span>
+              <button
+                type="button"
+                onClick={() => openHelp("metal")}
+                className="flex h-8 w-8 items-center justify-center text-stone transition-colors hover:text-ink"
+                aria-label="מידע על גווני הזהב"
+              >
+                <InfoGlyph className="h-4 w-4" />
+              </button>
+            </div>
             <div className={`mt-2.5 grid gap-2.5 ${product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
               {product.metals.map((option) => (
                 <button
@@ -472,7 +553,18 @@ export default function ProductView({ product }: { product: Product }) {
           </fieldset>
 
           <fieldset className="pt-5 lg:pt-6">
-            <legend className="text-[0.7rem] font-semibold text-stone">{caratCopy.legend}</legend>
+            <legend className="sr-only">{caratCopy.legend}</legend>
+            <div className="flex items-center gap-1">
+              <span className="text-[0.7rem] font-semibold text-stone">{caratCopy.legend}</span>
+              <button
+                type="button"
+                onClick={() => openHelp("carat")}
+                className="flex h-8 w-8 items-center justify-center text-stone transition-colors hover:text-ink"
+                aria-label="מידע על משקל קראט"
+              >
+                <InfoGlyph className="h-4 w-4" />
+              </button>
+            </div>
             <div className={`mt-2.5 grid gap-2.5 ${caratGridClass}`} dir="rtl">
               {product.carats.map((option, index) => {
                 const selected = index === caratIdx;
@@ -498,6 +590,16 @@ export default function ProductView({ product }: { product: Product }) {
           </fieldset>
 
           <div ref={primaryCtaRef} className="mt-5 lg:mt-6">
+            {product.category === "rings" && (
+              <button
+                type="button"
+                onClick={() => openHelp("size")}
+                className="mb-3 flex min-h-10 items-center gap-2 text-sm font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
+              >
+                <InfoGlyph className="h-4 w-4" />
+                איך יודעים מה המידה?
+              </button>
+            )}
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="btn-primary min-h-[54px] w-full">
               <WhatsAppIcon className="h-4 w-4" />
               להזמנה ולייעוץ בוואטסאפ
@@ -679,6 +781,18 @@ export default function ProductView({ product }: { product: Product }) {
           productName={product.name}
           metal={metal}
           config={product.tryOn}
+        />
+      )}
+
+      <ProductHelpSheet topic={activeHelp} onClose={() => setActiveHelp(null)} product={product} />
+
+      {spinAsset && (
+        <RingSpinViewer
+          open={spinOpen}
+          onClose={() => setSpinOpen(false)}
+          asset={spinAsset}
+          productName={product.name}
+          metalName={metalNames[metal]}
         />
       )}
     </>

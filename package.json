@@ -11,7 +11,10 @@
     "images:validate": "node scripts/product-images/validate.mjs --strict",
     "images:contact-sheet": "node scripts/product-images/contact-sheet.mjs",
     "images:check": "npm run images:render && npm run images:validate && npm run images:contact-sheet",
-    "try-on:assets": "node scripts/try-on/prepare-assets.mjs"
+    "try-on:assets": "node scripts/try-on/prepare-assets.mjs",
+    "spin:validate": "node scripts/product-spin/validate.mjs",
+    "spin:contact-sheet": "node scripts/product-spin/contact-sheet.mjs",
+    "spin:check": "npm run spin:validate && npm run spin:contact-sheet"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.35",

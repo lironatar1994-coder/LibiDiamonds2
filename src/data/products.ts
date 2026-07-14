@@ -59,6 +59,13 @@ export interface TryOnConfig {
   assetsByMetal: Partial<Record<Metal, TryOnAssetPair>>;
 }
 
+export interface ProductSpinAsset {
+  basePath: string;
+  frameCount: 24;
+  posterFrame: number;
+  alt: string;
+}
+
 export interface Product {
   slug: string;
   name: string;
@@ -82,9 +89,17 @@ export interface Product {
   dimensions?: ProductDimension[];
   gallery?: ProductGalleryImage[];
   galleryByMetal?: Partial<Record<Metal, ProductGalleryImage[]>>;
+  spinByMetal?: Partial<Record<Metal, ProductSpinAsset>>;
   tryOn?: TryOnConfig;
   featured?: boolean;
   bestseller?: boolean;
+}
+
+export function productSpin(
+  product: Pick<Product, "spinByMetal">,
+  metal: Metal,
+): ProductSpinAsset | undefined {
+  return product.spinByMetal?.[metal];
 }
 
 export function productImages(
