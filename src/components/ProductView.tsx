@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
   metalNames,
@@ -59,17 +58,6 @@ const CARAT_SCOPE_COPY: Record<CaratScope, { legend: string; qualifier: string }
   total: { legend: "משקל יהלומים כולל", qualifier: "קראט סה״כ" },
 };
 
-const libiStandardItems = [
-  {
-    title: "בחירה לפי המראה בפועל",
-    detail: "נתוני האבן נבחנים לצד הפרופורציות, השיבוץ וגוון הזהב.",
-  },
-  {
-    title: "התאמה לפני תחילת העבודה",
-    detail: "האבן, הזהב והמידה נסגרים יחד לפני הייצור.",
-  },
-];
-
 const serviceItems = [
   {
     id: "shipping",
@@ -88,21 +76,6 @@ const serviceItems = [
     title: "אחריות ושירות",
     detail:
       "אחריות מלאה על עבודת הצורפות והשיבוץ, והתאמת מידה ראשונה כלולה. אנחנו זמינים בוואטסאפ לכל שאלה — גם אחרי המסירה.",
-  },
-];
-
-const afterContactSteps = [
-  {
-    title: "כותבים לנו בוואטסאפ",
-    detail: "מספרים איזה דגם, קראט וגוון מעניינים אתכם — או פשוט שואלים.",
-  },
-  {
-    title: "מקבלים אפשרויות אמיתיות",
-    detail: "תמונות, סרטונים ונתוני תעודה של אבנים זמינות, עם מחיר סופי לכל אחת.",
-  },
-  {
-    title: "מאשרים — ואנחנו יוצרים",
-    detail: "המידה, המחיר ומועד האספקה נסגרים מראש, והתכשיט מגיע במשלוח מבוטח עד הבית.",
   },
 ];
 
@@ -150,7 +123,6 @@ export default function ProductView({ product }: { product: Product }) {
   const caratCopy = CARAT_SCOPE_COPY[product.caratScope];
   const caratLabel = `${carat.value} ${caratCopy.qualifier}`;
   const message = `היי, אשמח לפרטים על ${product.name} — ${caratLabel}, ${metalNames[metal]} (${formatPrice(carat.price)})`;
-  const metalGridClass = product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2";
   const caratGridClass =
     product.carats.length === 4
       ? "grid-cols-2 sm:grid-cols-4"
@@ -264,13 +236,6 @@ export default function ProductView({ product }: { product: Product }) {
     behavior: ScrollBehavior = "smooth",
   ) => {
     trackRef.current?.children[index]?.scrollIntoView({ behavior, inline: "center", block: "nearest" });
-  };
-
-  const revealInfo = (targetId: string) => {
-    const target = document.getElementById(targetId);
-    if (!target) return;
-    if (target instanceof HTMLDetailsElement) target.open = true;
-    target.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   const handleShare = async () => {
@@ -463,33 +428,36 @@ export default function ProductView({ product }: { product: Product }) {
 
         <section className="min-w-0 lg:sticky lg:top-28 lg:self-start">
           <header ref={summaryRef}>
-            <h1 className="font-display text-[2.05rem] font-medium leading-[1.12] sm:text-5xl lg:text-[3.15rem]">
+            <h1 className="font-display text-[2.05rem] font-light leading-[1.1] tracking-[-0.01em] text-ink sm:text-5xl lg:text-[3.15rem]">
               {product.name}
             </h1>
-            <p className="mt-2 text-sm leading-6 text-stone sm:text-base">{product.subtitle}</p>
-            <div className="mt-4 flex items-baseline gap-3 lg:mt-7" aria-live="polite">
-              <span className="text-xs font-semibold text-stone">מחיר</span>
-              <span className="font-display text-[2.15rem] font-medium leading-none text-ink sm:text-4xl">
+            <p className="mt-2.5 text-sm leading-6 text-stone sm:text-base">{product.subtitle}</p>
+            <div className="mt-5 flex items-baseline gap-2 lg:mt-7" aria-live="polite">
+              <span className="text-[0.7rem] font-semibold tracking-[0.08em] text-stone">החל מ־</span>
+              <span className="font-display text-[2.15rem] font-light leading-none text-ink sm:text-4xl">
                 {formatPrice(carat.price)}
               </span>
             </div>
           </header>
 
-          <div className="mt-5 grid grid-cols-3 border-y border-line text-center text-[0.72rem] font-semibold text-ink-soft sm:text-xs lg:mt-7">
-            <button type="button" onClick={() => revealInfo("certificate-figure")} className="py-3 transition-colors hover:text-ink lg:py-3.5">
-              תעודה גמולוגית
-            </button>
-            <button type="button" onClick={() => revealInfo("service-shipping")} className="border-x border-line py-3 transition-colors hover:text-ink lg:py-3.5">
-              משלוח מבוטח
-            </button>
-            <button type="button" onClick={() => revealInfo("service-warranty")} className="py-3 transition-colors hover:text-ink lg:py-3.5">
-              התאמת מידה
-            </button>
-          </div>
+          {/* Diamond spec + certification strip — slim row directly under the price */}
+          <dl className="mt-5 grid grid-cols-4 divide-x divide-line border-y border-line text-center lg:mt-7" dir="rtl">
+            {([
+              ["צבע", product.specs.color, false],
+              ["ניקיון", product.specs.clarity, false],
+              ["ליטוש", product.specs.cut, false],
+              ["תעודה", product.specs.cert, true],
+            ] as const).map(([label, value, highlight]) => (
+              <div key={label} className={`min-w-0 px-1 py-2.5 ${highlight ? "bg-warm-stone" : ""}`}>
+                <dt className="text-[0.56rem] font-semibold uppercase tracking-[0.14em] text-stone">{label}</dt>
+                <dd className="mt-1 text-[0.85rem] font-medium text-ink">{value}</dd>
+              </div>
+            ))}
+          </dl>
 
-          <fieldset className="pt-5 lg:pt-7">
-            <legend className="text-sm font-semibold">גוון הזהב</legend>
-            <div className={`mt-2.5 grid gap-2.5 ${metalGridClass}`}>
+          <fieldset className="pt-6 lg:pt-8">
+            <legend className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-stone">גוון המתכת</legend>
+            <div className="mt-3 flex flex-wrap gap-2.5">
               {product.metals.map((option) => (
                 <button
                   key={option}
@@ -497,10 +465,10 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setMetal(option)}
                   aria-label={metalNames[option]}
                   aria-pressed={metal === option}
-                  className={`flex min-h-12 items-center justify-center gap-2 border px-2 py-2 text-sm transition-colors ${
+                  className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 text-sm transition-colors ${
                     metal === option
-                      ? "border-ink bg-selection text-ink"
-                      : "border-line bg-white text-ink-soft hover:border-stone"
+                      ? "border border-ink text-ink"
+                      : "border border-line text-stone hover:border-stone hover:text-ink"
                   }`}
                 >
                   <span
@@ -514,28 +482,36 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </fieldset>
 
-          <fieldset className="pt-5 lg:pt-7">
-            <legend className="text-sm font-semibold">{caratCopy.legend}</legend>
-            <div className={`mt-2.5 grid gap-2.5 ${caratGridClass}`} dir="rtl">
-              {product.carats.map((option, index) => (
-                <button
-                  key={`${option.value}-${option.price}`}
-                  type="button"
-                  onClick={() => setCaratIdx(index)}
-                  aria-pressed={index === caratIdx}
-                  aria-label={`${option.value} ${caratCopy.qualifier}, ${formatPrice(option.price)}`}
-                  className={`flex min-h-[72px] min-w-0 flex-col items-center justify-center border px-1.5 py-2.5 text-center transition-colors sm:min-h-[80px] sm:px-3 sm:py-3 ${
-                    index === caratIdx
-                      ? "border-ink bg-ink text-ivory"
-                      : "border-line bg-white text-ink hover:border-gold-deep"
-                  }`}
-                >
-                  <span className="block font-display text-xl leading-none" dir="ltr">{option.value}</span>
-                  <span className={`mt-2 block whitespace-nowrap text-xs font-semibold tracking-wide ${index === caratIdx ? "text-ivory" : "text-ink"}`}>
-                    {formatPrice(option.price)}
-                  </span>
-                </button>
-              ))}
+          <fieldset className="pt-6 lg:pt-8">
+            <legend className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-stone">{caratCopy.legend}</legend>
+            <div className={`mt-3 grid gap-2.5 ${caratGridClass}`} dir="rtl">
+              {product.carats.map((option, index) => {
+                const selected = index === caratIdx;
+                return (
+                  <button
+                    key={`${option.value}-${option.price}`}
+                    type="button"
+                    onClick={() => setCaratIdx(index)}
+                    aria-pressed={selected}
+                    aria-label={`${option.value} ${caratCopy.qualifier}, ${formatPrice(option.price)}`}
+                    className={`relative flex min-h-[78px] min-w-0 flex-col items-center justify-center border bg-white px-1.5 py-3 text-center transition-colors sm:min-h-[86px] sm:px-3 ${
+                      selected ? "border-ink" : "border-line hover:border-stone"
+                    }`}
+                  >
+                    {selected && (
+                      <span className="absolute right-1.5 top-1.5 text-gold-deep" aria-hidden>
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.9" className="h-3.5 w-3.5">
+                          <path d="m3.5 8.5 3 3 6-7.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                    )}
+                    <span className="block font-display text-2xl leading-none text-ink" dir="ltr">{option.value}</span>
+                    <span className="mt-2 block whitespace-nowrap text-xs font-medium tracking-wide text-stone">
+                      {formatPrice(option.price)}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </fieldset>
 
@@ -549,22 +525,6 @@ export default function ProductView({ product }: { product: Product }) {
 
         </section>
       </div>
-
-      <section className="mt-10 border-y border-line py-6 sm:mt-12 sm:py-7 lg:mt-16" aria-label="מפרט היהלום">
-        <dl className="grid grid-cols-2 gap-x-8 gap-y-5 text-right sm:grid-cols-4 sm:gap-x-5">
-          {[
-            ["צבע", product.specs.color],
-            ["ניקיון", product.specs.clarity],
-            ["ליטוש", product.specs.cut],
-            ["תעודה", product.specs.cert],
-          ].map(([label, value]) => (
-            <div key={label} className="min-w-0">
-              <dt className="text-[0.72rem] font-semibold tracking-[0.09em] text-stone">{label}</dt>
-              <dd className="mt-1 text-base font-semibold text-ink">{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
 
       <section className="mt-11 grid gap-7 sm:mt-14 lg:mt-20 lg:grid-cols-[minmax(0,1.08fr)_minmax(22rem,0.92fr)] lg:items-center lg:gap-16" aria-labelledby="product-details-title">
         <ProductMedia
@@ -642,52 +602,7 @@ export default function ProductView({ product }: { product: Product }) {
         </div>
       </section>
 
-      <section className="mt-12 sm:mt-16 lg:mt-20" aria-labelledby="after-contact-title">
-        <h2 id="after-contact-title" className="font-display text-[2rem] font-medium leading-tight sm:text-4xl">
-          מה קורה אחרי הפנייה
-        </h2>
-        <ol className="mt-6 grid gap-5 sm:grid-cols-3 sm:gap-8 lg:mt-8">
-          {afterContactSteps.map((step, index) => (
-            <li key={step.title} className="border-t border-line pt-4 sm:pt-5">
-              <span className="font-display text-sm text-gold-deep" aria-hidden>
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mt-1.5 font-display text-xl font-medium leading-snug">{step.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-stone">{step.detail}</p>
-            </li>
-          ))}
-        </ol>
-        <a
-          href={waLink(`היי, יש לי שאלה על ${product.name}`)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-block border-b border-gold/55 pb-1 text-sm font-semibold text-ink-soft transition-colors hover:border-gold hover:text-ink lg:mt-8"
-        >
-          יש שאלה? כתבו לנו — בלי מחויבות
-        </a>
-      </section>
-
-      <section className="mt-12 sm:mt-16 lg:mt-20 lg:grid lg:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] lg:gap-16" aria-labelledby="libi-standard-title">
-        <div>
-          <h2 id="libi-standard-title" className="max-w-xs font-display text-[2rem] font-medium leading-tight sm:text-4xl">
-            הסטנדרט של LIBI
-          </h2>
-          <Link href="/about" className="mt-4 inline-block border-b border-gold/55 pb-1 text-xs font-semibold text-ink-soft transition-colors hover:border-gold hover:text-ink">
-            לתהליך הבחירה המלא
-          </Link>
-        </div>
-
-        <ul className="mt-6 border-t border-line lg:mt-0">
-          {libiStandardItems.map((item) => (
-            <li key={item.title} className="border-b border-line py-4 sm:grid sm:grid-cols-[minmax(10rem,0.72fr)_minmax(0,1.28fr)] sm:gap-x-5 sm:py-5">
-              <h3 className="font-display text-lg font-medium leading-snug sm:text-xl">{item.title}</h3>
-              <p className="mt-1 text-sm leading-6 text-ink-soft/80 sm:mt-0.5">{item.detail}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="mt-6 border-b border-line sm:mt-14 lg:mt-16" aria-label="שירות ומשלוחים">
+      <section className="mt-12 border-b border-line sm:mt-16 lg:mt-20" aria-label="שירות ומשלוחים">
         {serviceItems.map((item) => (
           <details key={item.title} id={`service-${item.id}`} className="faq-item scroll-mt-24 border-t border-line">
             <summary className="flex items-center justify-between gap-4 py-4.5">
@@ -702,9 +617,9 @@ export default function ProductView({ product }: { product: Product }) {
       {showMobileSticky && (
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink px-4 pt-3 text-ivory shadow-[0_-12px_30px_rgba(18,19,19,0.16)] lg:hidden" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
           <div className="mx-auto flex max-w-lg items-center gap-3">
-            <div className="min-w-[5.25rem] shrink-0">
-              <span className="block text-[0.7rem] text-footer-subtle">מחיר</span>
-              <span className="font-display text-lg font-medium">{formatPrice(carat.price)}</span>
+            <div className="min-w-[5.25rem] shrink-0 leading-tight">
+              <span className="block text-[0.62rem] tracking-[0.06em] text-footer-subtle">החל מ־</span>
+              <span className="font-display text-lg font-light">{formatPrice(carat.price)}</span>
             </div>
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center gap-2 bg-ivory px-3 text-sm font-semibold text-ink">
               <WhatsAppIcon className="h-4 w-4" />
