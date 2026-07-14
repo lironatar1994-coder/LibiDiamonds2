@@ -101,7 +101,7 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </div>
 
-      <section className="mt-10 bg-platinum py-9 lg:mt-16 lg:py-14">
+      <section className="mt-4 bg-platinum-soft py-9 sm:mt-6 lg:mt-12 lg:py-14">
         <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
           <h2 className="font-display text-[1.85rem] font-medium leading-tight sm:text-3xl lg:text-4xl">עוד {category.name} מהקולקציה</h2>
           <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 lg:mt-9 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-10">
@@ -109,6 +109,12 @@ export default async function ProductPage({ params }: Props) {
               <ProductCard key={p.slug} product={p} />
             ))}
           </div>
+          <Link
+            href={`/jewelry/${category.slug}`}
+            className="mt-8 inline-block border-b border-gold/55 pb-1 text-sm font-semibold text-ink-soft transition-colors hover:border-gold hover:text-ink lg:mt-10"
+          >
+            לכל ה{category.name}
+          </Link>
         </div>
       </section>
 

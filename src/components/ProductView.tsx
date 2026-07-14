@@ -307,7 +307,7 @@ export default function ProductView({ product }: { product: Product }) {
       >
         <div>
           <h2 id="libi-standard-title" className="max-w-xs font-display text-3xl font-medium leading-tight sm:text-4xl">
-            הסטנדרט של LIBI.
+            הסטנדרט של LIBI
           </h2>
         </div>
 
@@ -321,7 +321,7 @@ export default function ProductView({ product }: { product: Product }) {
                 {String(index + 1).padStart(2, "0")}
               </span>
               <h3 className="font-display text-xl font-medium leading-snug sm:text-[1.35rem]">{item.title}</h3>
-              <p className="col-start-2 mt-1 text-sm leading-6 text-stone sm:col-start-3 sm:mt-0 sm:leading-7">{item.detail}</p>
+              <p className="col-start-2 mt-1 text-sm leading-6 text-ink-soft/80 sm:col-start-3 sm:mt-0 sm:leading-7">{item.detail}</p>
             </li>
           ))}
         </ol>
