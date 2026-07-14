@@ -40,8 +40,7 @@ export interface ProductGalleryImage {
 }
 
 export interface TryOnAssetPair {
-  rear: string;
-  front: string;
+  head: string;
 }
 
 export interface TryOnConfig {
@@ -925,12 +924,10 @@ export const products: Product[] = catalogProducts.map((product) => {
           referenceCarat: "1.00",
           assetsByMetal: {
             yellow: {
-              rear: "/try-on/v1/rings/aura/yellow-rear.webp",
-              front: "/try-on/v1/rings/aura/yellow-front.webp",
+              head: "/try-on/v2/rings/aura/yellow-head.webp",
             },
             white: {
-              rear: "/try-on/v1/rings/aura/white-rear.webp",
-              front: "/try-on/v1/rings/aura/white-front.webp",
+              head: "/try-on/v2/rings/aura/white-head.webp",
             },
           },
         }

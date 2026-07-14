@@ -89,14 +89,71 @@ function drawMedia(
   return transform;
 }
 
-function drawRingLayer(context: CanvasRenderingContext2D, image: HTMLImageElement, pose: RingPose) {
+function drawRingSetting(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  pose: RingPose,
+  metal: Metal,
+) {
   context.save();
   context.translate(pose.x, pose.y);
   context.rotate(pose.rotation);
+
+  const fingerWidth = pose.fingerWidth;
+  const bandGradient = context.createLinearGradient(-fingerWidth * 0.58, 0, fingerWidth * 0.58, 0);
+  if (metal === "white") {
+    bandGradient.addColorStop(0, "#8f9494");
+    bandGradient.addColorStop(0.2, "#f7f8f7");
+    bandGradient.addColorStop(0.5, "#c5c9c8");
+    bandGradient.addColorStop(0.8, "#ffffff");
+    bandGradient.addColorStop(1, "#858a89");
+  } else {
+    bandGradient.addColorStop(0, "#8e5f16");
+    bandGradient.addColorStop(0.2, "#f5d77b");
+    bandGradient.addColorStop(0.5, "#b97a20");
+    bandGradient.addColorStop(0.8, "#ffe59a");
+    bandGradient.addColorStop(1, "#8b5912");
+  }
+
   context.shadowColor = "rgba(15, 12, 8, 0.2)";
   context.shadowBlur = Math.max(1, pose.fingerWidth * 0.1);
   context.shadowOffsetY = Math.max(1, pose.fingerWidth * 0.035);
-  context.drawImage(image, -pose.width / 2, -pose.width * 0.64, pose.width, pose.width);
+
+  context.beginPath();
+  context.moveTo(-fingerWidth * 0.56, fingerWidth * 0.055);
+  context.bezierCurveTo(
+    -fingerWidth * 0.34,
+    -fingerWidth * 0.015,
+    fingerWidth * 0.34,
+    -fingerWidth * 0.015,
+    fingerWidth * 0.56,
+    fingerWidth * 0.055,
+  );
+  context.lineCap = "round";
+  context.lineWidth = Math.max(2, fingerWidth * 0.105);
+  context.strokeStyle = bandGradient;
+  context.stroke();
+
+  context.shadowColor = "transparent";
+  context.beginPath();
+  context.moveTo(-fingerWidth * 0.5, fingerWidth * 0.035);
+  context.bezierCurveTo(
+    -fingerWidth * 0.25,
+    -fingerWidth * 0.02,
+    fingerWidth * 0.25,
+    -fingerWidth * 0.02,
+    fingerWidth * 0.5,
+    fingerWidth * 0.035,
+  );
+  context.lineWidth = Math.max(0.7, fingerWidth * 0.018);
+  context.strokeStyle = metal === "white" ? "rgba(255,255,255,0.88)" : "rgba(255,239,181,0.9)";
+  context.stroke();
+
+  const headSize = fingerWidth * 0.56;
+  context.shadowColor = "rgba(15, 12, 8, 0.18)";
+  context.shadowBlur = Math.max(1, fingerWidth * 0.075);
+  context.shadowOffsetY = Math.max(0.5, fingerWidth * 0.025);
+  context.drawImage(image, -headSize / 2, -headSize * 0.54, headSize, headSize);
   context.restore();
 }
 
@@ -131,7 +188,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
   const streamRef = useRef<MediaStream | null>(null);
   const animationRef = useRef<number | null>(null);
   const lastDetectionRequestRef = useRef(0);
-  const ringImageRef = useRef<HTMLImageElement | null>(null);
+  const ringHeadRef = useRef<HTMLImageElement | null>(null);
   const draggingRef = useRef<{ pointerId: number; x: number; y: number; originX: number; originY: number } | null>(null);
 
   const selectedAssets = config.assetsByMetal[metal] ?? config.assetsByMetal.yellow;
@@ -253,9 +310,9 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
   useEffect(() => {
     if (!open || !selectedAssets) return;
     let active = true;
-    ringImageRef.current = null;
-    loadImage(assetPath(selectedAssets.front)).then((front) => {
-      if (active) ringImageRef.current = front;
+    ringHeadRef.current = null;
+    loadImage(assetPath(selectedAssets.head)).then((head) => {
+      if (active) ringHeadRef.current = head;
     }).catch(() => setCameraError("נכסי הטבעת לא נטענו. רעננו את העמוד ונסו שוב."));
     return () => { active = false; };
   }, [open, selectedAssets]);
@@ -361,8 +418,8 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
       if (source && sourceWidth && sourceHeight) {
         const transform = drawMedia(context, source, sourceWidth, sourceHeight, canvasWidth, canvasHeight, mirrored);
         const hand = latestHandRef.current;
-        const ringImage = ringImageRef.current;
-        if (hand && ringImage) {
+        const ringHead = ringHeadRef.current;
+        if (hand && ringHead) {
           const mapped = mapLandmarks(hand, transform, sourceWidth, sourceHeight);
           const detectedPose = calculateRingPose(mapped);
           if (detectedPose) {
@@ -376,7 +433,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
             };
             const pose = smoothPose(smoothedPoseRef.current, adjustedPose, mode === "live" ? 0.32 : 0.58);
             smoothedPoseRef.current = pose;
-            drawRingLayer(context, ringImage, pose);
+            drawRingSetting(context, ringHead, pose, metal);
           }
         }
       }
@@ -389,7 +446,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
       if (animationRef.current !== null) cancelAnimationFrame(animationRef.current);
       animationRef.current = null;
     };
-  }, [cameraState, facingMode, frozen, manualOffset, manualRotation, manualScale, mode, modelState, open, photoReady, sendFrame]);
+  }, [cameraState, facingMode, frozen, manualOffset, manualRotation, manualScale, metal, mode, modelState, open, photoReady, sendFrame]);
 
   useEffect(() => {
     if (!open) {
