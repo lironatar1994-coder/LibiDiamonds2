@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
   metalNames,
@@ -57,14 +58,6 @@ const libiStandardItems = [
     title: "התאמה לפני תחילת העבודה",
     detail: "האבן, הזהב והמידה נסגרים יחד לפני הייצור.",
   },
-  {
-    title: "שקיפות מלאה בהזמנה",
-    detail: "המחיר, התעודה ומועד האספקה מאושרים מראש.",
-  },
-  {
-    title: "ליווי גם אחרי המסירה",
-    detail: "אחריות, משלוח מבוטח והתאמת מידה ראשונה כלולים.",
-  },
 ];
 
 const serviceItems = [
@@ -105,8 +98,10 @@ export default function ProductView({ product }: { product: Product }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [tryOnOpen, setTryOnOpen] = useState(false);
-  const [primaryCtaPassed, setPrimaryCtaPassed] = useState(false);
+  const [summaryPassed, setSummaryPassed] = useState(false);
+  const [primaryCtaVisible, setPrimaryCtaVisible] = useState(false);
   const [relatedReached, setRelatedReached] = useState(false);
+  const summaryRef = useRef<HTMLElement>(null);
   const primaryCtaRef = useRef<HTMLDivElement>(null);
   const viewerCloseRef = useRef<HTMLButtonElement>(null);
 
@@ -124,18 +119,24 @@ export default function ProductView({ product }: { product: Product }) {
         ? "grid-cols-3"
         : "grid-cols-2";
   const detailImage = images.find((image) => image.view === "detail" || image.view === "profile") ?? images[1] ?? images[0];
-  const showMobileSticky = primaryCtaPassed && !relatedReached && !viewerOpen && !tryOnOpen;
+  const showMobileSticky = summaryPassed && !primaryCtaVisible && !relatedReached && !viewerOpen && !tryOnOpen;
 
   useEffect(() => {
     setSelectedImage(0);
   }, [metal]);
 
   useEffect(() => {
+    const summary = summaryRef.current;
     const cta = primaryCtaRef.current;
-    if (!cta) return;
+    if (!summary || !cta) return;
+
+    const summaryObserver = new IntersectionObserver(([entry]) => {
+      setSummaryPassed(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+    }, { threshold: 0 });
+    summaryObserver.observe(summary);
 
     const ctaObserver = new IntersectionObserver(([entry]) => {
-      setPrimaryCtaPassed(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+      setPrimaryCtaVisible(entry.isIntersecting);
     }, { threshold: 0.05 });
     ctaObserver.observe(cta);
 
@@ -148,6 +149,7 @@ export default function ProductView({ product }: { product: Product }) {
     if (related && relatedObserver) relatedObserver.observe(related);
 
     return () => {
+      summaryObserver.disconnect();
       ctaObserver.disconnect();
       relatedObserver?.disconnect();
     };
@@ -177,7 +179,7 @@ export default function ProductView({ product }: { product: Product }) {
 
   return (
     <>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.18fr)_minmax(23rem,0.82fr)] lg:items-start lg:gap-14 xl:gap-20">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.18fr)_minmax(23rem,0.82fr)] lg:items-start lg:gap-14 xl:gap-20">
         <section className="-mx-4 sm:mx-0" aria-label={`גלריית תמונות של ${product.name}`}>
           <button
             type="button"
@@ -200,7 +202,7 @@ export default function ProductView({ product }: { product: Product }) {
           </button>
 
           {images.length > 1 && (
-            <div className={`mt-3 flex justify-center gap-2.5 px-4 sm:justify-start sm:px-0 ${images.length > 2 ? "lg:hidden" : ""}`}>
+            <div className={`mt-2 flex justify-center gap-2 px-4 sm:mt-3 sm:justify-start sm:px-0 ${images.length > 2 ? "lg:hidden" : ""}`}>
               {images.map((image, index) => (
                 <button
                   key={image.src}
@@ -208,7 +210,7 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setSelectedImage(index)}
                   aria-label={`הצגת תמונה ${index + 1} של ${product.name}`}
                   aria-pressed={selectedImage === index}
-                  className={`relative aspect-square w-[4.5rem] overflow-hidden border transition-[border-color,opacity] sm:w-24 ${
+                  className={`relative aspect-square w-16 overflow-hidden border transition-[border-color,opacity] sm:w-24 ${
                     selectedImage === index
                       ? "border-ink opacity-100"
                       : "border-transparent opacity-58 hover:opacity-100"
@@ -247,12 +249,12 @@ export default function ProductView({ product }: { product: Product }) {
         </section>
 
         <section className="min-w-0 lg:sticky lg:top-28 lg:self-start">
-          <header>
+          <header ref={summaryRef}>
             <h1 className="font-display text-[2.05rem] font-medium leading-[1.12] sm:text-5xl lg:text-[3.15rem]">
               {product.name}
             </h1>
-            <p className="mt-2.5 text-sm leading-6 text-stone sm:text-base">{product.subtitle}</p>
-            <div className="mt-5 flex items-baseline gap-3 lg:mt-7" aria-live="polite">
+            <p className="mt-2 text-sm leading-6 text-stone sm:text-base">{product.subtitle}</p>
+            <div className="mt-4 flex items-baseline gap-3 lg:mt-7" aria-live="polite">
               <span className="text-xs font-semibold text-stone">מחיר</span>
               <span className="font-display text-[2.15rem] font-medium leading-none text-ink sm:text-4xl">
                 {formatPrice(carat.price)}
@@ -260,15 +262,15 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </header>
 
-          <div className="mt-6 grid grid-cols-3 border-y border-line py-3.5 text-center text-[0.68rem] font-semibold text-ink-soft sm:text-xs lg:mt-7">
+          <div className="mt-5 grid grid-cols-3 border-y border-line py-3 text-center text-[0.68rem] font-semibold text-ink-soft sm:text-xs lg:mt-7 lg:py-3.5">
             <span>תעודה גמולוגית</span>
             <span className="border-x border-line">משלוח מבוטח</span>
             <span>התאמת מידה</span>
           </div>
 
-          <fieldset className="pt-6 lg:pt-7">
+          <fieldset className="pt-5 lg:pt-7">
             <legend className="text-sm font-semibold">גוון הזהב</legend>
-            <div className={`mt-3 grid gap-2.5 ${metalGridClass}`}>
+            <div className={`mt-2.5 grid gap-2.5 ${metalGridClass}`}>
               {product.metals.map((option) => (
                 <button
                   key={option}
@@ -293,9 +295,9 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </fieldset>
 
-          <fieldset className="pt-6 lg:pt-7">
+          <fieldset className="pt-5 lg:pt-7">
             <legend className="text-sm font-semibold">{caratCopy.legend}</legend>
-            <div className={`mt-3 grid gap-2.5 ${caratGridClass}`} dir="rtl">
+            <div className={`mt-2.5 grid gap-2.5 ${caratGridClass}`} dir="rtl">
               {product.carats.map((option, index) => (
                 <button
                   key={`${option.value}-${option.price}`}
@@ -303,7 +305,7 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setCaratIdx(index)}
                   aria-pressed={index === caratIdx}
                   aria-label={`${option.value} ${caratCopy.qualifier}, ${formatPrice(option.price)}`}
-                  className={`flex min-h-[92px] min-w-0 flex-col items-center justify-center border px-1.5 py-3 text-center transition-colors sm:px-3 ${
+                  className={`flex min-h-[88px] min-w-0 flex-col items-center justify-center border px-1.5 py-2.5 text-center transition-colors sm:min-h-[92px] sm:px-3 sm:py-3 ${
                     index === caratIdx
                       ? "border-ink bg-ink text-ivory"
                       : "border-line bg-white text-ink hover:border-gold-deep"
@@ -321,7 +323,7 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </fieldset>
 
-          <div ref={primaryCtaRef} className="mt-7 lg:mt-8">
+          <div ref={primaryCtaRef} className="mt-6 lg:mt-8">
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="btn-primary min-h-[54px] w-full">
               <WhatsAppIcon className="h-4 w-4" />
               בדיקת זמינות ומחיר בוואטסאפ
@@ -330,7 +332,7 @@ export default function ProductView({ product }: { product: Product }) {
           </div>
 
           {product.tryOn?.enabled && product.category === "rings" && (
-            <div className="pt-4">
+            <div className="pt-3.5">
               <button
                 type="button"
                 onClick={() => setTryOnOpen(true)}
@@ -342,7 +344,7 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           )}
 
-          <p className="mt-4 text-center text-xs text-stone">
+          <p className="mt-3 text-center text-xs text-stone sm:mt-4">
             {metalNames[metal]} · {caratLabel} · {product.specs.cert}
           </p>
         </section>
@@ -445,6 +447,9 @@ export default function ProductView({ product }: { product: Product }) {
           <h2 id="libi-standard-title" className="max-w-xs font-display text-3xl font-medium leading-tight sm:text-4xl">
             הסטנדרט של LIBI
           </h2>
+          <Link href="/about" className="mt-4 inline-block border-b border-gold/55 pb-1 text-xs font-semibold text-ink-soft transition-colors hover:border-gold hover:text-ink">
+            לתהליך הבחירה המלא
+          </Link>
         </div>
 
         <ol className="mt-6 border-t border-line lg:mt-0">
