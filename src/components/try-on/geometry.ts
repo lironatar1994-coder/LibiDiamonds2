@@ -96,7 +96,7 @@ export function calculateRingPose(hand: HandPoint[]): RingPose | null {
   return {
     x,
     y,
-    width: fingerWidth * 2.25,
+    width: fingerWidth * 1.72,
     fingerWidth,
     rotation: Math.atan2(ringPip.y - ringMcp.y, ringPip.x - ringMcp.x) + Math.PI / 2,
   };
@@ -117,21 +117,4 @@ export function smoothPose(previous: RingPose | null, next: RingPose, amount = 0
     fingerWidth: previous.fingerWidth + (next.fingerWidth - previous.fingerWidth) * amount,
     rotation: interpolateAngle(previous.rotation, next.rotation, amount),
   };
-}
-
-export function fingerOcclusionPolygon(pose: RingPose): HandPoint[] {
-  const axisAngle = pose.rotation - Math.PI / 2;
-  const axisX = Math.cos(axisAngle);
-  const axisY = Math.sin(axisAngle);
-  const normalX = -axisY;
-  const normalY = axisX;
-  const halfLength = pose.width * 0.56;
-  const halfWidth = pose.fingerWidth * 0.58;
-
-  return [
-    { x: pose.x - axisX * halfLength - normalX * halfWidth, y: pose.y - axisY * halfLength - normalY * halfWidth },
-    { x: pose.x + axisX * halfLength - normalX * halfWidth, y: pose.y + axisY * halfLength - normalY * halfWidth },
-    { x: pose.x + axisX * halfLength + normalX * halfWidth, y: pose.y + axisY * halfLength + normalY * halfWidth },
-    { x: pose.x - axisX * halfLength + normalX * halfWidth, y: pose.y - axisY * halfLength + normalY * halfWidth },
-  ];
 }

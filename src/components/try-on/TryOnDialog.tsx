@@ -16,7 +16,6 @@ import {
   calculateRingPose,
   choosePrimaryHand,
   coverTransform,
-  fingerOcclusionPolygon,
   mapLandmarks,
   smoothPose,
   type HandPoint,
@@ -94,6 +93,9 @@ function drawRingLayer(context: CanvasRenderingContext2D, image: HTMLImageElemen
   context.save();
   context.translate(pose.x, pose.y);
   context.rotate(pose.rotation);
+  context.shadowColor = "rgba(15, 12, 8, 0.2)";
+  context.shadowBlur = Math.max(1, pose.fingerWidth * 0.1);
+  context.shadowOffsetY = Math.max(1, pose.fingerWidth * 0.035);
   context.drawImage(image, -pose.width / 2, -pose.width * 0.64, pose.width, pose.width);
   context.restore();
 }
@@ -129,7 +131,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
   const streamRef = useRef<MediaStream | null>(null);
   const animationRef = useRef<number | null>(null);
   const lastDetectionRequestRef = useRef(0);
-  const ringImagesRef = useRef<{ rear: HTMLImageElement; front: HTMLImageElement } | null>(null);
+  const ringImageRef = useRef<HTMLImageElement | null>(null);
   const draggingRef = useRef<{ pointerId: number; x: number; y: number; originX: number; originY: number } | null>(null);
 
   const selectedAssets = config.assetsByMetal[metal] ?? config.assetsByMetal.yellow;
@@ -251,12 +253,9 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
   useEffect(() => {
     if (!open || !selectedAssets) return;
     let active = true;
-    ringImagesRef.current = null;
-    Promise.all([
-      loadImage(assetPath(selectedAssets.rear)),
-      loadImage(assetPath(selectedAssets.front)),
-    ]).then(([rear, front]) => {
-      if (active) ringImagesRef.current = { rear, front };
+    ringImageRef.current = null;
+    loadImage(assetPath(selectedAssets.front)).then((front) => {
+      if (active) ringImageRef.current = front;
     }).catch(() => setCameraError("נכסי הטבעת לא נטענו. רעננו את העמוד ונסו שוב."));
     return () => { active = false; };
   }, [open, selectedAssets]);
@@ -362,8 +361,8 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
       if (source && sourceWidth && sourceHeight) {
         const transform = drawMedia(context, source, sourceWidth, sourceHeight, canvasWidth, canvasHeight, mirrored);
         const hand = latestHandRef.current;
-        const ringImages = ringImagesRef.current;
-        if (hand && ringImages) {
+        const ringImage = ringImageRef.current;
+        if (hand && ringImage) {
           const mapped = mapLandmarks(hand, transform, sourceWidth, sourceHeight);
           const detectedPose = calculateRingPose(mapped);
           if (detectedPose) {
@@ -377,19 +376,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
             };
             const pose = smoothPose(smoothedPoseRef.current, adjustedPose, mode === "live" ? 0.32 : 0.58);
             smoothedPoseRef.current = pose;
-            drawRingLayer(context, ringImages.rear, pose);
-
-            const polygon = fingerOcclusionPolygon(pose);
-            context.save();
-            context.beginPath();
-            context.moveTo(polygon[0].x, polygon[0].y);
-            polygon.slice(1).forEach((point) => context.lineTo(point.x, point.y));
-            context.closePath();
-            context.clip();
-            drawMedia(context, source, sourceWidth, sourceHeight, canvasWidth, canvasHeight, mirrored);
-            context.restore();
-
-            drawRingLayer(context, ringImages.front, pose);
+            drawRingLayer(context, ringImage, pose);
           }
         }
       }
