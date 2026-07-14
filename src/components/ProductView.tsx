@@ -350,7 +350,7 @@ export default function ProductView({ product }: { product: Product }) {
                 >
                   <span
                     className={`h-1.5 rounded-full transition-all duration-300 ${
-                      selectedImage === index ? "w-4 bg-ink" : "w-1.5 bg-line"
+                      selectedImage === index ? "w-4 bg-ink" : "w-1.5 bg-stone/50"
                     }`}
                     aria-hidden
                   />
@@ -504,17 +504,14 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setCaratIdx(index)}
                   aria-pressed={index === caratIdx}
                   aria-label={`${option.value} ${caratCopy.qualifier}, ${formatPrice(option.price)}`}
-                  className={`flex min-h-[88px] min-w-0 flex-col items-center justify-center border px-1.5 py-2.5 text-center transition-colors sm:min-h-[92px] sm:px-3 sm:py-3 ${
+                  className={`flex min-h-[72px] min-w-0 flex-col items-center justify-center border px-1.5 py-2.5 text-center transition-colors sm:min-h-[80px] sm:px-3 sm:py-3 ${
                     index === caratIdx
                       ? "border-ink bg-ink text-ivory"
                       : "border-line bg-white text-ink hover:border-gold-deep"
                   }`}
                 >
                   <span className="block font-display text-xl leading-none" dir="ltr">{option.value}</span>
-                  <span className={`mt-1.5 block whitespace-nowrap text-[0.72rem] leading-none ${index === caratIdx ? "text-footer-muted" : "text-stone"}`}>
-                    {caratCopy.qualifier}
-                  </span>
-                  <span className={`mt-2.5 block whitespace-nowrap text-xs font-semibold tracking-wide ${index === caratIdx ? "text-ivory" : "text-ink"}`}>
+                  <span className={`mt-2 block whitespace-nowrap text-xs font-semibold tracking-wide ${index === caratIdx ? "text-ivory" : "text-ink"}`}>
                     {formatPrice(option.price)}
                   </span>
                 </button>
@@ -527,7 +524,7 @@ export default function ProductView({ product }: { product: Product }) {
               <WhatsAppIcon className="h-4 w-4" />
               להזמנה ולייעוץ בוואטסאפ
             </a>
-            <p className="mt-2.5 text-center text-xs leading-5 text-stone">ליווי אישי, משלוח מבוטח ואספקה תוך 7 עד 14 ימי עסקים.</p>
+            <p className="mt-2.5 text-center text-xs leading-5 text-stone">ליווי אישי ואספקה תוך 7 עד 14 ימי עסקים.</p>
           </div>
 
           {product.tryOn?.enabled && product.category === "rings" && (
@@ -615,7 +612,7 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
             <figcaption className="mt-3">
               <span className="block text-sm font-semibold text-ink-soft">אריזת LIBI</span>
-              <span className="mt-1 block text-xs leading-5 text-stone">הדמיה; פרטי האריזה עשויים להשתנות מעט.</span>
+              <span className="mt-1 block text-xs leading-5 text-ink-soft/80">הדמיה — פרטי האריזה עשויים להשתנות מעט.</span>
             </figcaption>
           </figure>
 
@@ -631,7 +628,7 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
             <figcaption className="mt-3">
               <span className="block text-sm font-semibold text-ink-soft">תעודה גמולוגית</span>
-              <span className="mt-1 block text-xs leading-5 text-stone">התעודה בפועל מותאמת ליהלום שנבחר.</span>
+              <span className="mt-1 block text-xs leading-5 text-ink-soft/80">התעודה בפועל מותאמת ליהלום שנבחר.</span>
             </figcaption>
           </figure>
         </div>
@@ -664,7 +661,7 @@ export default function ProductView({ product }: { product: Product }) {
 
       <section className="mt-12 sm:mt-16 lg:mt-20 lg:grid lg:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] lg:gap-16" aria-labelledby="libi-standard-title">
         <div>
-          <h2 id="libi-standard-title" className="max-w-xs font-display text-3xl font-medium leading-tight sm:text-4xl">
+          <h2 id="libi-standard-title" className="max-w-xs font-display text-[2rem] font-medium leading-tight sm:text-4xl">
             הסטנדרט של LIBI
           </h2>
           <Link href="/about" className="mt-4 inline-block border-b border-gold/55 pb-1 text-xs font-semibold text-ink-soft transition-colors hover:border-gold hover:text-ink">
@@ -682,7 +679,7 @@ export default function ProductView({ product }: { product: Product }) {
         </ul>
       </section>
 
-      <section className="mt-10 border-b border-line sm:mt-14 lg:mt-16" aria-label="שירות ומשלוחים">
+      <section className="mt-6 border-b border-line sm:mt-14 lg:mt-16" aria-label="שירות ומשלוחים">
         {serviceItems.map((item) => (
           <details key={item.title} id={`service-${item.id}`} className="faq-item scroll-mt-24 border-t border-line">
             <summary className="flex items-center justify-between gap-4 py-4.5">

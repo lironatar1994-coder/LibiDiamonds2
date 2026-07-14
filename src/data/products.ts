@@ -295,7 +295,7 @@ const catalogProducts: CatalogProduct[] = [
     metals: ["yellow", "white", "rose"],
     specs: { color: "E–F", clarity: "VS1", cut: "Excellent", cert: "IGI" },
     description:
-      "יהלום עגול מורם בשיבוץ ארבע שיניים על חישוק זהב חלק ומעוגל. הפרופיל הנקי משאיר את האבן פתוחה לאור ונוח לענידה יומיומית.",
+      "יהלום עגול מורם בשיבוץ ארבע שיניים על חישוק זהב חלק ומעוגל — עיצוב קלאסי שנוח לענידה יומיומית.",
     dimensions: [
       { label: "רוחב החישוק", value: "כ־1.8 מ״מ" },
       { label: "פרופיל", value: "מורם" },
