@@ -296,6 +296,10 @@ const catalogProducts: CatalogProduct[] = [
     specs: { color: "E–F", clarity: "VS1", cut: "Excellent", cert: "IGI" },
     description:
       "יהלום עגול מורם בשיבוץ ארבע שיניים על חישוק זהב חלק ומעוגל. הפרופיל הנקי משאיר את האבן פתוחה לאור ונוח לענידה יומיומית.",
+    dimensions: [
+      { label: "רוחב החישוק", value: "כ־1.8 מ״מ" },
+      { label: "פרופיל", value: "מורם, פתוח לאור" },
+    ],
     gallery: [
       { src: "/images/products/catalog/aura-solitaire-ring-primary.webp", alt: "טבעת אורה בזהב צהוב במבט חזיתי", view: "primary", legacy: true },
       { src: "/images/products/catalog/aura-solitaire-ring-detail.webp", alt: "פרופיל שיבוץ ארבע השיניים של טבעת אורה", view: "detail", legacy: true },

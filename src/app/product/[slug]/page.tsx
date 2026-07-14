@@ -72,6 +72,24 @@ export default async function ProductPage({ params }: Props) {
       highPrice: product.carats[product.carats.length - 1].price,
       offerCount: product.carats.length,
       availability: "https://schema.org/InStock",
+      priceValidUntil: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: { "@type": "MonetaryAmount", value: 0, currency: site.currency },
+        shippingDestination: { "@type": "DefinedRegion", addressCountry: site.country },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: { "@type": "QuantitativeValue", minValue: 5, maxValue: 10, unitCode: "DAY" },
+          transitTime: { "@type": "QuantitativeValue", minValue: 2, maxValue: 4, unitCode: "DAY" },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: site.country,
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 14,
+        returnMethod: "https://schema.org/ReturnByMail",
+      },
     },
     additionalProperty: [
       { "@type": "PropertyValue", name: "צבע היהלום", value: product.specs.color },

@@ -36,6 +36,16 @@ function ZoomGlyph({ className }: { className?: string }) {
   );
 }
 
+function ShareGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" className={className} aria-hidden="true">
+      <path d="M12 14.5v-11" strokeLinecap="round" />
+      <path d="m8.5 7 3.5-3.5L15.5 7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8 11H5.5v9.5h13V11H16" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 const METAL_SWATCH: Record<Metal, string> = {
   yellow: "#c9a35e",
   white: "#c4c8cd",
@@ -71,6 +81,26 @@ const serviceItems = [
     detail:
       "ניתן להחזיר או להחליף פריט מהקולקציה תוך 14 יום מקבלתו, במצבו המקורי. פריטים בהתאמה אישית — בתיאום מראש.",
   },
+  {
+    title: "אחריות ושירות",
+    detail:
+      "אחריות מלאה על עבודת הצורפות והשיבוץ, והתאמת מידה ראשונה כלולה. אנחנו זמינים בוואטסאפ לכל שאלה — גם אחרי המסירה.",
+  },
+];
+
+const afterContactSteps = [
+  {
+    title: "כותבים לנו בוואטסאפ",
+    detail: "מספרים איזה דגם, קראט וגוון מעניינים אתכם — או פשוט שואלים.",
+  },
+  {
+    title: "מקבלים אפשרויות אמיתיות",
+    detail: "תמונות, סרטונים ונתוני תעודה של אבנים זמינות, עם מחיר סופי לכל אחת.",
+  },
+  {
+    title: "מאשרים — ואנחנו יוצרים",
+    detail: "המידה, המחיר ומועד האספקה נסגרים מראש, והתכשיט מגיע במשלוח מבוטח עד הבית.",
+  },
 ];
 
 const packagingByCategory: Record<Product["category"], { src: string; alt: string }> = {
@@ -101,9 +131,12 @@ export default function ProductView({ product }: { product: Product }) {
   const [summaryPassed, setSummaryPassed] = useState(false);
   const [primaryCtaVisible, setPrimaryCtaVisible] = useState(false);
   const [relatedReached, setRelatedReached] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
   const summaryRef = useRef<HTMLElement>(null);
   const primaryCtaRef = useRef<HTMLDivElement>(null);
   const viewerCloseRef = useRef<HTMLButtonElement>(null);
+  const galleryTrackRef = useRef<HTMLDivElement>(null);
+  const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   const carat = product.carats[caratIdx];
   const images = productImages(product, metal);
@@ -123,7 +156,14 @@ export default function ProductView({ product }: { product: Product }) {
 
   useEffect(() => {
     setSelectedImage(0);
+    galleryTrackRef.current?.scrollTo({ left: 0 });
   }, [metal]);
+
+  useEffect(() => {
+    return () => {
+      if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const summary = summaryRef.current;
@@ -177,32 +217,147 @@ export default function ProductView({ product }: { product: Product }) {
     setViewerOpen(true);
   };
 
+  const handleGalleryScroll = () => {
+    const track = galleryTrackRef.current;
+    if (!track || track.clientWidth === 0) return;
+    const index = Math.min(
+      images.length - 1,
+      Math.max(0, Math.round(Math.abs(track.scrollLeft) / track.clientWidth)),
+    );
+    setSelectedImage((current) => (current === index ? current : index));
+  };
+
+  const scrollToSlide = (index: number) => {
+    galleryTrackRef.current?.children[index]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: `${product.name} · LIBI DIAMONDS`, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        setLinkCopied(true);
+        if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
+        copiedTimeoutRef.current = setTimeout(() => setLinkCopied(false), 2200);
+      }
+    } catch {
+      /* המשתמש ביטל את השיתוף */
+    }
+  };
+
   return (
     <>
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.18fr)_minmax(23rem,0.82fr)] lg:items-start lg:gap-14 xl:gap-20">
         <section className="-mx-4 sm:mx-0" aria-label={`גלריית תמונות של ${product.name}`}>
-          <button
-            type="button"
-            onClick={() => openViewer(selectedImage)}
-            className="group relative block w-full text-right"
-            aria-label={`פתיחת ${images[selectedImage].alt} במסך מלא`}
-          >
-            <ProductMedia
-              key={images[selectedImage].src}
-              image={images[selectedImage]}
-              priority
-              fetchPriority="high"
-              sizes="(min-width: 1024px) 58vw, 100vw"
-              className="aspect-square"
-              imageClassName="animate-fade-up object-cover transition-transform duration-700 group-hover:scale-[1.012]"
-            />
-            <span className="absolute bottom-4 left-4 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm transition-colors group-hover:bg-white" aria-hidden>
+          <div className="relative sm:hidden">
+            <div
+              ref={galleryTrackRef}
+              onScroll={handleGalleryScroll}
+              className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto"
+              aria-label={`החלקה בין תמונות ${product.name}`}
+            >
+              {images.map((image, index) => (
+                <button
+                  key={image.src}
+                  type="button"
+                  onClick={() => openViewer(index)}
+                  className="relative w-full shrink-0 snap-center"
+                  aria-label={`פתיחת ${image.alt} במסך מלא`}
+                >
+                  <ProductMedia
+                    image={image}
+                    priority={index === 0}
+                    fetchPriority={index === 0 ? "high" : undefined}
+                    sizes="100vw"
+                    className="aspect-square"
+                    imageClassName="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+            <span className="pointer-events-none absolute bottom-3 left-3 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm" aria-hidden>
               <ZoomGlyph className="h-5 w-5" />
             </span>
-          </button>
+            <button
+              type="button"
+              onClick={handleShare}
+              className="absolute bottom-3 right-3 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm"
+              aria-label={`שיתוף ${product.name}`}
+            >
+              <ShareGlyph className="h-5 w-5" />
+            </button>
+            {linkCopied && (
+              <span role="status" className="absolute bottom-[4.25rem] right-3 bg-ink/90 px-3 py-1.5 text-xs text-ivory">
+                הקישור הועתק
+              </span>
+            )}
+          </div>
 
           {images.length > 1 && (
-            <div className={`mt-2 flex justify-center gap-2 px-4 sm:mt-3 sm:justify-start sm:px-0 ${images.length > 2 ? "lg:hidden" : ""}`}>
+            <div className="mt-2.5 flex justify-center gap-1 sm:hidden" role="group" aria-label="בחירת תמונה">
+              {images.map((image, index) => (
+                <button
+                  key={image.src}
+                  type="button"
+                  onClick={() => scrollToSlide(index)}
+                  aria-label={`מעבר לתמונה ${index + 1} של ${product.name}`}
+                  aria-pressed={selectedImage === index}
+                  className="flex h-8 w-8 items-center justify-center"
+                >
+                  <span
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      selectedImage === index ? "w-4 bg-ink" : "w-1.5 bg-line"
+                    }`}
+                    aria-hidden
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="relative hidden sm:block">
+            <button
+              type="button"
+              onClick={() => openViewer(selectedImage)}
+              className="group relative block w-full text-right"
+              aria-label={`פתיחת ${images[selectedImage].alt} במסך מלא`}
+            >
+              <ProductMedia
+                key={images[selectedImage].src}
+                image={images[selectedImage]}
+                priority
+                fetchPriority="high"
+                sizes="(min-width: 1024px) 58vw, 100vw"
+                className="aspect-square"
+                imageClassName="animate-fade-up object-cover transition-transform duration-700 group-hover:scale-[1.012]"
+              />
+              <span className="absolute bottom-4 left-4 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm transition-colors group-hover:bg-white" aria-hidden>
+                <ZoomGlyph className="h-5 w-5" />
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={handleShare}
+              className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm transition-colors hover:bg-white"
+              aria-label={`שיתוף ${product.name}`}
+            >
+              <ShareGlyph className="h-5 w-5" />
+            </button>
+            {linkCopied && (
+              <span role="status" className="absolute bottom-[4.75rem] right-4 bg-ink/90 px-3 py-1.5 text-xs text-ivory">
+                הקישור הועתק
+              </span>
+            )}
+          </div>
+
+          {images.length > 1 && (
+            <div className={`mt-3 hidden gap-2.5 sm:flex ${images.length > 2 ? "lg:hidden" : ""}`}>
               {images.map((image, index) => (
                 <button
                   key={image.src}
@@ -210,7 +365,7 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setSelectedImage(index)}
                   aria-label={`הצגת תמונה ${index + 1} של ${product.name}`}
                   aria-pressed={selectedImage === index}
-                  className={`relative aspect-square w-16 overflow-hidden border transition-[border-color,opacity] sm:w-24 ${
+                  className={`relative aspect-square w-24 overflow-hidden border transition-[border-color,opacity] ${
                     selectedImage === index
                       ? "border-ink opacity-100"
                       : "border-transparent opacity-58 hover:opacity-100"
@@ -262,7 +417,7 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </header>
 
-          <div className="mt-5 grid grid-cols-3 border-y border-line py-3 text-center text-[0.68rem] font-semibold text-ink-soft sm:text-xs lg:mt-7 lg:py-3.5">
+          <div className="mt-5 grid grid-cols-3 border-y border-line py-3 text-center text-[0.72rem] font-semibold text-ink-soft sm:text-xs lg:mt-7 lg:py-3.5">
             <span>תעודה גמולוגית</span>
             <span className="border-x border-line">משלוח מבוטח</span>
             <span>התאמת מידה</span>
@@ -326,9 +481,9 @@ export default function ProductView({ product }: { product: Product }) {
           <div ref={primaryCtaRef} className="mt-6 lg:mt-8">
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="btn-primary min-h-[54px] w-full">
               <WhatsAppIcon className="h-4 w-4" />
-              בדיקת זמינות ומחיר בוואטסאפ
+              להזמנה ולייעוץ בוואטסאפ
             </a>
-            <p className="mt-2.5 text-center text-xs leading-5 text-stone">ליווי אישי בבחירת האבן, הזהב והמידה.</p>
+            <p className="mt-2.5 text-center text-xs leading-5 text-stone">ליווי אישי, משלוח מבוטח ואספקה תוך 7–14 ימי עסקים.</p>
           </div>
 
           {product.tryOn?.enabled && product.category === "rings" && (
@@ -343,10 +498,6 @@ export default function ProductView({ product }: { product: Product }) {
               </button>
             </div>
           )}
-
-          <p className="mt-3 text-center text-xs text-stone sm:mt-4">
-            {metalNames[metal]} · {caratLabel} · {product.specs.cert}
-          </p>
         </section>
       </div>
 
@@ -359,7 +510,7 @@ export default function ProductView({ product }: { product: Product }) {
             ["תעודה", product.specs.cert],
           ].map(([label, value]) => (
             <div key={label} className="min-w-0">
-              <dt className="text-[0.68rem] font-semibold tracking-[0.09em] text-stone">{label}</dt>
+              <dt className="text-[0.72rem] font-semibold tracking-[0.09em] text-stone">{label}</dt>
               <dd className="mt-1 text-base font-semibold text-ink">{value}</dd>
             </div>
           ))}
@@ -394,7 +545,7 @@ export default function ProductView({ product }: { product: Product }) {
             <dl className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
               {product.dimensions.map((dimension) => (
                 <div key={dimension.label}>
-                  <dt className="text-[0.68rem] font-semibold tracking-[0.08em] text-stone">{dimension.label}</dt>
+                  <dt className="text-[0.72rem] font-semibold tracking-[0.08em] text-stone">{dimension.label}</dt>
                   <dd className="mt-1 text-sm font-semibold">{dimension.value}</dd>
                 </div>
               ))}
@@ -442,6 +593,31 @@ export default function ProductView({ product }: { product: Product }) {
         </div>
       </section>
 
+      <section className="mt-12 sm:mt-16 lg:mt-20" aria-labelledby="after-contact-title">
+        <h2 id="after-contact-title" className="font-display text-[2rem] font-medium leading-tight sm:text-4xl">
+          מה קורה אחרי הפנייה
+        </h2>
+        <ol className="mt-6 grid gap-5 sm:grid-cols-3 sm:gap-8 lg:mt-8">
+          {afterContactSteps.map((step, index) => (
+            <li key={step.title} className="border-t border-line pt-4 sm:pt-5">
+              <span className="font-display text-sm text-gold-deep" aria-hidden>
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-1.5 font-display text-xl font-medium leading-snug">{step.title}</h3>
+              <p className="mt-1.5 text-sm leading-6 text-stone">{step.detail}</p>
+            </li>
+          ))}
+        </ol>
+        <a
+          href={waLink(`היי, יש לי שאלה על ${product.name}`)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-block border-b border-gold/55 pb-1 text-sm font-semibold text-ink-soft transition-colors hover:border-gold hover:text-ink lg:mt-8"
+        >
+          יש שאלה? כתבו לנו — בלי מחויבות
+        </a>
+      </section>
+
       <section className="mt-12 sm:mt-16 lg:mt-20 lg:grid lg:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] lg:gap-16" aria-labelledby="libi-standard-title">
         <div>
           <h2 id="libi-standard-title" className="max-w-xs font-display text-3xl font-medium leading-tight sm:text-4xl">
@@ -481,12 +657,12 @@ export default function ProductView({ product }: { product: Product }) {
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink px-4 pt-3 text-ivory shadow-[0_-12px_30px_rgba(18,19,19,0.16)] lg:hidden" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
           <div className="mx-auto flex max-w-lg items-center gap-3">
             <div className="min-w-[5.25rem] shrink-0">
-              <span className="block text-[0.62rem] text-footer-subtle">מחיר</span>
+              <span className="block text-[0.7rem] text-footer-subtle">מחיר</span>
               <span className="font-display text-lg font-medium">{formatPrice(carat.price)}</span>
             </div>
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center gap-2 bg-ivory px-3 text-sm font-semibold text-ink">
               <WhatsAppIcon className="h-4 w-4" />
-              בדיקת זמינות בוואטסאפ
+              להזמנה ולייעוץ בוואטסאפ
             </a>
           </div>
         </div>
