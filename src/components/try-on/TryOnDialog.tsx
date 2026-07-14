@@ -149,7 +149,7 @@ function drawRingSetting(
   context.strokeStyle = metal === "white" ? "rgba(255,255,255,0.88)" : "rgba(255,239,181,0.9)";
   context.stroke();
 
-  const headSize = fingerWidth * 0.56;
+  const headSize = fingerWidth * 0.68;
   context.shadowColor = "rgba(15, 12, 8, 0.18)";
   context.shadowBlur = Math.max(1, fingerWidth * 0.075);
   context.shadowOffsetY = Math.max(0.5, fingerWidth * 0.025);
