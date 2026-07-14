@@ -102,18 +102,31 @@ function drawRingSetting(
   const fingerWidth = pose.fingerWidth;
   const bandGradient = context.createLinearGradient(-fingerWidth * 0.58, 0, fingerWidth * 0.58, 0);
   if (metal === "white") {
-    bandGradient.addColorStop(0, "#8f9494");
-    bandGradient.addColorStop(0.2, "#f7f8f7");
+    bandGradient.addColorStop(0, "rgba(143,148,148,0)");
+    bandGradient.addColorStop(0.1, "#8f9494");
+    bandGradient.addColorStop(0.24, "#f7f8f7");
     bandGradient.addColorStop(0.5, "#c5c9c8");
-    bandGradient.addColorStop(0.8, "#ffffff");
-    bandGradient.addColorStop(1, "#858a89");
+    bandGradient.addColorStop(0.76, "#ffffff");
+    bandGradient.addColorStop(0.9, "#858a89");
+    bandGradient.addColorStop(1, "rgba(133,138,137,0)");
   } else {
-    bandGradient.addColorStop(0, "#8e5f16");
-    bandGradient.addColorStop(0.2, "#f5d77b");
+    bandGradient.addColorStop(0, "rgba(142,95,22,0)");
+    bandGradient.addColorStop(0.1, "#8e5f16");
+    bandGradient.addColorStop(0.24, "#f5d77b");
     bandGradient.addColorStop(0.5, "#b97a20");
-    bandGradient.addColorStop(0.8, "#ffe59a");
-    bandGradient.addColorStop(1, "#8b5912");
+    bandGradient.addColorStop(0.76, "#ffe59a");
+    bandGradient.addColorStop(0.9, "#8b5912");
+    bandGradient.addColorStop(1, "rgba(139,89,18,0)");
   }
+
+  context.save();
+  context.fillStyle = "rgba(18, 14, 9, 0.09)";
+  context.shadowColor = "rgba(18, 14, 9, 0.24)";
+  context.shadowBlur = Math.max(1, fingerWidth * 0.12);
+  context.beginPath();
+  context.ellipse(0, fingerWidth * 0.045, fingerWidth * 0.25, fingerWidth * 0.085, 0, 0, Math.PI * 2);
+  context.fill();
+  context.restore();
 
   context.shadowColor = "rgba(15, 12, 8, 0.2)";
   context.shadowBlur = Math.max(1, pose.fingerWidth * 0.1);
@@ -135,24 +148,30 @@ function drawRingSetting(
   context.stroke();
 
   context.shadowColor = "transparent";
+  const highlightGradient = context.createLinearGradient(-fingerWidth * 0.46, 0, fingerWidth * 0.46, 0);
+  highlightGradient.addColorStop(0, "rgba(255,255,255,0)");
+  highlightGradient.addColorStop(0.18, metal === "white" ? "rgba(255,255,255,0.82)" : "rgba(255,239,181,0.82)");
+  highlightGradient.addColorStop(0.82, metal === "white" ? "rgba(255,255,255,0.82)" : "rgba(255,239,181,0.82)");
+  highlightGradient.addColorStop(1, "rgba(255,255,255,0)");
   context.beginPath();
-  context.moveTo(-fingerWidth * 0.5, fingerWidth * 0.035);
+  context.moveTo(-fingerWidth * 0.46, fingerWidth * 0.035);
   context.bezierCurveTo(
     -fingerWidth * 0.25,
     -fingerWidth * 0.02,
     fingerWidth * 0.25,
     -fingerWidth * 0.02,
-    fingerWidth * 0.5,
+    fingerWidth * 0.46,
     fingerWidth * 0.035,
   );
   context.lineWidth = Math.max(0.7, fingerWidth * 0.018);
-  context.strokeStyle = metal === "white" ? "rgba(255,255,255,0.88)" : "rgba(255,239,181,0.9)";
+  context.strokeStyle = highlightGradient;
   context.stroke();
 
   const headSize = fingerWidth * 0.68;
   context.shadowColor = "rgba(15, 12, 8, 0.18)";
   context.shadowBlur = Math.max(1, fingerWidth * 0.075);
   context.shadowOffsetY = Math.max(0.5, fingerWidth * 0.025);
+  context.filter = "brightness(0.94) saturate(0.92)";
   context.drawImage(image, -headSize / 2, -headSize * 0.54, headSize, headSize);
   context.restore();
 }

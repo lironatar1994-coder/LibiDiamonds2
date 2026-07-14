@@ -88,7 +88,7 @@ export function calculateRingPose(hand: HandPoint[]): RingPose | null {
     return null;
   }
 
-  const positionRatio = 0.38;
+  const positionRatio = 0.48;
   const x = ringMcp.x + (ringPip.x - ringMcp.x) * positionRatio;
   const y = ringMcp.y + (ringPip.y - ringMcp.y) * positionRatio;
   const fingerWidth = neighborGap * 0.68;
