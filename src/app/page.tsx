@@ -300,21 +300,21 @@ export default function HomePage() {
             />
           </div>
 
-          <div className="px-5 py-8 text-center sm:px-10 sm:py-11 lg:px-14 lg:py-16 lg:text-right xl:px-20">
+          <div className="px-5 py-7 text-center sm:px-10 sm:py-10 lg:px-14 lg:py-14 lg:text-right xl:px-20">
             <h2
               id="bespoke-inspiration-title"
               className="font-display text-[1.9rem] font-medium leading-tight sm:text-4xl lg:text-[2.7rem]"
             >
               יש לכם השראה לתכשיט?
             </h2>
-            <p className="mx-auto mt-3 max-w-sm text-sm leading-7 text-stone sm:mt-4 sm:text-base lg:mx-0">
+            <p className="mx-auto mt-2.5 max-w-sm text-sm leading-7 text-stone sm:mt-3 sm:text-base lg:mx-0">
               שלחו תמונה, סקיצה או רעיון. נבחר יחד אבן, זהב ופרופורציות.
             </p>
             <a
               href={waLink("היי, יש לי השראה לתכשיט ואשמח לבדוק אפשרות לעיצוב אישי")}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary mt-6 px-6 sm:mt-7 sm:px-8"
+              className="btn-primary mt-5 px-6 sm:mt-6 sm:px-8"
             >
               <WhatsAppIcon className="h-4 w-4" />
               שליחת ההשראה בוואטסאפ
@@ -327,25 +327,22 @@ export default function HomePage() {
 
       {/* ── Trust strip ──────────────────────────────────── */}
       <section className="section-proof border-y border-line" aria-label="פרטי שירות ואחריות">
-        <div className="mx-auto grid max-w-3xl grid-cols-2 px-4 py-3 text-center sm:flex sm:items-center sm:justify-center sm:gap-x-4 sm:px-8 sm:py-5">
-          {["יהלומים מוסמכים", "זהב 14K/18K", "משלוח מבוטח", "אחריות מלאה"].map((item, index) => (
+        <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-6 gap-y-3 px-5 py-4 text-center sm:flex sm:items-center sm:justify-center sm:gap-x-8 sm:px-8">
+          {["יהלומים מוסמכים", "זהב 14K/18K", "משלוח מבוטח", "אחריות מלאה"].map((item) => (
             <span
               key={item}
-              className={`flex min-h-9 items-center justify-center gap-4 px-2 text-[0.69rem] font-semibold text-ink-soft sm:min-h-0 sm:px-0 sm:text-sm ${
-                index % 2 === 0 ? "border-l border-line sm:border-l-0" : ""
-              } ${index < 2 ? "border-b border-line sm:border-b-0" : ""}`}
+              className="flex items-center justify-center text-[0.72rem] font-semibold text-ink-soft sm:text-sm"
             >
-              {index > 0 && <span className="hidden h-1 w-1 rotate-45 bg-gold/60 sm:block" aria-hidden />}
-              <span>{item}</span>
+              {item}
             </span>
           ))}
         </div>
       </section>
 
       {/* ── LIBI Journal ───────────────────────────────── */}
-      <section className="section-gallery py-11 sm:py-14 lg:py-20">
+      <section className="section-gallery py-9 sm:py-12 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between gap-6 border-b border-line pb-5 sm:pb-6">
+          <div className="flex items-end justify-between gap-6 border-b border-line pb-4 sm:pb-5">
             <h2 className="font-display text-[2rem] font-medium leading-none sm:text-4xl">לדעת מה בוחרים.</h2>
             <Link
               href="/journal"
@@ -355,7 +352,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-7 grid gap-8 lg:mt-9 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.55fr)] lg:gap-10">
+          <div className="mt-6 grid gap-8 lg:mt-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.55fr)] lg:gap-10">
             <Link href={`/journal/${featuredJournalGuide.slug}`} className="group block">
               <article>
                 <div className="relative aspect-[3/2] overflow-hidden bg-warm-stone">
