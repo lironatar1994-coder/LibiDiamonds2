@@ -149,16 +149,16 @@ function productMetalGallery(product: CatalogProduct, metal: Extract<Metal, "yel
   return [
     base[0],
     {
-      src: `/images/products/v2/${product.slug}-primary.webp`,
-      alt: `${product.name} - מבט חזיתי בסטודיו`,
-      view: "angle" as const,
-    },
-    {
       src: `/images/products/v2/${product.slug}-detail.webp`,
       alt: `${product.name} - מבט פרופיל בסטודיו`,
       view: "profile" as const,
     },
     base[1],
+    {
+      src: `/images/products/v2/${product.slug}-primary.webp`,
+      alt: `${product.name} - מבט חזיתי בסטודיו`,
+      view: "angle" as const,
+    },
   ];
 }
 
@@ -298,7 +298,7 @@ const catalogProducts: CatalogProduct[] = [
       "יהלום עגול מורם בשיבוץ ארבע שיניים על חישוק זהב חלק ומעוגל. הפרופיל הנקי משאיר את האבן פתוחה לאור ונוח לענידה יומיומית.",
     dimensions: [
       { label: "רוחב החישוק", value: "כ־1.8 מ״מ" },
-      { label: "פרופיל", value: "מורם, פתוח לאור" },
+      { label: "פרופיל", value: "מורם" },
     ],
     gallery: [
       { src: "/images/products/catalog/aura-solitaire-ring-primary.webp", alt: "טבעת אורה בזהב צהוב במבט חזיתי", view: "primary", legacy: true },

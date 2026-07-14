@@ -72,16 +72,19 @@ const libiStandardItems = [
 
 const serviceItems = [
   {
+    id: "shipping",
     title: "משלוח ואספקה",
     detail:
-      "משלוח מבוטח עד הבית בכל הארץ, באריזת מתנה מוקפדת. אספקה תוך 7–14 ימי עסקים; פריטים בהתאמה אישית — 3–4 שבועות.",
+      "משלוח מבוטח עד הבית בכל הארץ, באריזת מתנה מוקפדת. אספקה תוך 7 עד 14 ימי עסקים; פריטים בהתאמה אישית — 3 עד 4 שבועות.",
   },
   {
+    id: "returns",
     title: "החזרות והחלפות",
     detail:
       "ניתן להחזיר או להחליף פריט מהקולקציה תוך 14 יום מקבלתו, במצבו המקורי. פריטים בהתאמה אישית — בתיאום מראש.",
   },
   {
+    id: "warranty",
     title: "אחריות ושירות",
     detail:
       "אחריות מלאה על עבודת הצורפות והשיבוץ, והתאמת מידה ראשונה כלולה. אנחנו זמינים בוואטסאפ לכל שאלה — גם אחרי המסירה.",
@@ -132,11 +135,14 @@ export default function ProductView({ product }: { product: Product }) {
   const [primaryCtaVisible, setPrimaryCtaVisible] = useState(false);
   const [relatedReached, setRelatedReached] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [scrolledUp, setScrolledUp] = useState(true);
   const summaryRef = useRef<HTMLElement>(null);
   const primaryCtaRef = useRef<HTMLDivElement>(null);
   const viewerCloseRef = useRef<HTMLButtonElement>(null);
   const galleryTrackRef = useRef<HTMLDivElement>(null);
+  const viewerTrackRef = useRef<HTMLDivElement>(null);
   const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const selectedImageRef = useRef(0);
 
   const carat = product.carats[caratIdx];
   const images = productImages(product, metal);
@@ -152,7 +158,12 @@ export default function ProductView({ product }: { product: Product }) {
         ? "grid-cols-3"
         : "grid-cols-2";
   const detailImage = images.find((image) => image.view === "detail" || image.view === "profile") ?? images[1] ?? images[0];
-  const showMobileSticky = summaryPassed && !primaryCtaVisible && !relatedReached && !viewerOpen && !tryOnOpen;
+  const showMobileSticky =
+    summaryPassed && scrolledUp && !primaryCtaVisible && !relatedReached && !viewerOpen && !tryOnOpen;
+
+  useEffect(() => {
+    selectedImageRef.current = selectedImage;
+  }, [selectedImage]);
 
   useEffect(() => {
     setSelectedImage(0);
@@ -163,6 +174,25 @@ export default function ProductView({ product }: { product: Product }) {
     return () => {
       if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
     };
+  }, []);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (Math.abs(y - lastY) > 8) {
+          setScrolledUp(y < lastY);
+          lastY = y;
+        }
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -200,6 +230,7 @@ export default function ProductView({ product }: { product: Product }) {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     viewerCloseRef.current?.focus();
+    scrollTrackToSlide(viewerTrackRef, selectedImageRef.current, "auto");
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setViewerOpen(false);
@@ -217,8 +248,7 @@ export default function ProductView({ product }: { product: Product }) {
     setViewerOpen(true);
   };
 
-  const handleGalleryScroll = () => {
-    const track = galleryTrackRef.current;
+  const syncSelectedFromTrack = (track: HTMLDivElement | null) => {
     if (!track || track.clientWidth === 0) return;
     const index = Math.min(
       images.length - 1,
@@ -227,12 +257,19 @@ export default function ProductView({ product }: { product: Product }) {
     setSelectedImage((current) => (current === index ? current : index));
   };
 
-  const scrollToSlide = (index: number) => {
-    galleryTrackRef.current?.children[index]?.scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest",
-    });
+  const scrollTrackToSlide = (
+    trackRef: React.RefObject<HTMLDivElement | null>,
+    index: number,
+    behavior: ScrollBehavior = "smooth",
+  ) => {
+    trackRef.current?.children[index]?.scrollIntoView({ behavior, inline: "center", block: "nearest" });
+  };
+
+  const revealInfo = (targetId: string) => {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    if (target instanceof HTMLDetailsElement) target.open = true;
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   const handleShare = async () => {
@@ -258,7 +295,7 @@ export default function ProductView({ product }: { product: Product }) {
           <div className="relative sm:hidden">
             <div
               ref={galleryTrackRef}
-              onScroll={handleGalleryScroll}
+              onScroll={() => syncSelectedFromTrack(galleryTrackRef.current)}
               className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto"
               aria-label={`החלקה בין תמונות ${product.name}`}
             >
@@ -305,7 +342,7 @@ export default function ProductView({ product }: { product: Product }) {
                 <button
                   key={image.src}
                   type="button"
-                  onClick={() => scrollToSlide(index)}
+                  onClick={() => scrollTrackToSlide(galleryTrackRef, index)}
                   aria-label={`מעבר לתמונה ${index + 1} של ${product.name}`}
                   aria-pressed={selectedImage === index}
                   className="flex h-8 w-8 items-center justify-center"
@@ -417,10 +454,16 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </header>
 
-          <div className="mt-5 grid grid-cols-3 border-y border-line py-3 text-center text-[0.72rem] font-semibold text-ink-soft sm:text-xs lg:mt-7 lg:py-3.5">
-            <span>תעודה גמולוגית</span>
-            <span className="border-x border-line">משלוח מבוטח</span>
-            <span>התאמת מידה</span>
+          <div className="mt-5 grid grid-cols-3 border-y border-line text-center text-[0.72rem] font-semibold text-ink-soft sm:text-xs lg:mt-7">
+            <button type="button" onClick={() => revealInfo("certificate-figure")} className="py-3 transition-colors hover:text-ink lg:py-3.5">
+              תעודה גמולוגית
+            </button>
+            <button type="button" onClick={() => revealInfo("service-shipping")} className="border-x border-line py-3 transition-colors hover:text-ink lg:py-3.5">
+              משלוח מבוטח
+            </button>
+            <button type="button" onClick={() => revealInfo("service-warranty")} className="py-3 transition-colors hover:text-ink lg:py-3.5">
+              התאמת מידה
+            </button>
           </div>
 
           <fieldset className="pt-5 lg:pt-7">
@@ -483,7 +526,7 @@ export default function ProductView({ product }: { product: Product }) {
               <WhatsAppIcon className="h-4 w-4" />
               להזמנה ולייעוץ בוואטסאפ
             </a>
-            <p className="mt-2.5 text-center text-xs leading-5 text-stone">ליווי אישי, משלוח מבוטח ואספקה תוך 7–14 ימי עסקים.</p>
+            <p className="mt-2.5 text-center text-xs leading-5 text-stone">ליווי אישי, משלוח מבוטח ואספקה תוך 7 עד 14 ימי עסקים.</p>
           </div>
 
           {product.tryOn?.enabled && product.category === "rings" && (
@@ -575,7 +618,7 @@ export default function ProductView({ product }: { product: Product }) {
             </figcaption>
           </figure>
 
-          <figure>
+          <figure id="certificate-figure" className="scroll-mt-24">
             <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
               <Image
                 src={assetPath("/images/trust/v1/certificate-sample-mockup.webp")}
@@ -628,22 +671,19 @@ export default function ProductView({ product }: { product: Product }) {
           </Link>
         </div>
 
-        <ol className="mt-6 border-t border-line lg:mt-0">
-          {libiStandardItems.map((item, index) => (
-            <li key={item.title} className="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-3 border-b border-line py-4 sm:grid-cols-[2.5rem_minmax(10rem,0.72fr)_minmax(0,1.28fr)] sm:gap-x-5 sm:py-5">
-              <span className="pt-0.5 font-display text-sm text-gold-deep" aria-hidden>
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <h3 className="font-display text-xl font-medium leading-snug sm:text-[1.35rem]">{item.title}</h3>
-              <p className="col-start-2 mt-1 text-sm leading-6 text-ink-soft/80 sm:col-start-3 sm:mt-0">{item.detail}</p>
+        <ul className="mt-6 border-t border-line lg:mt-0">
+          {libiStandardItems.map((item) => (
+            <li key={item.title} className="border-b border-line py-4 sm:grid sm:grid-cols-[minmax(10rem,0.72fr)_minmax(0,1.28fr)] sm:gap-x-5 sm:py-5">
+              <h3 className="font-display text-lg font-medium leading-snug sm:text-xl">{item.title}</h3>
+              <p className="mt-1 text-sm leading-6 text-ink-soft/80 sm:mt-0.5">{item.detail}</p>
             </li>
           ))}
-        </ol>
+        </ul>
       </section>
 
       <section className="mt-10 border-b border-line sm:mt-14 lg:mt-16" aria-label="שירות ומשלוחים">
         {serviceItems.map((item) => (
-          <details key={item.title} className="faq-item border-t border-line">
+          <details key={item.title} id={`service-${item.id}`} className="faq-item scroll-mt-24 border-t border-line">
             <summary className="flex items-center justify-between gap-4 py-4.5">
               <span className="text-sm font-semibold">{item.title}</span>
               <span className="faq-icon text-lg text-gold" aria-hidden>+</span>
@@ -691,15 +731,16 @@ export default function ProductView({ product }: { product: Product }) {
               ×
             </button>
           </div>
-          <div className="relative min-h-0 flex-1 touch-pinch-zoom">
-            <Image
-              src={images[selectedImage].src}
-              alt={images[selectedImage].alt}
-              fill
-              sizes="100vw"
-              className="object-contain"
-              priority
-            />
+          <div
+            ref={viewerTrackRef}
+            onScroll={() => syncSelectedFromTrack(viewerTrackRef.current)}
+            className="no-scrollbar flex min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto"
+          >
+            {images.map((image) => (
+              <div key={image.src} className="relative w-full shrink-0 snap-center touch-pinch-zoom">
+                <Image src={image.src} alt={image.alt} fill sizes="100vw" className="object-contain" loading="eager" />
+              </div>
+            ))}
           </div>
           {images.length > 1 && (
             <div className="flex shrink-0 justify-center gap-2 overflow-x-auto border-t border-white/12 px-4 py-3">
@@ -707,7 +748,7 @@ export default function ProductView({ product }: { product: Product }) {
                 <button
                   key={image.src}
                   type="button"
-                  onClick={() => setSelectedImage(index)}
+                  onClick={() => scrollTrackToSlide(viewerTrackRef, index)}
                   aria-label={`הצגת תמונה ${index + 1}`}
                   aria-pressed={selectedImage === index}
                   className={`relative h-16 w-16 shrink-0 overflow-hidden border ${selectedImage === index ? "border-white" : "border-white/20 opacity-55"}`}
