@@ -34,9 +34,19 @@ export interface CaratOption {
 export interface ProductGalleryImage {
   src: string;
   alt: string;
-  view?: "primary" | "detail";
+  view?: "primary" | "angle" | "profile" | "detail";
   legacy?: boolean;
   objectPosition?: string;
+}
+
+export interface ProductHighlight {
+  title: string;
+  detail: string;
+}
+
+export interface ProductDimension {
+  label: string;
+  value: string;
 }
 
 export interface TryOnAssetPair {
@@ -68,6 +78,8 @@ export interface Product {
     cert: string;
   };
   description: string;
+  highlights?: ProductHighlight[];
+  dimensions?: ProductDimension[];
   gallery?: ProductGalleryImage[];
   galleryByMetal?: Partial<Record<Metal, ProductGalleryImage[]>>;
   tryOn?: TryOnConfig;
@@ -121,6 +133,81 @@ export function metalGallery(
     },
   ];
 }
+
+const extendedStudioMetalBySlug: Partial<Record<string, Metal>> = {
+  "aura-solitaire-ring": "yellow",
+  "lumiere-pave-ring": "yellow",
+  "stella-diamond-studs": "white",
+  "riviera-tennis-necklace": "white",
+  "icon-tennis-bracelet": "white",
+};
+
+function productMetalGallery(product: CatalogProduct, metal: Extract<Metal, "yellow" | "white">) {
+  const base = metalGallery(product.slug, product.name, metal);
+  if (extendedStudioMetalBySlug[product.slug] !== metal) return base;
+
+  return [
+    base[0],
+    {
+      src: `/images/products/v2/${product.slug}-primary.webp`,
+      alt: `${product.name} - מבט חזיתי בסטודיו`,
+      view: "angle" as const,
+    },
+    {
+      src: `/images/products/v2/${product.slug}-detail.webp`,
+      alt: `${product.name} - מבט פרופיל בסטודיו`,
+      view: "profile" as const,
+    },
+    base[1],
+  ];
+}
+
+const highlightsByArt: Record<ArtType, ProductHighlight[]> = {
+  solitaire: [
+    { title: "שיבוץ פתוח לאור", detail: "השיניים מחזיקות את האבן בלי להסתיר את קווי המתאר שלה." },
+    { title: "חישוק נקי", detail: "הפרופיל המאופק משאיר את היהלום כנקודת המוקד." },
+  ],
+  halo: [
+    { title: "מסגרת היילו אחידה", detail: "שורת יהלומים צפופה מקיפה את האבן המרכזית בקו רציף." },
+    { title: "פרופיל מאוזן", detail: "הסל מחבר בין ההיילו לחישוק בלי להכביד על המבנה." },
+  ],
+  "three-stone": [
+    { title: "שלוש אבנים בקו אחד", detail: "אבני הצד מלוות את האבן המרכזית ושומרות על סימטריה." },
+    { title: "מעבר מדורג", detail: "הפרופורציות יורדות בעדינות מהמרכז אל כתפי הטבעת." },
+  ],
+  pave: [
+    { title: "פאווה לאורך הכתפיים", detail: "אבנים קטנות משובצות בצפיפות משני צדי האבן המרכזית." },
+    { title: "קו חישוק עדין", detail: "השיבוץ נשאר נמוך כדי לשמור על מראה קל ונקי." },
+  ],
+  studs: [
+    { title: "זוג שנבחר יחד", detail: "האבנים מותאמות זו לזו במידות, בגוון ובניקיון." },
+    { title: "סל פתוח", detail: "המבנה מציג את האבן גם מהצד ושומר על פרופיל מדויק." },
+  ],
+  hoops: [
+    { title: "שורת אור קדמית", detail: "היהלומים ממוקמים בחזית החישוק ונשארים גלויים במבט ישר." },
+    { title: "סגירה משולבת", detail: "הציר והנעילה נטמעים בקו החישוק במקום לקטוע אותו." },
+  ],
+  "tennis-necklace": [
+    { title: "רצף יהלומים גמיש", detail: "החוליות נעות זו לצד זו כדי שהשרשרת תשב בקו אחיד." },
+    { title: "סוגר מאובטח", detail: "סוגר קופסה עם מנגנון נוסף משתלב בשורת היהלומים." },
+  ],
+  pendant: [
+    { title: "אבן מרכזית פתוחה", detail: "הסל חושף את צדי היהלום ושומר עליו במרכז השרשרת." },
+    { title: "חיבור מאוזן", detail: "לולאת החיבור מאפשרת לתליון להתיישר בזמן ענידה." },
+  ],
+  "bezel-pendant": [
+    { title: "מסגרת בזל מלאה", detail: "שפת זהב דקה מקיפה את האבן ויוצרת קצה חלק." },
+    { title: "חיבור צדדי", detail: "השרשרת מתחברת משני הצדדים ושומרת את האבן בכיוון הנכון." },
+  ],
+  "tennis-bracelet": [
+    { title: "חוליות גמישות", detail: "כל בית אבן נע באופן עצמאי כדי לעקוב אחר קו פרק היד." },
+    { title: "נעילה כפולה", detail: "סוגר קופסה ומנגנון אבטחה שומרים על רצף נקי וסגור." },
+  ],
+  bangle: [
+    { title: "מבנה קשיח ומדויק", detail: "הצמיד שומר על הצורה שלו ומציג את האבן בחזית." },
+    { title: "גימור פנימי חלק", detail: "החלק הפנימי מלוטש כדי לשמור על מגע נקי בזמן ענידה." },
+  ],
+};
 
 export interface Category {
   slug: CategorySlug;
@@ -912,11 +999,12 @@ export const products: Product[] = catalogProducts.map((product) => {
   return {
     ...product,
     caratScope: productCaratScope(product.slug),
+    highlights: product.highlights ?? highlightsByArt[product.art],
     metals: ["yellow", "white"],
     defaultMetal,
     galleryByMetal: {
-      yellow: metalGallery(product.slug, product.name, "yellow"),
-      white: metalGallery(product.slug, product.name, "white"),
+      yellow: productMetalGallery(product, "yellow"),
+      white: productMetalGallery(product, "white"),
     },
     tryOn: product.slug === "aura-solitaire-ring"
       ? {

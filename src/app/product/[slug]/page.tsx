@@ -101,12 +101,14 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </div>
 
-      <section className="mt-4 bg-platinum-soft py-9 sm:mt-6 lg:mt-12 lg:py-14">
+      <section id="related-products" className="mt-10 scroll-mt-24 bg-platinum-soft py-9 sm:mt-14 lg:mt-20 lg:py-14">
         <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
           <h2 className="font-display text-[1.85rem] font-medium leading-tight sm:text-3xl lg:text-4xl">עוד {category.name} מהקולקציה</h2>
           <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 lg:mt-9 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-10">
-            {related.map((p) => (
-              <ProductCard key={p.slug} product={p} />
+            {related.map((p, index) => (
+              <div key={p.slug} className={index > 1 ? "hidden sm:block" : "block"}>
+                <ProductCard product={p} />
+              </div>
             ))}
           </div>
           <Link
