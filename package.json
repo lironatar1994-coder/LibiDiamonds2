@@ -10,9 +10,11 @@
     "images:render": "node scripts/product-images/render.mjs",
     "images:validate": "node scripts/product-images/validate.mjs --strict",
     "images:contact-sheet": "node scripts/product-images/contact-sheet.mjs",
-    "images:check": "npm run images:render && npm run images:validate && npm run images:contact-sheet"
+    "images:check": "npm run images:render && npm run images:validate && npm run images:contact-sheet",
+    "try-on:assets": "node scripts/try-on/prepare-assets.mjs"
   },
   "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.35",
     "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/service",
 });
 
-const sections = [
+const sections: Array<{ id?: string; title: string; items: string[] }> = [
   {
     title: "משלוחים",
     items: [
@@ -44,6 +44,15 @@ const sections = [
       "פריטים שיוצרו בהתאמה אישית ניתנים להחלפה בתיאום מראש בלבד.",
     ],
   },
+  {
+    id: "camera-privacy",
+    title: "פרטיות בהדמיית טבעת על היד",
+    items: [
+      "המצלמה מופעלת רק לאחר אישור מפורש, ורק בזמן השימוש בהדמיה.",
+      "הצילום, הווידאו ונקודות זיהוי היד מעובדים במכשיר ואינם נשלחים או נשמרים בשרתי LIBI.",
+      "סגירת ההדמיה מפסיקה את המצלמה מיד. ניתן להשתמש גם בתמונה קיימת ללא הפעלת מצלמה חיה.",
+    ],
+  },
 ];
 
 export default function ServicePage() {
@@ -61,7 +70,7 @@ export default function ServicePage() {
 
       <div className="mt-12 space-y-12">
         {sections.map((s) => (
-          <section key={s.title}>
+          <section key={s.title} id={s.id} className={s.id ? "scroll-mt-28" : undefined}>
             <h2 className="font-display text-2xl font-medium">{s.title}</h2>
             <ul className="mt-4 space-y-3">
               {s.items.map((item) => (

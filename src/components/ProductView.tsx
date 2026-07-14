@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
   metalNames,
@@ -13,6 +14,18 @@ import {
 import { assetPath, formatPrice, waLink } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/icons";
 import ProductMedia from "@/components/ProductMedia";
+
+const TryOnDialog = dynamic(() => import("@/components/try-on/TryOnDialog"), { ssr: false });
+
+function TryOnGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" className={className} aria-hidden="true">
+      <path d="M4 8.5h3l1.4-2h7.2l1.4 2h3v10H4z" strokeLinejoin="round" />
+      <circle cx="12" cy="13.5" r="3.2" />
+      <path d="M19 4v3M17.5 5.5h3" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 const METAL_SWATCH: Record<Metal, string> = {
   yellow: "#c9a35e",
@@ -86,6 +99,7 @@ export default function ProductView({ product }: { product: Product }) {
   const [metal, setMetal] = useState<Metal>(product.defaultMetal ?? product.metals[0]);
   const [caratIdx, setCaratIdx] = useState(0);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [tryOnOpen, setTryOnOpen] = useState(false);
 
   const carat = product.carats[caratIdx];
   const images = productImages(product, metal);
@@ -187,6 +201,19 @@ export default function ProductView({ product }: { product: Product }) {
               ))}
             </div>
           </fieldset>
+
+          {product.tryOn?.enabled && product.category === "rings" && (
+            <div className="pt-4">
+              <button
+                type="button"
+                onClick={() => setTryOnOpen(true)}
+                className="flex min-h-[52px] w-full items-center justify-center gap-2.5 border border-ink bg-transparent px-5 text-sm font-semibold tracking-[0.035em] text-ink transition-colors hover:bg-ink hover:text-ivory"
+              >
+                <TryOnGlyph className="h-5 w-5" />
+                נסו את הטבעת על היד
+              </button>
+            </div>
+          )}
 
           <fieldset className="pt-6 lg:pt-8">
             <legend className="text-sm font-semibold">{caratCopy.legend}</legend>
@@ -326,6 +353,16 @@ export default function ProductView({ product }: { product: Product }) {
           ))}
         </ol>
       </section>
+
+      {product.tryOn?.enabled && (
+        <TryOnDialog
+          open={tryOnOpen}
+          onClose={() => setTryOnOpen(false)}
+          productName={product.name}
+          metal={metal}
+          config={product.tryOn}
+        />
+      )}
     </>
   );
 }

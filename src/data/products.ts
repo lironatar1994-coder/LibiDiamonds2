@@ -39,6 +39,17 @@ export interface ProductGalleryImage {
   objectPosition?: string;
 }
 
+export interface TryOnAssetPair {
+  rear: string;
+  front: string;
+}
+
+export interface TryOnConfig {
+  enabled: boolean;
+  referenceCarat: string;
+  assetsByMetal: Partial<Record<Metal, TryOnAssetPair>>;
+}
+
 export interface Product {
   slug: string;
   name: string;
@@ -60,6 +71,7 @@ export interface Product {
   description: string;
   gallery?: ProductGalleryImage[];
   galleryByMetal?: Partial<Record<Metal, ProductGalleryImage[]>>;
+  tryOn?: TryOnConfig;
   featured?: boolean;
   bestseller?: boolean;
 }
@@ -907,6 +919,22 @@ export const products: Product[] = catalogProducts.map((product) => {
       yellow: metalGallery(product.slug, product.name, "yellow"),
       white: metalGallery(product.slug, product.name, "white"),
     },
+    tryOn: product.slug === "aura-solitaire-ring"
+      ? {
+          enabled: true,
+          referenceCarat: "1.00",
+          assetsByMetal: {
+            yellow: {
+              rear: "/try-on/v1/rings/aura/yellow-rear.webp",
+              front: "/try-on/v1/rings/aura/yellow-front.webp",
+            },
+            white: {
+              rear: "/try-on/v1/rings/aura/white-rear.webp",
+              front: "/try-on/v1/rings/aura/white-front.webp",
+            },
+          },
+        }
+      : undefined,
   };
 });
 
