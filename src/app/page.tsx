@@ -68,7 +68,6 @@ function SectionHeading({
     return (
       <div className={`text-center ${className}`}>
         <h2 className="font-display text-[1.7rem] font-medium sm:text-4xl">{title}</h2>
-        <span className="mx-auto mt-3 block h-px w-8 bg-gold/55" aria-hidden />
       </div>
     );
   }
@@ -76,7 +75,7 @@ function SectionHeading({
   return (
     <div className={`flex items-center gap-5 sm:gap-7 ${className}`}>
       <h2 className="shrink-0 font-display text-[2rem] font-medium leading-none sm:text-4xl">{title}</h2>
-      <span className="h-px flex-1 bg-gold/35" aria-hidden />
+      <span className="h-px flex-1 bg-line" aria-hidden />
     </div>
   );
 }
@@ -254,7 +253,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Shop by diamond shape ────────────────────────── */}
-      <section className="section-diamond-light py-10 lg:py-18">
+      <section className="section-diamond-light py-8 sm:py-10 lg:py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title="בחרו את החיתוך" variant="centered" />
           <DiamondShapeSelector shapes={diamondShapes} />
@@ -263,9 +262,9 @@ export default function HomePage() {
 
       {/* ── Categories ───────────────────────────────────── */}
       <section className="section-ivory">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-18">
+        <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-10 lg:px-8 lg:py-16">
           <SectionHeading title="הקולקציה" />
-          <div className="mt-7 grid grid-cols-2 gap-x-3 gap-y-6 lg:mt-10 lg:grid-cols-5 lg:gap-6">
+          <div className="mt-6 grid grid-cols-2 gap-x-3 gap-y-6 lg:mt-9 lg:grid-cols-5 lg:gap-6">
             {categories.map((cat) => {
               return (
               <Link
