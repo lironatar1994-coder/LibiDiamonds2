@@ -12,6 +12,7 @@ import {
   type Product,
 } from "@/data/products";
 import { assetPath, formatPrice, waLink } from "@/lib/site";
+import { servicePromises } from "@/lib/service";
 import { WhatsAppIcon } from "@/components/icons";
 import ProductMedia from "@/components/ProductMedia";
 import ProductHelpSheet, { type ProductHelpTopic } from "@/components/product/ProductHelpSheet";
@@ -48,15 +49,6 @@ function ShareGlyph({ className }: { className?: string }) {
   );
 }
 
-function InfoGlyph({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" className={className} aria-hidden="true">
-      <circle cx="12" cy="12" r="8.5" />
-      <path d="M12 10.75v5M12 7.8h.01" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 const METAL_SWATCH: Record<Metal, string> = {
   yellow: "#c9a35e",
   white: "#c4c8cd",
@@ -75,7 +67,7 @@ const serviceItems = [
     id: "shipping",
     title: "משלוח ואספקה",
     detail:
-      "משלוח מבוטח עד הבית בכל הארץ, באריזת מתנה מוקפדת. אספקה תוך 7 עד 14 ימי עסקים; פריטים בהתאמה אישית — 3 עד 4 שבועות.",
+      `${servicePromises.insuredDelivery} בכל הארץ, באריזת מתנה מוקפדת. אספקה תוך ${servicePromises.collectionLeadTime}; פריטים בהתאמה אישית — ${servicePromises.bespokeLeadTime}.`,
   },
   {
     id: "returns",
@@ -137,7 +129,7 @@ export default function ProductView({ product }: { product: Product }) {
   const packaging = packagingByCategory[product.category];
   const caratCopy = CARAT_SCOPE_COPY[product.caratScope];
   const caratLabel = `${carat.value} ${caratCopy.qualifier}`;
-  const message = `היי, אשמח לפרטים על ${product.name} — ${caratLabel}, ${metalNames[metal]} (${formatPrice(carat.price)})`;
+  const message = `היי, אשמח לבדוק זמינות עבור ${product.name} — ${caratLabel}, ${metalNames[metal]}. מחיר: ${formatPrice(carat.price)}`;
   const caratGridClass =
     product.carats.length === 4
       ? "grid-cols-2"
@@ -318,7 +310,7 @@ export default function ProductView({ product }: { product: Product }) {
                     priority={index === 0}
                     fetchPriority={index === 0 ? "high" : undefined}
                     sizes="100vw"
-                    className="aspect-square"
+                    className="catalog-card-media aspect-square"
                     imageClassName="object-cover"
                   />
                 </button>
@@ -398,7 +390,7 @@ export default function ProductView({ product }: { product: Product }) {
                 priority
                 fetchPriority="high"
                 sizes="(min-width: 1024px) 58vw, 100vw"
-                className="aspect-square"
+                className="catalog-card-media aspect-square"
                 imageClassName="animate-fade-up object-cover transition-transform duration-700 group-hover:scale-[1.012]"
               />
               <span className="absolute bottom-4 left-4 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm transition-colors group-hover:bg-white" aria-hidden>
@@ -456,7 +448,7 @@ export default function ProductView({ product }: { product: Product }) {
                       : "border-transparent opacity-58 hover:opacity-100"
                   }`}
                 >
-                  <ProductMedia image={image} decorative sizes="96px" className="h-full w-full" imageClassName="object-cover" />
+                  <ProductMedia image={image} decorative sizes="96px" className="catalog-card-media h-full w-full" imageClassName="object-cover" />
                 </button>
               ))}
             </div>
@@ -478,7 +470,7 @@ export default function ProductView({ product }: { product: Product }) {
                       image={image}
                       decorative
                       sizes="(min-width: 1024px) 19vw, 50vw"
-                      className="h-full w-full"
+                      className="catalog-card-media h-full w-full"
                       imageClassName="object-cover transition-transform duration-700 group-hover:scale-[1.018]"
                     />
                   </button>
@@ -488,43 +480,39 @@ export default function ProductView({ product }: { product: Product }) {
           )}
         </section>
 
-        <section className="-mx-4 min-w-0 bg-ivory px-4 py-5 sm:mx-0 sm:px-6 sm:py-7 lg:sticky lg:top-28 lg:self-start lg:px-7 lg:py-8">
+        <section className="-mx-4 min-w-0 bg-white px-4 py-5 sm:mx-0 sm:px-6 sm:py-7 lg:sticky lg:top-28 lg:self-start lg:px-7 lg:py-8">
           <header ref={summaryRef}>
             <h1 className="font-display text-[2.05rem] font-light leading-[1.1] text-ink sm:text-5xl lg:text-[3.15rem]">
               {product.name}
             </h1>
             <p className="mt-2 text-sm leading-6 text-stone sm:text-base">{product.subtitle}</p>
-            <div className="mt-4" aria-live="polite">
-              <span className="block text-[0.68rem] font-semibold text-stone">מחיר</span>
-              <span className="mt-1 block font-display text-[2.3rem] font-light leading-none text-ink sm:text-4xl">
+            <div className="mt-4 flex items-end gap-2" aria-live="polite">
+              <span className="font-display text-[2.3rem] font-light leading-none text-ink sm:text-4xl">
                 {formatPrice(carat.price)}
               </span>
+              <span className="pb-0.5 text-[0.68rem] font-medium text-stone">כולל מע״מ</span>
             </div>
           </header>
 
-          <div className="mt-4 flex min-h-11 items-center justify-center gap-2 border-y border-line py-2 text-[0.72rem] font-medium text-stone">
+          <button
+            type="button"
+            onClick={() => openHelp("certificate")}
+            className="mt-4 flex min-h-11 w-full items-center justify-between gap-3 border-y border-line py-2 text-[0.72rem] font-medium text-stone transition-colors hover:text-ink"
+          >
             <span dir="ltr">{product.specs.cert} · {product.specs.color} · {product.specs.clarity} · {product.specs.cut}</span>
-            <button
-              type="button"
-              onClick={() => openHelp("certificate")}
-              className="flex h-8 w-8 shrink-0 items-center justify-center text-stone transition-colors hover:text-ink"
-              aria-label="מידע על התעודה והמפרט"
-            >
-              <InfoGlyph className="h-4 w-4" />
-            </button>
-          </div>
+            <span className="shrink-0 border-b border-line pb-0.5 text-[0.68rem]">פרטי התעודה</span>
+          </button>
 
           <fieldset className="pt-5 lg:pt-6">
             <legend className="sr-only">גוון המתכת</legend>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center justify-between gap-3">
               <span className="text-[0.7rem] font-semibold text-stone">גוון המתכת</span>
               <button
                 type="button"
                 onClick={() => openHelp("metal")}
-                className="flex h-8 w-8 items-center justify-center text-stone transition-colors hover:text-ink"
-                aria-label="מידע על גווני הזהב"
+                className="border-b border-line pb-0.5 text-xs text-stone transition-colors hover:border-ink hover:text-ink"
               >
-                <InfoGlyph className="h-4 w-4" />
+                איך בוחרים?
               </button>
             </div>
             <div className={`mt-2.5 grid gap-2.5 ${product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
@@ -554,15 +542,14 @@ export default function ProductView({ product }: { product: Product }) {
 
           <fieldset className="pt-5 lg:pt-6">
             <legend className="sr-only">{caratCopy.legend}</legend>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center justify-between gap-3">
               <span className="text-[0.7rem] font-semibold text-stone">{caratCopy.legend}</span>
               <button
                 type="button"
                 onClick={() => openHelp("carat")}
-                className="flex h-8 w-8 items-center justify-center text-stone transition-colors hover:text-ink"
-                aria-label="מידע על משקל קראט"
+                className="border-b border-line pb-0.5 text-xs text-stone transition-colors hover:border-ink hover:text-ink"
               >
-                <InfoGlyph className="h-4 w-4" />
+                איך בוחרים?
               </button>
             </div>
             <div className={`mt-2.5 grid gap-2.5 ${caratGridClass}`} dir="rtl">
@@ -594,17 +581,20 @@ export default function ProductView({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={() => openHelp("size")}
-                className="mb-3 flex min-h-10 items-center gap-2 text-sm font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
+                className="mb-3 min-h-10 text-sm font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
               >
-                <InfoGlyph className="h-4 w-4" />
-                איך יודעים מה המידה?
+                איך בוחרים מידה?
               </button>
             )}
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="btn-primary min-h-[54px] w-full">
               <WhatsAppIcon className="h-4 w-4" />
-              להזמנה ולייעוץ בוואטסאפ
+              ייעוץ אישי וזמינות בוואטסאפ
             </a>
-            <p className="mt-2.5 text-center text-xs leading-5 text-stone">ליווי אישי ואספקה תוך 7 עד 14 ימי עסקים.</p>
+            <div className="mt-4 grid grid-cols-3 border-y border-line py-3 text-center text-[0.65rem] leading-4 text-stone">
+              <span className="px-1">תעודת {product.specs.cert}</span>
+              <span className="border-x border-line px-1">משלוח מבוטח<br />{servicePromises.collectionLeadTime}</span>
+              <span className="px-1">{product.category === "rings" ? servicePromises.firstResize : "אחריות מלאה"}</span>
+            </div>
           </div>
 
         </section>
@@ -614,7 +604,7 @@ export default function ProductView({ product }: { product: Product }) {
         <ProductMedia
           image={detailImage}
           sizes="(min-width: 1024px) 52vw, 100vw"
-          className="aspect-[4/3]"
+          className="catalog-card-media aspect-[4/3]"
           imageClassName="object-cover"
         />
         <div>
@@ -710,12 +700,12 @@ export default function ProductView({ product }: { product: Product }) {
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink px-4 pt-3 text-ivory shadow-[0_-12px_30px_rgba(18,19,19,0.16)] lg:hidden" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
           <div className="mx-auto flex max-w-lg items-center gap-3">
             <div className="min-w-[5.25rem] shrink-0 leading-tight">
-              <span className="block text-[0.62rem] tracking-[0.06em] text-footer-subtle">החל מ־</span>
+              <span className="block text-[0.62rem] tracking-[0.06em] text-footer-subtle">מחיר</span>
               <span className="font-display text-lg font-light">{formatPrice(carat.price)}</span>
             </div>
-            <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center gap-2 bg-ivory px-3 text-sm font-semibold text-ink">
+            <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center gap-2 bg-ivory px-2.5 text-[0.8rem] font-semibold text-ink min-[390px]:text-sm">
               <WhatsAppIcon className="h-4 w-4" />
-              להזמנה ולייעוץ בוואטסאפ
+              ייעוץ אישי וזמינות בוואטסאפ
             </a>
           </div>
         </div>

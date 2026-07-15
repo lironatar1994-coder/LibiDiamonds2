@@ -97,7 +97,7 @@ export default function ContactForm() {
         שליחה בוואטסאפ
       </button>
       <p className="text-center text-xs text-stone">
-        הטופס נפתח כהודעת וואטסאפ מוכנה — שולחים, ואנחנו עונים במהירות.
+        הטופס פותח הודעת וואטסאפ מוכנה לשליחה.
       </p>
     </form>
   );

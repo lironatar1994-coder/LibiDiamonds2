@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard";
 import ProductMedia from "@/components/ProductMedia";
-import CustomerVoices from "@/components/CustomerVoices";
 import DiamondShapeSelector from "@/components/DiamondShapeSelector";
 import { WhatsAppIcon } from "@/components/icons";
 import {
@@ -14,8 +13,8 @@ import {
   type Product,
 } from "@/data/products";
 import { guides } from "@/data/guides";
-import { reviews } from "@/data/reviews";
-import { site, waLink, defaultWaMessage, assetPath, formatPrice } from "@/lib/site";
+import { site, waLink, assetPath, formatPrice } from "@/lib/site";
+import { servicePromises } from "@/lib/service";
 import { onlineStoreJsonLd, pageMetadata } from "@/lib/seo";
 
 const featuredJournalGuide = guides.find((guide) => guide.slug === "why-choose-a-lab-diamond")!;
@@ -43,7 +42,7 @@ const faqs = [
   },
   {
     q: "מהם זמני האספקה?",
-    a: "פריטים מהקולקציה נשלחים תוך 7–14 ימי עסקים בשליחות מבוטחת עד הבית, ללא עלות. הזמנות בהתאמה אישית — בדרך כלל 3–4 שבועות. ממהרים? דברו איתנו ונמצא פתרון.",
+    a: `פריטים מהקולקציה נשלחים תוך ${servicePromises.collectionLeadTime} בשליחות מבוטחת עד הבית. הזמנות בהתאמה אישית — בדרך כלל ${servicePromises.bespokeLeadTime}.`,
   },
   {
     q: "אפשר להתאים תכשיט באופן אישי?",
@@ -73,9 +72,8 @@ function SectionHeading({
   }
 
   return (
-    <div className={`flex items-center gap-5 sm:gap-7 ${className}`}>
-      <h2 className="shrink-0 font-display text-[2rem] font-medium leading-none sm:text-4xl">{title}</h2>
-      <span className="h-px flex-1 bg-line" aria-hidden />
+    <div className={className}>
+      <h2 className="font-display text-[2rem] font-medium leading-none sm:text-4xl">{title}</h2>
     </div>
   );
 }
@@ -94,14 +92,14 @@ function EditorialBestsellers({ items }: { items: Product[] }) {
         <ProductMedia
           image={featuredImage}
           sizes="(min-width: 1024px) 70vw, 100vw"
-          className="aspect-[4/3] lg:aspect-[16/7]"
-          imageClassName="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.018]"
+          className="catalog-card-media aspect-[4/3] lg:aspect-[16/7]"
+          imageClassName="object-cover scale-[1.04] transition-transform duration-1000 ease-out group-hover:scale-[1.07]"
         />
         <div className="flex items-center justify-center px-1 pt-4 text-center sm:pt-5 lg:px-8 lg:py-8">
           <div>
             <h3 className="font-display text-[1.35rem] font-medium sm:text-3xl">{featured.name}</h3>
             <p className="mt-1.5 font-display text-base text-ink-soft sm:text-lg">
-              החל מ־{formatPrice(featured.priceFrom)}
+              מ־{formatPrice(featured.priceFrom)}
             </p>
           </div>
         </div>
@@ -110,7 +108,7 @@ function EditorialBestsellers({ items }: { items: Product[] }) {
       <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 lg:mt-10 lg:grid-cols-5 lg:gap-x-5 lg:gap-y-0">
         {secondary.map((product, index) => (
           <div key={product.slug} className={index > 3 ? "hidden lg:block" : "block"}>
-            <ProductCard product={product} variant="compact" />
+            <ProductCard product={product} variant="catalog" />
           </div>
         ))}
       </div>
@@ -215,28 +213,13 @@ export default function HomePage() {
             >
               היהלום במרכז.
             </h1>
-            <p
-              className="cascade mx-auto mt-5 hidden max-w-[26rem] text-sm leading-7 tracking-[0.08em] text-stone sm:text-base lg:mx-0 lg:block"
-              style={{ animationDelay: "150ms" }}
-            >
-              יהלומי מעבדה מוסמכים. עיצוב מדויק בזהב 14K/18K.
-            </p>
             <div
-              className="cascade mt-5 flex flex-col items-center gap-3 sm:mt-7 lg:mt-10 lg:flex-row lg:justify-start"
+              className="cascade mt-5 flex justify-center sm:mt-7 lg:mt-10 lg:justify-start"
               style={{ animationDelay: "220ms" }}
             >
               <Link href="/jewelry/rings" className="btn-primary px-14">
                 גלו טבעות יהלום
               </Link>
-              <a
-                href={waLink(defaultWaMessage)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-whatsapp hero-desktop-inline"
-              >
-                <WhatsAppIcon className="h-4 w-4" />
-                ייעוץ אישי בוואטסאפ
-              </a>
             </div>
           </div>
 
@@ -261,7 +244,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Categories ───────────────────────────────────── */}
-      <section className="section-ivory">
+      <section className="section-gallery">
         <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-10 lg:px-8 lg:py-16">
           <SectionHeading title="הקולקציה" />
           <div className="mt-6 grid grid-cols-2 gap-x-3 gap-y-6 lg:mt-9 lg:grid-cols-5 lg:gap-6">
@@ -275,8 +258,8 @@ export default function HomePage() {
                 <ProductMedia
                   image={{ src: categoryImages[cat.slug], alt: cat.name }}
                   sizes={cat.slug === "rings" ? "(min-width: 1024px) 40vw, 50vw" : "(min-width: 1024px) 20vw, 50vw"}
-                  className={cat.slug === "rings" ? "aspect-[4/5] lg:aspect-[8/5]" : "aspect-[4/5]"}
-                  imageClassName={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035] ${cat.slug === "rings" ? "lg:object-[center_57%]" : ""}`}
+                  className={`catalog-card-media ${cat.slug === "rings" ? "aspect-[4/5] lg:aspect-[8/5]" : "aspect-[4/5]"}`}
+                  imageClassName={`object-cover scale-[1.04] transition-transform duration-700 ease-out group-hover:scale-[1.07] ${cat.slug === "rings" ? "lg:object-[center_57%]" : ""}`}
                 />
                 <div className="flex items-center justify-center pt-3 lg:pt-4">
                   <h3 className="font-display text-lg lg:text-xl">{cat.name}</h3>
@@ -307,14 +290,11 @@ export default function HomePage() {
             >
               יש לכם השראה לתכשיט?
             </h2>
-            <p className="mx-auto mt-2.5 max-w-sm text-sm leading-7 text-stone sm:mt-3 sm:text-base lg:mx-0">
-              שלחו תמונה, סקיצה או רעיון. נבחר יחד אבן, זהב ופרופורציות.
-            </p>
             <a
               href={waLink("היי, יש לי השראה לתכשיט ואשמח לבדוק אפשרות לעיצוב אישי")}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary mt-5 px-6 sm:mt-6 sm:px-8"
+              className="btn-primary mt-5 px-6 sm:px-8"
             >
               <WhatsAppIcon className="h-4 w-4" />
               שליחת ההשראה בוואטסאפ
@@ -322,8 +302,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <CustomerVoices reviews={reviews} />
 
       {/* ── Trust strip ──────────────────────────────────── */}
       <section className="section-proof border-y border-line" aria-label="פרטי שירות ואחריות">
@@ -342,7 +320,7 @@ export default function HomePage() {
       {/* ── LIBI Journal ───────────────────────────────── */}
       <section className="section-gallery py-9 sm:py-12 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between gap-6 border-b border-line pb-4 sm:pb-5">
+          <div className="flex items-end justify-between gap-6">
             <h2 className="font-display text-[2rem] font-medium leading-none sm:text-4xl">לדעת מה בוחרים.</h2>
             <Link
               href="/journal"

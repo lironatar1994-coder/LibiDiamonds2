@@ -17,22 +17,22 @@ export const metadata: Metadata = pageMetadata({
 const process = [
   {
     title: "נתוני האבן",
-    text: "באבן המרכזית בודקים קראט, צבע, ניקיון וליטוש לצד הקוטר והמראה בפועל. הנתונים נמסרים מראש, והתכשיט מגיע עם תעודה גמולוגית לאבן המרכזית.",
+    text: "בוחנים קראט, צבע, ניקיון וליטוש לצד הקוטר והמראה של האבן בפועל.",
   },
   {
     title: "התאמה לתכשיט",
-    text: "משקל היהלום, גוון הזהב והמידה נבחנים יחד. המטרה היא לשמור על פרופורציה נכונה בין האבן, גובה השיבוץ ורוחב התכשיט — לא לבחור כל פרט בנפרד.",
+    text: "מתאימים יחד את האבן, גוון הזהב והמידה כדי לשמור על פרופורציה נכונה.",
   },
   {
     title: "אישור לפני עבודה",
-    text: "לפני תחילת העבודה מסכמים את האבן, סוג הזהב, המידה, המחיר הסופי, סוג התעודה ומועד האספקה המשוער. כך ההזמנה נסגרת בלי פרטים שנשארים פתוחים.",
+    text: "מאשרים אבן, זהב, מידה, מחיר ומועד אספקה לפני תחילת העבודה.",
   },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-warm-stone">
+      <section className="bg-white">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.86fr_1.14fr] lg:px-8 lg:py-20">
           <div className="max-w-xl">
             <h1 className="font-display text-4xl font-medium leading-[1.12] sm:text-5xl lg:text-6xl">
@@ -41,12 +41,11 @@ export default function AboutPage() {
               מהאבן ועד השיבוץ.
             </h1>
             <p className="mt-6 max-w-lg text-base leading-8 text-stone sm:text-lg">
-              LIBI DIAMONDS מתמקדת בתכשיטי יהלומי מעבדה בזהב 14K ו־18K. כל בחירה מתחילה במראה שרוצים להשיג על היד, באוזן או על הצוואר — ורק אחר כך נסגרת לפי נתוני האבן, מבנה התכשיט והתקציב.
+              LIBI DIAMONDS מתמקדת בתכשיטי יהלומי מעבדה בזהב 14K ו־18K. אנחנו בוחנים יחד את מראה האבן, מבנה התכשיט והתקציב, ומאשרים כל פרט לפני תחילת העבודה.
             </p>
           </div>
 
-          <figure>
-            <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
+          <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
               <Image
                 src={assetPath("/images/trust/v1/libi-packaging-mockup.webp")}
                 alt="הדמיה של אריזת LIBI DIAMONDS בגוון שנהב"
@@ -55,9 +54,7 @@ export default function AboutPage() {
                 sizes="(min-width: 1024px) 56vw, 100vw"
                 className="object-cover"
               />
-            </div>
-            <figcaption className="mt-3 text-xs text-stone">הדמיית אריזה — העיצוב הסופי עשוי להשתנות.</figcaption>
-          </figure>
+          </div>
         </div>
       </section>
 

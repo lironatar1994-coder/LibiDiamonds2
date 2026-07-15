@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { waLink, defaultWaMessage } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/icons";
 import { pageMetadata } from "@/lib/seo";
+import { servicePromises } from "@/lib/service";
 
 export const metadata: Metadata = pageMetadata({
   title: "משלוחים, אחריות והחזרות",
@@ -14,9 +15,9 @@ const sections: Array<{ id?: string; title: string; items: string[] }> = [
   {
     title: "משלוחים",
     items: [
-      "משלוח מבוטח עד הבית בכל רחבי הארץ, באריזת מתנה מוקפדת.",
-      "פריטים מהקולקציה נשלחים תוך 7–14 ימי עסקים.",
-      "פריטים בהתאמה אישית (מידה מיוחדת, אבן לפי בקשה, עיצוב אישי) — 3–4 שבועות.",
+      `${servicePromises.insuredDelivery} בכל רחבי הארץ, באריזת מתנה מוקפדת.`,
+      `פריטים מהקולקציה נשלחים תוך ${servicePromises.collectionLeadTime}.`,
+      `פריטים בהתאמה אישית (מידה מיוחדת, אבן לפי בקשה, עיצוב אישי) — ${servicePromises.bespokeLeadTime}.`,
       "צריכים את התכשיט לתאריך מסוים? כתבו לנו ונעשה כל מאמץ להקדים.",
     ],
   },
@@ -32,14 +33,14 @@ const sections: Array<{ id?: string; title: string; items: string[] }> = [
     title: "אחריות",
     items: [
       "אחריות יצרן מלאה על עבודת הצורפות: שיבוץ, מתכת וציפוי.",
-      "התאמת מידה ראשונה לטבעת — ללא עלות.",
+      `${servicePromises.firstResize} לטבעת — ללא עלות.`,
       "ניקוי והברקה של התכשיט — כלולים לכל החיים, בתיאום מראש.",
     ],
   },
   {
     title: "החזרות והחלפות",
     items: [
-      "ניתן להחזיר או להחליף פריט מהקולקציה תוך 14 יום מקבלתו, במצבו המקורי ובצירוף התעודה.",
+      `ניתן להחזיר או להחליף פריט מהקולקציה תוך ${servicePromises.returnsWindow} מקבלתו, במצבו המקורי ובצירוף התעודה.`,
       "החזר כספי מתבצע לאמצעי התשלום המקורי, בהתאם להוראות חוק הגנת הצרכן.",
       "פריטים שיוצרו בהתאמה אישית ניתנים להחלפה בתיאום מראש בלבד.",
     ],
@@ -62,11 +63,21 @@ export default function ServicePage() {
         <h1 className="font-display text-4xl font-medium">
           משלוחים, אחריות והחזרות
         </h1>
-        <p className="mt-4 leading-relaxed text-stone">
-          קנייה של תכשיט יהלום צריכה להרגיש בטוחה מהרגע הראשון. אלה
-          ההתחייבויות שלנו אליכם.
-        </p>
       </header>
+
+      <dl className="mt-8 grid grid-cols-2 bg-platinum sm:grid-cols-4">
+        {[
+          ["משלוח", servicePromises.insuredDelivery],
+          ["זמן אספקה", servicePromises.collectionLeadTime],
+          ["טבעות", servicePromises.firstResize],
+          ["החזרות", `תוך ${servicePromises.returnsWindow}`],
+        ].map(([label, value]) => (
+          <div key={label} className="border-b border-line p-4 even:border-r sm:border-b-0 sm:border-r sm:first:border-r-0">
+            <dt className="text-[0.68rem] font-semibold text-stone">{label}</dt>
+            <dd className="mt-1 text-sm font-medium leading-5 text-ink">{value}</dd>
+          </div>
+        ))}
+      </dl>
 
       <div className="mt-12 space-y-12">
         {sections.map((s) => (
@@ -84,7 +95,7 @@ export default function ServicePage() {
         ))}
       </div>
 
-      <div className="mt-16 bg-cream p-8 text-center">
+      <div className="mt-16 bg-platinum p-8 text-center">
         <h2 className="font-display text-xl">שאלה שלא מופיעה כאן?</h2>
         <a
           href={waLink(defaultWaMessage)}

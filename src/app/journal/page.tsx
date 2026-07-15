@@ -39,15 +39,12 @@ export default function JournalPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-11 sm:px-6 sm:py-14 lg:px-8 lg:py-20">
-      <header className="border-b border-line pb-7 sm:pb-9">
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-18">
+      <header>
         <h1 className="max-w-2xl font-display text-4xl font-medium leading-tight sm:text-5xl">לדעת מה בוחרים.</h1>
-        <p className="mt-4 max-w-xl text-sm leading-7 text-stone sm:text-base">
-          מדריכים מדויקים ליהלומי מעבדה, איכות האבן ובחירת התכשיט.
-        </p>
       </header>
 
-      <Link href={`/journal/${featuredGuide.slug}`} className="group mt-8 block sm:mt-10">
+      <Link href={`/journal/${featuredGuide.slug}`} className="group mt-7 block sm:mt-9">
         <article className="grid items-center gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(19rem,0.65fr)] lg:gap-12">
           <div className="relative aspect-[3/2] overflow-hidden bg-warm-stone">
             <Image
@@ -64,12 +61,11 @@ export default function JournalPage() {
             <h2 className="mt-3 font-display text-3xl font-medium leading-snug transition-colors group-hover:text-gold-deep sm:text-4xl">
               {featuredGuide.title}
             </h2>
-            <p className="mt-4 max-w-md text-sm leading-7 text-stone sm:text-base">{featuredGuide.excerpt}</p>
           </div>
         </article>
       </Link>
 
-      <div className="mt-12 grid gap-x-6 gap-y-10 border-t border-line pt-9 md:grid-cols-3 lg:mt-16 lg:pt-11">
+      <div className="mt-12 grid gap-x-6 gap-y-10 md:grid-cols-3 lg:mt-16">
         {moreGuides.map((guide) => (
           <Link key={guide.slug} href={`/journal/${guide.slug}`} className="group block">
             <article>

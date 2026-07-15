@@ -26,7 +26,7 @@ export default function Footer() {
           <p className="mx-auto mt-4 hidden max-w-[18rem] text-sm leading-relaxed text-footer-subtle sm:block">
             יהלומי מעבדה בזהב 14K/18K. בחירה אישית, תעודה ואחריות.
           </p>
-          <div className="mt-2.5 flex justify-center gap-5 sm:mt-5">
+          <div className="mt-2.5 flex justify-center sm:mt-5">
             <a
               href={site.instagram}
               target="_blank"
@@ -35,15 +35,6 @@ export default function Footer() {
               className="text-footer-muted transition-colors hover:text-ivory"
             >
               <InstagramIcon className="h-5 w-5" />
-            </a>
-            <a
-              href={waLink(defaultWaMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="וואטסאפ"
-              className="text-footer-muted transition-colors hover:text-ivory"
-            >
-              <WhatsAppIcon className="h-5 w-5" />
             </a>
           </div>
         </div>

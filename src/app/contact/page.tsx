@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
-import { site, waLink, defaultWaMessage } from "@/lib/site";
-import { WhatsAppIcon, InstagramIcon } from "@/components/icons";
+import { site } from "@/lib/site";
+import { InstagramIcon } from "@/components/icons";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -16,30 +16,24 @@ export default function ContactPage() {
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <header className="max-w-2xl">
         <h1 className="font-display text-4xl font-medium">נשמח לדבר</h1>
-        <p className="mt-4 leading-relaxed text-stone">
-          מתלבטים? רוצים לראות אבנים? מחפשים משהו שלא באתר? הדרך הכי מהירה
-          אלינו היא וואטסאפ — אבל כל דרך אחרת עובדת גם.
-        </p>
       </header>
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-20">
+      <div className="mt-9 grid gap-12 lg:grid-cols-2 lg:gap-20">
         <div className="max-w-lg">
           <ContactForm />
         </div>
 
         <div className="space-y-8">
-          <div className="bg-cream p-8">
-            <h2 className="font-display text-xl">דרכים נוספות</h2>
+          <div className="bg-platinum p-8">
+            <h2 className="font-display text-xl">פרטי קשר</h2>
             <ul className="mt-5 space-y-4 text-sm">
               <li>
                 <a
-                  href={waLink(defaultWaMessage)}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`tel:+${site.whatsapp}`}
                   className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gold-deep"
                 >
-                  <WhatsAppIcon className="h-5 w-5 text-gold" />
-                  <span>וואטסאפ · <span dir="ltr">{site.phoneDisplay}</span></span>
+                  <span className="text-gold">טל׳</span>
+                  <span dir="ltr">{site.phoneDisplay}</span>
                 </a>
               </li>
               <li>
