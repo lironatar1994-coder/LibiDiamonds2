@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 import ProductCard from "@/components/ProductCard";
+import ProductMedia from "@/components/ProductMedia";
+import { productImages } from "@/data/products";
 import type { CatalogStyle, CategorySlug, DiamondShape, Metal, Product } from "@/data/products";
 
 type SortMode = "featured" | "price-low" | "price-high";
@@ -80,6 +82,10 @@ export default function CategoryCatalog({
   const showShapeFilter = category === "rings" && availableShapes.length > 1;
   const showStyleFilter = availableStyles.length > 1;
   const activeFilterCount = Number(shape !== "all") + Number(style !== "all");
+  const styleShowcase = availableStyles.slice(0, 4).map((option) => ({
+    style: option,
+    product: items.find((item) => item.style === option)!,
+  }));
 
   const clearFilters = () => {
     setShape("all");
@@ -88,7 +94,47 @@ export default function CategoryCatalog({
 
   return (
     <>
-      <div className="mt-9 border-y border-line/70">
+      {styleShowcase.length > 1 && (
+        <div
+          className="-mx-4 mt-6 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:mt-9 sm:px-0 [&::-webkit-scrollbar]:hidden"
+          aria-label="בחירה לפי סגנון"
+        >
+          <div className="flex min-w-max gap-2.5 sm:grid sm:min-w-0 sm:grid-cols-4 sm:gap-4">
+            {styleShowcase.map(({ style: option, product }) => {
+              const images = productImages(product, displayMetal);
+              const image = images[1] ?? images[0];
+              const active = style === option;
+
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => setStyle(active ? "all" : option)}
+                  aria-pressed={active}
+                  className="group w-[9.25rem] shrink-0 text-right sm:w-auto"
+                >
+                  <ProductMedia
+                    image={image}
+                    sizes="(min-width: 640px) 25vw, 148px"
+                    decorative
+                    className={`aspect-[4/3] border transition-colors ${
+                      active ? "border-ink" : "border-transparent group-hover:border-line"
+                    }`}
+                    imageClassName="object-cover scale-[1.08] transition-transform duration-500 group-hover:scale-[1.12]"
+                  />
+                  <span className={`mt-2 block border-b pb-1 text-sm transition-colors ${
+                    active ? "border-ink text-ink" : "border-transparent text-ink-soft"
+                  }`}>
+                    {styleNames[option]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <div className="mt-6 border-y border-line/70 sm:mt-8">
         <div className="grid h-14 min-w-0 grid-cols-3 items-center divide-x divide-x-reverse divide-line/70">
           <button
             type="button"
@@ -112,7 +158,7 @@ export default function CategoryCatalog({
               <option value="price-high">מחיר: מהגבוה לנמוך</option>
             </select>
           </label>
-          <span className="min-w-0 text-center text-xs text-stone">{visibleItems.length} פריטים</span>
+          <span className="min-w-0 text-center text-xs text-stone">{visibleItems.length} תכשיטים</span>
         </div>
 
         {filtersOpen && (
@@ -162,9 +208,9 @@ export default function CategoryCatalog({
         )}
       </div>
 
-      <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-3 lg:gap-x-6">
+      <div className="mt-6 grid grid-cols-2 gap-x-3 gap-y-9 sm:mt-8 sm:gap-x-5 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-6">
         {visibleItems.map((product) => (
-          <ProductCard key={product.slug} product={product} metal={displayMetal} />
+          <ProductCard key={product.slug} product={product} metal={displayMetal} variant="catalog" />
         ))}
       </div>
     </>
