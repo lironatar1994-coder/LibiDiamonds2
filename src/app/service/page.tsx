@@ -3,6 +3,7 @@ import { waLink, defaultWaMessage } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/icons";
 import { pageMetadata } from "@/lib/seo";
 import { servicePromises } from "@/lib/service";
+import BrandSignature from "@/components/BrandSignature";
 
 export const metadata: Metadata = pageMetadata({
   title: "משלוחים, אחריות והחזרות",
@@ -63,6 +64,7 @@ export default function ServicePage() {
         <h1 className="font-display text-4xl font-medium">
           משלוחים, אחריות והחזרות
         </h1>
+        <BrandSignature className="mt-4" />
       </header>
 
       <dl className="mt-8 grid grid-cols-2 bg-platinum sm:grid-cols-4">

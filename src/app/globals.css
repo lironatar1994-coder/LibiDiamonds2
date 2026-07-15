@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --catalog-background: #f8f9f7;
+  --catalog-background: #f5f2ec;
 }
 
 @theme {
@@ -56,11 +56,11 @@ h3,
 }
 
 .catalog-card-media {
-  background: #f1f2ef;
+  background: var(--catalog-background);
 }
 
 .catalog-style-media {
-  background: #f4f3ef;
+  background: var(--catalog-background);
 }
 
 .hero-editorial {
@@ -170,22 +170,46 @@ h3,
 
 .brand-logo-asset {
   display: block;
-  width: 7.8rem;
+  width: 5.5rem;
   height: auto;
 }
 
 @media (max-width: 639px) {
   .brand-logo-asset {
-    width: 6.65rem;
+    width: 4.75rem;
   }
 }
 
 .brand-logo-footer .brand-logo-asset {
-  width: 9rem;
+  width: 6.25rem;
 }
 
 .footer-logo-centered {
   align-items: center;
+}
+
+.brand-signature {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 4.75rem;
+  height: 0.75rem;
+}
+
+.brand-signature-line {
+  display: block;
+  width: 1.5625rem;
+  height: 1px;
+  background: var(--color-champagne);
+}
+
+.brand-signature-diamond {
+  display: block;
+  width: 0.3125rem;
+  height: 0.3125rem;
+  border: 1px solid var(--color-champagne);
+  transform: rotate(45deg);
 }
 
 /* Section eyebrow label */

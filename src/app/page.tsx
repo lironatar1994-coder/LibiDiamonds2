@@ -85,32 +85,54 @@ function EditorialBestsellers({ items }: { items: Product[] }) {
 
   return (
     <div className="mt-7 sm:mt-9 lg:mt-10">
-      <Link
-        href={`/product/${featured.slug}`}
-        className="group grid lg:grid-cols-[1.45fr_0.55fr] lg:items-center"
-      >
-        <ProductMedia
-          image={featuredImage}
-          sizes="(min-width: 1024px) 70vw, 100vw"
-          className="catalog-card-media aspect-[4/3] lg:aspect-[16/7]"
-          imageClassName="object-cover scale-[1.04] transition-transform duration-1000 ease-out group-hover:scale-[1.07]"
-        />
-        <div className="flex items-center justify-center px-1 pt-4 text-center sm:pt-5 lg:px-8 lg:py-8">
-          <div>
+      <div className="lg:hidden">
+        <Link href={`/product/${featured.slug}`} className="group block">
+          <ProductMedia
+            image={featuredImage}
+            sizes="100vw"
+            className="catalog-card-media aspect-[4/3]"
+            imageClassName="object-cover scale-[1.04] transition-transform duration-1000 ease-out group-hover:scale-[1.07]"
+          />
+          <div className="pt-4 text-center sm:pt-5">
             <h3 className="font-display text-[1.35rem] font-medium sm:text-3xl">{featured.name}</h3>
-            <p className="mt-1.5 font-display text-base text-ink-soft sm:text-lg">
-              מ־{formatPrice(featured.priceFrom)}
-            </p>
+            <p className="mt-1.5 font-display text-base text-ink-soft sm:text-lg">מ־{formatPrice(featured.priceFrom)}</p>
+          </div>
+        </Link>
+
+        <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5">
+          {secondary.slice(0, 4).map((product) => (
+            <ProductCard key={product.slug} product={product} variant="catalog" />
+          ))}
+        </div>
+      </div>
+
+      <div className="hidden lg:block">
+        <div className="grid grid-cols-12 items-start gap-6">
+          <Link href={`/product/${featured.slug}`} className="group col-span-8 block">
+            <ProductMedia
+              image={featuredImage}
+              sizes="66vw"
+              className="catalog-card-media aspect-[4/3]"
+              imageClassName="object-cover scale-[1.04] transition-transform duration-1000 ease-out group-hover:scale-[1.07]"
+            />
+            <div className="pt-5 text-right">
+              <h3 className="font-display text-3xl font-medium">{featured.name}</h3>
+              <p className="mt-1.5 font-display text-lg text-ink-soft">מ־{formatPrice(featured.priceFrom)}</p>
+            </div>
+          </Link>
+
+          <div className="col-span-4 space-y-7">
+            {secondary.slice(0, 2).map((product) => (
+              <ProductCard key={product.slug} product={product} variant="editorial-landscape" />
+            ))}
           </div>
         </div>
-      </Link>
 
-      <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 lg:mt-10 lg:grid-cols-5 lg:gap-x-5 lg:gap-y-0">
-        {secondary.map((product, index) => (
-          <div key={product.slug} className={index > 3 ? "hidden lg:block" : "block"}>
-            <ProductCard product={product} variant="catalog" />
-          </div>
-        ))}
+        <div className="mt-10 grid grid-cols-3 gap-6">
+          {secondary.slice(2, 5).map((product) => (
+            <ProductCard key={product.slug} product={product} variant="editorial-landscape" />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "catalogBackground": "#f7f6f2",
+  "catalogBackground": "#f5f2ec",
   "outputDirectory": "public/images/products/catalog",
   "defaultMasterRoot": "../LibiDiamondsAssets/masters",
   "outputSize": 1600,
@@ -16,5 +16,5 @@
     "bracelets": 0.82,
     "detail": 0.84
   },
-  "previewSurfaces": ["#f7f6f2", "#ffffff", "#e3e5e3"]
+  "previewSurfaces": ["#f5f2ec", "#f7f6f2", "#ffffff"]
 }

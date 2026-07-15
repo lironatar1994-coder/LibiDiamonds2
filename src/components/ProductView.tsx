@@ -480,7 +480,7 @@ export default function ProductView({ product }: { product: Product }) {
           )}
         </section>
 
-        <section className="-mx-4 min-w-0 bg-white px-4 py-5 sm:mx-0 sm:px-6 sm:py-7 lg:sticky lg:top-28 lg:self-start lg:px-7 lg:py-8">
+        <section className="-mx-4 min-w-0 bg-[#f8f5ef] px-4 py-5 sm:mx-0 sm:px-6 sm:py-7 lg:sticky lg:top-28 lg:self-start lg:px-7 lg:py-8">
           <header ref={summaryRef}>
             <h1 className="font-display text-[2.05rem] font-light leading-[1.1] text-ink sm:text-5xl lg:text-[3.15rem]">
               {product.name}

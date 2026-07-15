@@ -3,6 +3,7 @@ import ContactForm from "@/components/ContactForm";
 import { site } from "@/lib/site";
 import { InstagramIcon } from "@/components/icons";
 import { pageMetadata } from "@/lib/seo";
+import BrandSignature from "@/components/BrandSignature";
 
 export const metadata: Metadata = pageMetadata({
   title: "צור קשר וייעוץ אישי",
@@ -16,6 +17,7 @@ export default function ContactPage() {
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <header className="max-w-2xl">
         <h1 className="font-display text-4xl font-medium">נשמח לדבר</h1>
+        <BrandSignature className="mt-4" />
       </header>
 
       <div className="mt-9 grid gap-12 lg:grid-cols-2 lg:gap-20">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { site, waLink, defaultWaMessage } from "@/lib/site";
 import { WhatsAppIcon, InstagramIcon } from "@/components/icons";
 import BrandLogo from "@/components/BrandLogo";
+import BrandSignature from "@/components/BrandSignature";
 
 const collectionLinks = [
   { href: "/jewelry/rings", label: "טבעות" },
@@ -22,6 +23,7 @@ export default function Footer() {
     <footer className="footer-graphite">
       <div className="mx-auto max-w-7xl px-4 pb-5 pt-6 sm:px-6 sm:py-9 lg:px-8 lg:py-12">
         <div className="mx-auto flex max-w-xl flex-col items-center text-center">
+          <BrandSignature className="mb-3" />
           <BrandLogo size="footer" className="footer-logo-centered mx-auto" />
           <p className="mx-auto mt-4 hidden max-w-[18rem] text-sm leading-relaxed text-footer-subtle sm:block">
             יהלומי מעבדה בזהב 14K/18K. בחירה אישית, תעודה ואחריות.

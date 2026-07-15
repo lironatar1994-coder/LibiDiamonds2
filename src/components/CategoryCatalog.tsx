@@ -1,12 +1,37 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Image from "next/image";
+import { Fragment, useMemo, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import ProductMedia from "@/components/ProductMedia";
 import { productImages } from "@/data/products";
 import type { CatalogStyle, CategorySlug, DiamondShape, Metal, Product } from "@/data/products";
+import { assetPath } from "@/lib/site";
 
 type SortMode = "featured" | "price-low" | "price-high";
+
+const categoryEditorial: Record<CategorySlug, { desktop: string; mobile: string; alt: string }> = {
+  rings: {
+    desktop: "/images/editorial/categories/rings-desktop.webp",
+    mobile: "/images/editorial/categories/rings-mobile.webp",
+    alt: "טבעת סוליטר מזהב צהוב עם יהלום עגול על אבן מינרלית בהירה",
+  },
+  earrings: {
+    desktop: "/images/editorial/categories/earrings-desktop.webp",
+    mobile: "/images/editorial/categories/earrings-mobile.webp",
+    alt: "זוג עגילי יהלום צמודים מזהב לבן על אבן מינרלית בהירה",
+  },
+  necklaces: {
+    desktop: "/images/editorial/categories/necklaces-desktop.webp",
+    mobile: "/images/editorial/categories/necklaces-mobile.webp",
+    alt: "שרשרת טניס מדורגת מזהב לבן ויהלומים על אבן מינרלית בהירה",
+  },
+  bracelets: {
+    desktop: "/images/editorial/categories/bracelets-desktop.webp",
+    mobile: "/images/editorial/categories/bracelets-mobile.webp",
+    alt: "צמיד טניס מזהב לבן ויהלומים על אבן מינרלית בהירה",
+  },
+};
 
 const shapeOrder: DiamondShape[] = [
   "round",
@@ -208,11 +233,47 @@ export default function CategoryCatalog({
       </div>
 
       <div className="mt-7 grid grid-cols-2 gap-x-3 gap-y-9 sm:mt-9 sm:gap-x-5 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-6">
-        {visibleItems.map((product) => (
-          <ProductCard key={product.slug} product={product} metal={displayMetal} variant="catalog" />
+        {visibleItems.map((product, index) => (
+          <Fragment key={product.slug}>
+            <ProductCard product={product} metal={displayMetal} variant="catalog" />
+            {visibleItems.length > 10 && index === 7 && (
+              <CategoryEditorial category={category} viewport="mobile" />
+            )}
+            {visibleItems.length > 10 && index === 8 && (
+              <CategoryEditorial category={category} viewport="desktop" />
+            )}
+          </Fragment>
         ))}
       </div>
     </>
+  );
+}
+
+function CategoryEditorial({
+  category,
+  viewport,
+}: {
+  category: CategorySlug;
+  viewport: "mobile" | "desktop";
+}) {
+  const editorial = categoryEditorial[category];
+  const mobile = viewport === "mobile";
+
+  return (
+    <div
+      className={mobile
+        ? "col-span-2 -mx-4 my-2 aspect-[3/4] overflow-hidden sm:-mx-6 lg:hidden"
+        : "hidden lg:col-span-3 lg:my-3 lg:block lg:aspect-[15/8] lg:overflow-hidden"}
+    >
+      <Image
+        src={assetPath(mobile ? editorial.mobile : editorial.desktop)}
+        alt={editorial.alt}
+        width={mobile ? 1200 : 1800}
+        height={mobile ? 1600 : 960}
+        sizes={mobile ? "100vw" : "(min-width: 1280px) 1216px, 100vw"}
+        className="h-full w-full object-cover"
+      />
+    </div>
   );
 }
 

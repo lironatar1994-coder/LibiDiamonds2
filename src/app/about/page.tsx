@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/icons";
+import BrandSignature from "@/components/BrandSignature";
 import { assetPath, defaultWaMessage, waLink } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
@@ -40,7 +41,8 @@ export default function AboutPage() {
               <br />
               מהאבן ועד השיבוץ.
             </h1>
-            <p className="mt-6 max-w-lg text-base leading-8 text-stone sm:text-lg">
+            <BrandSignature className="mt-5" />
+            <p className="mt-5 max-w-lg text-base leading-8 text-stone sm:text-lg">
               LIBI DIAMONDS מתמקדת בתכשיטי יהלומי מעבדה בזהב 14K ו־18K. אנחנו בוחנים יחד את מראה האבן, מבנה התכשיט והתקציב, ומאשרים כל פרט לפני תחילת העבודה.
             </p>
           </div>

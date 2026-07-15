@@ -4,6 +4,7 @@ import Link from "next/link";
 import { guides } from "@/data/guides";
 import { absoluteUrl, assetPath, site } from "@/lib/site";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
+import BrandSignature from "@/components/BrandSignature";
 
 export const metadata: Metadata = pageMetadata({
   title: "מדריכים ליהלומי מעבדה וטבעות אירוסין",
@@ -42,6 +43,7 @@ export default function JournalPage() {
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-18">
       <header>
         <h1 className="max-w-2xl font-display text-4xl font-medium leading-tight sm:text-5xl">לדעת מה בוחרים.</h1>
+        <BrandSignature className="mt-4" />
       </header>
 
       <Link href={`/journal/${featuredGuide.slug}`} className="group mt-7 block sm:mt-9">
