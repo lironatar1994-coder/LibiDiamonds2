@@ -14,7 +14,9 @@
     "try-on:assets": "node scripts/try-on/prepare-assets.mjs",
     "spin:validate": "node scripts/product-spin/validate.mjs",
     "spin:contact-sheet": "node scripts/product-spin/contact-sheet.mjs",
-    "spin:check": "npm run spin:validate && npm run spin:contact-sheet"
+    "spin:check": "npm run spin:validate && npm run spin:contact-sheet",
+    "catalog:validate": "node scripts/catalog/validate-expansion.mjs",
+    "catalog:validate:images": "node scripts/catalog/validate-expansion.mjs --images"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.35",

@@ -40,34 +40,42 @@ for (const [surfaceIndex, background] of config.previewSurfaces.entries()) {
   const columns = 4;
   const tileWidth = 360;
   const tileHeight = 405;
-  const rows = Math.ceil(entries.length / columns);
-  const composites = [];
+  const entriesPerPage = columns * 8;
+  const pages = Math.ceil(entries.length / entriesPerPage);
 
-  for (const [index, entry] of entries.entries()) {
-    const image = await sharp(outputPath(entry, entry.metal, entry.view))
-      .resize(330, 330, { fit: "contain" })
-      .webp({ quality: 86 })
-      .toBuffer();
-    const label = Buffer.from(
-      `<svg width="340" height="55" xmlns="http://www.w3.org/2000/svg"><text x="170" y="22" text-anchor="middle" font-family="Arial" font-size="15" fill="#121313">${entry.slug}</text><text x="170" y="43" text-anchor="middle" font-family="Arial" font-size="12" fill="#686b69">${entry.metal} / ${entry.view}</text></svg>`,
-    );
-    const column = index % columns;
-    const row = Math.floor(index / columns);
-    composites.push({ input: image, left: column * tileWidth + 15, top: row * tileHeight + 10 });
-    composites.push({ input: label, left: column * tileWidth + 10, top: row * tileHeight + 340 });
+  for (let page = 0; page < pages; page += 1) {
+    const pageEntries = entries.slice(page * entriesPerPage, (page + 1) * entriesPerPage);
+    const rows = Math.ceil(pageEntries.length / columns);
+    const composites = [];
+
+    for (const [index, entry] of pageEntries.entries()) {
+      const image = await sharp(outputPath(entry, entry.metal, entry.view))
+        .resize(330, 330, { fit: "contain" })
+        .webp({ quality: 86 })
+        .toBuffer();
+      const label = Buffer.from(
+        `<svg width="340" height="55" xmlns="http://www.w3.org/2000/svg"><text x="170" y="22" text-anchor="middle" font-family="Arial" font-size="15" fill="#121313">${entry.slug}</text><text x="170" y="43" text-anchor="middle" font-family="Arial" font-size="12" fill="#686b69">${entry.metal} / ${entry.view}</text></svg>`,
+      );
+      const column = index % columns;
+      const row = Math.floor(index / columns);
+      composites.push({ input: image, left: column * tileWidth + 15, top: row * tileHeight + 10 });
+      composites.push({ input: label, left: column * tileWidth + 10, top: row * tileHeight + 340 });
+    }
+
+    await sharp({
+      create: {
+        width: columns * tileWidth,
+        height: rows * tileHeight,
+        channels: 3,
+        background,
+      },
+    })
+      .composite(composites)
+      .webp({ quality: 88, effort: 5 })
+      .toFile(
+        `${reportDirectory}/catalog-contact-sheet-${surfaceIndex + 1}-page-${page + 1}.webp`,
+      );
   }
-
-  await sharp({
-    create: {
-      width: columns * tileWidth,
-      height: rows * tileHeight,
-      channels: 3,
-      background,
-    },
-  })
-    .composite(composites)
-    .webp({ quality: 88, effort: 5 })
-    .toFile(`${reportDirectory}/catalog-contact-sheet-${surfaceIndex + 1}.webp`);
 }
 
 const cards = entries

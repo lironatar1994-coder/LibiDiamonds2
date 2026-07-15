@@ -1,8 +1,21 @@
 import { assetPath } from "@/lib/site";
+import { expansionProducts } from "@/data/catalog/expansion";
 
 export type Metal = "yellow" | "white" | "rose";
 export type CategorySlug = "rings" | "earrings" | "necklaces" | "bracelets";
 export type CaratScope = "center" | "single" | "pair" | "total";
+export type CatalogStyle =
+  | "solitaire"
+  | "halo"
+  | "multi-stone"
+  | "band"
+  | "studs"
+  | "hoops"
+  | "drops"
+  | "pendant"
+  | "tennis"
+  | "station"
+  | "bangle";
 export type DiamondShape =
   | "round"
   | "oval"
@@ -73,6 +86,7 @@ export interface Product {
   category: CategorySlug;
   diamondShape?: DiamondShape;
   art: ArtType;
+  style?: CatalogStyle;
   priceFrom: number;
   caratScope: CaratScope;
   carats: CaratOption[];
@@ -273,7 +287,7 @@ export const categories: Category[] = [
   },
 ];
 
-type CatalogProduct = Omit<Product, "caratScope">;
+export type CatalogProduct = Omit<Product, "caratScope"> & { caratScope?: CaratScope };
 
 type NewCatalogProduct = Omit<CatalogProduct, "metals" | "specs"> & {
   specs?: Product["specs"];
@@ -966,6 +980,7 @@ const catalogProducts: CatalogProduct[] = [
     description:
       "צמיד קשיח סגור ששתי זרועותיו מצטלבות פעם אחת בחזית; אחת מלוטשת והשנייה משובצת יהלומי פאווה. הציר והנעילה מוסתרים בחלק האחורי.",
   }),
+  ...expansionProducts,
 ];
 
 const caratScopeBySlug: Record<string, CaratScope> = {
@@ -1015,9 +1030,23 @@ function productCaratScope(slug: string): CaratScope {
 
 export const products: Product[] = catalogProducts.map((product) => {
   const defaultMetal: Metal = product.category === "rings" ? "yellow" : "white";
+  const styleByArt: Record<ArtType, CatalogStyle> = {
+    solitaire: "solitaire",
+    halo: "halo",
+    "three-stone": "multi-stone",
+    pave: product.category === "rings" ? "band" : "tennis",
+    studs: "studs",
+    hoops: "hoops",
+    "tennis-necklace": "tennis",
+    pendant: "pendant",
+    "bezel-pendant": "pendant",
+    "tennis-bracelet": "tennis",
+    bangle: "bangle",
+  };
   return {
     ...product,
-    caratScope: productCaratScope(product.slug),
+    caratScope: product.caratScope ?? productCaratScope(product.slug),
+    style: product.style ?? styleByArt[product.art],
     highlights: product.highlights ?? highlightsByArt[product.art],
     metals: ["yellow", "white"],
     defaultMetal,
