@@ -55,6 +55,14 @@ h3,
   isolation: isolate;
 }
 
+.catalog-card-media {
+  background: #f1f2ef;
+}
+
+.catalog-style-media {
+  background: #f4f3ef;
+}
+
 .hero-editorial {
   background: #f7f6f2;
 }

@@ -64,46 +64,40 @@ export default async function CategoryPage({ params }: Props) {
       })),
     },
   };
-  const categoryIntro: Record<CategorySlug, string> = {
-    rings: "זהב 14K ו־18K · יהלום מעבדה עם תעודה גמולוגית",
-    earrings: "זוגות שנבחרים יחד · זהב 14K ו־18K",
-    necklaces: "תליונים ושרשראות יהלום · זהב 14K ו־18K",
-    bracelets: "צמידי טניס וזהב · יהלומי מעבדה עם תעודה",
-  };
-
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-14 pt-7 sm:px-6 sm:pb-20 sm:pt-12 lg:px-8">
-      <nav className="hidden text-xs text-stone sm:block" aria-label="פירורי לחם">
+    <div className="section-gallery">
+      <div className="mx-auto max-w-7xl px-4 pb-14 pt-6 sm:px-6 sm:pb-20 sm:pt-11 lg:px-8">
+        <nav className="hidden text-xs text-stone sm:block" aria-label="פירורי לחם">
         <Link href="/" className="hover:text-gold-deep">
           ראשי
         </Link>
         <span className="mx-2">/</span>
         <span>{cat.name}</span>
-      </nav>
+        </nav>
 
-      <header className="text-center sm:mt-7 sm:max-w-2xl sm:text-right">
-        <h1 className="font-display text-[2.15rem] font-medium leading-tight sm:text-4xl">{cat.name}</h1>
-        <p className="mt-2 text-[0.82rem] text-stone sm:mt-3 sm:text-sm">{categoryIntro[cat.slug]}</p>
-      </header>
+        <header className="text-center sm:mt-6 sm:max-w-2xl sm:text-right">
+          <h1 className="font-display text-[2.15rem] font-medium leading-tight sm:text-4xl">{cat.name}</h1>
+        </header>
 
-      <CategoryCatalog items={items} category={cat.slug} />
+        <CategoryCatalog items={items} category={cat.slug} />
 
-      <aside className="mt-16 border-t border-line pt-8 sm:mt-20 sm:pt-10" aria-label="קטגוריות נוספות">
-        <div className="flex flex-nowrap justify-center divide-x divide-gold/35" dir="rtl">
-          {others.map((c) => (
-            <Link
-              key={c.slug}
-              href={`/jewelry/${c.slug}`}
-              className="px-5 py-1 text-sm text-ink-soft transition-colors hover:text-gold-deep focus-visible:text-gold-deep sm:px-7"
-            >
-              {c.name}
-            </Link>
-          ))}
-        </div>
-      </aside>
+        <aside className="mt-16 border-t border-line pt-8 sm:mt-20 sm:pt-10" aria-label="קטגוריות נוספות">
+          <div className="flex flex-nowrap justify-center divide-x divide-gold/35" dir="rtl">
+            {others.map((c) => (
+              <Link
+                key={c.slug}
+                href={`/jewelry/${c.slug}`}
+                className="px-5 py-1 text-sm text-ink-soft transition-colors hover:text-gold-deep focus-visible:text-gold-deep sm:px-7"
+              >
+                {c.name}
+              </Link>
+            ))}
+          </div>
+        </aside>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
+      </div>
     </div>
   );
 }

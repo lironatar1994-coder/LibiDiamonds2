@@ -96,7 +96,7 @@ export default function CategoryCatalog({
     <>
       {styleShowcase.length > 1 && (
         <div
-          className="-mx-4 mt-6 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:mt-9 sm:px-0 [&::-webkit-scrollbar]:hidden"
+          className="-mx-4 mt-5 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:mt-8 sm:px-0 [&::-webkit-scrollbar]:hidden"
           aria-label="בחירה לפי סגנון"
         >
           <div className="flex min-w-max gap-2.5 sm:grid sm:min-w-0 sm:grid-cols-4 sm:gap-4">
@@ -117,7 +117,7 @@ export default function CategoryCatalog({
                     image={image}
                     sizes="(min-width: 640px) 25vw, 148px"
                     decorative
-                    className={`aspect-[4/3] border transition-colors ${
+                    className={`catalog-style-media aspect-[4/3] border transition-colors ${
                       active ? "border-ink" : "border-transparent group-hover:border-line"
                     }`}
                     imageClassName="object-cover scale-[1.08] transition-transform duration-500 group-hover:scale-[1.12]"
@@ -134,8 +134,8 @@ export default function CategoryCatalog({
         </div>
       )}
 
-      <div className="mt-6 border-y border-line/70 sm:mt-8">
-        <div className="grid h-14 min-w-0 grid-cols-3 items-center divide-x divide-x-reverse divide-line/70">
+      <div className="mt-5 border-y border-line/70 sm:mt-7">
+        <div className="grid h-14 min-w-0 grid-cols-2 items-center divide-x divide-x-reverse divide-line/70">
           <button
             type="button"
             onClick={() => setFiltersOpen((open) => !open)}
@@ -158,7 +158,6 @@ export default function CategoryCatalog({
               <option value="price-high">מחיר: מהגבוה לנמוך</option>
             </select>
           </label>
-          <span className="min-w-0 text-center text-xs text-stone">{visibleItems.length} תכשיטים</span>
         </div>
 
         {filtersOpen && (
@@ -208,7 +207,7 @@ export default function CategoryCatalog({
         )}
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-x-3 gap-y-9 sm:mt-8 sm:gap-x-5 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-6">
+      <div className="mt-7 grid grid-cols-2 gap-x-3 gap-y-9 sm:mt-9 sm:gap-x-5 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-6">
         {visibleItems.map((product) => (
           <ProductCard key={product.slug} product={product} metal={displayMetal} variant="catalog" />
         ))}
