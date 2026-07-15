@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import ProductCard from "@/components/ProductCard";
-import type { CatalogStyle, CategorySlug, DiamondShape, Product } from "@/data/products";
+import type { CatalogStyle, CategorySlug, DiamondShape, Metal, Product } from "@/data/products";
 
 type SortMode = "featured" | "price-low" | "price-high";
 
@@ -54,6 +54,10 @@ export default function CategoryCatalog({
   const [shape, setShape] = useState<DiamondShape | "all">("all");
   const [style, setStyle] = useState<CatalogStyle | "all">("all");
   const [sort, setSort] = useState<SortMode>("featured");
+  const [displayMetal, setDisplayMetal] = useState<Extract<Metal, "yellow" | "white">>(
+    category === "rings" ? "yellow" : "white",
+  );
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const availableShapes = useMemo(
     () => shapeOrder.filter((option) => items.some((item) => item.diamondShape === option)),
     [items],
@@ -75,56 +79,32 @@ export default function CategoryCatalog({
   }, [items, shape, sort, style]);
   const showShapeFilter = category === "rings" && availableShapes.length > 1;
   const showStyleFilter = availableStyles.length > 1;
+  const activeFilterCount = Number(shape !== "all") + Number(style !== "all");
+
+  const clearFilters = () => {
+    setShape("all");
+    setStyle("all");
+  };
 
   return (
     <>
-      {showShapeFilter ? (
-        <div
-          className="-mx-4 mt-9 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:mt-11 sm:px-0 [&::-webkit-scrollbar]:hidden"
-          role="group"
-          aria-label="סינון טבעות לפי צורת יהלום"
-        >
-          <div className="flex min-w-max items-center gap-7 border-b border-line/70 sm:justify-center sm:gap-9" dir="rtl">
-            <button
-              type="button"
-              onClick={() => setShape("all")}
-              aria-pressed={shape === "all"}
-              className={`relative h-11 whitespace-nowrap text-sm transition-colors after:absolute after:inset-x-0 after:bottom-[-1px] after:h-px after:transition-colors ${
-                shape === "all"
-                  ? "text-ink after:bg-ink"
-                  : "text-stone after:bg-transparent hover:text-ink"
-              }`}
-            >
-              הכל
-            </button>
-            {availableShapes.map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => setShape(option)}
-                aria-pressed={shape === option}
-                className={`relative h-11 whitespace-nowrap text-sm transition-colors after:absolute after:inset-x-0 after:bottom-[-1px] after:h-px after:transition-colors ${
-                  shape === option
-                    ? "text-ink after:bg-ink"
-                    : "text-stone after:bg-transparent hover:text-ink"
-                }`}
-              >
-                {shapeNames[option]}
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
-
-      <div className={`${showShapeFilter ? "mt-5" : "mt-9"} border-y border-line/70 py-3`}>
-        <div className="flex items-center justify-between gap-4">
-          <span className="whitespace-nowrap text-xs text-stone">{visibleItems.length} פריטים</span>
-          <label className="flex items-center gap-2 text-xs text-stone">
-            <span>מיון</span>
+      <div className="mt-9 border-y border-line/70">
+        <div className="grid h-14 min-w-0 grid-cols-3 items-center divide-x divide-x-reverse divide-line/70">
+          <button
+            type="button"
+            onClick={() => setFiltersOpen((open) => !open)}
+            aria-expanded={filtersOpen}
+            aria-controls="catalog-filters"
+            className="h-full min-w-0 text-sm text-ink transition-colors hover:text-gold-deep"
+          >
+            סינון{activeFilterCount ? ` · ${activeFilterCount}` : ""}
+          </button>
+          <label className="flex h-full min-w-0 items-center justify-center gap-1.5 overflow-hidden text-xs text-stone">
+            <span className="sr-only">מיון</span>
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value as SortMode)}
-              className="h-10 border-0 bg-transparent pr-1 text-sm text-ink outline-none"
+              className="w-full min-w-0 border-0 bg-transparent px-1 text-center text-sm text-ink outline-none"
               aria-label="מיון מוצרים"
             >
               <option value="featured">מומלצים</option>
@@ -132,26 +112,115 @@ export default function CategoryCatalog({
               <option value="price-high">מחיר: מהגבוה לנמוך</option>
             </select>
           </label>
+          <span className="min-w-0 text-center text-xs text-stone">{visibleItems.length} פריטים</span>
         </div>
-        {showStyleFilter && (
-          <div className="-mx-4 mt-2 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden" role="group" aria-label="סינון לפי סגנון">
-            <div className="flex min-w-max gap-2">
-              <button type="button" onClick={() => setStyle("all")} aria-pressed={style === "all"} className={`h-9 border px-4 text-xs ${style === "all" ? "border-ink bg-ink text-ivory" : "border-line bg-white text-stone"}`}>הכל</button>
-              {availableStyles.map((option) => (
-                <button key={option} type="button" onClick={() => setStyle(option)} aria-pressed={style === option} className={`h-9 border px-4 text-xs ${style === option ? "border-ink bg-ink text-ivory" : "border-line bg-white text-stone"}`}>
-                  {styleNames[option]}
-                </button>
-              ))}
-            </div>
+
+        {filtersOpen && (
+          <div id="catalog-filters" className="border-t border-line/70 py-6 sm:px-4 sm:py-7">
+            {showStyleFilter && (
+              <fieldset>
+                <legend className="mb-3 text-xs text-stone">סגנון</legend>
+                <div className="flex flex-wrap gap-x-6 gap-y-2.5">
+                  <FilterChoice active={style === "all"} onClick={() => setStyle("all")}>הכל</FilterChoice>
+                  {availableStyles.map((option) => (
+                    <FilterChoice key={option} active={style === option} onClick={() => setStyle(option)}>
+                      {styleNames[option]}
+                    </FilterChoice>
+                  ))}
+                </div>
+              </fieldset>
+            )}
+
+            {showShapeFilter && (
+              <fieldset className={showStyleFilter ? "mt-6 border-t border-line/60 pt-5" : ""}>
+                <legend className="mb-3 text-xs text-stone">חיתוך היהלום</legend>
+                <div className="flex flex-wrap gap-x-6 gap-y-2.5">
+                  <FilterChoice active={shape === "all"} onClick={() => setShape("all")}>הכל</FilterChoice>
+                  {availableShapes.map((option) => (
+                    <FilterChoice key={option} active={shape === option} onClick={() => setShape(option)}>
+                      {shapeNames[option]}
+                    </FilterChoice>
+                  ))}
+                </div>
+              </fieldset>
+            )}
+
+            <fieldset className="mt-6 border-t border-line/60 pt-5">
+              <legend className="mb-3 text-xs text-stone">תצוגת מתכת</legend>
+              <div className="grid max-w-sm grid-cols-2 border border-line bg-white">
+                <MetalChoice metal="yellow" active={displayMetal === "yellow"} onClick={() => setDisplayMetal("yellow")}>זהב צהוב</MetalChoice>
+                <MetalChoice metal="white" active={displayMetal === "white"} onClick={() => setDisplayMetal("white")}>זהב לבן</MetalChoice>
+              </div>
+            </fieldset>
+
+            {activeFilterCount > 0 && (
+              <button type="button" onClick={clearFilters} className="mt-5 border-b border-stone/50 pb-0.5 text-xs text-stone transition-colors hover:text-ink">
+                ניקוי הסינון
+              </button>
+            )}
           </div>
         )}
       </div>
 
       <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-3 lg:gap-x-6">
         {visibleItems.map((product) => (
-          <ProductCard key={product.slug} product={product} />
+          <ProductCard key={product.slug} product={product} metal={displayMetal} />
         ))}
       </div>
     </>
+  );
+}
+
+function FilterChoice({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`border-b pb-1 text-sm transition-colors ${
+        active ? "border-ink text-ink" : "border-transparent text-stone hover:text-ink"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function MetalChoice({
+  metal,
+  active,
+  onClick,
+  children,
+}: {
+  metal: "yellow" | "white";
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`flex h-11 items-center justify-center gap-2 border-l border-line first:border-l-0 ${
+        active ? "bg-ink text-ivory" : "text-stone"
+      }`}
+    >
+      <span
+        aria-hidden="true"
+        className={`h-3 w-3 rounded-full border ${
+          metal === "yellow" ? "border-[#b99449] bg-[#d0aa5d]" : "border-[#b9bdc1] bg-[#d9dcdf]"
+        }`}
+      />
+      <span className="text-xs">{children}</span>
+    </button>
   );
 }

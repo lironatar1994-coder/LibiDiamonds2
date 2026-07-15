@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Product } from "@/data/products";
+import type { Metal, Product } from "@/data/products";
 import { productImages } from "@/data/products";
 import { formatPrice } from "@/lib/site";
 import ProductMedia from "@/components/ProductMedia";
@@ -7,11 +7,13 @@ import ProductMedia from "@/components/ProductMedia";
 export default function ProductCard({
   product,
   variant = "standard",
+  metal,
 }: {
   product: Product;
   variant?: "standard" | "compact";
+  metal?: Metal;
 }) {
-  const images = productImages(product);
+  const images = productImages(product, metal);
   const detailImage = images[1];
   const compact = variant === "compact";
 
