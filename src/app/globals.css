@@ -68,7 +68,7 @@ h3,
 }
 
 .section-diamond-light {
-  background: var(--color-platinum-soft);
+  background: #ffffff;
 }
 
 .section-gallery {
@@ -80,7 +80,8 @@ h3,
 }
 
 .section-bespoke {
-  background: #f0ece4;
+  background: #121313;
+  color: #f7f6f2;
 }
 
 .section-proof {
