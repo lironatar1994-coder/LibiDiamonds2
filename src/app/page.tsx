@@ -208,39 +208,33 @@ function CollectionTile({ category }: { category: CategorySlug }) {
 const diamondShapes = [
   {
     name: "עגול",
-    note: "קלאסי ומלא אור",
     type: "round",
-    image: assetPath("/images/diamond-shapes/round.webp"),
+    image: assetPath("/images/diamond-shapes/v2/round.webp"),
   },
   {
     name: "אובל",
-    note: "רך ומוארך",
     type: "oval",
-    image: assetPath("/images/diamond-shapes/oval.webp"),
+    image: assetPath("/images/diamond-shapes/v2/oval.webp"),
   },
   {
     name: "אמרלד",
-    note: "קווים נקיים",
     type: "emerald",
-    image: assetPath("/images/diamond-shapes/emerald.webp"),
+    image: assetPath("/images/diamond-shapes/v2/emerald.webp"),
   },
   {
     name: "קושן",
-    note: "רך ורומנטי",
     type: "cushion",
-    image: assetPath("/images/diamond-shapes/cushion.webp"),
+    image: assetPath("/images/diamond-shapes/v2/cushion.webp"),
   },
   {
     name: "טיפה",
-    note: "עדין ובעל תנועה",
     type: "pear",
-    image: assetPath("/images/diamond-shapes/pear.webp"),
+    image: assetPath("/images/diamond-shapes/v2/pear.webp"),
   },
   {
     name: "פרינסס",
-    note: "חד ומדויק",
     type: "princess",
-    image: assetPath("/images/diamond-shapes/princess.webp"),
+    image: assetPath("/images/diamond-shapes/v2/princess.webp"),
   },
 ] as const;
 
@@ -310,7 +304,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Bestsellers ───────────────────────────────────── */}
-      <section className="section-gallery pb-14 pt-14 sm:pb-18 sm:pt-20 lg:pb-24 lg:pt-28">
+      <section className="section-gallery py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title="הבחירות של LIBI" />
           <EditorialBestsellers items={bestsellers} />
@@ -318,16 +312,16 @@ export default function HomePage() {
       </section>
 
       {/* ── Shop by diamond shape ────────────────────────── */}
-      <section className="section-diamond-light py-12 sm:py-16 lg:py-20">
+      <section className="section-diamond-light pb-12 pt-11 sm:py-14 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading title="בחרו את החיתוך" variant="centered" />
+          <SectionHeading title="חיתוכי יהלום" variant="centered" />
           <DiamondShapeSelector shapes={diamondShapes} />
         </div>
       </section>
 
       {/* ── Categories ───────────────────────────────────── */}
       <section className="section-gallery">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
           <SectionHeading title="הקולקציה" />
           <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-7 sm:gap-x-5 lg:mt-11 lg:grid-cols-12 lg:grid-rows-[17rem_17rem] lg:gap-5 xl:grid-rows-[20rem_20rem]">
             {collectionOrder.map((category) => (
@@ -370,7 +364,7 @@ export default function HomePage() {
       </section>
 
       {/* ── LIBI Journal ───────────────────────────────── */}
-      <section className="section-gallery py-14 sm:py-18 lg:py-24">
+      <section className="section-gallery py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-6">
             <h2 className="font-display text-[2rem] font-medium leading-none sm:text-4xl">לדעת מה בוחרים.</h2>
@@ -413,7 +407,7 @@ export default function HomePage() {
                         alt={guide.cover.alt}
                         fill
                         sizes="(min-width: 1024px) 26vw, 144px"
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                        className="scale-[1.035] object-cover contrast-[1.025] transition-transform duration-700 ease-out group-hover:scale-[1.055] lg:scale-100 lg:group-hover:scale-[1.02]"
                       />
                     </div>
                     <div className="min-w-0 lg:mt-3">
