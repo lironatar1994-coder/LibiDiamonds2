@@ -367,18 +367,6 @@ export default function HomePage() {
             </a>
           </div>
         </div>
-        <div className="mx-auto max-w-7xl border-t border-white/15" aria-label="פרטי שירות ואחריות">
-          <div className="mx-auto grid max-w-4xl grid-cols-2 gap-x-4 gap-y-3 px-5 py-5 text-center sm:flex sm:items-center sm:justify-center sm:gap-x-10 sm:px-8 sm:py-6">
-            {["יהלומים מוסמכים", "זהב 14K/18K", "משלוח מבוטח", "אחריות מלאה"].map((item) => (
-              <span
-                key={item}
-                className="flex items-center justify-center text-[0.72rem] font-semibold text-footer-muted sm:text-sm"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* ── LIBI Journal ───────────────────────────────── */}
