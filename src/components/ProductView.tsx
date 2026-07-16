@@ -555,11 +555,12 @@ export default function ProductView({ product }: { product: Product }) {
         </div>
       </section>
 
-      <section className="-mx-4 mt-12 bg-ivory px-4 py-10 sm:-mx-6 sm:mt-16 sm:px-6 sm:py-12 lg:-mx-8 lg:mt-20 lg:px-8 lg:py-16" aria-labelledby="order-includes-title">
-        <h2 id="order-includes-title" className="font-display text-[2rem] font-medium sm:text-4xl">
-          אריזה ותעודה.
-        </h2>
-        <div className="mt-4 grid gap-7 sm:grid-cols-2 lg:mt-5 lg:gap-8">
+      <section className="-mx-4 mt-10 bg-ivory px-4 py-8 sm:-mx-6 sm:mt-14 sm:px-6 sm:py-10 lg:-mx-8 lg:mt-16 lg:px-8 lg:py-12" aria-labelledby="order-includes-title">
+        <h2 id="order-includes-title" className="sr-only">אריזה ותעודה</h2>
+        <p className="text-[0.95rem] font-medium leading-7 text-ink-soft sm:text-base">
+          דאגנו לכל פרט — גם לאריזה.
+        </p>
+        <div className="mt-3.5 grid gap-7 sm:grid-cols-2 lg:mt-4 lg:gap-8">
           <figure>
             <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
               <Image
@@ -570,7 +571,6 @@ export default function ProductView({ product }: { product: Product }) {
                 className="object-cover"
               />
             </div>
-            <figcaption className="mt-2 text-[0.65rem] leading-4 text-stone">הדמיה להמחשה</figcaption>
           </figure>
 
           <figure id="certificate-figure" className="scroll-mt-24">
