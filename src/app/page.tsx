@@ -136,25 +136,21 @@ function EditorialProductLink({ product, featured = false }: { product: Product;
 
 const collectionOrder: CategorySlug[] = ["rings", "earrings", "bracelets", "necklaces"];
 
-const collectionEditorialImages: Record<CategorySlug, { mobile: string; desktop: string; alt: string }> = {
+const collectionEditorialImages: Record<CategorySlug, { src: string; alt: string }> = {
   rings: {
-    mobile: assetPath("/images/editorial/categories/rings-desktop.webp"),
-    desktop: assetPath("/images/editorial/categories/rings-mobile.webp"),
+    src: assetPath("/images/editorial/categories/v2/rings.webp"),
     alt: "טבעת סוליטר מזהב צהוב עם יהלום עגול",
   },
   earrings: {
-    mobile: assetPath("/images/editorial/categories/earrings-mobile.webp"),
-    desktop: assetPath("/images/editorial/categories/earrings-desktop.webp"),
+    src: assetPath("/images/editorial/categories/v2/earrings.webp"),
     alt: "זוג עגילי יהלום צמודים מזהב לבן",
   },
   bracelets: {
-    mobile: assetPath("/images/editorial/categories/bracelets-mobile.webp"),
-    desktop: assetPath("/images/editorial/categories/bracelets-desktop.webp"),
+    src: assetPath("/images/editorial/categories/v2/bracelets.webp"),
     alt: "צמיד טניס מזהב לבן ויהלומים",
   },
   necklaces: {
-    mobile: assetPath("/images/editorial/categories/necklaces-desktop.webp"),
-    desktop: assetPath("/images/editorial/categories/necklaces-desktop.webp"),
+    src: assetPath("/images/editorial/categories/v2/necklaces.webp"),
     alt: "שרשרת טניס מדורגת מזהב לבן ויהלומים",
   },
 };
@@ -169,15 +165,8 @@ const collectionPlacement: Record<CategorySlug, string> = {
 const collectionLabelPlacement: Record<CategorySlug, string> = {
   rings: "bottom-5 right-5 sm:bottom-6 sm:right-6",
   earrings: "bottom-4 right-4 sm:bottom-5 sm:right-5",
-  bracelets: "left-4 top-4 sm:left-5 sm:top-5",
+  bracelets: "bottom-4 right-4 sm:bottom-5 sm:right-5",
   necklaces: "bottom-5 right-5 sm:bottom-6 sm:right-6",
-};
-
-const collectionVeilPlacement: Record<CategorySlug, string> = {
-  rings: "inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(to_top,rgba(247,246,242,0.78)_0%,rgba(247,246,242,0.3)_48%,rgba(247,246,242,0)_100%)]",
-  earrings: "inset-x-0 bottom-0 h-[34%] bg-[linear-gradient(to_top,rgba(247,246,242,0.78)_0%,rgba(247,246,242,0.3)_48%,rgba(247,246,242,0)_100%)]",
-  bracelets: "inset-x-0 top-0 h-[34%] bg-[linear-gradient(to_bottom,rgba(247,246,242,0.78)_0%,rgba(247,246,242,0.3)_48%,rgba(247,246,242,0)_100%)]",
-  necklaces: "inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(to_top,rgba(247,246,242,0.78)_0%,rgba(247,246,242,0.3)_48%,rgba(247,246,242,0)_100%)]",
 };
 
 function CollectionTile({ category }: { category: CategorySlug }) {
@@ -185,9 +174,6 @@ function CollectionTile({ category }: { category: CategorySlug }) {
   const images = collectionEditorialImages[category];
   const tall = category === "rings";
   const wide = category === "necklaces";
-  const imageScale = tall
-    ? "scale-[1.035] group-hover:scale-[1.06]"
-    : "group-hover:scale-[1.025]";
   const labelSize = tall || wide ? "text-[1.0625rem]" : "text-base";
 
   return (
@@ -205,22 +191,15 @@ function CollectionTile({ category }: { category: CategorySlug }) {
         }`}
       >
         <Image
-          src={images.mobile}
+          src={images.src}
           alt={images.alt}
           fill
-          sizes={tall || wide ? "100vw" : "50vw"}
-          className={`object-cover transition-transform duration-1000 ease-out lg:hidden ${imageScale}`}
-        />
-        <Image
-          src={images.desktop}
-          alt=""
-          fill
-          sizes={tall ? "50vw" : wide ? "50vw" : "25vw"}
-          className={`hidden object-cover transition-transform duration-1000 ease-out lg:block ${imageScale}`}
+          sizes={tall || wide ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
+          className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.025]"
         />
         <div
           aria-hidden="true"
-          className={`pointer-events-none absolute ${collectionVeilPlacement[category]}`}
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(to_top,rgba(247,246,242,0.78)_0%,rgba(247,246,242,0.3)_48%,rgba(247,246,242,0)_100%)]"
         />
         <h3
           className={`absolute z-10 font-display font-normal leading-none text-ink-soft lg:text-xl ${labelSize} ${collectionLabelPlacement[category]}`}
