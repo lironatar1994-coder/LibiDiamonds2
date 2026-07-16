@@ -81,7 +81,7 @@ function EditorialBestsellers({ items }: { items: Product[] }) {
   const [featured, ...secondary] = items;
 
   return (
-    <div className="mt-7 sm:mt-10 lg:mt-12">
+    <div className="mt-6 sm:mt-9 lg:mt-11">
       <div className="lg:hidden">
         <EditorialProductLink product={featured} featured />
 
@@ -306,7 +306,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Bestsellers ───────────────────────────────────── */}
-      <section className="bg-[#fcfbf8] pb-14 pt-11 sm:pb-20 sm:pt-16 lg:pb-24 lg:pt-20">
+      <section className="bg-[#fcfbf8] pb-14 pt-8 sm:pb-20 sm:pt-14 lg:pb-24 lg:pt-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title="הבחירות של LIBI" />
           <EditorialBestsellers items={bestsellers} />
