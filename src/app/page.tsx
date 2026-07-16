@@ -283,7 +283,7 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,246,242,0.95)_0%,rgba(247,246,242,0.84)_32%,rgba(247,246,242,0.18)_58%,rgba(247,246,242,0)_72%)]" />
         </div>
 
-        <div dir="ltr" className="absolute inset-x-0 bottom-7 z-10 mx-auto max-w-7xl px-4 sm:bottom-9 sm:px-6 lg:relative lg:inset-auto lg:grid lg:min-h-[min(82vh,760px)] lg:grid-cols-2 lg:items-center lg:px-8 lg:py-14">
+        <div dir="ltr" className="absolute inset-x-0 bottom-9 z-10 mx-auto max-w-7xl px-4 sm:bottom-12 sm:px-6 lg:relative lg:inset-auto lg:grid lg:min-h-[min(82vh,760px)] lg:grid-cols-2 lg:items-center lg:px-8 lg:py-14">
           <div dir="rtl" className="text-center lg:col-start-1 lg:max-w-lg lg:text-right">
             <h1
               className="cascade mx-auto whitespace-nowrap font-display text-[2.05rem] font-light leading-none text-ink sm:text-[2.4rem] lg:mx-0 lg:whitespace-normal lg:text-6xl lg:leading-[1.04] xl:text-7xl"
@@ -295,7 +295,7 @@ export default function HomePage() {
               className="cascade mt-5 flex justify-center lg:mt-10 lg:justify-start"
               style={{ animationDelay: "220ms" }}
             >
-              <Link href="/jewelry/rings" className="btn-primary min-w-56 px-8">
+              <Link href="/jewelry/rings" className="btn-primary min-w-52 px-8">
                 גלו טבעות יהלום
               </Link>
             </div>
