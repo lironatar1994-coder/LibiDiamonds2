@@ -324,7 +324,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Shop by diamond shape ────────────────────────── */}
-      <section className="section-diamond-light pb-12 pt-11 sm:py-14 lg:py-16">
+      <section className="section-diamond-light pb-10 pt-9 sm:py-12 lg:py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title="חיתוכי יהלום" variant="centered" />
           <DiamondShapeSelector shapes={diamondShapes} />
@@ -333,7 +333,7 @@ export default function HomePage() {
 
       {/* ── Categories ───────────────────────────────────── */}
       <section className="section-gallery">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 pb-14 pt-11 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
           <SectionHeading title="הקולקציה" />
           <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:mt-11 lg:grid-cols-12 lg:grid-rows-[17rem_17rem] xl:grid-rows-[20rem_20rem]">
             {collectionOrder.map((category) => (
