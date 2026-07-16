@@ -39,16 +39,6 @@ function ZoomGlyph({ className }: { className?: string }) {
   );
 }
 
-function ShareGlyph({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" className={className} aria-hidden="true">
-      <path d="M12 14.5v-11" strokeLinecap="round" />
-      <path d="m8.5 7 3.5-3.5L15.5 7" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M8 11H5.5v9.5h13V11H16" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 const METAL_SWATCH: Record<Metal, string> = {
   yellow: "#c9a35e",
   white: "#c4c8cd",
@@ -113,14 +103,12 @@ export default function ProductView({ product }: { product: Product }) {
   const [summaryPassed, setSummaryPassed] = useState(false);
   const [primaryCtaVisible, setPrimaryCtaVisible] = useState(false);
   const [relatedReached, setRelatedReached] = useState(false);
-  const [linkCopied, setLinkCopied] = useState(false);
   const [scrolledUp, setScrolledUp] = useState(true);
   const summaryRef = useRef<HTMLElement>(null);
   const primaryCtaRef = useRef<HTMLDivElement>(null);
   const viewerCloseRef = useRef<HTMLButtonElement>(null);
   const galleryTrackRef = useRef<HTMLDivElement>(null);
   const viewerTrackRef = useRef<HTMLDivElement>(null);
-  const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
   const selectedImageRef = useRef(0);
 
   const carat = product.carats[caratIdx];
@@ -148,12 +136,6 @@ export default function ProductView({ product }: { product: Product }) {
     setSelectedImage(0);
     galleryTrackRef.current?.scrollTo({ left: 0 });
   }, [metal]);
-
-  useEffect(() => {
-    return () => {
-      if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
-    };
-  }, []);
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -270,22 +252,6 @@ export default function ProductView({ product }: { product: Product }) {
     trackRef.current?.children[index]?.scrollIntoView({ behavior, inline: "center", block: "nearest" });
   };
 
-  const handleShare = async () => {
-    const url = window.location.href;
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: `${product.name} · LIBI DIAMONDS`, url });
-      } else {
-        await navigator.clipboard.writeText(url);
-        setLinkCopied(true);
-        if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
-        copiedTimeoutRef.current = setTimeout(() => setLinkCopied(false), 2200);
-      }
-    } catch {
-      /* המשתמש ביטל את השיתוף */
-    }
-  };
-
   return (
     <>
       <div className="grid gap-3 sm:gap-6 lg:grid-cols-[minmax(0,1.18fr)_minmax(23rem,0.82fr)] lg:items-start lg:gap-14 xl:gap-20">
@@ -330,14 +296,6 @@ export default function ProductView({ product }: { product: Product }) {
                 360°
               </button>
             )}
-            <button
-              type="button"
-              onClick={handleShare}
-              className="absolute bottom-3 right-3 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm"
-              aria-label={`שיתוף ${product.name}`}
-            >
-              <ShareGlyph className="h-5 w-5" />
-            </button>
             {product.tryOn?.enabled && product.category === "rings" && (
               <button
                 type="button"
@@ -347,11 +305,6 @@ export default function ProductView({ product }: { product: Product }) {
                 <TryOnGlyph className="h-5 w-5" />
                 לנסות על היד
               </button>
-            )}
-            {linkCopied && (
-              <span role="status" className="absolute bottom-[4.25rem] right-3 bg-ink/90 px-3 py-1.5 text-xs text-ivory">
-                הקישור הועתק
-              </span>
             )}
           </div>
 
@@ -397,14 +350,6 @@ export default function ProductView({ product }: { product: Product }) {
                 <ZoomGlyph className="h-5 w-5" />
               </span>
             </button>
-            <button
-              type="button"
-              onClick={handleShare}
-              className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm transition-colors hover:bg-white"
-              aria-label={`שיתוף ${product.name}`}
-            >
-              <ShareGlyph className="h-5 w-5" />
-            </button>
             {spinAsset && (
               <button
                 type="button"
@@ -425,11 +370,6 @@ export default function ProductView({ product }: { product: Product }) {
                 <TryOnGlyph className="h-5 w-5" />
                 לנסות על היד
               </button>
-            )}
-            {linkCopied && (
-              <span role="status" className="absolute bottom-[4.75rem] right-4 bg-ink/90 px-3 py-1.5 text-xs text-ivory">
-                הקישור הועתק
-              </span>
             )}
           </div>
 
@@ -480,13 +420,13 @@ export default function ProductView({ product }: { product: Product }) {
           )}
         </section>
 
-        <section className="-mx-4 min-w-0 bg-[#f8f5ef] px-4 py-5 sm:mx-0 sm:px-6 sm:py-7 lg:sticky lg:top-28 lg:self-start lg:px-7 lg:py-8">
+        <section className="-mx-4 min-w-0 bg-white px-4 pb-7 pt-4 sm:mx-0 sm:px-6 sm:py-7 lg:sticky lg:top-28 lg:self-start lg:bg-ivory lg:px-7 lg:py-8">
           <header ref={summaryRef}>
-            <h1 className="font-display text-[2.05rem] font-light leading-[1.1] text-ink sm:text-5xl lg:text-[3.15rem]">
+            <h1 className="font-display text-[1.95rem] font-light leading-[1.12] text-ink sm:text-5xl lg:text-[3rem]">
               {product.name}
             </h1>
-            <p className="mt-2 text-sm leading-6 text-stone sm:text-base">{product.subtitle}</p>
-            <div className="mt-4 flex items-end gap-2" aria-live="polite">
+            <p className="mt-1.5 text-[0.82rem] leading-6 text-stone sm:text-base">{product.subtitle}</p>
+            <div className="mt-3.5 flex items-end gap-2" aria-live="polite">
               <span className="font-display text-[2.3rem] font-light leading-none text-ink sm:text-4xl">
                 {formatPrice(carat.price)}
               </span>
@@ -494,27 +434,13 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </header>
 
-          <button
-            type="button"
-            onClick={() => openHelp("certificate")}
-            className="mt-4 flex min-h-11 w-full items-center justify-between gap-3 border-y border-line py-2 text-[0.72rem] font-medium text-stone transition-colors hover:text-ink"
-          >
-            <span dir="ltr">{product.specs.cert} · {product.specs.color} · {product.specs.clarity} · {product.specs.cut}</span>
-            <span className="shrink-0 border-b border-line pb-0.5 text-[0.68rem]">פרטי התעודה</span>
-          </button>
+          <p className="mt-4 border-t border-line pt-3 text-[0.7rem] font-medium text-stone" dir="ltr">
+            {product.specs.cert} · {product.specs.color} · {product.specs.clarity} · {product.specs.cut}
+          </p>
 
-          <fieldset className="pt-5 lg:pt-6">
+          <fieldset className="pt-4.5 lg:pt-5">
             <legend className="sr-only">גוון המתכת</legend>
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-[0.7rem] font-semibold text-stone">גוון המתכת</span>
-              <button
-                type="button"
-                onClick={() => openHelp("metal")}
-                className="border-b border-line pb-0.5 text-xs text-stone transition-colors hover:border-ink hover:text-ink"
-              >
-                איך בוחרים?
-              </button>
-            </div>
+            <span className="text-[0.7rem] font-semibold text-stone">זהב</span>
             <div className={`mt-2.5 grid gap-2.5 ${product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
               {product.metals.map((option) => (
                 <button
@@ -523,10 +449,10 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setMetal(option)}
                   aria-label={metalNames[option]}
                   aria-pressed={metal === option}
-                  className={`flex min-h-[50px] items-center justify-center gap-2 border px-3 text-sm transition-colors ${
+                  className={`flex min-h-[48px] items-center justify-center gap-2 border px-3 text-sm transition-colors ${
                     metal === option
-                      ? "border-ink bg-white text-ink"
-                      : "border-line bg-white/55 text-stone hover:border-stone hover:text-ink"
+                      ? "border-ink bg-selection text-ink"
+                      : "border-line bg-white text-ink hover:border-stone"
                   }`}
                 >
                   <span
@@ -540,18 +466,9 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </fieldset>
 
-          <fieldset className="pt-5 lg:pt-6">
+          <fieldset className="pt-4.5 lg:pt-5">
             <legend className="sr-only">{caratCopy.legend}</legend>
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-[0.7rem] font-semibold text-stone">{caratCopy.legend}</span>
-              <button
-                type="button"
-                onClick={() => openHelp("carat")}
-                className="border-b border-line pb-0.5 text-xs text-stone transition-colors hover:border-ink hover:text-ink"
-              >
-                איך בוחרים?
-              </button>
-            </div>
+            <span className="text-[0.7rem] font-semibold text-stone">{caratCopy.legend}</span>
             <div className={`mt-2.5 grid gap-2.5 ${caratGridClass}`} dir="rtl">
               {product.carats.map((option, index) => {
                 const selected = index === caratIdx;
@@ -562,12 +479,12 @@ export default function ProductView({ product }: { product: Product }) {
                     onClick={() => setCaratIdx(index)}
                     aria-pressed={selected}
                     aria-label={`${option.value} ${caratCopy.qualifier}, ${formatPrice(option.price)}`}
-                    className={`flex min-h-[88px] min-w-0 flex-col items-center justify-center border px-1.5 py-3 text-center transition-colors sm:px-3 ${
+                    className={`flex min-h-[78px] min-w-0 flex-col items-center justify-center border px-1.5 py-2.5 text-center transition-colors sm:px-3 ${
                       selected ? "border-ink bg-ink text-ivory" : "border-line bg-white text-ink hover:border-stone"
                     }`}
                   >
                     <span className={`block font-display text-2xl leading-none ${selected ? "text-ivory" : "text-ink"}`} dir="ltr">{option.value}</span>
-                    <span className={`mt-2 block whitespace-nowrap text-xs font-medium ${selected ? "text-footer-muted" : "text-stone"}`}>
+                    <span className={`mt-1.5 block whitespace-nowrap text-[0.7rem] font-medium ${selected ? "text-footer-muted" : "text-stone"}`}>
                       {formatPrice(option.price)}
                     </span>
                   </button>
@@ -576,25 +493,37 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </fieldset>
 
-          <div ref={primaryCtaRef} className="mt-5 lg:mt-6">
+          <div ref={primaryCtaRef} className="mt-4.5 lg:mt-5">
+            <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="btn-primary min-h-[54px] w-full">
+              <WhatsAppIcon className="h-4 w-4" />
+              בדיקת זמינות בוואטסאפ
+            </a>
+          </div>
+
+          <div className="mt-3.5 flex items-center gap-4 text-[0.72rem] text-stone">
             {product.category === "rings" && (
               <button
                 type="button"
                 onClick={() => openHelp("size")}
-                className="mb-3 min-h-10 text-sm font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
+                className="border-b border-line pb-0.5 transition-colors hover:border-ink hover:text-ink"
               >
-                איך בוחרים מידה?
+                מדריך מידות
               </button>
             )}
-            <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="btn-primary min-h-[54px] w-full">
-              <WhatsAppIcon className="h-4 w-4" />
-              ייעוץ אישי וזמינות בוואטסאפ
-            </a>
-            <div className="mt-4 grid grid-cols-3 border-y border-line py-3 text-center text-[0.65rem] leading-4 text-stone">
-              <span className="px-1">תעודת {product.specs.cert}</span>
-              <span className="border-x border-line px-1">משלוח מבוטח<br />{servicePromises.collectionLeadTime}</span>
-              <span className="px-1">{product.category === "rings" ? servicePromises.firstResize : "אחריות מלאה"}</span>
-            </div>
+            <button
+              type="button"
+              onClick={() => openHelp("carat")}
+              className="border-b border-line pb-0.5 transition-colors hover:border-ink hover:text-ink"
+            >
+              על קראט
+            </button>
+            <button
+              type="button"
+              onClick={() => openHelp("certificate")}
+              className="border-b border-line pb-0.5 transition-colors hover:border-ink hover:text-ink"
+            >
+              על התעודה
+            </button>
           </div>
 
         </section>
@@ -609,37 +538,12 @@ export default function ProductView({ product }: { product: Product }) {
         />
         <div>
           <h2 id="product-details-title" className="font-display text-[2rem] font-medium leading-tight sm:text-4xl">
-            הפרטים שעושים את ההבדל
+            העיצוב
           </h2>
           <p className="mt-3 max-w-xl text-sm leading-7 text-stone sm:text-base">{product.description}</p>
 
-          {product.highlights && product.highlights.length > 0 && (
-            <dl className="mt-6 border-t border-line">
-              {product.highlights.map((highlight) => (
-                <div key={highlight.title} className="grid gap-1 border-b border-line py-4 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-5">
-                  <dt className="font-display text-lg font-medium">{highlight.title}</dt>
-                  <dd className="text-sm leading-6 text-stone">{highlight.detail}</dd>
-                </div>
-              ))}
-            </dl>
-          )}
-
-          <dl className="mt-6 grid grid-cols-2 border-t border-line">
-            {[
-              ["תעודה", product.specs.cert],
-              ["צבע", product.specs.color],
-              ["ניקיון", product.specs.clarity],
-              ["ליטוש", product.specs.cut],
-            ].map(([label, value]) => (
-              <div key={label} className="border-b border-line py-3 odd:border-l odd:border-line odd:pl-4 even:pr-4">
-                <dt className="text-[0.68rem] font-semibold text-stone">{label}</dt>
-                <dd className="mt-1 text-sm font-medium text-ink">{value}</dd>
-              </div>
-            ))}
-          </dl>
-
           {product.dimensions && product.dimensions.length > 0 && (
-            <dl className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
+            <dl className="mt-5 flex flex-wrap gap-x-8 gap-y-3 border-t border-line pt-4">
               {product.dimensions.map((dimension) => (
                 <div key={dimension.label}>
                   <dt className="text-[0.72rem] font-semibold tracking-[0.08em] text-stone">{dimension.label}</dt>
@@ -705,7 +609,7 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center gap-2 bg-ivory px-2.5 text-[0.8rem] font-semibold text-ink min-[390px]:text-sm">
               <WhatsAppIcon className="h-4 w-4" />
-              ייעוץ אישי וזמינות בוואטסאפ
+              בדיקת זמינות בוואטסאפ
             </a>
           </div>
         </div>
