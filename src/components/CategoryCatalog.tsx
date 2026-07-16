@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import ProductMedia from "@/components/ProductMedia";
 import { productImages } from "@/data/products";
@@ -9,6 +9,9 @@ import type { CatalogStyle, CategorySlug, DiamondShape, Metal, Product } from "@
 import { assetPath } from "@/lib/site";
 
 type SortMode = "featured" | "price-low" | "price-high";
+
+const INITIAL_PRODUCT_COUNT = 18;
+const PRODUCT_COUNT_STEP = 12;
 
 const categoryEditorial: Record<CategorySlug, { desktop: string; mobile: string; alt: string }> = {
   rings: {
@@ -85,6 +88,7 @@ export default function CategoryCatalog({
     category === "rings" ? "yellow" : "white",
   );
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(INITIAL_PRODUCT_COUNT);
   const availableShapes = useMemo(
     () => shapeOrder.filter((option) => items.some((item) => item.diamondShape === option)),
     [items],
@@ -104,6 +108,11 @@ export default function CategoryCatalog({
       return Number(Boolean(b.featured || b.bestseller)) - Number(Boolean(a.featured || a.bestseller));
     });
   }, [items, shape, sort, style]);
+  const displayedItems = visibleItems.slice(0, visibleCount);
+
+  useEffect(() => {
+    setVisibleCount(INITIAL_PRODUCT_COUNT);
+  }, [shape, sort, style]);
   const showShapeFilter = category === "rings" && availableShapes.length > 1;
   const showStyleFilter = availableStyles.length > 1;
   const activeFilterCount = Number(shape !== "all") + Number(style !== "all");
@@ -233,7 +242,7 @@ export default function CategoryCatalog({
       </div>
 
       <div className="mt-7 grid grid-cols-2 gap-x-3 gap-y-9 sm:mt-9 sm:gap-x-5 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-6">
-        {visibleItems.map((product, index) => (
+        {displayedItems.map((product, index) => (
           <Fragment key={product.slug}>
             <ProductCard product={product} metal={displayMetal} variant="catalog" />
             {visibleItems.length > 10 && index === 7 && (
@@ -245,6 +254,18 @@ export default function CategoryCatalog({
           </Fragment>
         ))}
       </div>
+
+      {visibleCount < visibleItems.length && (
+        <div className="mt-10 flex justify-center sm:mt-14">
+          <button
+            type="button"
+            onClick={() => setVisibleCount((count) => count + PRODUCT_COUNT_STEP)}
+            className="min-w-56 border-b border-ink px-6 pb-2 text-sm text-ink transition-colors hover:border-gold-deep hover:text-gold-deep"
+          >
+            הצגת טבעות נוספות
+          </button>
+        </div>
+      )}
     </>
   );
 }

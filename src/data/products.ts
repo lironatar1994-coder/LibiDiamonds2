@@ -1,5 +1,6 @@
 import { assetPath } from "@/lib/site";
 import { expansionProducts } from "@/data/catalog/expansion";
+import { ringExpansionProducts } from "@/data/catalog/ring-expansion";
 
 export type Metal = "yellow" | "white" | "rose";
 export type CategorySlug = "rings" | "earrings" | "necklaces" | "bracelets";
@@ -981,6 +982,7 @@ const catalogProducts: CatalogProduct[] = [
       "צמיד קשיח סגור ששתי זרועותיו מצטלבות פעם אחת בחזית; אחת מלוטשת והשנייה משובצת יהלומי פאווה. הציר והנעילה מוסתרים בחלק האחורי.",
   }),
   ...expansionProducts,
+  ...ringExpansionProducts,
 ];
 
 const caratScopeBySlug: Record<string, CaratScope> = {

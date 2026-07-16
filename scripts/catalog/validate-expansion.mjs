@@ -3,19 +3,25 @@ import path from "node:path";
 import ts from "typescript";
 
 const root = process.cwd();
-const sourcePath = path.join(root, "src/data/catalog/expansion.ts");
-const source = await readFile(sourcePath, "utf8");
-const javascript = ts.transpileModule(source, {
-  compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText;
-const module = await import(`data:text/javascript;base64,${Buffer.from(javascript).toString("base64")}`);
-const products = module.expansionProducts;
+async function loadProducts(sourcePath, exportName) {
+  const source = await readFile(sourcePath, "utf8");
+  const javascript = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
+  }).outputText;
+  const module = await import(`data:text/javascript;base64,${Buffer.from(javascript).toString("base64")}`);
+  return module[exportName];
+}
+
+const products = [
+  ...await loadProducts(path.join(root, "src/data/catalog/expansion.ts"), "expansionProducts"),
+  ...await loadProducts(path.join(root, "src/data/catalog/ring-expansion.ts"), "ringExpansionProducts"),
+];
 const manifest = JSON.parse(await readFile(path.join(root, "media/catalog.manifest.json"), "utf8"));
 const mediaRoot = path.resolve(root, process.env.LIBI_MEDIA_ROOT || "../LibiDiamondsAssets/masters");
 const failures = [];
 
-if (!Array.isArray(products) || products.length !== 24) {
-  failures.push(`expected 24 expansion products, found ${products?.length ?? 0}`);
+if (!Array.isArray(products) || products.length !== 49) {
+  failures.push(`expected 49 expansion products, found ${products?.length ?? 0}`);
 }
 
 const slugs = new Set();
@@ -49,7 +55,7 @@ for (const product of products) {
 
 const allManifestSlugs = manifest.products.map((entry) => entry.slug);
 if (new Set(allManifestSlugs).size !== allManifestSlugs.length) failures.push("manifest contains duplicate slugs");
-if (manifest.products.length !== 60) failures.push(`expected 60 manifest products, found ${manifest.products.length}`);
+if (manifest.products.length !== 85) failures.push(`expected 85 manifest products, found ${manifest.products.length}`);
 
 if (failures.length) {
   failures.forEach((failure) => console.error(`- ${failure}`));
