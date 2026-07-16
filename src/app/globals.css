@@ -340,6 +340,25 @@ h3,
   animation: hero-settle 1.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+@keyframes hero-refraction-intro {
+  0% {
+    opacity: 0;
+    transform: translate3d(-12px, -2px, 0);
+  }
+  52% {
+    opacity: 0.18;
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(12px, 2px, 0);
+  }
+}
+
+.hero-refraction-intro {
+  animation: hero-refraction-intro 2s cubic-bezier(0.22, 1, 0.36, 1) 650ms both;
+}
+
 /* quiet scroll cue at the hero's base */
 @keyframes scroll-hint {
   0%,
