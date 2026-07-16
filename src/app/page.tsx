@@ -256,15 +256,15 @@ export default function HomePage() {
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className="hero-editorial relative isolate overflow-hidden">
         <div className="relative h-[clamp(600px,150vw,650px)] overflow-hidden bg-[#f7f6f2] lg:hidden">
-          <div className="absolute inset-x-0 top-0 h-[92%] overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden">
             <Image
-              src={assetPath("/images/hero/mineral/hero-mobile.webp")}
+              src={assetPath("/images/hero/mineral/hero-mobile-v2.webp")}
               alt="טבעת יהלום מעבדה בזהב צהוב על משטח טרוורטין פיסולי"
               fill
               priority
               unoptimized
               sizes="100vw"
-              className="hero-settle object-cover object-center sm:object-[50%_68%]"
+              className="hero-settle object-cover object-top sm:object-[50%_18%]"
             />
           </div>
           <div className="absolute inset-x-0 bottom-0 h-[46%] bg-[linear-gradient(to_bottom,rgba(247,246,242,0)_0%,rgba(247,246,242,0.38)_38%,rgba(247,246,242,0.94)_72%,#f7f6f2_100%)]" />
