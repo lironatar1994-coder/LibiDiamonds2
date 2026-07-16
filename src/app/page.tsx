@@ -169,8 +169,15 @@ const collectionPlacement: Record<CategorySlug, string> = {
 const collectionLabelPlacement: Record<CategorySlug, string> = {
   rings: "bottom-5 right-5 sm:bottom-6 sm:right-6",
   earrings: "bottom-4 right-4 sm:bottom-5 sm:right-5",
-  bracelets: "bottom-4 right-4 sm:bottom-5 sm:right-5",
+  bracelets: "left-4 top-4 sm:left-5 sm:top-5",
   necklaces: "bottom-5 right-5 sm:bottom-6 sm:right-6",
+};
+
+const collectionVeilPlacement: Record<CategorySlug, string> = {
+  rings: "inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(to_top,rgba(247,246,242,0.78)_0%,rgba(247,246,242,0.3)_48%,rgba(247,246,242,0)_100%)]",
+  earrings: "inset-x-0 bottom-0 h-[34%] bg-[linear-gradient(to_top,rgba(247,246,242,0.78)_0%,rgba(247,246,242,0.3)_48%,rgba(247,246,242,0)_100%)]",
+  bracelets: "inset-x-0 top-0 h-[34%] bg-[linear-gradient(to_bottom,rgba(247,246,242,0.78)_0%,rgba(247,246,242,0.3)_48%,rgba(247,246,242,0)_100%)]",
+  necklaces: "inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(to_top,rgba(247,246,242,0.78)_0%,rgba(247,246,242,0.3)_48%,rgba(247,246,242,0)_100%)]",
 };
 
 function CollectionTile({ category }: { category: CategorySlug }) {
@@ -178,6 +185,10 @@ function CollectionTile({ category }: { category: CategorySlug }) {
   const images = collectionEditorialImages[category];
   const tall = category === "rings";
   const wide = category === "necklaces";
+  const imageScale = tall
+    ? "scale-[1.035] group-hover:scale-[1.06]"
+    : "group-hover:scale-[1.025]";
+  const labelSize = tall || wide ? "text-[1.0625rem]" : "text-base";
 
   return (
     <Link
@@ -198,21 +209,21 @@ function CollectionTile({ category }: { category: CategorySlug }) {
           alt={images.alt}
           fill
           sizes={tall || wide ? "100vw" : "50vw"}
-          className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.025] lg:hidden"
+          className={`object-cover transition-transform duration-1000 ease-out lg:hidden ${imageScale}`}
         />
         <Image
           src={images.desktop}
           alt=""
           fill
           sizes={tall ? "50vw" : wide ? "50vw" : "25vw"}
-          className="hidden object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.025] lg:block"
+          className={`hidden object-cover transition-transform duration-1000 ease-out lg:block ${imageScale}`}
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-[linear-gradient(to_top,rgba(247,246,242,0.86)_0%,rgba(247,246,242,0.42)_42%,rgba(247,246,242,0)_100%)]"
+          className={`pointer-events-none absolute ${collectionVeilPlacement[category]}`}
         />
         <h3
-          className={`absolute z-10 font-display text-[1.0625rem] font-normal leading-none text-[#2c2e2d] lg:text-xl ${collectionLabelPlacement[category]}`}
+          className={`absolute z-10 font-display font-normal leading-none text-ink-soft lg:text-xl ${labelSize} ${collectionLabelPlacement[category]}`}
         >
           {item.name}
         </h3>
