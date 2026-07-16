@@ -166,6 +166,13 @@ const collectionPlacement: Record<CategorySlug, string> = {
   necklaces: "col-span-2 lg:col-span-6",
 };
 
+const collectionLabelPlacement: Record<CategorySlug, string> = {
+  rings: "bottom-5 right-5 sm:bottom-6 sm:right-6",
+  earrings: "bottom-4 right-4 sm:bottom-5 sm:right-5",
+  bracelets: "bottom-4 right-4 sm:bottom-5 sm:right-5",
+  necklaces: "bottom-5 right-5 sm:bottom-6 sm:right-6",
+};
+
 function CollectionTile({ category }: { category: CategorySlug }) {
   const item = categories.find((candidate) => candidate.slug === category)!;
   const images = collectionEditorialImages[category];
@@ -175,15 +182,15 @@ function CollectionTile({ category }: { category: CategorySlug }) {
   return (
     <Link
       href={`/jewelry/${category}`}
-      className={`group flex min-h-0 flex-col ${collectionPlacement[category]}`}
+      className={`group min-h-0 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ink ${collectionPlacement[category]}`}
     >
       <div
         className={`relative overflow-hidden ${
           tall
-            ? "aspect-[4/3] lg:h-[calc(100%-2.75rem)] lg:aspect-auto"
+            ? "aspect-[4/3] lg:h-full lg:aspect-auto"
             : wide
-              ? "aspect-[15/8] lg:h-[calc(100%-2.75rem)] lg:aspect-auto"
-              : "aspect-[4/3] lg:h-[calc(100%-2.75rem)] lg:aspect-auto"
+              ? "aspect-[15/8] lg:h-full lg:aspect-auto"
+              : "aspect-[4/3] lg:h-full lg:aspect-auto"
         }`}
       >
         <Image
@@ -200,8 +207,16 @@ function CollectionTile({ category }: { category: CategorySlug }) {
           sizes={tall ? "50vw" : wide ? "50vw" : "25vw"}
           className="hidden object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.025] lg:block"
         />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-[linear-gradient(to_top,rgba(247,246,242,0.86)_0%,rgba(247,246,242,0.42)_42%,rgba(247,246,242,0)_100%)]"
+        />
+        <h3
+          className={`absolute z-10 font-display text-[1.0625rem] font-normal leading-none text-[#2c2e2d] lg:text-xl ${collectionLabelPlacement[category]}`}
+        >
+          {item.name}
+        </h3>
       </div>
-      <h3 className="pt-3 text-right font-display text-lg lg:pt-4 lg:text-xl">{item.name}</h3>
     </Link>
   );
 }
@@ -330,7 +345,7 @@ export default function HomePage() {
       <section className="section-gallery">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
           <SectionHeading title="הקולקציה" />
-          <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-7 sm:gap-x-5 lg:mt-11 lg:grid-cols-12 lg:grid-rows-[17rem_17rem] lg:gap-5 xl:grid-rows-[20rem_20rem]">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:mt-11 lg:grid-cols-12 lg:grid-rows-[17rem_17rem] xl:grid-rows-[20rem_20rem]">
             {collectionOrder.map((category) => (
               <CollectionTile key={category} category={category} />
             ))}
