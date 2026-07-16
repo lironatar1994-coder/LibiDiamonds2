@@ -255,7 +255,7 @@ export default function HomePage() {
     <>
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className="hero-editorial relative isolate overflow-hidden">
-        <div className="absolute inset-0 lg:hidden">
+        <div className="relative h-[clamp(650px,170vw,700px)] overflow-hidden lg:hidden">
           <Image
             src={assetPath("/images/hero/mineral/hero-mobile.webp")}
             alt="טבעת יהלום מעבדה בזהב צהוב על משטח טרוורטין פיסולי"
@@ -265,7 +265,7 @@ export default function HomePage() {
             sizes="100vw"
             className="hero-settle object-cover object-center"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,246,242,0.9)_0%,rgba(247,246,242,0.68)_32%,rgba(247,246,242,0.04)_61%,rgba(247,246,242,0.2)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(247,246,242,0)_58%,rgba(247,246,242,0.14)_70%,rgba(247,246,242,0.88)_100%)]" />
         </div>
 
         <div className="absolute inset-0 hidden lg:block">
@@ -281,16 +281,16 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,246,242,0.95)_0%,rgba(247,246,242,0.84)_32%,rgba(247,246,242,0.18)_58%,rgba(247,246,242,0)_72%)]" />
         </div>
 
-        <div dir="ltr" className="relative z-10 mx-auto grid min-h-[calc(74svh-60px)] max-w-7xl items-start px-4 py-4 sm:px-6 lg:min-h-[min(82vh,760px)] lg:grid-cols-2 lg:items-center lg:px-8 lg:py-14">
-          <div dir="rtl" className="pt-3 text-center sm:pt-10 lg:col-start-1 lg:max-w-lg lg:pt-0 lg:text-right">
+        <div dir="ltr" className="absolute inset-x-0 bottom-6 z-10 mx-auto max-w-7xl px-4 sm:bottom-8 sm:px-6 lg:relative lg:inset-auto lg:grid lg:min-h-[min(82vh,760px)] lg:grid-cols-2 lg:items-center lg:px-8 lg:py-14">
+          <div dir="rtl" className="text-center lg:col-start-1 lg:max-w-lg lg:text-right">
             <h1
-              className="cascade mx-auto max-w-[8ch] font-display text-[2.75rem] font-light leading-[1.04] text-ink sm:text-6xl lg:mx-0 xl:text-7xl"
+              className="cascade mx-auto max-w-[8ch] font-display text-[2.35rem] font-light leading-[1.04] text-ink sm:text-[2.75rem] lg:mx-0 lg:text-6xl xl:text-7xl"
               style={{ animationDelay: "90ms" }}
             >
               היהלום במרכז.
             </h1>
             <div
-              className="cascade mt-5 flex justify-center sm:mt-7 lg:mt-10 lg:justify-start"
+              className="cascade mt-4 flex justify-center sm:mt-5 lg:mt-10 lg:justify-start"
               style={{ animationDelay: "220ms" }}
             >
               <Link href="/jewelry/rings" className="btn-primary px-14">
