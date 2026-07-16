@@ -340,23 +340,46 @@ h3,
   animation: hero-settle 1.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes hero-refraction-intro {
+@keyframes hero-refraction-mask-intro {
   0% {
     opacity: 0;
-    transform: translate3d(-12px, -2px, 0);
   }
   52% {
-    opacity: 0.18;
-    transform: translate3d(0, 0, 0);
+    opacity: 0.42;
   }
   100% {
     opacity: 0;
-    transform: translate3d(12px, 2px, 0);
   }
 }
 
-.hero-refraction-intro {
-  animation: hero-refraction-intro 2s cubic-bezier(0.22, 1, 0.36, 1) 650ms both;
+@keyframes hero-refraction-sweep-intro {
+  from {
+    transform: translate3d(-28%, 0, 0);
+  }
+  to {
+    transform: translate3d(28%, 0, 0);
+  }
+}
+
+.hero-refraction-mask-intro {
+  animation: hero-refraction-mask-intro 2s cubic-bezier(0.22, 1, 0.36, 1) 650ms both;
+}
+
+.hero-refraction-sweep-intro {
+  animation: hero-refraction-sweep-intro 2s cubic-bezier(0.22, 1, 0.36, 1) 650ms both;
+}
+
+.hero-refraction-sweep {
+  background: linear-gradient(
+    108deg,
+    transparent 28%,
+    rgba(236, 242, 244, 0.08) 38%,
+    rgba(255, 255, 255, 0.92) 49%,
+    rgba(231, 238, 241, 0.32) 57%,
+    transparent 69%
+  );
+  filter: blur(1.4px);
+  will-change: transform;
 }
 
 /* quiet scroll cue at the hero's base */
