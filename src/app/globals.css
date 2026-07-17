@@ -257,6 +257,65 @@ h3,
   background-color: var(--color-ink-soft);
 }
 
+.ring-size-gauge {
+  --ring-size-progress: 50%;
+  appearance: none;
+  height: 2.25rem;
+  margin: 0;
+  cursor: pointer;
+  background:
+    linear-gradient(
+      to right,
+      var(--color-gold-deep) 0,
+      var(--color-gold-deep) var(--ring-size-progress),
+      var(--color-line) var(--ring-size-progress),
+      var(--color-line) 100%
+    ) center / 100% 1px no-repeat;
+}
+
+.ring-size-gauge::-webkit-slider-runnable-track {
+  height: 2.25rem;
+  background: transparent;
+}
+
+.ring-size-gauge::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.5rem;
+  border: 2px solid var(--color-gold-deep);
+  border-radius: 50%;
+  background: var(--color-ivory);
+  box-shadow: 0 0 0 0.25rem rgba(247, 246, 242, 0.9);
+}
+
+.ring-size-gauge::-moz-range-track {
+  height: 1px;
+  background: var(--color-line);
+}
+
+.ring-size-gauge::-moz-range-progress {
+  height: 1px;
+  background: var(--color-gold-deep);
+}
+
+.ring-size-gauge::-moz-range-thumb {
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid var(--color-gold-deep);
+  border-radius: 50%;
+  background: var(--color-ivory);
+  box-shadow: 0 0 0 0.25rem rgba(247, 246, 242, 0.9);
+}
+
+.ring-size-gauge--inactive::-webkit-slider-thumb {
+  opacity: 0;
+}
+
+.ring-size-gauge--inactive::-moz-range-thumb {
+  opacity: 0;
+}
+
 .btn-whatsapp {
   display: inline-flex;
   align-items: center;

@@ -141,9 +141,9 @@ export default function ProductView({ product }: { product: Product }) {
   const caratCopy = CARAT_SCOPE_COPY[product.caratScope];
   const caratLabel = `${carat.value} ${caratCopy.qualifier}`;
   const ringSizes = product.ringSizes ?? STANDARD_RING_SIZES;
-  const ringSizeLabel = ringSize === "unsure" ? "מידה לא נבחרה" : `מידה ${ringSize}`;
+  const ringSizeLabel = ringSize === "unsure" ? "מידה לא נבחרה" : `מידה ${ringSize} · היקף ${ringSize + 40} מ״מ`;
   const selectedSummary = `${metalNames[metal]} · ${caratLabel}${product.category === "rings" ? ` · ${ringSizeLabel}` : ""}`;
-  const message = `היי, אשמח לקבל ייעוץ ולבדוק זמינות עבור ${product.name} — ${caratLabel}, ${metalNames[metal]}${product.category === "rings" ? `, ${ringSize === "unsure" ? "עדיין לא בטוח/ה במידה" : `מידה ${ringSize}`}` : ""}. מחיר: ${formatPrice(carat.price)}`;
+  const message = `היי, אשמח לקבל ייעוץ ולבדוק זמינות עבור ${product.name} — ${caratLabel}, ${metalNames[metal]}${product.category === "rings" ? `, ${ringSize === "unsure" ? "עדיין לא בטוח/ה במידה" : `מידה ישראלית ${ringSize} (היקף ${ringSize + 40} מ״מ)`}` : ""}. מחיר: ${formatPrice(carat.price)}`;
   const detailImage = images.find((image) => image.view === "detail" || image.view === "profile") ?? images[1] ?? images[0];
   const showMobileSticky =
     summaryPassed && !primaryCtaVisible && !relatedReached && !viewerOpen && !tryOnOpen && !spinOpen && !sizeSheetOpen && !activeHelp;
@@ -522,7 +522,12 @@ export default function ProductView({ product }: { product: Product }) {
                 aria-haspopup="dialog"
                 aria-expanded={sizeSheetOpen}
               >
-                <span>{ringSize === "unsure" ? "לא בטוחים במידה" : `מידה ${ringSize}`}</span>
+                <span className="text-right">
+                  <span className="block">{ringSize === "unsure" ? "בחירת מידה" : `מידה ${ringSize} ישראלית`}</span>
+                  <span className="mt-0.5 block text-[0.68rem] text-stone">
+                    {ringSize === "unsure" ? "אפשר לבחור גם בהמשך" : `היקף ${ringSize + 40} מ״מ`}
+                  </span>
+                </span>
                 <ChevronGlyph className="h-4 w-4 text-ink-soft" />
               </button>
             </div>
