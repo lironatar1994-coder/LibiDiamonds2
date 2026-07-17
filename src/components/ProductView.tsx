@@ -560,7 +560,7 @@ export default function ProductView({ product }: { product: Product }) {
         <p className="text-[0.95rem] font-medium leading-7 text-ink-soft sm:text-base">
           דאגנו לכל פרט — גם לאריזה.
         </p>
-        <div className="mt-3.5 grid gap-7 sm:grid-cols-2 lg:mt-4 lg:gap-8">
+        <div className="mt-3.5 grid gap-4 sm:grid-cols-3 sm:gap-5 lg:mt-4 lg:gap-6">
           <figure>
             <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
               <Image
@@ -568,6 +568,18 @@ export default function ProductView({ product }: { product: Product }) {
                 alt={packaging.alt}
                 fill
                 sizes="(min-width: 1024px) 44vw, (min-width: 640px) 48vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </figure>
+
+          <figure>
+            <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
+              <Image
+                src={assetPath("/images/trust/v3/libi-shopping-bag-mockup.webp")}
+                alt="שקית קנייה יוקרתית של LIBI DIAMONDS בגוון שנהב עם ידיות סרט"
+                fill
+                sizes="(min-width: 1024px) 30vw, (min-width: 640px) 32vw, 100vw"
                 className="object-cover"
               />
             </div>
