@@ -738,7 +738,7 @@ export default function ProductView({ product }: { product: Product }) {
           value={ringSize}
           onSelect={setRingSize}
           onClose={() => setSizeSheetOpen(false)}
-          onOpenGuide={() => openHelp("size")}
+          onOpenGuide={() => window.location.assign(assetPath("/ring-size-guide"))}
         />
       )}
 

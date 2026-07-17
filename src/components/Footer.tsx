@@ -14,6 +14,7 @@ const collectionLinks = [
 const informationLinks = [
   { href: "/about", label: "הסיפור שלנו" },
   { href: "/journal", label: "מדריכים" },
+  { href: "/ring-size-guide", label: "מדריך מידות לטבעות" },
   { href: "/service", label: "משלוחים, אחריות והחזרות" },
   { href: "/contact", label: "צור קשר" },
 ];
