@@ -125,9 +125,17 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </div>
 
-      <section id="related-products" className="mt-8 scroll-mt-24 bg-platinum-soft py-8 sm:mt-10 sm:py-10 lg:mt-14 lg:py-12">
+      <section id="related-products" className="mt-6 scroll-mt-24 bg-ivory py-7 sm:mt-8 sm:py-9 lg:mt-10 lg:py-11">
         <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-[1.75rem] font-medium leading-tight sm:text-3xl lg:text-[2.1rem]">{relatedTitle}</h2>
+          <div className="flex items-end justify-between gap-5">
+            <h2 className="font-display text-[1.6rem] font-medium leading-tight sm:text-3xl lg:text-[2rem]">{relatedTitle}</h2>
+            <Link
+              href={`/jewelry/${category.slug}`}
+              className="shrink-0 border-b border-gold/45 pb-0.5 text-xs font-medium text-ink-soft transition-colors hover:border-gold hover:text-ink sm:text-sm"
+            >
+              לכל ה{category.name}
+            </Link>
+          </div>
           <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-8 lg:mt-7 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-10">
             {related.map((p, index) => (
               <div key={p.slug} className={index > 1 ? "hidden sm:block" : "block"}>
@@ -135,12 +143,6 @@ export default async function ProductPage({ params }: Props) {
               </div>
             ))}
           </div>
-          <Link
-            href={`/jewelry/${category.slug}`}
-            className="mt-8 inline-block border-b border-gold/55 pb-1 text-sm font-semibold text-ink-soft transition-colors hover:border-gold hover:text-ink lg:mt-10"
-          >
-            לכל ה{category.name}
-          </Link>
         </div>
       </section>
 
