@@ -588,14 +588,14 @@ export default function ProductView({ product }: { product: Product }) {
         </div>
       </section>
 
-      <section className="mt-12 border-b border-line sm:mt-16 lg:mt-20" aria-label="שירות ומשלוחים">
+      <section className="mt-5 border-b border-line sm:mt-8 lg:mt-10" aria-label="שירות ומשלוחים">
         {serviceItems.map((item) => (
           <details key={item.title} id={`service-${item.id}`} className="faq-item scroll-mt-24 border-t border-line">
-            <summary className="flex items-center justify-between gap-4 py-4.5">
+            <summary className="flex items-center justify-between gap-4 py-3.5 sm:py-4">
               <span className="text-sm font-semibold">{item.title}</span>
-              <span className="faq-icon text-lg text-gold" aria-hidden>+</span>
+              <span className="faq-icon text-base font-light text-ink-soft" aria-hidden>+</span>
             </summary>
-            <p className="max-w-2xl pb-5 text-sm leading-7 text-stone">{item.detail}</p>
+            <p className="max-w-2xl pb-4 text-sm leading-7 text-stone">{item.detail}</p>
           </details>
         ))}
       </section>

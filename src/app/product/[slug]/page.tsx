@@ -44,6 +44,12 @@ export default async function ProductPage({ params }: Props) {
 
   const category = getCategory(product.category)!;
   const related = relatedProducts(product);
+  const relatedTitle = {
+    rings: "טבעות נוספות",
+    earrings: "עגילים נוספים",
+    necklaces: "שרשראות נוספות",
+    bracelets: "צמידים נוספים",
+  }[product.category];
   const images = productImages(product);
   const productUrl = absoluteUrl(`/product/${product.slug}`);
   const breadcrumb = breadcrumbJsonLd([
@@ -119,10 +125,10 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </div>
 
-      <section id="related-products" className="mt-10 scroll-mt-24 bg-platinum-soft py-9 sm:mt-14 lg:mt-20 lg:py-14">
+      <section id="related-products" className="mt-8 scroll-mt-24 bg-platinum-soft py-8 sm:mt-10 sm:py-10 lg:mt-14 lg:py-12">
         <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-[2rem] font-medium leading-tight sm:text-3xl lg:text-4xl">עוד {category.name} מהקולקציה</h2>
-          <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 lg:mt-9 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-10">
+          <h2 className="font-display text-[1.75rem] font-medium leading-tight sm:text-3xl lg:text-[2.1rem]">{relatedTitle}</h2>
+          <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-8 lg:mt-7 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-10">
             {related.map((p, index) => (
               <div key={p.slug} className={index > 1 ? "hidden sm:block" : "block"}>
                 <ProductCard product={p} />
