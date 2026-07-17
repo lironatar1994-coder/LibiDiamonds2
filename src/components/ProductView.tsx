@@ -41,6 +41,23 @@ function ZoomGlyph({ className }: { className?: string }) {
   );
 }
 
+function InfoGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 10.5v5M12 7.8h.01" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ChevronGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} aria-hidden="true">
+      <path d="m8 10 4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 const METAL_SWATCH: Record<Metal, string> = {
   yellow: "#c9a35e",
   white: "#c4c8cd",
@@ -53,6 +70,8 @@ const CARAT_SCOPE_COPY: Record<CaratScope, { legend: string; qualifier: string }
   pair: { legend: "משקל כולל לזוג", qualifier: "קראט סה״כ" },
   total: { legend: "משקל יהלומים כולל", qualifier: "קראט סה״כ" },
 };
+
+const STANDARD_RING_SIZES = Array.from({ length: 18 }, (_, index) => index + 7);
 
 const serviceItems = [
   {
@@ -97,6 +116,7 @@ const packagingByCategory: Record<Product["category"], { src: string; alt: strin
 export default function ProductView({ product }: { product: Product }) {
   const [metal, setMetal] = useState<Metal>(product.defaultMetal ?? product.metals[0]);
   const [caratIdx, setCaratIdx] = useState(0);
+  const [ringSize, setRingSize] = useState<number | "unsure">("unsure");
   const [selectedImage, setSelectedImage] = useState(0);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [tryOnOpen, setTryOnOpen] = useState(false);
@@ -105,7 +125,6 @@ export default function ProductView({ product }: { product: Product }) {
   const [summaryPassed, setSummaryPassed] = useState(false);
   const [primaryCtaVisible, setPrimaryCtaVisible] = useState(false);
   const [relatedReached, setRelatedReached] = useState(false);
-  const [scrolledUp, setScrolledUp] = useState(true);
   const summaryRef = useRef<HTMLElement>(null);
   const primaryCtaRef = useRef<HTMLDivElement>(null);
   const viewerCloseRef = useRef<HTMLButtonElement>(null);
@@ -119,16 +138,13 @@ export default function ProductView({ product }: { product: Product }) {
   const packaging = packagingByCategory[product.category];
   const caratCopy = CARAT_SCOPE_COPY[product.caratScope];
   const caratLabel = `${carat.value} ${caratCopy.qualifier}`;
-  const message = `היי, אשמח לבדוק זמינות עבור ${product.name} — ${caratLabel}, ${metalNames[metal]}. מחיר: ${formatPrice(carat.price)}`;
-  const caratGridClass =
-    product.carats.length === 4
-      ? "grid-cols-2"
-      : product.carats.length === 3
-        ? "grid-cols-3"
-        : "grid-cols-2";
+  const ringSizes = product.ringSizes ?? STANDARD_RING_SIZES;
+  const ringSizeLabel = ringSize === "unsure" ? "מידה לא נבחרה" : `מידה ${ringSize}`;
+  const selectedSummary = `${metalNames[metal]} · ${caratLabel}${product.category === "rings" ? ` · ${ringSizeLabel}` : ""}`;
+  const message = `היי, אשמח לקבל ייעוץ ולבדוק זמינות עבור ${product.name} — ${caratLabel}, ${metalNames[metal]}${product.category === "rings" ? `, ${ringSize === "unsure" ? "עדיין לא בטוח/ה במידה" : `מידה ${ringSize}`}` : ""}. מחיר: ${formatPrice(carat.price)}`;
   const detailImage = images.find((image) => image.view === "detail" || image.view === "profile") ?? images[1] ?? images[0];
   const showMobileSticky =
-    summaryPassed && scrolledUp && !primaryCtaVisible && !relatedReached && !viewerOpen && !tryOnOpen && !spinOpen && !activeHelp;
+    summaryPassed && !primaryCtaVisible && !relatedReached && !viewerOpen && !tryOnOpen && !spinOpen && !activeHelp;
 
   useEffect(() => {
     selectedImageRef.current = selectedImage;
@@ -138,25 +154,6 @@ export default function ProductView({ product }: { product: Product }) {
     setSelectedImage(0);
     galleryTrackRef.current?.scrollTo({ left: 0 });
   }, [metal]);
-
-  useEffect(() => {
-    let lastY = window.scrollY;
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        if (Math.abs(y - lastY) > 8) {
-          setScrolledUp(y < lastY);
-          lastY = y;
-        }
-        ticking = false;
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     const summary = summaryRef.current;
@@ -441,9 +438,8 @@ export default function ProductView({ product }: { product: Product }) {
           </p>
 
           <fieldset className="pt-4.5 lg:pt-5">
-            <legend className="sr-only">גוון המתכת</legend>
-            <span className="text-[0.7rem] font-semibold text-stone">זהב</span>
-            <div className={`mt-2.5 grid gap-2.5 ${product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
+            <legend className="text-[0.7rem] font-semibold text-stone">זהב</legend>
+            <div className={`mt-2 grid ${product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
               {product.metals.map((option) => (
                 <button
                   key={option}
@@ -451,14 +447,14 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => setMetal(option)}
                   aria-label={metalNames[option]}
                   aria-pressed={metal === option}
-                  className={`flex min-h-[48px] items-center justify-center gap-2 border px-3 text-sm transition-colors ${
+                  className={`relative flex min-h-[52px] items-center justify-center gap-2 border-b px-2 text-sm transition-colors after:absolute after:inset-x-3 after:bottom-0 after:h-px after:transition-colors ${
                     metal === option
-                      ? "border-ink bg-selection text-ink"
-                      : "border-line bg-white text-ink hover:border-stone"
+                      ? "border-gold/55 bg-selection text-ink after:bg-gold-deep"
+                      : "border-line bg-transparent text-ink after:bg-transparent hover:bg-white/65"
                   }`}
                 >
                   <span
-                    className="h-3.5 w-3.5 shrink-0 rounded-full border border-black/10 shadow-inner"
+                    className={`h-4 w-4 shrink-0 rounded-full border shadow-inner ${metal === option ? "border-ink/25" : "border-black/10"}`}
                     style={{ backgroundColor: METAL_SWATCH[option] }}
                     aria-hidden
                   />
@@ -470,8 +466,18 @@ export default function ProductView({ product }: { product: Product }) {
 
           <fieldset className="pt-4.5 lg:pt-5">
             <legend className="sr-only">{caratCopy.legend}</legend>
-            <span className="text-[0.7rem] font-semibold text-stone">{caratCopy.legend}</span>
-            <div className={`mt-2.5 grid gap-2.5 ${caratGridClass}`} dir="rtl">
+            <div className="flex items-center justify-between gap-3 text-[0.7rem] font-semibold text-stone">
+              <span>{caratCopy.legend}</span>
+              <button
+                type="button"
+                onClick={() => openHelp("carat")}
+                className="flex h-8 w-8 items-center justify-center text-ink-soft transition-colors hover:text-ink"
+                aria-label={`מידע על ${caratCopy.legend}`}
+              >
+                <InfoGlyph className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="no-scrollbar mt-1.5 flex overflow-x-auto border-y border-line" dir="rtl">
               {product.carats.map((option, index) => {
                 const selected = index === caratIdx;
                 return (
@@ -481,12 +487,12 @@ export default function ProductView({ product }: { product: Product }) {
                     onClick={() => setCaratIdx(index)}
                     aria-pressed={selected}
                     aria-label={`${option.value} ${caratCopy.qualifier}, ${formatPrice(option.price)}`}
-                    className={`flex min-h-[78px] min-w-0 flex-col items-center justify-center border px-1.5 py-2.5 text-center transition-colors sm:px-3 ${
-                      selected ? "border-ink bg-ink text-ivory" : "border-line bg-white text-ink hover:border-stone"
+                    className={`flex min-h-[72px] min-w-[25%] flex-1 flex-col items-center justify-center border-l border-line px-1.5 py-2 text-center transition-colors last:border-l-0 ${
+                      selected ? "bg-ink text-ivory" : "bg-transparent text-ink hover:bg-white/70"
                     }`}
                   >
-                    <span className={`block font-display text-2xl leading-none ${selected ? "text-ivory" : "text-ink"}`} dir="ltr">{option.value}</span>
-                    <span className={`mt-1.5 block whitespace-nowrap text-[0.7rem] font-medium ${selected ? "text-footer-muted" : "text-stone"}`}>
+                    <span className={`block font-display text-[1.35rem] leading-none ${selected ? "text-ivory" : "text-ink"}`} dir="ltr">{option.value}</span>
+                    <span className={`mt-1.5 block whitespace-nowrap text-[0.65rem] font-medium ${selected ? "text-footer-muted" : "text-stone"}`}>
                       {formatPrice(option.price)}
                     </span>
                   </button>
@@ -495,38 +501,50 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           </fieldset>
 
+          {product.category === "rings" && (
+            <div className="pt-4.5 lg:pt-5">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-[0.7rem] font-semibold text-stone">מידת טבעת</span>
+                <button
+                  type="button"
+                  onClick={() => openHelp("size")}
+                  className="flex h-8 items-center gap-1.5 text-[0.68rem] font-medium text-ink-soft transition-colors hover:text-ink"
+                  aria-label="פתיחת מדריך מידות"
+                >
+                  <InfoGlyph className="h-4 w-4" />
+                  מדריך מידות
+                </button>
+              </div>
+              <label className="relative mt-1.5 flex min-h-[52px] items-center justify-between border-y border-line bg-white/55 px-3.5 text-sm text-ink transition-colors focus-within:border-ink">
+                <span>{ringSize === "unsure" ? "לא בטוחים במידה" : `מידה ${ringSize}`}</span>
+                <ChevronGlyph className="h-4 w-4 text-ink-soft" />
+                <select
+                  value={ringSize}
+                  onChange={(event) => setRingSize(event.target.value === "unsure" ? "unsure" : Number(event.target.value))}
+                  className="absolute inset-0 cursor-pointer opacity-0"
+                  aria-label="בחירת מידת טבעת"
+                >
+                  <option value="unsure">לא בטוחים במידה</option>
+                  {ringSizes.map((size) => (
+                    <option key={size} value={size}>מידה {size}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          )}
+
+          <p className="mt-4 text-[0.7rem] leading-5 text-stone" aria-live="polite">{selectedSummary}</p>
+
           <div ref={primaryCtaRef} className="mt-4.5 lg:mt-5">
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="btn-primary min-h-[54px] w-full">
               <WhatsAppIcon className="h-4 w-4" />
-              בדיקת זמינות בוואטסאפ
+              ייעוץ אישי וזמינות בוואטסאפ
             </a>
           </div>
 
-          <div className="mt-3.5 flex items-center gap-4 text-[0.72rem] text-stone">
-            {product.category === "rings" && (
-              <button
-                type="button"
-                onClick={() => openHelp("size")}
-                className="border-b border-line pb-0.5 transition-colors hover:border-ink hover:text-ink"
-              >
-                מדריך מידות
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={() => openHelp("carat")}
-              className="border-b border-line pb-0.5 transition-colors hover:border-ink hover:text-ink"
-            >
-              על קראט
-            </button>
-            <button
-              type="button"
-              onClick={() => openHelp("certificate")}
-              className="border-b border-line pb-0.5 transition-colors hover:border-ink hover:text-ink"
-            >
-              על התעודה
-            </button>
-          </div>
+          <p className="mt-2.5 text-center text-[0.68rem] leading-5 text-stone">
+            אספקה בדרך כלל תוך {servicePromises.collectionLeadTime}
+          </p>
 
         </section>
       </div>
@@ -557,47 +575,66 @@ export default function ProductView({ product }: { product: Product }) {
         </div>
       </section>
 
-      <section className="-mx-4 mt-10 bg-ivory px-4 py-8 sm:-mx-6 sm:mt-14 sm:px-6 sm:py-10 lg:-mx-8 lg:mt-16 lg:px-8 lg:py-12" aria-labelledby="order-includes-title">
+      <section className="mt-8 border-y border-line sm:mt-11" aria-label="מה כלול בהזמנה">
+        <dl className="grid grid-cols-3 divide-x divide-x-reverse divide-line py-4 sm:py-5">
+          <div className="px-2 text-center sm:px-5">
+            <dt className="text-[0.62rem] font-medium text-stone sm:text-xs">תעודה</dt>
+            <dd className="mt-1 text-[0.78rem] font-semibold text-ink sm:text-sm" dir="ltr">{product.specs.cert}</dd>
+          </div>
+          <div className="px-2 text-center sm:px-5">
+            <dt className="text-[0.62rem] font-medium text-stone sm:text-xs">משלוח</dt>
+            <dd className="mt-1 text-[0.78rem] font-semibold text-ink sm:text-sm">מבוטח</dd>
+          </div>
+          <div className="px-2 text-center sm:px-5">
+            <dt className="text-[0.62rem] font-medium text-stone sm:text-xs">שירות</dt>
+            <dd className="mt-1 text-[0.78rem] font-semibold text-ink sm:text-sm">
+              {product.category === "rings" ? "התאמת מידה" : "אחריות מלאה"}
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section className="-mx-4 mt-8 bg-ivory px-4 py-8 sm:-mx-6 sm:mt-12 sm:px-6 sm:py-10 lg:-mx-8 lg:mt-14 lg:px-8 lg:py-12" aria-labelledby="order-includes-title">
         <h2 id="order-includes-title" className="sr-only">אריזה ותעודה</h2>
         <p className="text-[0.95rem] font-medium leading-7 text-ink-soft sm:text-base">
           דאגנו לכל פרט — גם לאריזה.
         </p>
-        <div className="mt-3.5 grid gap-4 sm:grid-cols-3 sm:gap-5 lg:mt-4 lg:gap-6">
-          <figure>
-            <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
+        <div className="mt-3.5 grid grid-cols-2 gap-3 sm:gap-4 lg:mt-4 lg:grid-cols-[minmax(0,1.55fr)_minmax(16rem,0.65fr)] lg:grid-rows-2 lg:gap-5">
+          <figure className="col-span-2 lg:col-span-1 lg:row-span-2">
+            <div className="relative aspect-[4/3] overflow-hidden bg-ivory lg:h-full lg:aspect-auto">
               <Image
                 src={assetPath(packaging.src)}
                 alt={packaging.alt}
                 fill
-                sizes="(min-width: 1024px) 44vw, (min-width: 640px) 48vw, 100vw"
+                sizes="(min-width: 1024px) 62vw, 100vw"
                 className="object-cover"
               />
             </div>
           </figure>
 
           <figure>
-            <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
+            <div className="relative aspect-square overflow-hidden bg-ivory lg:h-full lg:aspect-auto">
               <Image
                 src={assetPath("/images/trust/v3/libi-shopping-bag-mockup.webp")}
                 alt="שקית קנייה יוקרתית של LIBI DIAMONDS בגוון שנהב עם ידיות סרט"
                 fill
-                sizes="(min-width: 1024px) 30vw, (min-width: 640px) 32vw, 100vw"
+                sizes="(min-width: 1024px) 27vw, 50vw"
                 className="object-cover"
               />
             </div>
           </figure>
 
           <figure id="certificate-figure" className="scroll-mt-24">
-            <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
+            <div className="relative aspect-square overflow-hidden bg-ivory lg:h-full lg:aspect-auto">
               <Image
                 src={assetPath("/images/trust/v1/certificate-sample-mockup.webp")}
                 alt="דוגמה כללית למבנה של תעודה גמולוגית"
                 fill
-                sizes="(min-width: 1024px) 44vw, (min-width: 640px) 48vw, 100vw"
+                sizes="(min-width: 1024px) 27vw, 50vw"
                 className="object-cover"
               />
             </div>
-            <figcaption className="mt-2 text-xs leading-5 text-ink-soft">תעודה גמולוגית מותאמת ליהלום.</figcaption>
+            <figcaption className="mt-2 text-[0.65rem] leading-5 text-ink-soft sm:text-xs">תעודה גמולוגית מותאמת ליהלום.</figcaption>
           </figure>
         </div>
       </section>
@@ -623,7 +660,7 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center gap-2 bg-ivory px-2.5 text-[0.8rem] font-semibold text-ink min-[390px]:text-sm">
               <WhatsAppIcon className="h-4 w-4" />
-              בדיקת זמינות בוואטסאפ
+              ייעוץ וזמינות בוואטסאפ
             </a>
           </div>
         </div>

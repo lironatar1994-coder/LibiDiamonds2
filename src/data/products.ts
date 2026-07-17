@@ -92,6 +92,7 @@ export interface Product {
   caratScope: CaratScope;
   carats: CaratOption[];
   metals: Metal[];
+  ringSizes?: number[];
   defaultMetal?: Metal;
   specs: {
     color: string;
