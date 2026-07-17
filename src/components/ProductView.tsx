@@ -23,9 +23,11 @@ const RingSpinViewer = dynamic(() => import("@/components/product/RingSpinViewer
 function TryOnGlyph({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" className={className} aria-hidden="true">
-      <path d="M4 8.5h3l1.4-2h7.2l1.4 2h3v10H4z" strokeLinejoin="round" />
-      <circle cx="12" cy="13.5" r="3.2" />
-      <path d="M19 4v3M17.5 5.5h3" strokeLinecap="round" />
+      <path d="M5.5 19.5v-7.8a1.75 1.75 0 0 1 3.5 0v2.1" strokeLinecap="round" />
+      <path d="M9 13.8V7.4a1.75 1.75 0 0 1 3.5 0v6.1" strokeLinecap="round" />
+      <path d="M12.5 13.5v-4a1.75 1.75 0 0 1 3.5 0v4.8" strokeLinecap="round" />
+      <path d="M16 14.3v-2a1.75 1.75 0 0 1 3.5 0v3.2c0 3.1-2.1 5-5.2 5H10c-2.1 0-3.6-1.1-4.5-3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="m10.1 5.6 1.15-1.45h1.5L13.9 5.6 12 7.25z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -254,7 +256,7 @@ export default function ProductView({ product }: { product: Product }) {
 
   return (
     <>
-      <div className="grid gap-3 sm:gap-6 lg:grid-cols-[minmax(0,1.18fr)_minmax(23rem,0.82fr)] lg:items-start lg:gap-14 xl:gap-20">
+      <div className="grid gap-0 sm:gap-6 lg:grid-cols-[minmax(0,1.18fr)_minmax(23rem,0.82fr)] lg:items-start lg:gap-14 xl:gap-20">
         <section className="-mx-4 sm:mx-0" aria-label={`גלריית תמונות של ${product.name}`}>
           <div className="relative sm:hidden">
             <div
@@ -282,8 +284,8 @@ export default function ProductView({ product }: { product: Product }) {
                 </button>
               ))}
             </div>
-            <span className="pointer-events-none absolute bottom-3 left-3 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm" aria-hidden>
-              <ZoomGlyph className="h-5 w-5" />
+            <span className="pointer-events-none absolute bottom-3 left-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/68 text-ink backdrop-blur-sm" aria-hidden>
+              <ZoomGlyph className="h-[1.1rem] w-[1.1rem]" />
             </span>
             {spinAsset && (
               <button
@@ -300,16 +302,16 @@ export default function ProductView({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={openTryOn}
-                className="absolute right-3 top-3 flex min-h-11 items-center gap-2 border border-black/10 bg-white/88 px-3.5 text-[0.8rem] font-semibold text-ink backdrop-blur-sm"
+                className="absolute bottom-3 right-3 flex min-h-11 items-center gap-2 px-1.5 text-[0.78rem] font-medium text-ink [text-shadow:0_1px_12px_rgba(255,255,255,0.96)]"
               >
-                <TryOnGlyph className="h-5 w-5" />
-                לנסות על היד
+                <TryOnGlyph className="h-[1.2rem] w-[1.2rem]" />
+                נסו על היד
               </button>
             )}
           </div>
 
           {images.length > 1 && (
-            <div className="mt-2.5 flex justify-center gap-1 sm:hidden" role="group" aria-label="בחירת תמונה">
+            <div className="mt-1.5 flex justify-center gap-1 sm:hidden" role="group" aria-label="בחירת תמונה">
               {images.map((image, index) => (
                 <button
                   key={image.src}
@@ -317,7 +319,7 @@ export default function ProductView({ product }: { product: Product }) {
                   onClick={() => scrollTrackToSlide(galleryTrackRef, index)}
                   aria-label={`מעבר לתמונה ${index + 1} של ${product.name}`}
                   aria-pressed={selectedImage === index}
-                  className="flex h-8 w-8 items-center justify-center"
+                  className="flex h-7 w-7 items-center justify-center"
                 >
                   <span
                     className={`h-1.5 rounded-full transition-all duration-300 ${
@@ -346,8 +348,8 @@ export default function ProductView({ product }: { product: Product }) {
                 className="catalog-card-media aspect-square"
                 imageClassName="animate-fade-up object-cover transition-transform duration-700 group-hover:scale-[1.012]"
               />
-              <span className="absolute bottom-4 left-4 flex h-11 w-11 items-center justify-center border border-black/10 bg-white/88 text-ink backdrop-blur-sm transition-colors group-hover:bg-white" aria-hidden>
-                <ZoomGlyph className="h-5 w-5" />
+              <span className="absolute bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/68 text-ink backdrop-blur-sm transition-colors group-hover:bg-white/90" aria-hidden>
+                <ZoomGlyph className="h-[1.1rem] w-[1.1rem]" />
               </span>
             </button>
             {spinAsset && (
@@ -365,10 +367,10 @@ export default function ProductView({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={openTryOn}
-                className="absolute right-4 top-4 flex min-h-11 items-center gap-2 border border-black/10 bg-white/88 px-4 text-sm font-semibold text-ink backdrop-blur-sm transition-colors hover:bg-white"
+                className="absolute bottom-4 right-4 flex min-h-11 items-center gap-2 px-2 text-sm font-medium text-ink [text-shadow:0_1px_12px_rgba(255,255,255,0.96)]"
               >
                 <TryOnGlyph className="h-5 w-5" />
-                לנסות על היד
+                נסו על היד
               </button>
             )}
           </div>
@@ -420,22 +422,22 @@ export default function ProductView({ product }: { product: Product }) {
           )}
         </section>
 
-        <section className="-mx-4 min-w-0 bg-white px-4 pb-7 pt-4 sm:mx-0 sm:px-6 sm:py-7 lg:sticky lg:top-28 lg:self-start lg:bg-ivory lg:px-7 lg:py-8">
+        <section className="-mx-4 min-w-0 bg-white px-4 pb-7 pt-2 sm:mx-0 sm:px-6 sm:py-7 lg:sticky lg:top-28 lg:self-start lg:bg-ivory lg:px-7 lg:py-8">
           <header ref={summaryRef}>
             <h1 className="font-display text-[1.95rem] font-light leading-[1.12] text-ink sm:text-5xl lg:text-[3rem]">
               {product.name}
             </h1>
             <p className="mt-1.5 text-[0.82rem] leading-6 text-stone sm:text-base">{product.subtitle}</p>
-            <div className="mt-3.5 flex items-end gap-2" aria-live="polite">
-              <span className="font-display text-[2.3rem] font-light leading-none text-ink sm:text-4xl">
+            <div className="mt-3.5 text-right" aria-live="polite">
+              <span className="block font-display text-[2.3rem] font-light leading-none text-ink sm:text-4xl">
                 {formatPrice(carat.price)}
               </span>
-              <span className="pb-0.5 text-[0.68rem] font-medium text-stone">כולל מע״מ</span>
+              <span className="mt-1 block text-[0.66rem] font-medium text-stone">כולל מע״מ</span>
             </div>
           </header>
 
-          <p className="mt-4 border-t border-line pt-3 text-[0.7rem] font-medium text-stone" dir="ltr">
-            {product.specs.cert} · {product.specs.color} · {product.specs.clarity} · {product.specs.cut}
+          <p className="mt-3.5 border-t border-line pt-3 text-right text-[0.7rem] font-medium text-stone">
+            <span dir="ltr">{product.specs.cert} · {product.specs.color} · {product.specs.clarity} · {product.specs.cut}</span>
           </p>
 
           <fieldset className="pt-4.5 lg:pt-5">
