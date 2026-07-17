@@ -16,6 +16,7 @@ import { servicePromises } from "@/lib/service";
 import { WhatsAppIcon } from "@/components/icons";
 import ProductMedia from "@/components/ProductMedia";
 import ProductHelpSheet, { type ProductHelpTopic } from "@/components/product/ProductHelpSheet";
+import RingSizeSheet from "@/components/product/RingSizeSheet";
 
 const TryOnDialog = dynamic(() => import("@/components/try-on/TryOnDialog"), { ssr: false });
 const RingSpinViewer = dynamic(() => import("@/components/product/RingSpinViewer"), { ssr: false });
@@ -121,6 +122,7 @@ export default function ProductView({ product }: { product: Product }) {
   const [viewerOpen, setViewerOpen] = useState(false);
   const [tryOnOpen, setTryOnOpen] = useState(false);
   const [spinOpen, setSpinOpen] = useState(false);
+  const [sizeSheetOpen, setSizeSheetOpen] = useState(false);
   const [activeHelp, setActiveHelp] = useState<ProductHelpTopic | null>(null);
   const [summaryPassed, setSummaryPassed] = useState(false);
   const [primaryCtaVisible, setPrimaryCtaVisible] = useState(false);
@@ -144,7 +146,7 @@ export default function ProductView({ product }: { product: Product }) {
   const message = `היי, אשמח לקבל ייעוץ ולבדוק זמינות עבור ${product.name} — ${caratLabel}, ${metalNames[metal]}${product.category === "rings" ? `, ${ringSize === "unsure" ? "עדיין לא בטוח/ה במידה" : `מידה ${ringSize}`}` : ""}. מחיר: ${formatPrice(carat.price)}`;
   const detailImage = images.find((image) => image.view === "detail" || image.view === "profile") ?? images[1] ?? images[0];
   const showMobileSticky =
-    summaryPassed && !primaryCtaVisible && !relatedReached && !viewerOpen && !tryOnOpen && !spinOpen && !activeHelp;
+    summaryPassed && !primaryCtaVisible && !relatedReached && !viewerOpen && !tryOnOpen && !spinOpen && !sizeSheetOpen && !activeHelp;
 
   useEffect(() => {
     selectedImageRef.current = selectedImage;
@@ -216,6 +218,7 @@ export default function ProductView({ product }: { product: Product }) {
     setViewerOpen(false);
     setSpinOpen(false);
     setTryOnOpen(false);
+    setSizeSheetOpen(false);
     setActiveHelp(topic);
   };
 
@@ -505,31 +508,23 @@ export default function ProductView({ product }: { product: Product }) {
             <div className="pt-4.5 lg:pt-5">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-[0.7rem] font-semibold text-stone">מידת טבעת</span>
-                <button
-                  type="button"
-                  onClick={() => openHelp("size")}
-                  className="flex h-8 items-center gap-1.5 text-[0.68rem] font-medium text-ink-soft transition-colors hover:text-ink"
-                  aria-label="פתיחת מדריך מידות"
-                >
-                  <InfoGlyph className="h-4 w-4" />
-                  מדריך מידות
-                </button>
               </div>
-              <label className="relative mt-1.5 flex min-h-[52px] items-center justify-between border-y border-line bg-white/55 px-3.5 text-sm text-ink transition-colors focus-within:border-ink">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveHelp(null);
+                  setViewerOpen(false);
+                  setSpinOpen(false);
+                  setTryOnOpen(false);
+                  setSizeSheetOpen(true);
+                }}
+                className="mt-1.5 flex min-h-[52px] w-full items-center justify-between border-y border-line bg-white/55 px-3.5 text-sm text-ink transition-colors hover:border-stone hover:bg-white"
+                aria-haspopup="dialog"
+                aria-expanded={sizeSheetOpen}
+              >
                 <span>{ringSize === "unsure" ? "לא בטוחים במידה" : `מידה ${ringSize}`}</span>
                 <ChevronGlyph className="h-4 w-4 text-ink-soft" />
-                <select
-                  value={ringSize}
-                  onChange={(event) => setRingSize(event.target.value === "unsure" ? "unsure" : Number(event.target.value))}
-                  className="absolute inset-0 cursor-pointer opacity-0"
-                  aria-label="בחירת מידת טבעת"
-                >
-                  <option value="unsure">לא בטוחים במידה</option>
-                  {ringSizes.map((size) => (
-                    <option key={size} value={size}>מידה {size}</option>
-                  ))}
-                </select>
-              </label>
+              </button>
             </div>
           )}
 
@@ -730,6 +725,17 @@ export default function ProductView({ product }: { product: Product }) {
       )}
 
       <ProductHelpSheet topic={activeHelp} onClose={() => setActiveHelp(null)} product={product} />
+
+      {product.category === "rings" && (
+        <RingSizeSheet
+          open={sizeSheetOpen}
+          sizes={ringSizes}
+          value={ringSize}
+          onSelect={setRingSize}
+          onClose={() => setSizeSheetOpen(false)}
+          onOpenGuide={() => openHelp("size")}
+        />
+      )}
 
       {spinAsset && (
         <RingSpinViewer
