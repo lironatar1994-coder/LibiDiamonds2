@@ -881,6 +881,11 @@ h3,
   outline-offset: 3px;
 }
 
+.catalog-ring-style-button:focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
+
 .hero-desktop-inline {
   display: none;
 }
