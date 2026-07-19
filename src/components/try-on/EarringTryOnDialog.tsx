@@ -131,24 +131,29 @@ function redrawLobe(
   context.restore();
 }
 
-function drawPlacementOverlay(context: CanvasRenderingContext2D, points: CanvasPoint[]) {
+function drawPlacementOverlay(
+  context: CanvasRenderingContext2D,
+  points: CanvasPoint[],
+  active: boolean,
+) {
   if (!points.length) return;
   context.save();
+  context.globalAlpha = active ? 0.92 : 0.18;
   context.strokeStyle = "#d3bd8b";
   context.fillStyle = "#f7f6f2";
-  context.lineWidth = 2;
-  points.forEach((point) => {
-    context.beginPath();
-    context.arc(point.x, point.y, 6, 0, Math.PI * 2);
-    context.fill();
-    context.stroke();
-  });
+  context.lineWidth = active ? 2 : 1.25;
   if (points.length === 2) {
     context.beginPath();
     context.moveTo(points[0].x, points[0].y);
     context.lineTo(points[1].x, points[1].y);
     context.stroke();
   }
+  points.forEach((point) => {
+    context.beginPath();
+    context.arc(point.x, point.y, active ? 6 : 4, 0, Math.PI * 2);
+    context.fill();
+    context.stroke();
+  });
   context.restore();
 }
 
@@ -417,6 +422,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
           pristineContext.fillRect(0, 0, width, height);
           const transform = drawMedia(pristineContext, photo, width, height);
           context.drawImage(pristine, 0, 0);
+          drawPlacementOverlay(context, placementPoints, placementActive);
           const poses = manualPose
             ? [manualPose]
             : face ? calculateEarPoses(mapFace(face, transform, photo)) : [];
@@ -443,7 +449,6 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
           }
         }
       }
-      drawPlacementOverlay(context, placementPoints);
       animationRef.current = requestAnimationFrame(render);
     };
     animationRef.current = requestAnimationFrame(render);
@@ -451,7 +456,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
       if (animationRef.current !== null) cancelAnimationFrame(animationRef.current);
       animationRef.current = null;
     };
-  }, [caratSelected, config, face, isHoop, manualOffset, manualPose, manualRotation, manualScale, open, photoReady, placementPoints, referenceCarat, selectedCarat]);
+  }, [caratSelected, config, face, isHoop, manualOffset, manualPose, manualRotation, manualScale, open, photoReady, placementActive, placementPoints, referenceCarat, selectedCarat]);
 
   useEffect(() => {
     if (!open) {
