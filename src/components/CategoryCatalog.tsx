@@ -130,22 +130,42 @@ export default function CategoryCatalog({
   return (
     <>
       {styleShowcase.length > 1 && (
-        <section className="mt-5 sm:mt-8" aria-labelledby="catalog-style-heading">
-          <div className="mb-3 flex items-center gap-3 sm:mb-4">
-            <h2 id="catalog-style-heading" className="shrink-0 text-[0.68rem] font-medium tracking-[0.14em] text-ink-soft">
-              {category === "rings" ? "בחרו סגנון" : "בחירה לפי סגנון"}
+        <section
+          className={category === "rings"
+            ? "-mx-4 mt-6 border-y border-[#9d8555]/45 bg-[radial-gradient(circle_at_50%_-20%,rgba(146,175,193,0.16),transparent_54%),linear-gradient(135deg,#061a29_0%,#0a2638_100%)] px-4 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:mx-0 sm:mt-9 sm:px-7 sm:py-6"
+            : "mt-5 sm:mt-8"
+          }
+          aria-labelledby="catalog-style-heading"
+        >
+          <div className={`flex items-center gap-3 ${category === "rings" ? "mb-4 sm:mb-5" : "mb-3 sm:mb-4"}`}>
+            <h2
+              id="catalog-style-heading"
+              className={`shrink-0 text-[0.68rem] font-medium tracking-[0.14em] ${
+                category === "rings" ? "text-white/75" : "text-ink-soft"
+              }`}
+            >
+              {category === "rings" ? "בחרו את מבנה הטבעת" : "בחירה לפי סגנון"}
             </h2>
-            <span className="h-px flex-1 bg-line/80" aria-hidden="true" />
-            {category === "rings" && <span className="h-1.5 w-1.5 rotate-45 border border-gold-deep/70" aria-hidden="true" />}
+            <span className={`h-px flex-1 ${category === "rings" ? "bg-white/15" : "bg-line/80"}`} aria-hidden="true" />
+            {category === "rings" && <span className="h-1.5 w-1.5 rotate-45 border border-[#d8bd78]" aria-hidden="true" />}
           </div>
 
-          <div className="-mx-4 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden">
-            <div className="flex min-w-max gap-2.5 sm:grid sm:min-w-0 sm:grid-cols-4 sm:gap-4">
-              {styleShowcase.map(({ style: option, product }) => {
+          <div className={category === "rings"
+            ? "overflow-hidden border-y border-white/10"
+            : "-mx-4 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden"
+          }>
+            <div className={category === "rings"
+              ? "grid min-w-0 grid-cols-2 sm:grid-cols-4"
+              : "flex min-w-max gap-2.5 sm:grid sm:min-w-0 sm:grid-cols-4 sm:gap-4"
+            }>
+              {styleShowcase.map(({ style: option, product }, index) => {
                 const images = productImages(product, displayMetal);
                 const image = images[1] ?? images[0];
                 const active = style === option;
                 const isRingAtelierStyle = category === "rings" && ["solitaire", "halo", "multi-stone", "band"].includes(option);
+                const ringDivider = `${index % 2 === 0 ? "border-l border-white/10" : ""} ${
+                  index < 2 ? "border-b border-white/10" : ""
+                } ${index < 3 ? "sm:border-l" : "sm:border-l-0"} sm:border-b-0`;
 
                 return (
                   <button
@@ -154,26 +174,31 @@ export default function CategoryCatalog({
                     onClick={() => setStyle(active ? "all" : option)}
                     aria-pressed={active}
                     className={`group shrink-0 text-right focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-deep ${
-                      isRingAtelierStyle ? "w-[7.5rem] sm:w-auto" : "w-[9.25rem] sm:w-auto"
+                      isRingAtelierStyle ? `w-auto ${ringDivider}` : "w-[9.25rem] sm:w-auto"
                     }`}
                   >
                     {isRingAtelierStyle ? (
                       <span
-                        className={`relative block h-[7.1rem] overflow-hidden border transition-[background-color,border-color,box-shadow,transform] duration-300 sm:h-[8.25rem] ${
+                        className={`relative flex h-[7.35rem] items-end justify-center overflow-hidden px-2 pb-3 transition-[background-color,box-shadow] duration-300 sm:h-[8.2rem] sm:pb-4 ${
                           active
-                            ? "border-ink bg-ink shadow-[0_12px_28px_rgba(7,25,39,0.18)]"
-                            : "border-[#d8e0e5] bg-[linear-gradient(145deg,#fbfcfd_0%,#eef3f6_100%)] group-hover:-translate-y-0.5 group-hover:border-gold-deep/45 group-hover:shadow-[0_10px_24px_rgba(19,40,58,0.08)]"
+                            ? "bg-[linear-gradient(180deg,rgba(255,255,255,0.09),rgba(255,255,255,0.025))] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                            : "bg-transparent group-hover:bg-white/[0.035]"
                         }`}
                       >
-                        <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" aria-hidden="true" />
-                        <span className="absolute inset-x-2 top-1 h-[5.4rem] sm:inset-x-4 sm:top-2 sm:h-[6rem]">
+                        <span className="absolute inset-x-3 top-1 h-[5.2rem] sm:inset-x-6 sm:top-2 sm:h-[5.7rem]">
                           <RingStyleAtelierIllustration style={option as RingAtelierStyle} active={active} />
                         </span>
-                        <span className={`absolute inset-x-0 bottom-0 border-t px-3 py-2 text-center text-[0.78rem] transition-colors sm:text-sm ${
-                          active ? "border-white/15 text-white" : "border-[#d9e1e6] text-ink"
+                        <span className={`relative z-10 text-center text-[0.78rem] transition-colors sm:text-sm ${
+                          active ? "text-white" : "text-white/68 group-hover:text-white/90"
                         }`}>
                           {styleNames[option]}
                         </span>
+                        {active && (
+                          <span
+                            className="absolute inset-x-[28%] bottom-0 h-px bg-[#dfc277] shadow-[0_0_12px_rgba(223,194,119,0.65)]"
+                            aria-hidden="true"
+                          />
+                        )}
                       </span>
                     ) : (
                       <>
