@@ -21,6 +21,7 @@ import {
 import { diamondDimensions } from "@/data/diamond-dimensions";
 import {
   calculateRingPose,
+  calculateRingVisualDimensions,
   calculateWristPose,
   choosePrimaryHandIndex,
   coverTransform,
@@ -226,11 +227,11 @@ function drawRingSetting(
   context.strokeStyle = highlightGradient;
   context.stroke();
 
-  const relativeStoneSize = fingerWidth * (metrics.stoneDiameterMm / metrics.ringInnerDiameterMm) * 1.4;
+  const relativeStoneSize = fingerWidth * (metrics.stoneDiameterMm / metrics.ringInnerDiameterMm);
   const calibratedStoneSize = metrics.pixelsPerMm === null
     ? relativeStoneSize
     : metrics.stoneDiameterMm * metrics.pixelsPerMm;
-  const stoneSize = clamp(calibratedStoneSize, fingerWidth * 0.27, fingerWidth * 0.72);
+  const stoneSize = clamp(calibratedStoneSize, fingerWidth * 0.24, fingerWidth * 0.56);
   const headSize = stoneSize / metrics.assetStoneRatio;
   context.shadowColor = "rgba(15, 12, 8, 0.18)";
   context.shadowBlur = Math.max(1, fingerWidth * 0.075);
@@ -246,24 +247,16 @@ function drawRingOverlay(
   pose: RingPose,
   metrics: RingOverlayMetrics,
 ) {
+  const { settingWidth: overlayWidth } = calculateRingVisualDimensions({
+    fingerWidth: pose.fingerWidth,
+    referenceWidthMm: metrics.referenceWidthMm,
+    ringInnerDiameterMm: metrics.ringInnerDiameterMm,
+    caratScale: metrics.caratScale,
+    scaleModel: metrics.scaleModel,
+    ringSizeSelected: false,
+    pixelsPerMm: metrics.pixelsPerMm,
+  });
   const isBand = metrics.renderMode === "band-overlay";
-  const effectiveCaratScale = metrics.scaleModel === "center-stone"
-    ? metrics.caratScale
-    : metrics.scaleModel === "setting-footprint"
-      ? 0.82 + metrics.caratScale * 0.18
-      : 1;
-  const relativeWidth = isBand
-    ? pose.fingerWidth * 1.34
-    : pose.fingerWidth
-      * (metrics.referenceWidthMm / metrics.ringInnerDiameterMm)
-      * 2.35
-      * effectiveCaratScale;
-  const calibratedWidth = metrics.pixelsPerMm === null
-    ? relativeWidth
-    : metrics.referenceWidthMm * effectiveCaratScale * metrics.pixelsPerMm / 0.84;
-  const overlayWidth = isBand
-    ? clamp(calibratedWidth, pose.fingerWidth * 1.12, pose.fingerWidth * 1.58)
-    : clamp(calibratedWidth, pose.fingerWidth * 0.82, pose.fingerWidth * 2.05);
   const overlayHeight = overlayWidth * (image.height / image.width);
 
   context.save();
@@ -416,20 +409,16 @@ function drawLayeredRing(
   metal: Metal,
   metrics: RingOverlayMetrics & { ringSizeSelected: boolean; manualScale: number },
 ) {
-  const ringSizeScale = metrics.ringSizeSelected
-    ? clamp(metrics.ringInnerDiameterMm / ((14 + 40) / Math.PI), 0.84, 1.18)
-    : 1;
-  const shankWidth = pose.fingerWidth * 1.46 * ringSizeScale * metrics.manualScale;
-  const settingScale = metrics.scaleModel === "center-stone"
-    ? metrics.caratScale
-    : metrics.scaleModel === "setting-footprint"
-      ? 0.84 + metrics.caratScale * 0.16
-      : 1;
-  const settingWidth = clamp(
-    pose.fingerWidth * (metrics.referenceWidthMm / ((14 + 40) / Math.PI)) * 2.32 * settingScale,
-    pose.fingerWidth * 0.9,
-    pose.fingerWidth * 2.08,
-  ) * metrics.manualScale;
+  const { shankWidth, settingWidth } = calculateRingVisualDimensions({
+    fingerWidth: pose.fingerWidth,
+    referenceWidthMm: metrics.referenceWidthMm,
+    ringInnerDiameterMm: metrics.ringInnerDiameterMm,
+    caratScale: metrics.caratScale,
+    scaleModel: metrics.scaleModel,
+    ringSizeSelected: metrics.ringSizeSelected,
+    pixelsPerMm: metrics.pixelsPerMm,
+    manualScale: metrics.manualScale,
+  });
 
   // Product masters use different camera angles, so independently cropped
   // front/rear arcs do not align reliably on a photographed finger. V3 keeps
@@ -439,9 +428,7 @@ function drawLayeredRing(
   redrawFingerOverRear(context, pristineFrame, pose, section);
   drawGeneratedBandLayer(context, pose, metal, shankWidth, "front");
   const topAsset = assets.setting ?? fallbackAsset;
-  const topWidth = metrics.renderMode === "band-overlay"
-    ? pose.fingerWidth * 1.4 * ringSizeScale * metrics.manualScale
-    : settingWidth;
+  const topWidth = settingWidth;
   drawLayer(context, topAsset, pose, topWidth, { shadow: true });
 
   context.save();

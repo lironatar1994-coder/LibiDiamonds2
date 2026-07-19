@@ -46,6 +46,82 @@ export interface RingPoseOptions {
   handedness?: "Left" | "Right" | null;
 }
 
+export type RingVisualScaleModel = "center-stone" | "setting-footprint" | "band-width";
+
+export interface RingVisualDimensionsOptions {
+  fingerWidth: number;
+  referenceWidthMm: number;
+  ringInnerDiameterMm: number;
+  caratScale: number;
+  scaleModel: RingVisualScaleModel;
+  ringSizeSelected: boolean;
+  pixelsPerMm?: number | null;
+  manualScale?: number;
+}
+
+export interface RingVisualDimensions {
+  settingWidth: number;
+  shankWidth: number;
+}
+
+const AUTO_RING_SIZE = 14;
+const AUTO_RING_INNER_DIAMETER_MM = (AUTO_RING_SIZE + 40) / Math.PI;
+// V3 setting masters reserve a consistent transparent margin around jewelry.
+const SETTING_ASSET_CONTENT_WIDTH_RATIO = 0.84;
+
+/**
+ * Converts real jewelry dimensions into a stable on-finger composition.
+ * Finger width is the uncalibrated ruler; card calibration replaces it with
+ * pixels-per-millimeter. Explicit ring size affects the shank only, while
+ * explicit carat affects the setting only.
+ */
+export function calculateRingVisualDimensions(
+  options: RingVisualDimensionsOptions,
+): RingVisualDimensions {
+  const fingerWidth = Math.max(1, options.fingerWidth);
+  const manualScale = clamp(options.manualScale ?? 1, 0.55, 1.8);
+  const caratScale = options.scaleModel === "center-stone"
+    ? clamp(options.caratScale, 0.72, 1.42)
+    : options.scaleModel === "setting-footprint"
+      ? clamp(0.78 + options.caratScale * 0.22, 0.84, 1.2)
+      : 1;
+  const sizeScale = options.ringSizeSelected
+    ? clamp(options.ringInnerDiameterMm / AUTO_RING_INNER_DIAMETER_MM, 0.86, 1.16)
+    : 1;
+
+  const calibrated = options.pixelsPerMm && options.pixelsPerMm > 0
+    ? options.pixelsPerMm
+    : null;
+  const physicalSettingWidth = calibrated
+    ? options.referenceWidthMm * caratScale * calibrated / SETTING_ASSET_CONTENT_WIDTH_RATIO
+    : fingerWidth
+      * (options.referenceWidthMm / AUTO_RING_INNER_DIAMETER_MM)
+      * caratScale
+      / SETTING_ASSET_CONTENT_WIDTH_RATIO;
+  const calibratedShankWidth = calibrated && options.ringSizeSelected
+    ? options.ringInnerDiameterMm * calibrated
+    : fingerWidth * 1.08 * sizeScale;
+
+  const settingBounds = options.scaleModel === "band-width"
+    ? [0.98, 1.3]
+    : options.scaleModel === "setting-footprint"
+      ? [0.52, 1.24]
+      : [0.4, 1.1];
+
+  return {
+    settingWidth: clamp(
+      physicalSettingWidth,
+      fingerWidth * settingBounds[0],
+      fingerWidth * settingBounds[1],
+    ) * manualScale,
+    shankWidth: clamp(
+      calibratedShankWidth,
+      fingerWidth * 0.94,
+      fingerWidth * 1.22,
+    ) * manualScale,
+  };
+}
+
 export interface DrawTransform {
   scale: number;
   offsetX: number;
