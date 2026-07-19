@@ -16,6 +16,7 @@ import {
   calculateRingPose,
   choosePrimaryHand,
   coverTransform,
+  estimateLocalFingerWidth,
   mapLandmarks,
   smoothPose,
   type HandPoint,
@@ -31,10 +32,24 @@ interface TryOnDialogProps {
   onClose: () => void;
   productName: string;
   metal: Metal;
+  caratValue: string;
+  ringSize: number | "unsure";
   config: TryOnConfig;
 }
 
-function ToolIcon({ name, className = "h-5 w-5" }: { name: "camera" | "switch" | "freeze" | "reset" | "upload" | "close"; className?: string }) {
+interface CalibrationPoint {
+  x: number;
+  y: number;
+}
+
+interface RingRenderMetrics {
+  stoneDiameterMm: number;
+  ringInnerDiameterMm: number;
+  assetStoneRatio: number;
+  pixelsPerMm: number | null;
+}
+
+function ToolIcon({ name, className = "h-5 w-5" }: { name: "camera" | "switch" | "freeze" | "reset" | "upload" | "close" | "calibrate"; className?: string }) {
   if (name === "close") {
     return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className={className} aria-hidden><path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" /></svg>;
   }
@@ -50,7 +65,14 @@ function ToolIcon({ name, className = "h-5 w-5" }: { name: "camera" | "switch" |
   if (name === "reset") {
     return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className={className} aria-hidden><path d="M5 8V4m0 0h4M5 4l3 3a7 7 0 1 1-1.4 8" strokeLinecap="round" strokeLinejoin="round" /></svg>;
   }
+  if (name === "calibrate") {
+    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} aria-hidden><rect x="3.5" y="6" width="17" height="12" rx="1" /><path d="M7 15v3M10 13v5M13 15v3M16 13v5" /></svg>;
+  }
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className={className} aria-hidden><path d="M4 8.5h3l1.4-2h7.2l1.4 2h3v10H4z" strokeLinejoin="round" /><circle cx="12" cy="13.5" r="3.2" /></svg>;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {
@@ -94,10 +116,12 @@ function drawRingSetting(
   image: HTMLImageElement,
   pose: RingPose,
   metal: Metal,
+  metrics: RingRenderMetrics,
 ) {
   context.save();
   context.translate(pose.x, pose.y);
   context.rotate(pose.rotation);
+  context.transform(1, 0, pose.skew, pose.perspectiveScale, 0, 0);
 
   const fingerWidth = pose.fingerWidth;
   const bandGradient = context.createLinearGradient(-fingerWidth * 0.58, 0, fingerWidth * 0.58, 0);
@@ -167,7 +191,12 @@ function drawRingSetting(
   context.strokeStyle = highlightGradient;
   context.stroke();
 
-  const headSize = fingerWidth * 0.68;
+  const relativeStoneSize = fingerWidth * (metrics.stoneDiameterMm / metrics.ringInnerDiameterMm) * 1.12;
+  const calibratedStoneSize = metrics.pixelsPerMm === null
+    ? relativeStoneSize
+    : metrics.stoneDiameterMm * metrics.pixelsPerMm;
+  const stoneSize = clamp(calibratedStoneSize, fingerWidth * 0.27, fingerWidth * 0.68);
+  const headSize = stoneSize / metrics.assetStoneRatio;
   context.shadowColor = "rgba(15, 12, 8, 0.18)";
   context.shadowBlur = Math.max(1, fingerWidth * 0.075);
   context.shadowOffsetY = Math.max(0.5, fingerWidth * 0.025);
@@ -176,7 +205,40 @@ function drawRingSetting(
   context.restore();
 }
 
-export default function TryOnDialog({ open, onClose, productName, metal, config }: TryOnDialogProps) {
+function drawCalibrationOverlay(
+  context: CanvasRenderingContext2D,
+  points: CalibrationPoint[],
+  active: boolean,
+) {
+  if (!points.length) return;
+  context.save();
+  context.lineWidth = Math.max(2, context.canvas.width / 360);
+  context.strokeStyle = "rgba(247,246,242,0.96)";
+  context.fillStyle = "#a88f60";
+  context.shadowColor = "rgba(0,0,0,0.32)";
+  context.shadowBlur = 8;
+  if (points.length === 2) {
+    context.beginPath();
+    context.moveTo(points[0].x, points[0].y);
+    context.lineTo(points[1].x, points[1].y);
+    context.stroke();
+  } else if (active) {
+    context.setLineDash([8, 7]);
+    context.beginPath();
+    context.arc(points[0].x, points[0].y, 18, 0, Math.PI * 2);
+    context.stroke();
+  }
+  context.setLineDash([]);
+  for (const point of points) {
+    context.beginPath();
+    context.arc(point.x, point.y, 6, 0, Math.PI * 2);
+    context.fill();
+    context.stroke();
+  }
+  context.restore();
+}
+
+export default function TryOnDialog({ open, onClose, productName, metal, caratValue, ringSize, config }: TryOnDialogProps) {
   const [mode, setMode] = useState<Mode>("live");
   const [modelState, setModelState] = useState<ModelState>("loading");
   const [cameraState, setCameraState] = useState<CameraState>("idle");
@@ -189,6 +251,8 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
   const [manualScale, setManualScale] = useState(1);
   const [manualRotation, setManualRotation] = useState(0);
   const [manualOffset, setManualOffset] = useState({ x: 0, y: 0 });
+  const [calibrationActive, setCalibrationActive] = useState(false);
+  const [calibrationPoints, setCalibrationPoints] = useState<CalibrationPoint[]>([]);
 
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -202,6 +266,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
   const framePendingRef = useRef(false);
   const lastDetectionTimestampRef = useRef(0);
   const latestHandRef = useRef<HandPoint[] | null>(null);
+  const latestFingerWidthRatioRef = useRef<number | null>(null);
   const lastHandAtRef = useRef(0);
   const smoothedPoseRef = useRef<RingPose | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -211,11 +276,27 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
   const draggingRef = useRef<{ pointerId: number; x: number; y: number; originX: number; originY: number } | null>(null);
 
   const selectedAssets = config.assetsByMetal[metal] ?? config.assetsByMetal.yellow;
+  const effectiveRingSize = ringSize === "unsure" ? (config.defaultRingSize ?? 14) : ringSize;
+  const ringInnerDiameterMm = (effectiveRingSize + 40) / Math.PI;
+  const stoneDiameterMm = config.stoneDiameterByCarat[caratValue]
+    ?? config.stoneDiameterByCarat[config.referenceCarat]
+    ?? 6.5;
+  const calibratedPixelsPerMm = calibrationPoints.length === 2
+    ? Math.hypot(
+        calibrationPoints[1].x - calibrationPoints[0].x,
+        calibrationPoints[1].y - calibrationPoints[0].y,
+      ) / 85.6
+    : null;
   const resetAdjustment = useCallback(() => {
     setManualScale(1);
     setManualRotation(0);
     setManualOffset({ x: 0, y: 0 });
     smoothedPoseRef.current = null;
+  }, []);
+
+  const resetCalibration = useCallback(() => {
+    setCalibrationActive(false);
+    setCalibrationPoints([]);
   }, []);
 
   const stopCamera = useCallback(() => {
@@ -242,6 +323,8 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
     setMode("live");
     setCameraError("");
     setTrackingVisible(false);
+    setCalibrationActive(false);
+    setCalibrationPoints([]);
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     closeButtonRef.current?.focus();
@@ -323,6 +406,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
       landmarkerRef.current = null;
       analysisCanvasRef.current = null;
       framePendingRef.current = false;
+      latestFingerWidthRatioRef.current = null;
     };
   }, [open]);
 
@@ -367,10 +451,24 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
       const hand = choosePrimaryHand(hands);
       if (hand) {
         latestHandRef.current = hand;
+        const analysisHand = mapLandmarks(
+          hand,
+          { scale: 1, offsetX: 0, offsetY: 0, mirrored: false },
+          analysisWidth,
+          analysisHeight,
+        );
+        const analysisPose = calculateRingPose(analysisHand);
+        if (analysisPose) {
+          const measuredWidth = estimateLocalFingerWidth(analysisContext, analysisPose);
+          latestFingerWidthRatioRef.current = measuredWidth
+            ? measuredWidth / analysisPose.axisLength
+            : analysisPose.fingerWidth / analysisPose.axisLength;
+        }
         lastHandAtRef.current = performance.now();
         setTrackingVisible(true);
       } else if (performance.now() - lastHandAtRef.current > 350) {
         latestHandRef.current = null;
+        latestFingerWidthRatioRef.current = null;
         smoothedPoseRef.current = null;
         setTrackingVisible(false);
       }
@@ -440,7 +538,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
         const ringHead = ringHeadRef.current;
         if (hand && ringHead) {
           const mapped = mapLandmarks(hand, transform, sourceWidth, sourceHeight);
-          const detectedPose = calculateRingPose(mapped);
+          const detectedPose = calculateRingPose(mapped, latestFingerWidthRatioRef.current);
           if (detectedPose) {
             const adjustedPose = {
               ...detectedPose,
@@ -452,9 +550,15 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
             };
             const pose = smoothPose(smoothedPoseRef.current, adjustedPose, mode === "live" ? 0.32 : 0.58);
             smoothedPoseRef.current = pose;
-            drawRingSetting(context, ringHead, pose, metal);
+            drawRingSetting(context, ringHead, pose, metal, {
+              stoneDiameterMm,
+              ringInnerDiameterMm,
+              assetStoneRatio: config.assetStoneRatio ?? 0.68,
+              pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm * manualScale,
+            });
           }
         }
+        drawCalibrationOverlay(context, calibrationPoints, calibrationActive);
       }
 
       animationRef.current = requestAnimationFrame(render);
@@ -465,23 +569,45 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
       if (animationRef.current !== null) cancelAnimationFrame(animationRef.current);
       animationRef.current = null;
     };
-  }, [cameraState, facingMode, frozen, manualOffset, manualRotation, manualScale, metal, mode, modelState, open, photoReady, sendFrame]);
+  }, [
+    calibratedPixelsPerMm,
+    calibrationActive,
+    calibrationPoints,
+    cameraState,
+    config.assetStoneRatio,
+    facingMode,
+    frozen,
+    manualOffset,
+    manualRotation,
+    manualScale,
+    metal,
+    mode,
+    modelState,
+    open,
+    photoReady,
+    ringInnerDiameterMm,
+    sendFrame,
+    stoneDiameterMm,
+  ]);
 
   useEffect(() => {
     if (!open) {
       stopCamera();
       clearPhoto();
       latestHandRef.current = null;
+      latestFingerWidthRatioRef.current = null;
       smoothedPoseRef.current = null;
       resetAdjustment();
+      resetCalibration();
     }
-  }, [clearPhoto, open, resetAdjustment, stopCamera]);
+  }, [clearPhoto, open, resetAdjustment, resetCalibration, stopCamera]);
 
   const startCamera = useCallback(async (requestedFacing = facingMode) => {
     stopCamera();
     setCameraState("starting");
     setCameraError("");
     resetAdjustment();
+    resetCalibration();
     try {
       if (!navigator.mediaDevices?.getUserMedia) throw new Error("unsupported");
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -504,7 +630,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
       const denied = error instanceof DOMException && (error.name === "NotAllowedError" || error.name === "SecurityError");
       setCameraError(denied ? "הגישה למצלמה לא אושרה. אפשר לעבור לתמונה ולהעלות צילום קיים." : "לא הצלחנו להפעיל את המצלמה במכשיר הזה.");
     }
-  }, [facingMode, resetAdjustment, stopCamera]);
+  }, [facingMode, resetAdjustment, resetCalibration, stopCamera]);
 
   const switchMode = (nextMode: Mode) => {
     if (nextMode === mode) return;
@@ -512,9 +638,11 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
     setMode(nextMode);
     setCameraError("");
     latestHandRef.current = null;
+    latestFingerWidthRatioRef.current = null;
     smoothedPoseRef.current = null;
     setTrackingVisible(false);
     resetAdjustment();
+    resetCalibration();
   };
 
   const handlePhoto = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -532,6 +660,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
     clearPhoto();
     setCameraError("");
     resetAdjustment();
+    resetCalibration();
     const url = URL.createObjectURL(file);
     photoUrlRef.current = url;
     if (!photoRef.current) return;
@@ -552,13 +681,38 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
     if (frozen) {
       await video.play();
       setFrozen(false);
+      resetCalibration();
     } else {
       video.pause();
       setFrozen(true);
     }
   };
 
+  const startCalibration = async () => {
+    if (mode === "live" && cameraState === "active" && !frozen && videoRef.current) {
+      videoRef.current.pause();
+      setFrozen(true);
+    }
+    setCalibrationPoints([]);
+    setCalibrationActive(true);
+    draggingRef.current = null;
+  };
+
   const onPointerDown = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+    if (calibrationActive) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const point = {
+        x: (event.clientX - rect.left) * (event.currentTarget.width / rect.width),
+        y: (event.clientY - rect.top) * (event.currentTarget.height / rect.height),
+      };
+      if (calibrationPoints.length === 1) {
+        setCalibrationPoints([calibrationPoints[0], point]);
+        setCalibrationActive(false);
+      } else {
+        setCalibrationPoints([point]);
+      }
+      return;
+    }
     if (!trackingVisible) return;
     event.currentTarget.setPointerCapture(event.pointerId);
     draggingRef.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, originX: manualOffset.x, originY: manualOffset.y };
@@ -590,7 +744,9 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
         <header className="flex min-h-16 items-center justify-between border-b border-line bg-white px-4 sm:px-6">
           <div className="min-w-0">
             <h2 id="try-on-title" className="font-display text-xl font-medium sm:text-2xl">{productName} על היד</h2>
-            <p className="mt-0.5 truncate text-[0.7rem] tracking-[0.08em] text-stone">{metalNames[metal]} · המחשה בזמן אמת</p>
+            <p className="mt-0.5 truncate text-[0.7rem] tracking-[0.05em] text-stone">
+              {metalNames[metal]} · {caratValue} קראט · {ringSize === "unsure" ? `מידה ${effectiveRingSize} משוערת` : `מידה ${ringSize}`}
+            </p>
           </div>
           <button ref={closeButtonRef} type="button" onClick={onClose} className="grid h-11 w-11 place-items-center text-ink" aria-label="סגירת ההדמיה">
             <ToolIcon name="close" />
@@ -607,7 +763,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
           <img ref={photoRef} alt="התמונה שנבחרה להדמיית הטבעת" className="hidden" />
           <canvas
             ref={canvasRef}
-            className={`h-full w-full touch-none ${trackingVisible ? "cursor-move" : ""}`}
+            className={`h-full w-full touch-none ${calibrationActive ? "cursor-crosshair" : trackingVisible ? "cursor-move" : ""}`}
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerEnd}
@@ -643,14 +799,26 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
             </div>
           )}
 
-          {hasMedia && modelState === "loading" && (
+          {hasMedia && modelState === "loading" && !calibrationActive && (
             <div className="absolute inset-x-4 top-4 mx-auto w-fit bg-black/70 px-4 py-2 text-xs text-white backdrop-blur">מכינים את זיהוי היד...</div>
           )}
-          {hasMedia && modelState === "ready" && !trackingVisible && (
+          {hasMedia && modelState === "ready" && !trackingVisible && !calibrationActive && (
             <div className="absolute inset-x-4 top-4 mx-auto w-fit bg-black/70 px-4 py-2 text-xs text-white backdrop-blur">מקמו את גב היד במרכז התמונה</div>
           )}
           {cameraError && (
             <div className="absolute inset-x-4 top-4 mx-auto max-w-md bg-ivory px-4 py-3 text-center text-xs leading-5 text-ink shadow-lg">{cameraError}</div>
+          )}
+          {hasMedia && calibrationActive && (
+            <div className="absolute inset-x-4 top-4 mx-auto max-w-sm bg-black/78 px-4 py-3 text-center text-xs leading-5 text-white backdrop-blur">
+              {calibrationPoints.length === 0
+                ? "סמנו קצה אחד של הצד הארוך בכרטיס בנק"
+                : "כעת סמנו את הקצה השני של אותו הצד"}
+            </div>
+          )}
+          {hasMedia && calibratedPixelsPerMm !== null && !calibrationActive && (
+            <div className="absolute left-3 top-3 border border-[#c9b78e]/75 bg-black/58 px-2.5 py-1.5 text-[0.62rem] text-white backdrop-blur">
+              כיול גודל פעיל
+            </div>
           )}
 
           {hasMedia && (
@@ -661,17 +829,27 @@ export default function TryOnDialog({ open, onClose, productName, metal, config 
                   <button type="button" onClick={() => void toggleFreeze()} className={`grid h-11 w-11 place-items-center border ${frozen ? "border-[#c9b78e] bg-[#c9b78e] text-ink" : "border-white/35 bg-black/35"}`} aria-label={frozen ? "המשך מצלמה" : "הקפאת התמונה"}><ToolIcon name="freeze" /></button>
                 </>
               )}
+              <button
+                type="button"
+                onClick={() => void startCalibration()}
+                className={`grid h-11 w-11 place-items-center border ${calibrationActive || calibratedPixelsPerMm !== null ? "border-[#c9b78e] bg-[#c9b78e] text-ink" : "border-white/35 bg-black/35"}`}
+                aria-label="כיול גודל באמצעות כרטיס בנק"
+                title="כיול גודל"
+              >
+                <ToolIcon name="calibrate" />
+              </button>
               <button type="button" onClick={() => setManualScale((value) => Math.max(0.72, value - 0.08))} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label="הקטנת הטבעת">−</button>
               <button type="button" onClick={() => setManualScale((value) => Math.min(1.45, value + 0.08))} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label="הגדלת הטבעת">+</button>
               <button type="button" onClick={() => setManualRotation((value) => value - Math.PI / 24)} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-lg" aria-label="סיבוב הטבעת שמאלה">↶</button>
-              <button type="button" onClick={resetAdjustment} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35" aria-label="איפוס מיקום הטבעת"><ToolIcon name="reset" /></button>
+              <button type="button" onClick={() => { resetAdjustment(); resetCalibration(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35" aria-label="איפוס מיקום וגודל הטבעת"><ToolIcon name="reset" /></button>
             </div>
           )}
         </div>
 
         <footer className="border-t border-line bg-white px-4 py-3 text-center sm:px-6">
           <p className="text-[0.7rem] leading-5 text-stone">
-            הצילום נשאר במכשיר ואינו נשלח ל־LIBI. ההדמיה מבוססת על {config.referenceCarat} קראט; הגודל בפועל תלוי במידה ובאבן שנבחרה.
+            הצילום נשאר במכשיר ואינו נשלח ל־LIBI. גודל האבן מחושב לפי {caratValue} קראט ו{ringSize === "unsure" ? `מידה ${effectiveRingSize} משוערת` : `מידה ${ringSize}`}.
+            {calibratedPixelsPerMm !== null ? " כיול הכרטיס פעיל." : " ללא כיול, התוצאה היא הערכה חזותית."}
             {photoName ? <span className="sr-only"> קובץ נבחר: {photoName}</span> : null}
           </p>
           <a href={assetPath("/service#camera-privacy")} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block border-b border-gold/50 text-[0.68rem] text-ink-soft">פרטיות בשימוש במצלמה</a>

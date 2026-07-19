@@ -725,6 +725,8 @@ export default function ProductView({ product }: { product: Product }) {
           onClose={() => setTryOnOpen(false)}
           productName={product.name}
           metal={metal}
+          caratValue={carat.value}
+          ringSize={ringSize}
           config={product.tryOn}
         />
       )}

@@ -70,6 +70,9 @@ export interface TryOnAssetPair {
 export interface TryOnConfig {
   enabled: boolean;
   referenceCarat: string;
+  defaultRingSize?: number;
+  assetStoneRatio?: number;
+  stoneDiameterByCarat: Record<string, number>;
   assetsByMetal: Partial<Record<Metal, TryOnAssetPair>>;
 }
 
@@ -1061,6 +1064,14 @@ export const products: Product[] = catalogProducts.map((product) => {
       ? {
           enabled: true,
           referenceCarat: "1.00",
+          defaultRingSize: 14,
+          assetStoneRatio: 0.68,
+          stoneDiameterByCarat: {
+            "0.70": 5.7,
+            "1.00": 6.5,
+            "1.50": 7.4,
+            "2.00": 8.2,
+          },
           assetsByMetal: {
             yellow: {
               head: "/try-on/v2/rings/aura/yellow-head.webp",
