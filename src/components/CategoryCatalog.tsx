@@ -64,7 +64,7 @@ const shapeNames: Record<DiamondShape, string> = {
 const styleNames: Record<CatalogStyle, string> = {
   solitaire: "סוליטר",
   halo: "היילו",
-  "multi-stone": "מספר אבנים",
+  "multi-stone": "שלוש אבנים",
   band: "טבעות יהלומים",
   studs: "צמודים",
   hoops: "חישוקים",
@@ -132,30 +132,32 @@ export default function CategoryCatalog({
       {styleShowcase.length > 1 && (
         <section
           className={category === "rings"
-            ? "-mx-4 mt-6 border-y border-[#9d8555]/45 bg-[radial-gradient(circle_at_50%_-20%,rgba(146,175,193,0.14),transparent_54%),linear-gradient(135deg,#061a29_0%,#0a2638_100%)] px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:mx-0 sm:mt-9 sm:px-7 sm:py-5"
+            ? "-mx-4 mt-6 border-y border-[#d7e1e6] bg-[radial-gradient(circle_at_12%_16%,rgba(145,169,183,0.16),transparent_33%),radial-gradient(circle_at_88%_82%,rgba(178,195,204,0.12),transparent_36%),linear-gradient(118deg,rgba(255,255,255,0.9)_0%,rgba(243,246,247,0.76)_42%,rgba(232,239,242,0.58)_100%),#f3f6f7] py-5 sm:mx-0 sm:mt-9 sm:py-7"
             : "mt-5 sm:mt-8"
           }
           aria-labelledby="catalog-style-heading"
         >
-          <div className={`flex items-center gap-3 ${category === "rings" ? "mb-2.5 sm:mb-3" : "mb-3 sm:mb-4"}`}>
-            <h2
-              id="catalog-style-heading"
-              className={`shrink-0 text-[0.68rem] font-medium tracking-[0.14em] ${
-                category === "rings" ? "text-white/75" : "text-ink-soft"
-              }`}
-            >
-              {category === "rings" ? "בחרו את מבנה הטבעת" : "בחירה לפי סגנון"}
-            </h2>
-            <span className={`h-px flex-1 ${category === "rings" ? "bg-white/15" : "bg-line/80"}`} aria-hidden="true" />
-            {category === "rings" && <span className="h-1.5 w-1.5 rotate-45 border border-[#d8bd78]" aria-hidden="true" />}
-          </div>
+          {category === "rings" ? (
+            <div className="px-4 text-center sm:px-7">
+              <h2 id="catalog-style-heading" className="font-display text-[1.28rem] font-normal text-[#102434] sm:text-[1.55rem]">
+                מצאו את סגנון הטבעת שלכם
+              </h2>
+            </div>
+          ) : (
+            <div className="mb-3 flex items-center gap-3 sm:mb-4">
+              <h2 id="catalog-style-heading" className="shrink-0 text-[0.68rem] font-medium tracking-[0.14em] text-ink-soft">
+                בחירה לפי סגנון
+              </h2>
+              <span className="h-px flex-1 bg-line/80" aria-hidden="true" />
+            </div>
+          )}
 
           <div className={category === "rings"
-            ? "overflow-hidden"
+            ? "mt-4 overflow-x-auto overscroll-x-contain px-4 pb-1 scroll-px-4 snap-x snap-mandatory [scrollbar-width:none] sm:mt-5 sm:overflow-visible sm:px-7 [&::-webkit-scrollbar]:hidden"
             : "-mx-4 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden"
-          }>
+          } dir={category === "rings" ? "rtl" : undefined}>
             <div className={category === "rings"
-              ? "grid min-w-0 grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4 sm:gap-x-3"
+              ? "flex min-w-max gap-3 sm:min-w-0 sm:justify-center sm:gap-6"
               : "flex min-w-max gap-2.5 sm:grid sm:min-w-0 sm:grid-cols-4 sm:gap-4"
             }>
               {styleShowcase.map(({ style: option, product }) => {
@@ -171,25 +173,21 @@ export default function CategoryCatalog({
                     aria-pressed={active}
                     className={`group shrink-0 text-right ${
                       isRingAtelierStyle
-                        ? "catalog-ring-style-button w-auto"
+                        ? "catalog-ring-style-button w-[6.5rem] flex-none snap-start text-center sm:w-[8.25rem]"
                         : "w-[9.25rem] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-deep sm:w-auto"
                     }`}
                   >
                     {isRingAtelierStyle ? (
-                      <span
-                        className="relative flex h-[6.45rem] items-end justify-center overflow-hidden px-1 pb-2.5 sm:h-[7.15rem] sm:pb-3"
-                      >
-                        <span className="absolute inset-x-1 top-0 h-[4.65rem] sm:inset-x-2 sm:h-[5.3rem]">
-                          <RingStyleAtelierIllustration style={option as RingAtelierStyle} active={active} />
-                        </span>
-                        <span className={`relative z-10 text-center text-[0.76rem] transition-colors sm:text-[0.82rem] ${
-                          active ? "text-white" : "text-white/68 group-hover:text-white/90"
+                      <span className="flex flex-col items-center">
+                        <RingStyleAtelierIllustration style={option as RingAtelierStyle} active={active} />
+                        <span className={`mt-2.5 block min-h-5 text-center text-[0.78rem] leading-5 text-[#172b3b] transition-[color,font-weight] sm:mt-3 sm:text-[0.84rem] ${
+                          active ? "font-medium text-[#0b1f2e]" : "font-normal"
                         }`}>
                           {styleNames[option]}
                         </span>
                         <span
-                          className={`absolute inset-x-[34%] bottom-0 h-px bg-[#dfc277] shadow-[0_0_9px_rgba(223,194,119,0.55)] transition-opacity ${
-                            active ? "opacity-100" : "opacity-0 group-focus-visible:opacity-100"
+                          className={`mt-1.5 h-1.5 w-1.5 rotate-45 border border-[#c6a65b] transition-opacity motion-reduce:transition-none ${
+                            active ? "bg-[#c6a65b] opacity-100" : "bg-transparent opacity-0 group-focus-visible:opacity-100"
                           }`}
                           aria-hidden="true"
                         />
