@@ -99,6 +99,8 @@ function drawAsset(
   shadow = false,
 ) {
   context.save();
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = "high";
   context.translate(pose.x + offset.x, pose.y + offset.y);
   context.rotate(pose.rotation + rotation);
   context.scale(pose.side === "left" ? -1 : 1, 1);
@@ -106,8 +108,43 @@ function drawAsset(
     context.shadowColor = "rgba(20, 18, 14, 0.2)";
     context.shadowBlur = Math.max(2, width * 0.06);
     context.shadowOffsetY = Math.max(1, height * 0.025);
+    context.filter = "contrast(1.14) brightness(1.035) saturate(0.92)";
   }
   context.drawImage(asset, -width / 2, -height * anchorY, width, height);
+  context.restore();
+}
+
+function drawDiamondGlint(
+  context: CanvasRenderingContext2D,
+  pose: EarPose,
+  width: number,
+  height: number,
+  anchorY: number,
+  offset: CanvasPoint,
+  rotation: number,
+  progress: number,
+) {
+  if (progress < 0 || progress > 1) return;
+  const centerY = height * (0.5 - anchorY);
+  const sweepX = -width * 0.42 + width * 0.84 * progress;
+  const intensity = Math.sin(progress * Math.PI) * 0.3;
+
+  context.save();
+  context.translate(pose.x + offset.x, pose.y + offset.y);
+  context.rotate(pose.rotation + rotation);
+  context.scale(pose.side === "left" ? -1 : 1, 1);
+  context.beginPath();
+  context.ellipse(0, centerY, width * 0.37, height * 0.37, 0, 0, Math.PI * 2);
+  context.clip();
+  context.globalCompositeOperation = "screen";
+  context.globalAlpha = intensity;
+  const gradient = context.createLinearGradient(sweepX - width * 0.18, 0, sweepX + width * 0.18, 0);
+  gradient.addColorStop(0, "rgba(255,255,255,0)");
+  gradient.addColorStop(0.46, "rgba(255,255,255,0.42)");
+  gradient.addColorStop(0.54, "rgba(255,255,255,0.95)");
+  gradient.addColorStop(1, "rgba(255,255,255,0)");
+  context.fillStyle = gradient;
+  context.fillRect(-width / 2, -height * anchorY, width, height);
   context.restore();
 }
 
@@ -179,6 +216,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
   const photoUrlRef = useRef<string | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const draggingRef = useRef<{ pointerId: number; x: number; y: number; originX: number; originY: number } | null>(null);
+  const lastGlintRef = useRef(0);
 
   const selectedAssets = config.layeredAssetsByMetal[metal]
     ?? config.layeredAssetsByMetal.yellow
@@ -301,6 +339,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
       } else {
         setPlacementActive(false);
         setMessage("");
+        lastGlintRef.current = performance.now();
       }
     } catch (error) {
       console.error("Earring try-on face detection failed", error);
@@ -370,9 +409,11 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
       setPlacementPoints([placementPoints[0], point]);
       setPlacementActive(false);
       setMessage("");
+      lastGlintRef.current = performance.now();
       return;
     }
     if (!manualPose && !face) return;
+    lastGlintRef.current = performance.now();
     event.currentTarget.setPointerCapture(event.pointerId);
     draggingRef.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, originX: manualOffset.x, originY: manualOffset.y };
   };
@@ -392,7 +433,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
 
   useEffect(() => {
     if (!open) return;
-    const render = () => {
+    const render = (now: number) => {
       const canvas = canvasRef.current;
       const stage = stageRef.current;
       const photo = photoRef.current;
@@ -445,6 +486,18 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
                 redrawLobe(context, pristine, pose, display.width, display.height, drawOffset, manualRotation);
               }
               drawAsset(context, assets.front, pose, display.width, display.height, config.anchorY, drawOffset, manualRotation, true);
+              if (!isHoop) {
+                drawDiamondGlint(
+                  context,
+                  pose,
+                  display.width,
+                  display.height,
+                  config.anchorY,
+                  drawOffset,
+                  manualRotation,
+                  (now - lastGlintRef.current) / 1100,
+                );
+              }
             });
           }
         }
@@ -532,10 +585,10 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
           {photoReady && (
             <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 border-t border-white/15 bg-black/65 px-3 pb-[max(0.9rem,env(safe-area-inset-bottom))] pt-3 text-white backdrop-blur-sm">
               <button type="button" onClick={startManualPlacement} className={`grid h-11 w-11 place-items-center border ${placementActive ? "border-[#c9b78e] bg-[#c9b78e] text-ink" : "border-white/35 bg-black/35"}`} aria-label="מיקום העגיל מחדש" title="מיקום מחדש"><ToolIcon name="place" /></button>
-              <button type="button" onClick={() => setManualScale((value) => Math.max(0.65, value - 0.08))} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label="הקטנת העגיל">−</button>
-              <button type="button" onClick={() => setManualScale((value) => Math.min(1.65, value + 0.08))} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label="הגדלת העגיל">+</button>
-              <button type="button" onClick={() => setManualRotation((value) => value - Math.PI / 24)} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-lg" aria-label="סיבוב העגיל">↶</button>
-              <button type="button" onClick={() => { resetAdjustment(); if (!face) startManualPlacement(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35" aria-label="איפוס מיקום וגודל העגיל"><ToolIcon name="reset" /></button>
+              <button type="button" onClick={() => { lastGlintRef.current = performance.now(); setManualScale((value) => Math.max(0.65, value - 0.08)); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label="הקטנת העגיל">−</button>
+              <button type="button" onClick={() => { lastGlintRef.current = performance.now(); setManualScale((value) => Math.min(1.65, value + 0.08)); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label="הגדלת העגיל">+</button>
+              <button type="button" onClick={() => { lastGlintRef.current = performance.now(); setManualRotation((value) => value - Math.PI / 24); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-lg" aria-label="סיבוב העגיל">↶</button>
+              <button type="button" onClick={() => { lastGlintRef.current = performance.now(); resetAdjustment(); if (!face) startManualPlacement(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35" aria-label="איפוס מיקום וגודל העגיל"><ToolIcon name="reset" /></button>
             </div>
           )}
         </div>

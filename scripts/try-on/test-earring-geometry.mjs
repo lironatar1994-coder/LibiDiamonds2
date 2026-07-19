@@ -35,8 +35,8 @@ const larger = geometry.earringDisplaySize({
   renderMode: "stud",
   pixelsPerMm: 4,
 });
-assert(base.width > 30, "default stud should be visually prominent after calibration");
-assert(base.height > 30, "default stud height should be visually prominent after calibration");
+assert(base.width > 45, "default stud should remain visually prominent after calibration");
+assert(base.height > 45, "default stud height should remain visually prominent after calibration");
 const hoop = geometry.earringDisplaySize({
   referenceWidthMm: 20,
   referenceHeightMm: 22,

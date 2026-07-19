@@ -121,8 +121,8 @@ export function earringDisplaySize(options: {
 }) {
   const isStud = options.renderMode === "stud" || options.renderMode === "halo-stud";
   const defaultPresentationScale = options.renderMode === "stud"
-    ? 1.6
-    : options.renderMode === "halo-stud" ? 1.35 : 1;
+    ? 2.25
+    : options.renderMode === "halo-stud" ? 1.65 : 1;
   const caratRatio = options.caratSelected && isStud && options.referenceCarat > 0
     ? Math.pow(Math.max(0.1, options.selectedCarat) / options.referenceCarat, 1 / 3)
     : 1;
