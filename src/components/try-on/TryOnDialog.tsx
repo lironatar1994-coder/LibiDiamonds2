@@ -402,6 +402,7 @@ function drawLayeredRing(
   context: CanvasRenderingContext2D,
   pristineFrame: HTMLCanvasElement,
   assets: LayeredRingAssets,
+  fallbackAsset: HTMLImageElement,
   pose: RingPose,
   section: FingerSection,
   metal: Metal,
@@ -422,12 +423,18 @@ function drawLayeredRing(
     pose.fingerWidth * 2.08,
   ) * metrics.manualScale;
 
-  if (assets.rear) drawLayer(context, assets.rear, pose, shankWidth, { alpha: 0.94 });
-  else drawGeneratedBandLayer(context, pose, metal, shankWidth, "rear");
+  // Product masters use different camera angles, so independently cropped
+  // front/rear arcs do not align reliably on a photographed finger. V3 keeps
+  // the exact product setting, while one continuous generated shank provides
+  // the physical wrap and is occluded by the measured finger contour.
+  drawGeneratedBandLayer(context, pose, metal, shankWidth, "rear");
   redrawFingerOverRear(context, pristineFrame, pose, section);
-  if (assets.front) drawLayer(context, assets.front, pose, shankWidth, { sideOnly: true, shadow: true });
-  else drawGeneratedBandLayer(context, pose, metal, shankWidth, "front");
-  if (assets.setting) drawLayer(context, assets.setting, pose, settingWidth, { shadow: true });
+  drawGeneratedBandLayer(context, pose, metal, shankWidth, "front");
+  const topAsset = assets.setting ?? fallbackAsset;
+  const topWidth = metrics.renderMode === "band-overlay"
+    ? pose.fingerWidth * 1.4 * ringSizeScale * metrics.manualScale
+    : settingWidth;
+  drawLayer(context, topAsset, pose, topWidth, { shadow: true });
 
   context.save();
   context.translate(pose.x, pose.y);
@@ -436,7 +443,7 @@ function drawLayeredRing(
   context.fillStyle = "rgba(32,23,14,0.055)";
   context.filter = `blur(${Math.max(0.8, pose.fingerWidth * 0.035)}px)`;
   context.beginPath();
-  context.ellipse(0, pose.fingerWidth * 0.08, settingWidth * 0.22, pose.fingerWidth * 0.075, 0, 0, Math.PI * 2);
+  context.ellipse(0, pose.fingerWidth * 0.08, topWidth * 0.22, pose.fingerWidth * 0.075, 0, 0, Math.PI * 2);
   context.fill();
   context.restore();
 }
@@ -668,7 +675,12 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     if (!open || !selectedLayeredAssets) return;
     let active = true;
     layeredAssetsRef.current = null;
-    const entries = Object.entries(selectedLayeredAssets).filter((entry): entry is [keyof LayeredRingAssets, string] => Boolean(entry[1]));
+    // V3 composes one measured shank around the finger and only needs the
+    // product-specific top. Legacy front/rear crops remain on disk as a V2
+    // fallback source, but loading them here can reintroduce broken seams.
+    const entries = Object.entries(selectedLayeredAssets).filter(
+      (entry): entry is [keyof LayeredRingAssets, string] => entry[0] === "setting" && Boolean(entry[1]),
+    );
     Promise.all(entries.map(async ([key, src]) => [key, await loadImage(assetPath(src))] as const))
       .then((loaded) => {
         if (active) layeredAssetsRef.current = Object.fromEntries(loaded) as LayeredRingAssets;
@@ -826,16 +838,15 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
             const pose = smoothPose(smoothedPoseRef.current, adjustedPose, mode === "live" ? 0.32 : 0.58);
             smoothedPoseRef.current = pose;
             const layeredAssets = layeredAssetsRef.current;
-            const hasLayeredAssets = config.renderMode === "generated-band"
-              ? Boolean(layeredAssets?.setting)
-              : config.renderMode === "band-overlay"
-                ? Boolean(layeredAssets?.front && layeredAssets?.rear)
-                : Boolean(layeredAssets?.setting && layeredAssets?.front && layeredAssets?.rear);
+            const hasLayeredAssets = config.renderMode === "band-overlay"
+              ? Boolean(layeredAssets)
+              : Boolean(layeredAssets?.setting);
             if (layeredAssets && hasLayeredAssets) {
               drawLayeredRing(
                 context,
                 pristineFrame,
                 layeredAssets,
+                ringAsset,
                 pose,
                 fingerSectionForPose(pose, latestFingerSectionRef.current),
                 metal,
