@@ -3,6 +3,10 @@ import { expansionProducts } from "@/data/catalog/expansion";
 import { ringExpansionProducts } from "@/data/catalog/ring-expansion";
 import { diamondDimensions } from "@/data/diamond-dimensions";
 import { tryOnEntryForSlug, type TryOnRenderMode } from "@/data/try-on-manifest";
+import {
+  braceletTryOnEntryForSlug,
+  type BraceletTryOnRenderMode,
+} from "@/data/bracelet-try-on-manifest";
 
 export type Metal = "yellow" | "white" | "rose";
 export type CategorySlug = "rings" | "earrings" | "necklaces" | "bracelets";
@@ -76,8 +80,9 @@ export interface TryOnLayeredAssetPair {
   rear?: string;
 }
 
-export interface TryOnConfig {
+export interface RingTryOnConfig {
   version: 3;
+  target: "finger";
   enabled: boolean;
   renderMode: TryOnRenderMode;
   scaleModel: "center-stone" | "setting-footprint" | "band-width";
@@ -89,6 +94,21 @@ export interface TryOnConfig {
   assetsByMetal: Partial<Record<Metal, TryOnAssetPair>>;
   layeredAssetsByMetal: Partial<Record<Metal, TryOnLayeredAssetPair>>;
 }
+
+export interface BraceletTryOnConfig {
+  version: 1;
+  target: "wrist";
+  enabled: boolean;
+  renderMode: BraceletTryOnRenderMode;
+  referenceCarat: string;
+  referenceWidthMm: number;
+  clearanceRatio: number;
+  assetWidthRatio: number;
+  assetsByMetal: Partial<Record<Metal, TryOnAssetPair>>;
+  layeredAssetsByMetal: Partial<Record<Metal, TryOnLayeredAssetPair>>;
+}
+
+export type TryOnConfig = RingTryOnConfig | BraceletTryOnConfig;
 
 export interface ProductSpinAsset {
   basePath: string;
@@ -1049,6 +1069,31 @@ function productCaratScope(slug: string): CaratScope {
 }
 
 function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOnConfig | undefined {
+  if (product.category === "bracelets") {
+    const braceletEntry = braceletTryOnEntryForSlug(product.slug);
+    if (!braceletEntry) return undefined;
+    const referenceCarat = product.carats[0]?.value ?? "1.00";
+    const layeredAsset = (metal: "yellow" | "white"): TryOnLayeredAssetPair => ({
+      front: `/try-on/v1/bracelets/${product.slug}/${metal}-front.webp`,
+      rear: `/try-on/v1/bracelets/${product.slug}/${metal}-rear.webp`,
+    });
+    return {
+      version: 1,
+      target: "wrist",
+      enabled: true,
+      renderMode: braceletEntry.renderMode,
+      referenceCarat,
+      referenceWidthMm: 17.5,
+      clearanceRatio: braceletEntry.clearanceRatio,
+      assetWidthRatio: braceletEntry.assetWidthRatio,
+      assetsByMetal: {},
+      layeredAssetsByMetal: {
+        yellow: layeredAsset("yellow"),
+        white: layeredAsset("white"),
+      },
+    };
+  }
+
   const entry = tryOnEntryForSlug(product.slug);
   if (!entry || product.category !== "rings") return undefined;
 
@@ -1058,7 +1103,7 @@ function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOn
   ), product.carats[0]).value;
   const caratScope = product.caratScope ?? productCaratScope(product.slug);
   const isBand = entry.renderMode === "band-overlay";
-  const scaleModel: TryOnConfig["scaleModel"] = isBand
+  const scaleModel: RingTryOnConfig["scaleModel"] = isBand
     ? "band-width"
     : caratScope === "total"
       ? "setting-footprint"
@@ -1089,6 +1134,7 @@ function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOn
 
   return {
     version: 3,
+    target: "finger",
     enabled: true,
     renderMode: entry.renderMode,
     scaleModel,

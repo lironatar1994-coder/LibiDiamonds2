@@ -33,6 +33,16 @@ function TryOnGlyph({ className }: { className?: string }) {
   );
 }
 
+function BraceletTryOnGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" className={className} aria-hidden="true">
+      <path d="M8.2 3.8c.6 2.7.4 5.7-.6 8.3-.8 2.2-.8 4.6.1 6.8.5 1.1 1.6 1.8 2.8 1.8h3c1.3 0 2.4-.8 2.9-2 1-2.5.9-5.3-.2-7.7-.9-2.2-1.1-4.7-.5-7.1" strokeLinecap="round" />
+      <path d="M6.8 13.2c3.4 1.6 7.1 1.6 10.5 0" strokeLinecap="round" />
+      <path d="M7.4 11.1c3 1.3 6.2 1.3 9.2 0" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function ZoomGlyph({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" className={className} aria-hidden="true">
@@ -299,14 +309,16 @@ export default function ProductView({ product }: { product: Product }) {
                 360°
               </button>
             )}
-            {product.tryOn?.enabled && product.category === "rings" && (
+            {product.tryOn?.enabled && (
               <button
                 type="button"
                 onClick={openTryOn}
                 className="absolute bottom-3 right-3 flex min-h-11 items-center gap-2 px-1.5 text-[0.78rem] font-medium text-ink [text-shadow:0_1px_12px_rgba(255,255,255,0.96)]"
               >
-                <TryOnGlyph className="h-[1.2rem] w-[1.2rem]" />
-                נסו על היד
+                {product.tryOn.target === "wrist"
+                  ? <BraceletTryOnGlyph className="h-[1.2rem] w-[1.2rem]" />
+                  : <TryOnGlyph className="h-[1.2rem] w-[1.2rem]" />}
+                {product.tryOn.target === "wrist" ? "נסו על פרק היד" : "נסו על היד"}
               </button>
             )}
           </div>
@@ -364,14 +376,16 @@ export default function ProductView({ product }: { product: Product }) {
                 360°
               </button>
             )}
-            {product.tryOn?.enabled && product.category === "rings" && (
+            {product.tryOn?.enabled && (
               <button
                 type="button"
                 onClick={openTryOn}
                 className="absolute bottom-4 right-4 flex min-h-11 items-center gap-2 px-2 text-sm font-medium text-ink [text-shadow:0_1px_12px_rgba(255,255,255,0.96)]"
               >
-                <TryOnGlyph className="h-5 w-5" />
-                נסו על היד
+                {product.tryOn.target === "wrist"
+                  ? <BraceletTryOnGlyph className="h-5 w-5" />
+                  : <TryOnGlyph className="h-5 w-5" />}
+                {product.tryOn.target === "wrist" ? "נסו על פרק היד" : "נסו על היד"}
               </button>
             )}
           </div>

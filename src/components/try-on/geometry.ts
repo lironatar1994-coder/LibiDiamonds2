@@ -208,6 +208,81 @@ export function calculateRingPose(hand: HandPoint[], options: RingPoseOptions = 
   };
 }
 
+export function calculateWristPose(hand: HandPoint[], options: RingPoseOptions = {}): RingPose | null {
+  if (hand.length < 18) return null;
+
+  const wrist = hand[0];
+  const palmPoints = [hand[5], hand[9], hand[13], hand[17]];
+  const palmCenter = palmPoints.reduce(
+    (sum, point) => ({ x: sum.x + point.x / palmPoints.length, y: sum.y + point.y / palmPoints.length }),
+    { x: 0, y: 0 },
+  );
+  const palmLength = distance(wrist, palmCenter);
+  const palmWidth = distance(hand[5], hand[17]);
+  if (!Number.isFinite(palmLength) || !Number.isFinite(palmWidth) || palmLength < 8 || palmWidth < 8) {
+    return null;
+  }
+
+  const palmwardX = (palmCenter.x - wrist.x) / palmLength;
+  const palmwardY = (palmCenter.y - wrist.y) / palmLength;
+  const fallbackWidth = clamp(palmWidth * 0.7, palmLength * 0.52, palmLength * 0.82);
+  const axisLength = Math.max(palmLength, fallbackWidth / 0.72);
+  const measuredWidthRatio = options.section?.confidence && options.section.confidence >= 0.42
+    ? options.section.widthRatio
+    : null;
+  const widthRatio = measuredWidthRatio === null
+    ? fallbackWidth / axisLength
+    : clamp(measuredWidthRatio, 0.5, 0.82);
+  const wristWidth = axisLength * widthRatio;
+  const normalX = -palmwardY;
+  const normalY = palmwardX;
+  const centerOffset = options.section?.confidence && options.section.confidence >= 0.42
+    ? clamp(options.section.centerOffsetRatio, -0.18, 0.18) * axisLength
+    : 0;
+
+  // Continue away from the palm so the bracelet sits just below the wrist crease.
+  const positionRatio = 0.13;
+  const x = wrist.x - palmwardX * palmLength * positionRatio + normalX * centerOffset;
+  const y = wrist.y - palmwardY * palmLength * positionRatio + normalY * centerOffset;
+  const imageDepthSlope = clamp(((palmCenter.z ?? 0) - (wrist.z ?? 0)) / palmLength, -0.7, 0.7);
+  const worldWrist = options.worldHand?.[0];
+  const worldPalmPoints = options.worldHand
+    ? [options.worldHand[5], options.worldHand[9], options.worldHand[13], options.worldHand[17]]
+    : [];
+  const worldPalm = worldPalmPoints.length
+    ? worldPalmPoints.reduce(
+        (sum, point) => ({
+          x: sum.x + point.x / worldPalmPoints.length,
+          y: sum.y + point.y / worldPalmPoints.length,
+          z: (sum.z ?? 0) + (point.z ?? 0) / worldPalmPoints.length,
+        }),
+        { x: 0, y: 0, z: 0 },
+      )
+    : null;
+  const worldLength = worldWrist && worldPalm
+    ? Math.hypot(worldPalm.x - worldWrist.x, worldPalm.y - worldWrist.y, (worldPalm.z ?? 0) - (worldWrist.z ?? 0))
+    : 0;
+  const worldDepthSlope = worldWrist && worldPalm && worldLength > 0.0001
+    ? clamp(((worldPalm.z ?? 0) - (worldWrist.z ?? 0)) / worldLength, -0.9, 0.9)
+    : imageDepthSlope;
+  const depthSlope = imageDepthSlope * 0.35 + worldDepthSlope * 0.65;
+  const handednessSign = options.handedness === "Left" ? -1 : 1;
+
+  return {
+    x,
+    y,
+    width: wristWidth,
+    fingerWidth: wristWidth,
+    axisLength,
+    axisX: palmwardX,
+    axisY: palmwardY,
+    rotation: Math.atan2(palmwardY, palmwardX) + Math.PI / 2,
+    perspectiveScale: clamp(1 - Math.abs(depthSlope) * 0.22, 0.8, 1),
+    skew: clamp(depthSlope * 0.18 * handednessSign, -0.15, 0.15),
+    depthTilt: depthSlope,
+  };
+}
+
 interface PixelColor {
   r: number;
   g: number;
@@ -348,6 +423,15 @@ export function estimateLocalFingerSection(
     confidence,
     contour,
   };
+}
+
+export function estimateLocalWristSection(
+  context: CanvasRenderingContext2D,
+  pose: RingPose,
+): FingerSection | null {
+  // Wrist and finger sections share the same local edge scan. Wrist poses keep
+  // their width-to-axis ratio inside the scanner's validated range.
+  return estimateLocalFingerSection(context, pose);
 }
 
 export function fingerSectionMeasurement(section: FingerSection, axisLength: number): FingerSectionMeasurement {

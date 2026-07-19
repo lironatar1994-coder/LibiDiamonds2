@@ -11,13 +11,21 @@ import {
 import { createPortal } from "react-dom";
 import type { HandLandmarker } from "@mediapipe/tasks-vision";
 import { assetPath } from "@/lib/site";
-import { metalNames, type Metal, type TryOnConfig } from "@/data/products";
+import {
+  metalNames,
+  type BraceletTryOnConfig,
+  type Metal,
+  type RingTryOnConfig,
+  type TryOnConfig,
+} from "@/data/products";
 import { diamondDimensions } from "@/data/diamond-dimensions";
 import {
   calculateRingPose,
+  calculateWristPose,
   choosePrimaryHandIndex,
   coverTransform,
   estimateLocalFingerSection,
+  estimateLocalWristSection,
   fingerSectionForPose,
   fingerSectionMeasurement,
   mapLandmarks,
@@ -56,15 +64,15 @@ interface RingRenderMetrics {
 }
 
 interface RingOverlayMetrics {
-  renderMode: TryOnConfig["renderMode"];
-  scaleModel: TryOnConfig["scaleModel"];
+  renderMode: RingTryOnConfig["renderMode"];
+  scaleModel: RingTryOnConfig["scaleModel"];
   referenceWidthMm: number;
   ringInnerDiameterMm: number;
   caratScale: number;
   pixelsPerMm: number | null;
 }
 
-interface LayeredRingAssets {
+interface LayeredTryOnAssets {
   setting?: HTMLImageElement;
   front?: HTMLImageElement;
   rear?: HTMLImageElement;
@@ -401,7 +409,7 @@ function drawGeneratedBandLayer(
 function drawLayeredRing(
   context: CanvasRenderingContext2D,
   pristineFrame: HTMLCanvasElement,
-  assets: LayeredRingAssets,
+  assets: LayeredTryOnAssets,
   fallbackAsset: HTMLImageElement,
   pose: RingPose,
   section: FingerSection,
@@ -444,6 +452,37 @@ function drawLayeredRing(
   context.filter = `blur(${Math.max(0.8, pose.fingerWidth * 0.035)}px)`;
   context.beginPath();
   context.ellipse(0, pose.fingerWidth * 0.08, topWidth * 0.22, pose.fingerWidth * 0.075, 0, 0, Math.PI * 2);
+  context.fill();
+  context.restore();
+}
+
+function drawLayeredBracelet(
+  context: CanvasRenderingContext2D,
+  pristineFrame: HTMLCanvasElement,
+  assets: LayeredTryOnAssets,
+  pose: RingPose,
+  section: FingerSection,
+  config: BraceletTryOnConfig,
+  manualScale: number,
+) {
+  if (!assets.front || !assets.rear) return;
+  const width = pose.fingerWidth * config.clearanceRatio / config.assetWidthRatio * manualScale;
+
+  drawLayer(context, assets.rear, pose, width, { alpha: 0.96 });
+  redrawFingerOverRear(context, pristineFrame, pose, section);
+  drawLayer(context, assets.front, pose, width, { shadow: true });
+
+  context.save();
+  context.translate(pose.x, pose.y);
+  context.rotate(pose.rotation);
+  context.transform(1, 0, pose.skew, pose.perspectiveScale, 0, 0);
+  context.globalCompositeOperation = "multiply";
+  context.fillStyle = config.renderMode === "rigid-bangle"
+    ? "rgba(30,23,17,0.075)"
+    : "rgba(30,23,17,0.055)";
+  context.filter = `blur(${Math.max(1, pose.fingerWidth * 0.025)}px)`;
+  context.beginPath();
+  context.ellipse(0, pose.fingerWidth * 0.18, width * 0.36, pose.fingerWidth * 0.07, 0, 0, Math.PI * 2);
   context.fill();
   context.restore();
 }
@@ -516,17 +555,19 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
   const animationRef = useRef<number | null>(null);
   const lastDetectionRequestRef = useRef(0);
   const ringAssetRef = useRef<HTMLImageElement | null>(null);
-  const layeredAssetsRef = useRef<LayeredRingAssets | null>(null);
+  const layeredAssetsRef = useRef<LayeredTryOnAssets | null>(null);
   const pristineFrameRef = useRef<HTMLCanvasElement | null>(null);
   const draggingRef = useRef<{ pointerId: number; x: number; y: number; originX: number; originY: number } | null>(null);
 
   const selectedAssets = config.assetsByMetal[metal];
   const selectedAssetSrc = selectedAssets?.head ?? selectedAssets?.overlay;
   const selectedLayeredAssets = config.layeredAssetsByMetal[metal];
+  const isBracelet = config.target === "wrist";
+  const ringConfig = config.target === "finger" ? config : null;
   const effectiveRingSize = ringSize === "unsure" ? 14 : ringSize;
   const ringInnerDiameterMm = (effectiveRingSize + 40) / Math.PI;
   const effectiveCaratValue = caratSelected ? caratValue : config.referenceCarat;
-  const stoneDiameterMm = diamondDimensions(config.shape, effectiveCaratValue).width;
+  const stoneDiameterMm = ringConfig ? diamondDimensions(ringConfig.shape, effectiveCaratValue).width : 0;
   const caratScale = Math.cbrt(
     Math.max(0.1, Number(effectiveCaratValue) || 1) / Math.max(0.1, Number(config.referenceCarat) || 1),
   );
@@ -679,18 +720,20 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     // product-specific top. Legacy front/rear crops remain on disk as a V2
     // fallback source, but loading them here can reintroduce broken seams.
     const entries = Object.entries(selectedLayeredAssets).filter(
-      (entry): entry is [keyof LayeredRingAssets, string] => entry[0] === "setting" && Boolean(entry[1]),
+      (entry): entry is [keyof LayeredTryOnAssets, string] => (
+        isBracelet ? entry[0] === "front" || entry[0] === "rear" : entry[0] === "setting"
+      ) && Boolean(entry[1]),
     );
     Promise.all(entries.map(async ([key, src]) => [key, await loadImage(assetPath(src))] as const))
       .then((loaded) => {
-        if (active) layeredAssetsRef.current = Object.fromEntries(loaded) as LayeredRingAssets;
+        if (active) layeredAssetsRef.current = Object.fromEntries(loaded) as LayeredTryOnAssets;
       })
       .catch(() => {
         // V2 remains loaded and is used automatically if any V3 layer is unavailable.
         if (active) layeredAssetsRef.current = null;
       });
     return () => { active = false; };
-  }, [open, selectedLayeredAssets]);
+  }, [isBracelet, open, selectedLayeredAssets]);
 
   const sendFrame = useCallback((source: HTMLVideoElement | HTMLImageElement) => {
     const landmarker = landmarkerRef.current;
@@ -733,9 +776,13 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
           analysisWidth,
           analysisHeight,
         );
-        const analysisPose = calculateRingPose(analysisHand, { worldHand, handedness });
+        const analysisPose = isBracelet
+          ? calculateWristPose(analysisHand, { worldHand, handedness })
+          : calculateRingPose(analysisHand, { worldHand, handedness });
         if (analysisPose) {
-          const section = estimateLocalFingerSection(analysisContext, analysisPose);
+          const section = isBracelet
+            ? estimateLocalWristSection(analysisContext, analysisPose)
+            : estimateLocalFingerSection(analysisContext, analysisPose);
           latestFingerSectionRef.current = section
             ? fingerSectionMeasurement(section, analysisPose.axisLength)
             : null;
@@ -755,7 +802,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       framePendingRef.current = false;
       lastDetectionRequestRef.current = performance.now();
     }
-  }, []);
+  }, [isBracelet]);
 
   useEffect(() => {
     if (!open || mode !== "photo" || !photoReady || modelState !== "ready" || !photoRef.current) return;
@@ -821,13 +868,23 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
         context.drawImage(pristineFrame, 0, 0);
         const sample = latestHandRef.current;
         const ringAsset = ringAssetRef.current;
-        if (sample && ringAsset) {
+        const layeredAssets = layeredAssetsRef.current;
+        const assetsReady = isBracelet
+          ? Boolean(layeredAssets?.front && layeredAssets?.rear)
+          : Boolean(ringAsset);
+        if (sample && assetsReady) {
           const mapped = mapLandmarks(sample.landmarks, transform, sourceWidth, sourceHeight);
-          const detectedPose = calculateRingPose(mapped, {
-            section: latestFingerSectionRef.current,
-            worldHand: sample.worldLandmarks,
-            handedness: sample.handedness,
-          });
+          const detectedPose = isBracelet
+            ? calculateWristPose(mapped, {
+                section: latestFingerSectionRef.current,
+                worldHand: sample.worldLandmarks,
+                handedness: sample.handedness,
+              })
+            : calculateRingPose(mapped, {
+                section: latestFingerSectionRef.current,
+                worldHand: sample.worldLandmarks,
+                handedness: sample.handedness,
+              });
           if (detectedPose) {
             const adjustedPose = {
               ...detectedPose,
@@ -837,46 +894,57 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
             };
             const pose = smoothPose(smoothedPoseRef.current, adjustedPose, mode === "live" ? 0.32 : 0.58);
             smoothedPoseRef.current = pose;
-            const layeredAssets = layeredAssetsRef.current;
-            const hasLayeredAssets = config.renderMode === "band-overlay"
-              ? Boolean(layeredAssets)
-              : Boolean(layeredAssets?.setting);
-            if (layeredAssets && hasLayeredAssets) {
-              drawLayeredRing(
+            if (isBracelet && layeredAssets && config.target === "wrist") {
+              drawLayeredBracelet(
                 context,
                 pristineFrame,
                 layeredAssets,
-                ringAsset,
                 pose,
                 fingerSectionForPose(pose, latestFingerSectionRef.current),
-                metal,
-                {
-                  renderMode: config.renderMode,
-                  scaleModel: config.scaleModel,
-                  referenceWidthMm: config.referenceWidthMm,
+                config,
+                manualScale,
+              );
+            } else if (ringConfig && ringAsset) {
+              const hasLayeredAssets = ringConfig.renderMode === "band-overlay"
+                ? Boolean(layeredAssets)
+                : Boolean(layeredAssets?.setting);
+              if (layeredAssets && hasLayeredAssets) {
+                drawLayeredRing(
+                  context,
+                  pristineFrame,
+                  layeredAssets,
+                  ringAsset,
+                  pose,
+                  fingerSectionForPose(pose, latestFingerSectionRef.current),
+                  metal,
+                  {
+                    renderMode: ringConfig.renderMode,
+                    scaleModel: ringConfig.scaleModel,
+                    referenceWidthMm: ringConfig.referenceWidthMm,
+                    ringInnerDiameterMm,
+                    caratScale,
+                    pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm,
+                    ringSizeSelected: ringSize !== "unsure",
+                    manualScale,
+                  },
+                );
+              } else if (ringConfig.renderMode === "generated-band") {
+                drawRingSetting(context, ringAsset, { ...pose, width: pose.width * manualScale, fingerWidth: pose.fingerWidth * manualScale }, metal, {
+                  stoneDiameterMm,
+                  ringInnerDiameterMm,
+                  assetStoneRatio: ringConfig.assetStoneRatio ?? 0.68,
+                  pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm * manualScale,
+                });
+              } else {
+                drawRingOverlay(context, ringAsset, { ...pose, width: pose.width * manualScale, fingerWidth: pose.fingerWidth * manualScale }, {
+                  renderMode: ringConfig.renderMode,
+                  scaleModel: ringConfig.scaleModel,
+                  referenceWidthMm: ringConfig.referenceWidthMm,
                   ringInnerDiameterMm,
                   caratScale,
-                  pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm,
-                  ringSizeSelected: ringSize !== "unsure",
-                  manualScale,
-                },
-              );
-            } else if (config.renderMode === "generated-band") {
-              drawRingSetting(context, ringAsset, { ...pose, width: pose.width * manualScale, fingerWidth: pose.fingerWidth * manualScale }, metal, {
-                stoneDiameterMm,
-                ringInnerDiameterMm,
-                assetStoneRatio: config.assetStoneRatio ?? 0.68,
-                pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm * manualScale,
-              });
-            } else {
-              drawRingOverlay(context, ringAsset, { ...pose, width: pose.width * manualScale, fingerWidth: pose.fingerWidth * manualScale }, {
-                renderMode: config.renderMode,
-                scaleModel: config.scaleModel,
-                referenceWidthMm: config.referenceWidthMm,
-                ringInnerDiameterMm,
-                caratScale,
-                pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm * manualScale,
-              });
+                  pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm * manualScale,
+                });
+              }
             }
           }
         }
@@ -897,10 +965,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     calibrationActive,
     calibrationPoints,
     cameraState,
-    config.assetStoneRatio,
-    config.referenceWidthMm,
-    config.renderMode,
-    config.scaleModel,
+    config,
     facingMode,
     frozen,
     manualOffset,
@@ -912,6 +977,8 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     open,
     photoReady,
     ringInnerDiameterMm,
+    isBracelet,
+    ringConfig,
     ringSize,
     sendFrame,
     stoneDiameterMm,
@@ -1070,9 +1137,13 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       >
         <header className="flex min-h-16 items-center justify-between border-b border-line bg-white px-4 sm:px-6">
           <div className="min-w-0">
-            <h2 id="try-on-title" className="font-display text-xl font-medium sm:text-2xl">{productName} על היד</h2>
+            <h2 id="try-on-title" className="font-display text-xl font-medium sm:text-2xl">
+              {productName} {isBracelet ? "על פרק היד" : "על היד"}
+            </h2>
             <p className="mt-0.5 truncate text-[0.7rem] tracking-[0.05em] text-stone">
-              {metalNames[metal]} · {caratSummary} · {ringSizeSummary}
+              {isBracelet
+                ? `${metalNames[metal]} · התאמה אוטומטית לפרק היד`
+                : `${metalNames[metal]} · ${caratSummary} · ${ringSizeSummary}`}
             </p>
           </div>
           <button ref={closeButtonRef} type="button" onClick={onClose} className="grid h-11 w-11 place-items-center text-ink" aria-label="סגירת ההדמיה">
@@ -1082,7 +1153,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
 
         <div ref={stageRef} className="relative min-h-0 flex-1 overflow-hidden bg-[#171817]">
           <video ref={videoRef} playsInline muted className="hidden" />
-          <img ref={photoRef} alt="התמונה שנבחרה להדמיית הטבעת" className="hidden" />
+          <img ref={photoRef} alt={isBracelet ? "התמונה שנבחרה להדמיית הצמיד" : "התמונה שנבחרה להדמיית הטבעת"} className="hidden" />
           <canvas
             ref={canvasRef}
             className={`h-full w-full touch-none ${calibrationActive ? "cursor-crosshair" : trackingVisible ? "cursor-move" : ""}`}
@@ -1090,15 +1161,21 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
             onPointerMove={onPointerMove}
             onPointerUp={onPointerEnd}
             onPointerCancel={onPointerEnd}
-            aria-label="תצוגת הטבעת על היד"
+            aria-label={isBracelet ? "תצוגת הצמיד על פרק היד" : "תצוגת הטבעת על היד"}
           />
 
           {!hasMedia && (
             <div className="absolute inset-0 grid place-items-center px-7 text-center text-ivory">
               <div className="max-w-sm">
                 <ToolIcon name="camera" className="mx-auto h-9 w-9 text-[#c9b78e]" />
-                <h3 className="mt-5 font-display text-2xl font-medium sm:text-3xl">בחרו צילום ברור של גב היד</h3>
-                <p className="mt-3 text-sm leading-6 text-white/65">האצבעות מעט פתוחות, בתאורה טבעית וללא תכשיטים נוספים.</p>
+                <h3 className="mt-5 font-display text-2xl font-medium sm:text-3xl">
+                  {isBracelet ? "בחרו צילום ברור של פרק היד" : "בחרו צילום ברור של גב היד"}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-white/65">
+                  {isBracelet
+                    ? "צלמו את כף היד, פרק היד וחלק מהאמה בתאורה טבעית, ללא צמידים נוספים."
+                    : "האצבעות מעט פתוחות, בתאורה טבעית וללא תכשיטים נוספים."}
+                </p>
                 <div className="mt-7 grid gap-3 sm:grid-cols-2">
                   <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 bg-ivory px-5 text-sm font-semibold text-ink">
                     <ToolIcon name="camera" className="h-4 w-4" /> צילום חדש
@@ -1117,7 +1194,9 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
             <div className="absolute inset-x-4 top-4 mx-auto w-fit bg-black/70 px-4 py-2 text-xs text-white backdrop-blur">מכינים את זיהוי היד...</div>
           )}
           {hasMedia && modelState === "ready" && !trackingVisible && !calibrationActive && (
-            <div className="absolute inset-x-4 top-4 mx-auto w-fit bg-black/70 px-4 py-2 text-xs text-white backdrop-blur">מקמו את גב היד במרכז התמונה</div>
+            <div className="absolute inset-x-4 top-4 mx-auto w-fit bg-black/70 px-4 py-2 text-xs text-white backdrop-blur">
+              {isBracelet ? "ודאו שפרק היד וחלק מהאמה נראים בתמונה" : "מקמו את גב היד במרכז התמונה"}
+            </div>
           )}
           {cameraError && (
             <div className="absolute inset-x-4 top-4 mx-auto max-w-md bg-ivory px-4 py-3 text-center text-xs leading-5 text-ink shadow-lg">{cameraError}</div>
@@ -1146,17 +1225,19 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
               >
                 <ToolIcon name="calibrate" />
               </button>
-              <button type="button" onClick={() => setManualScale((value) => Math.max(0.72, value - 0.08))} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label="הקטנת הטבעת">−</button>
-              <button type="button" onClick={() => setManualScale((value) => Math.min(1.45, value + 0.08))} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label="הגדלת הטבעת">+</button>
-              <button type="button" onClick={() => setManualRotation((value) => value - Math.PI / 24)} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-lg" aria-label="סיבוב הטבעת שמאלה">↶</button>
-              <button type="button" onClick={() => { resetAdjustment(); resetCalibration(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35" aria-label="איפוס מיקום וגודל הטבעת"><ToolIcon name="reset" /></button>
+              <button type="button" onClick={() => setManualScale((value) => Math.max(0.72, value - 0.08))} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label={isBracelet ? "הקטנת הצמיד" : "הקטנת הטבעת"}>−</button>
+              <button type="button" onClick={() => setManualScale((value) => Math.min(1.45, value + 0.08))} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label={isBracelet ? "הגדלת הצמיד" : "הגדלת הטבעת"}>+</button>
+              <button type="button" onClick={() => setManualRotation((value) => value - Math.PI / 24)} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-lg" aria-label={isBracelet ? "סיבוב הצמיד שמאלה" : "סיבוב הטבעת שמאלה"}>↶</button>
+              <button type="button" onClick={() => { resetAdjustment(); resetCalibration(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35" aria-label={isBracelet ? "איפוס מיקום וגודל הצמיד" : "איפוס מיקום וגודל הטבעת"}><ToolIcon name="reset" /></button>
             </div>
           )}
         </div>
 
         <footer className="border-t border-line bg-white px-4 py-3 text-center sm:px-6">
           <p className="text-[0.7rem] leading-5 text-stone">
-            הצילום נשאר במכשיר ואינו נשלח ל־LIBI. {caratSelected || ringSize !== "unsure"
+            הצילום נשאר במכשיר ואינו נשלח ל־LIBI. {isBracelet
+              ? "גודל הצמיד מותאם אוטומטית לפרופורציות פרק היד."
+              : caratSelected || ringSize !== "unsure"
               ? `הגודל מתעדכן לפי ${caratSelected ? `${caratValue} קראט` : "פרופורציית האבן האוטומטית"} ו${ringSize === "unsure" ? "מידת היד האוטומטית" : `מידה ${ringSize}`}.`
               : "גודל הטבעת מותאם אוטומטית לפרופורציות היד; בחירת קראט או מידה בעמוד המוצר תעדכן את ההדמיה."}
             {calibratedPixelsPerMm !== null ? " כיול הכרטיס פעיל." : " ללא כיול, התוצאה היא הערכה חזותית."}

@@ -1,0 +1,315 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-19T13:42:41.582Z",
+  "bracelets": 11,
+  "assets": [
+    {
+      "slug": "icon-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/icon-tennis-bracelet/yellow-front.webp",
+      "bytes": 30982
+    },
+    {
+      "slug": "icon-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/icon-tennis-bracelet/yellow-rear.webp",
+      "bytes": 29228
+    },
+    {
+      "slug": "icon-tennis-bracelet",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/icon-tennis-bracelet/white-front.webp",
+      "bytes": 25874
+    },
+    {
+      "slug": "icon-tennis-bracelet",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/icon-tennis-bracelet/white-rear.webp",
+      "bytes": 23858
+    },
+    {
+      "slug": "fine-two-prong-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/fine-two-prong-tennis-bracelet/yellow-front.webp",
+      "bytes": 33560
+    },
+    {
+      "slug": "fine-two-prong-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/fine-two-prong-tennis-bracelet/yellow-rear.webp",
+      "bytes": 32896
+    },
+    {
+      "slug": "fine-two-prong-tennis-bracelet",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/fine-two-prong-tennis-bracelet/white-front.webp",
+      "bytes": 29802
+    },
+    {
+      "slug": "fine-two-prong-tennis-bracelet",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/fine-two-prong-tennis-bracelet/white-rear.webp",
+      "bytes": 29158
+    },
+    {
+      "slug": "emerald-bezel-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/emerald-bezel-tennis-bracelet/yellow-front.webp",
+      "bytes": 29970
+    },
+    {
+      "slug": "emerald-bezel-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/emerald-bezel-tennis-bracelet/yellow-rear.webp",
+      "bytes": 28132
+    },
+    {
+      "slug": "emerald-bezel-tennis-bracelet",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/emerald-bezel-tennis-bracelet/white-front.webp",
+      "bytes": 26574
+    },
+    {
+      "slug": "emerald-bezel-tennis-bracelet",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/emerald-bezel-tennis-bracelet/white-rear.webp",
+      "bytes": 24904
+    },
+    {
+      "slug": "crescendo-graduated-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/crescendo-graduated-tennis-bracelet/yellow-front.webp",
+      "bytes": 39260
+    },
+    {
+      "slug": "crescendo-graduated-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/crescendo-graduated-tennis-bracelet/yellow-rear.webp",
+      "bytes": 32954
+    },
+    {
+      "slug": "crescendo-graduated-tennis-bracelet",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/crescendo-graduated-tennis-bracelet/white-front.webp",
+      "bytes": 35226
+    },
+    {
+      "slug": "crescendo-graduated-tennis-bracelet",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/crescendo-graduated-tennis-bracelet/white-rear.webp",
+      "bytes": 29176
+    },
+    {
+      "slug": "orbit-round-bezel-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/orbit-round-bezel-tennis-bracelet/yellow-front.webp",
+      "bytes": 33816
+    },
+    {
+      "slug": "orbit-round-bezel-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/orbit-round-bezel-tennis-bracelet/yellow-rear.webp",
+      "bytes": 32718
+    },
+    {
+      "slug": "orbit-round-bezel-tennis-bracelet",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/orbit-round-bezel-tennis-bracelet/white-front.webp",
+      "bytes": 30472
+    },
+    {
+      "slug": "orbit-round-bezel-tennis-bracelet",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/orbit-round-bezel-tennis-bracelet/white-rear.webp",
+      "bytes": 29410
+    },
+    {
+      "slug": "elara-oval-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/elara-oval-tennis-bracelet/yellow-front.webp",
+      "bytes": 36678
+    },
+    {
+      "slug": "elara-oval-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/elara-oval-tennis-bracelet/yellow-rear.webp",
+      "bytes": 38358
+    },
+    {
+      "slug": "elara-oval-tennis-bracelet",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/elara-oval-tennis-bracelet/white-front.webp",
+      "bytes": 33312
+    },
+    {
+      "slug": "elara-oval-tennis-bracelet",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/elara-oval-tennis-bracelet/white-rear.webp",
+      "bytes": 34698
+    },
+    {
+      "slug": "architect-baguette-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/architect-baguette-tennis-bracelet/yellow-front.webp",
+      "bytes": 35384
+    },
+    {
+      "slug": "architect-baguette-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/architect-baguette-tennis-bracelet/yellow-rear.webp",
+      "bytes": 35436
+    },
+    {
+      "slug": "architect-baguette-tennis-bracelet",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/architect-baguette-tennis-bracelet/white-front.webp",
+      "bytes": 31682
+    },
+    {
+      "slug": "architect-baguette-tennis-bracelet",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/architect-baguette-tennis-bracelet/white-rear.webp",
+      "bytes": 31546
+    },
+    {
+      "slug": "duo-double-row-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/duo-double-row-tennis-bracelet/yellow-front.webp",
+      "bytes": 48360
+    },
+    {
+      "slug": "duo-double-row-tennis-bracelet",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/duo-double-row-tennis-bracelet/yellow-rear.webp",
+      "bytes": 49832
+    },
+    {
+      "slug": "duo-double-row-tennis-bracelet",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/duo-double-row-tennis-bracelet/white-front.webp",
+      "bytes": 42216
+    },
+    {
+      "slug": "duo-double-row-tennis-bracelet",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/duo-double-row-tennis-bracelet/white-rear.webp",
+      "bytes": 43830
+    },
+    {
+      "slug": "constellation-station-bracelet",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/constellation-station-bracelet/yellow-front.webp",
+      "bytes": 30054
+    },
+    {
+      "slug": "constellation-station-bracelet",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/constellation-station-bracelet/yellow-rear.webp",
+      "bytes": 30318
+    },
+    {
+      "slug": "constellation-station-bracelet",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/constellation-station-bracelet/white-front.webp",
+      "bytes": 27378
+    },
+    {
+      "slug": "constellation-station-bracelet",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/constellation-station-bracelet/white-rear.webp",
+      "bytes": 27726
+    },
+    {
+      "slug": "one-diamond-bangle",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/one-diamond-bangle/yellow-front.webp",
+      "bytes": 25524
+    },
+    {
+      "slug": "one-diamond-bangle",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/one-diamond-bangle/yellow-rear.webp",
+      "bytes": 21712
+    },
+    {
+      "slug": "one-diamond-bangle",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/one-diamond-bangle/white-front.webp",
+      "bytes": 23608
+    },
+    {
+      "slug": "one-diamond-bangle",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/one-diamond-bangle/white-rear.webp",
+      "bytes": 19972
+    },
+    {
+      "slug": "crossline-diamond-bangle",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/crossline-diamond-bangle/yellow-front.webp",
+      "bytes": 27268
+    },
+    {
+      "slug": "crossline-diamond-bangle",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/crossline-diamond-bangle/yellow-rear.webp",
+      "bytes": 20776
+    },
+    {
+      "slug": "crossline-diamond-bangle",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v1/bracelets/crossline-diamond-bangle/white-front.webp",
+      "bytes": 24894
+    },
+    {
+      "slug": "crossline-diamond-bangle",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v1/bracelets/crossline-diamond-bangle/white-rear.webp",
+      "bytes": 18778
+    }
+  ]
+}
