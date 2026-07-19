@@ -1,5 +1,7 @@
 const configuredDomain = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 
+export const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+
 export const site = {
   name: "LIBI DIAMONDS",
   nameHe: "ליבי דיאמונדס",

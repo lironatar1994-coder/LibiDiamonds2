@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Frank_Ruhl_Libre, Assistant } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { absoluteUrl, site } from "@/lib/site";
+import { absoluteUrl, allowIndexing, site } from "@/lib/site";
 import "./globals.css";
 
 const frank = Frank_Ruhl_Libre({
@@ -32,11 +32,11 @@ export const metadata: Metadata = {
   creator: site.name,
   publisher: site.name,
   robots: {
-    index: false,
-    follow: false,
+    index: allowIndexing,
+    follow: allowIndexing,
     googleBot: {
-      index: false,
-      follow: false,
+      index: allowIndexing,
+      follow: allowIndexing,
       "max-image-preview": "large",
       "max-snippet": -1,
       "max-video-preview": -1,

@@ -1,26 +1,48 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import ProductMedia from "@/components/ProductMedia";
-import DiamondShapeSelector from "@/components/DiamondShapeSelector";
-import HeroRefraction from "@/components/HeroRefraction";
+import Image, { getImageProps } from "next/image";
+// import DiamondShapeSelector from "@/components/DiamondShapeSelector";
+import ProductCard from "@/components/ProductCard";
+import HomeTryOnFeature from "@/components/HomeTryOnFeature";
 import { WhatsAppIcon } from "@/components/icons";
 import {
   categories,
   products,
-  productImages,
   type CategorySlug,
-  type Product,
+  type Metal,
 } from "@/data/products";
 import { guides } from "@/data/guides";
-import { site, waLink, assetPath, formatPrice } from "@/lib/site";
-import { servicePromises } from "@/lib/service";
+import { site, waLink, assetPath } from "@/lib/site";
 import { onlineStoreJsonLd, pageMetadata } from "@/lib/seo";
+
+const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום אובלי על שכבות אבן בגוני כחול חצות ופלטינה";
+const { props: heroDesktopImage } = getImageProps({
+  src: assetPath("/images/hero/slate-gold-v2/hero-desktop.webp"),
+  alt: heroAlt,
+  fill: true,
+  priority: true,
+  sizes: "100vw",
+});
+const {
+  props: { srcSet: heroMobileSrcSet },
+} = getImageProps({
+  src: assetPath("/images/hero/slate-gold-v2/hero-mobile.webp"),
+  alt: heroAlt,
+  fill: true,
+  sizes: "100vw",
+});
 
 const featuredJournalGuide = guides.find((guide) => guide.slug === "why-choose-a-lab-diamond")!;
 const secondaryJournalGuides = ["what-is-a-lab-diamond", "the-four-cs"].map(
   (slug) => guides.find((guide) => guide.slug === slug)!,
 );
+
+const mostLovedRings: Array<{ slug: string; metal: Metal }> = [
+  { slug: "aura-solitaire-ring", metal: "yellow" },
+  { slug: "elara-oval-hidden-halo-ring", metal: "yellow" },
+  { slug: "atelier-emerald-cathedral-ring", metal: "white" },
+  { slug: "seren-pear-solitaire-ring", metal: "white" },
+];
 
 export const metadata: Metadata = pageMetadata({
   title: `${site.name} — תכשיטי יהלומי מעבדה וטבעות אירוסין`,
@@ -30,29 +52,6 @@ export const metadata: Metadata = pageMetadata({
   image: site.socialImage,
   imageAlt: "טבעת סוליטר עם יהלום מעבדה בזהב צהוב מבית LIBI DIAMONDS",
 });
-
-const faqs = [
-  {
-    q: "האם יהלום מעבדה הוא יהלום אמיתי?",
-    a: "כן, לחלוטין. יהלום מעבדה זהה כימית, פיזית ואופטית ליהלום שנכרה מהאדמה — אותו פחמן גבישי, אותה קשיחות ואותו ברק. ההבדל היחיד הוא מקום ההיווצרות, וזה גם מה שמאפשר מחיר נגיש משמעותית.",
-  },
-  {
-    q: "מה כוללת התעודה הגמולוגית?",
-    a: "כל יהלום מרכזי מגיע עם תעודה של מעבדה גמולוגית בינלאומית (IGI או GIA), המתעדת את משקל האבן, צבעה, רמת הניקיון ואיכות הליטוש — וכן את היותה יהלום מעבדה. התעודה שלכם, לתמיד.",
-  },
-  {
-    q: "מהם זמני האספקה?",
-    a: `פריטים מהקולקציה נשלחים תוך ${servicePromises.collectionLeadTime} בשליחות מבוטחת עד הבית. הזמנות בהתאמה אישית — בדרך כלל ${servicePromises.bespokeLeadTime}.`,
-  },
-  {
-    q: "אפשר להתאים תכשיט באופן אישי?",
-    a: "בהחלט. אפשר לבחור כל שילוב של גודל אבן, גוון זהב ומידה — ואפשר גם לעצב יחד איתנו פריט חדש מאפס. שלחו לנו הודעה בוואטסאפ ונתחיל.",
-  },
-  {
-    q: "מה קורה אם הטבעת לא מתאימה?",
-    a: "התאמת מידה ראשונה — עלינו. ועל כל פריט חלה אחריות יצרן מלאה על השיבוץ והמתכת. הפרטים המלאים בעמוד המשלוחים והאחריות.",
-  },
-];
 
 function SectionHeading({
   title,
@@ -77,80 +76,23 @@ function SectionHeading({
     </div>
   );
 }
-
-function EditorialBestsellers({ items }: { items: Product[] }) {
-  const [featured, ...secondary] = items;
-
-  return (
-    <div className="mt-6 sm:mt-9 lg:mt-11">
-      <div className="lg:hidden">
-        <EditorialProductLink product={featured} featured />
-
-        <div className="mt-9 grid grid-cols-2 gap-x-3 sm:gap-x-5">
-          {secondary.slice(0, 2).map((product) => (
-            <EditorialProductLink key={product.slug} product={product} />
-          ))}
-        </div>
-      </div>
-
-      <div className="hidden lg:block">
-        <div className="grid grid-cols-12 items-start gap-7">
-          <div className="col-span-8">
-            <EditorialProductLink product={featured} featured />
-          </div>
-
-          <div className="col-span-4 space-y-8">
-            {secondary.slice(0, 2).map((product) => (
-              <EditorialProductLink key={product.slug} product={product} />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function EditorialProductLink({ product, featured = false }: { product: Product; featured?: boolean }) {
-  const images = productImages(product);
-  const image = featured ? images[1] ?? images[0] : images[0];
-
-  return (
-    <Link href={`/product/${product.slug}`} className="group block">
-      <ProductMedia
-        image={image}
-        sizes={featured ? "(min-width: 1024px) 66vw, 100vw" : "(min-width: 1024px) 34vw, 50vw"}
-        className={`catalog-card-media ${featured ? "aspect-[4/3]" : "aspect-[4/5] lg:aspect-[16/9]"}`}
-        imageClassName="object-cover scale-[1.035] transition-transform duration-1000 ease-out group-hover:scale-[1.065]"
-      />
-      <div className={`pt-4 ${featured ? "text-center lg:pt-5 lg:text-right" : "text-right"}`}>
-        <h3 className={`font-display font-medium leading-snug ${featured ? "text-[1.35rem] sm:text-3xl" : "text-base lg:text-lg"}`}>
-          {product.name}
-        </h3>
-        <p className={`font-display text-ink-soft ${featured ? "mt-1.5 text-base sm:text-lg" : "mt-1 text-[0.95rem] lg:text-base"}`}>
-          מ־{formatPrice(product.priceFrom)}
-        </p>
-      </div>
-    </Link>
-  );
-}
-
 const collectionOrder: CategorySlug[] = ["rings", "earrings", "bracelets", "necklaces"];
 
 const collectionEditorialImages: Record<CategorySlug, { src: string; alt: string }> = {
   rings: {
-    src: assetPath("/images/editorial/categories/v2/rings.webp"),
-    alt: "טבעת סוליטר מזהב צהוב עם יהלום עגול",
+    src: assetPath("/images/editorial/categories/v3-cool/rings-white-gold.webp"),
+    alt: "טבעת סוליטר מזהב לבן עם יהלום עגול",
   },
   earrings: {
-    src: assetPath("/images/editorial/categories/v2/earrings.webp"),
+    src: assetPath("/images/editorial/categories/v3-cool/earrings-platinum.webp"),
     alt: "זוג עגילי יהלום צמודים מזהב לבן",
   },
   bracelets: {
-    src: assetPath("/images/editorial/categories/v2/bracelets.webp"),
+    src: assetPath("/images/editorial/categories/v3-cool/bracelets-platinum.webp"),
     alt: "צמיד טניס מזהב לבן ויהלומים",
   },
   necklaces: {
-    src: assetPath("/images/editorial/categories/v2/necklaces.webp"),
+    src: assetPath("/images/editorial/categories/v3-cool/necklaces-platinum.webp"),
     alt: "שרשרת טניס מדורגת מזהב לבן ויהלומים",
   },
 };
@@ -179,10 +121,10 @@ function CollectionTile({ category }: { category: CategorySlug }) {
   return (
     <Link
       href={`/jewelry/${category}`}
-      className={`group min-h-0 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ink ${collectionPlacement[category]}`}
+      className={`home-collection-link group min-h-0 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ink ${collectionPlacement[category]}`}
     >
       <div
-        className={`relative overflow-hidden ${
+        className={`home-collection-tile home-photo-surface relative overflow-hidden ${
           tall
             ? "aspect-[4/3] lg:h-full lg:aspect-auto"
             : wide
@@ -195,14 +137,14 @@ function CollectionTile({ category }: { category: CategorySlug }) {
           alt={images.alt}
           fill
           sizes={tall || wide ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
-          className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.025]"
+          className="home-photo-grade object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.025]"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(to_top,rgba(247,246,242,0.78)_0%,rgba(247,246,242,0.3)_48%,rgba(247,246,242,0)_100%)]"
+          className="home-collection-scrim pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[34%]"
         />
         <h3
-          className={`absolute z-10 font-display font-normal leading-none text-ink-soft lg:text-xl ${labelSize} ${collectionLabelPlacement[category]}`}
+          className={`home-collection-label absolute z-10 font-display font-normal leading-none text-ink lg:text-xl ${labelSize} ${collectionLabelPlacement[category]}`}
         >
           {item.name}
         </h3>
@@ -210,7 +152,7 @@ function CollectionTile({ category }: { category: CategorySlug }) {
     </Link>
   );
 }
-
+/* Temporarily hidden from the homepage; keep the data ready for restoration.
 const diamondShapes = [
   {
     name: "עגול",
@@ -243,9 +185,9 @@ const diamondShapes = [
     image: assetPath("/images/diamond-shapes/v2/princess.webp"),
   },
 ] as const;
+*/
 
 export default function HomePage() {
-  const bestsellers = products.filter((p) => p.bestseller).slice(0, 3);
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -260,82 +202,80 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────── */}
-      <section className="hero-editorial relative isolate overflow-hidden">
-        <div className="relative h-[clamp(600px,150vw,650px)] overflow-hidden bg-[#f7f6f2] lg:hidden">
-          <div className="hero-settle absolute inset-0 overflow-hidden">
-            <Image
-              src={assetPath("/images/hero/mineral/hero-mobile-v2.webp")}
-              alt="טבעת יהלום מעבדה בזהב צהוב על משטח טרוורטין פיסולי"
-              fill
-              priority
-              unoptimized
-              sizes="100vw"
-              className="object-cover object-top sm:object-[50%_18%]"
+      <section className="hero-editorial relative isolate overflow-hidden" aria-labelledby="home-hero-title">
+        <div className="relative h-[calc(100svh-4rem)] min-h-[570px] max-h-[700px] overflow-hidden bg-[#c4ced5] sm:min-h-[640px] sm:max-h-[760px] lg:h-[min(82svh,760px)] lg:min-h-[620px]">
+          <picture className="absolute inset-0 block">
+            <source media="(max-width: 1023px)" srcSet={heroMobileSrcSet} sizes="100vw" />
+            {/* eslint-disable-next-line @next/next/no-img-element -- getImageProps art direction */}
+            <img
+              {...heroDesktopImage}
+              alt={heroAlt}
+              className="midnight-hero-image object-cover object-top lg:object-[center_54%]"
             />
-            <HeroRefraction variant="mobile" />
+          </picture>
+          <div aria-hidden="true" className="hero-cover-shade absolute inset-0" />
+          <span className="midnight-hero-facet" aria-hidden="true" />
+          <div dir="ltr" className="hero-mobile-kicker cascade lg:hidden" style={{ animationDelay: "40ms" }}>
+            <span aria-hidden="true" />
+            <p>THE AURA · 18K YELLOW GOLD</p>
+            <span aria-hidden="true" />
           </div>
-          <div className="absolute inset-x-0 bottom-0 h-[46%] bg-[linear-gradient(to_bottom,rgba(247,246,242,0)_0%,rgba(247,246,242,0.38)_38%,rgba(247,246,242,0.94)_72%,#f7f6f2_100%)]" />
-        </div>
-
-        <div className="absolute inset-0 hidden lg:block">
-          <div className="hero-settle absolute inset-0">
-            <Image
-              src={assetPath("/images/hero/mineral/hero-desktop.webp")}
-              alt="טבעת יהלום מעבדה בזהב צהוב על קצה אבן מינרלית"
-              fill
-              priority
-              unoptimized
-              sizes="100vw"
-              className="object-cover"
-            />
-            <HeroRefraction variant="desktop" />
-          </div>
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,246,242,0.95)_0%,rgba(247,246,242,0.84)_32%,rgba(247,246,242,0.18)_58%,rgba(247,246,242,0)_72%)]" />
-        </div>
-
-        <div dir="ltr" className="absolute inset-x-0 bottom-9 z-10 mx-auto max-w-7xl px-4 sm:bottom-12 sm:px-6 lg:relative lg:inset-auto lg:grid lg:min-h-[min(82vh,760px)] lg:grid-cols-2 lg:items-center lg:px-8 lg:py-14">
-          <div dir="rtl" className="text-center lg:col-start-1 lg:max-w-lg lg:text-right">
-            <h1
-              className="cascade mx-auto whitespace-nowrap font-display text-[2.05rem] font-light leading-none text-ink sm:text-[2.4rem] lg:mx-0 lg:whitespace-normal lg:text-6xl lg:leading-[1.04] xl:text-7xl"
-              style={{ animationDelay: "90ms" }}
-            >
-              היהלום במרכז.
-            </h1>
-            <div
-              className="cascade mt-5 flex justify-center lg:mt-10 lg:justify-start"
-              style={{ animationDelay: "220ms" }}
-            >
-              <Link href="/jewelry/rings" className="btn-primary min-w-52 px-8">
-                גלו טבעות יהלום
-              </Link>
+          <div dir="ltr" className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-7xl px-5 pb-8 sm:px-10 sm:pb-12 lg:inset-y-0 lg:grid lg:grid-cols-2 lg:items-center lg:px-12 lg:pb-0">
+            <div dir="rtl" className="text-center lg:col-start-1 lg:max-w-[32rem] lg:text-right">
+              <div dir="ltr" className="hero-cover-kicker hero-cover-kicker--desktop cascade mx-auto lg:mx-0" style={{ animationDelay: "40ms" }}>
+                <span aria-hidden="true" />
+                <p>THE AURA · 18K YELLOW GOLD</p>
+              </div>
+              <h1 id="home-hero-title" className="cascade mt-2 font-display text-[clamp(2.8rem,13vw,4.35rem)] font-light leading-[1.05] tracking-[-0.01em] text-[#071827] lg:mt-5 lg:text-[clamp(4.75rem,5.8vw,6rem)]" style={{ animationDelay: "100ms" }}>
+                היהלום במרכז.
+              </h1>
+              <div className="hero-cover-divider cascade" aria-hidden="true" style={{ animationDelay: "140ms" }}>
+                <span />
+                <i />
+                <span />
+              </div>
+              <p className="hero-cover-detail-line cascade mx-auto mt-2 max-w-md text-sm leading-6 text-[#243847] sm:text-base sm:leading-7 lg:mx-0 lg:mt-5" style={{ animationDelay: "160ms" }}>
+                יהלום מעבדה&nbsp;&nbsp;·&nbsp;&nbsp;זהב צהוב 18K&nbsp;&nbsp;·&nbsp;&nbsp;אלגנטיות נצחית
+              </p>
+              <div className="cascade mt-4 flex justify-center lg:mt-8 lg:justify-start" style={{ animationDelay: "220ms" }}>
+                <Link href="/jewelry/rings" className="hero-cover-cta inline-flex min-h-[52px] min-w-60 items-center justify-center gap-3 px-8 text-sm font-semibold tracking-[0.035em] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742f]">
+                  <i aria-hidden="true" />
+                  <span>גלו טבעות יהלום</span>
+                </Link>
+              </div>
+              <p className="hero-cover-proof cascade mt-4 text-xs tracking-[0.045em] text-[#243847] lg:mt-5" style={{ animationDelay: "280ms" }}>
+                תעודה גמולוגית בינלאומית&nbsp;&nbsp;·&nbsp;&nbsp;משלוח מבוטח
+              </p>
             </div>
           </div>
-
-        </div>
-
-      </section>
-
-      {/* ── Bestsellers ───────────────────────────────────── */}
-      <section className="bg-[#fcfbf8] pb-14 pt-8 sm:pb-20 sm:pt-14 lg:pb-24 lg:pt-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading title="הבחירות של LIBI" />
-          <EditorialBestsellers items={bestsellers} />
         </div>
       </section>
 
       {/* ── Shop by diamond shape ────────────────────────── */}
+      {/* Temporarily hidden by request.
       <section className="section-diamond-light pb-10 pt-9 sm:py-12 lg:py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title="חיתוכי יהלום" variant="centered" />
           <DiamondShapeSelector shapes={diamondShapes} />
         </div>
       </section>
+      */}
 
       {/* ── Categories ───────────────────────────────────── */}
-      <section className="section-gallery">
+      <section className="section-gallery section-gallery-collection section-collection-atmosphere" aria-labelledby="collection-title">
         <div className="mx-auto max-w-7xl px-4 pb-14 pt-11 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-          <SectionHeading title="הקולקציה" />
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:mt-11 lg:grid-cols-12 lg:grid-rows-[17rem_17rem] xl:grid-rows-[20rem_20rem]">
+          <div className="home-collection-heading text-center">
+            <p className="home-section-kicker">FIND YOUR PIECE</p>
+            <h2 id="collection-title" className="mt-3 font-display text-[2.15rem] font-medium leading-none text-ink sm:text-[2.8rem]">
+              מצאו את התכשיט שלכם
+            </h2>
+            <div className="home-collection-ornament mx-auto mt-5" aria-hidden="true">
+              <span />
+              <i />
+              <span />
+            </div>
+          </div>
+          <div className="home-collection-grid mt-9 grid grid-cols-2 gap-3 sm:mt-11 sm:gap-5 lg:grid-cols-12 lg:grid-rows-[17rem_17rem] xl:grid-rows-[20rem_20rem]">
             {collectionOrder.map((category) => (
               <CollectionTile key={category} category={category} />
             ))}
@@ -343,40 +283,76 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Four intentional bestsellers, not an endless storefront carousel. */}
+      <section className="section-most-loved py-14 sm:py-20 lg:py-24" aria-labelledby="most-loved-title">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div>
+            <div>
+              <p className="home-section-kicker">LIBI SIGNATURES</p>
+              <h2 id="most-loved-title" className="mt-2 font-display text-[2rem] font-medium leading-none sm:text-4xl">
+                הטבעות הנבחרות
+              </h2>
+            </div>
+          </div>
+          <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 lg:mt-11 lg:grid-cols-4 lg:gap-6">
+            {mostLovedRings.map(({ slug, metal }) => {
+              const product = products.find((candidate) => candidate.slug === slug)!;
+              return <ProductCard key={slug} product={product} variant="compact" metal={metal} />;
+            })}
+          </div>
+          <div className="mt-10 text-center sm:mt-12">
+            <Link
+              href="/jewelry/rings"
+              className="home-most-loved-link inline-flex min-h-11 items-center justify-center gap-3 border-b border-gold/55 px-1 text-sm font-semibold tracking-[0.035em] text-ink-soft transition-colors hover:border-gold hover:text-ink"
+            >
+              לכל קולקציית הטבעות <span aria-hidden="true">←</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <HomeTryOnFeature />
+
       <section className="section-bespoke" aria-labelledby="bespoke-inspiration-title">
-        <div className="mx-auto grid max-w-7xl lg:grid-cols-[1.18fr_0.82fr] lg:items-stretch">
-          <div className="relative aspect-[5/4] overflow-hidden sm:aspect-[16/10] lg:aspect-[6/5]">
+        <div className="home-bespoke-stage mx-auto max-w-7xl overflow-hidden">
+          <div className="home-photo-surface relative aspect-[5/4] overflow-hidden sm:aspect-[16/10] lg:aspect-[16/9]">
             <Image
-              src={assetPath("/images/editorial/v2/bespoke-inspiration.webp")}
+              src={assetPath("/images/editorial/v4-cool/bespoke-yellow-gold.webp")}
               alt="טבעת יהלום מזהב צהוב לצד סקיצה בעיפרון"
               fill
-              sizes="(min-width: 1024px) 54vw, 100vw"
-              className="object-cover object-[center_62%] lg:object-center"
+              sizes="(min-width: 1280px) 1280px, 100vw"
+              className="home-bespoke-image object-cover object-[center_62%] lg:object-[center_58%]"
             />
           </div>
 
-          <div className="flex flex-col justify-center px-5 py-9 text-center sm:px-10 sm:py-12 lg:px-14 lg:py-14 lg:text-right xl:px-20">
-            <h2
-              id="bespoke-inspiration-title"
-              className="font-display text-[2rem] font-medium leading-tight text-ivory sm:text-4xl lg:text-[2.7rem]"
-            >
-              יש לכם השראה לתכשיט?
-            </h2>
+          <div className="home-bespoke-copy">
+            <div className="home-bespoke-heading">
+              <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-[#c5a460]">LIBI PRIVATE SERVICE</p>
+              <h2
+                id="bespoke-inspiration-title"
+                className="mt-2 font-display text-[2rem] font-medium leading-tight text-ivory sm:text-4xl"
+              >
+                יש לכם טבעת בראש?
+              </h2>
+            </div>
+            <p className="home-bespoke-description mx-auto mt-4 max-w-md text-sm leading-7 sm:text-base lg:mx-0">
+              נבחר יחד את האבן, הפרופורציות וגוון הזהב — עד שהכול מרגיש מדויק.
+            </p>
             <a
-              href={waLink("היי, יש לי השראה לתכשיט ואשמח לבדוק אפשרות לעיצוב אישי")}
+              href={waLink("היי, יש לי רעיון לטבעת ואשמח לייעוץ אישי")}
               target="_blank"
               rel="noopener noreferrer"
-              className="mx-auto mt-6 inline-flex min-h-12 items-center justify-center gap-2 border border-champagne px-6 text-sm font-semibold text-ivory transition-colors hover:bg-ivory hover:text-ink lg:mx-0 lg:self-start"
+              className="home-bespoke-cta mx-auto mt-6 inline-flex min-h-11 items-center justify-center gap-2 px-1 text-sm font-semibold lg:mx-0 lg:mt-0"
             >
               <WhatsAppIcon className="h-4 w-4" />
-              שליחת ההשראה בוואטסאפ
+              ייעוץ אישי בוואטסאפ
             </a>
           </div>
         </div>
       </section>
 
       {/* ── LIBI Journal ───────────────────────────────── */}
-      <section className="section-gallery py-14 sm:py-20 lg:py-24">
+      <section className="section-gallery section-gallery-journal py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-6">
             <h2 className="font-display text-[2rem] font-medium leading-none sm:text-4xl">לדעת מה בוחרים.</h2>
@@ -391,13 +367,13 @@ export default function HomePage() {
           <div className="mt-6 grid gap-8 lg:mt-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.55fr)] lg:gap-10">
             <Link href={`/journal/${featuredJournalGuide.slug}`} className="group block">
               <article>
-                <div className="relative aspect-[3/2] overflow-hidden bg-warm-stone">
+                <div className="home-photo-surface relative aspect-[3/2] overflow-hidden bg-warm-stone">
                   <Image
                     src={assetPath(featuredJournalGuide.cover.src)}
                     alt={featuredJournalGuide.cover.alt}
                     fill
                     sizes="(min-width: 1024px) 67vw, 100vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]"
+                    className="home-photo-grade object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]"
                   />
                 </div>
                 <p className="mt-4 text-[0.68rem] font-semibold tracking-[0.08em] text-stone">
@@ -413,17 +389,17 @@ export default function HomePage() {
               {secondaryJournalGuides.map((guide) => (
                 <Link key={guide.slug} href={`/journal/${guide.slug}`} className="group block border-b border-line py-5 first:pt-5 lg:first:pt-0">
                   <article className="grid grid-cols-[7.25rem_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[9rem_minmax(0,1fr)] lg:grid-cols-1 lg:items-start lg:gap-0">
-                    <div className="relative aspect-[4/3] overflow-hidden bg-warm-stone lg:aspect-[3/2]">
+                    <div className="home-photo-surface relative aspect-[4/3] overflow-hidden bg-warm-stone lg:aspect-[3/2]">
                       <Image
                         src={assetPath(guide.cover.src)}
                         alt={guide.cover.alt}
                         fill
                         sizes="(min-width: 1024px) 26vw, 144px"
-                        className="scale-[1.035] object-cover contrast-[1.025] transition-transform duration-700 ease-out group-hover:scale-[1.055] lg:scale-100 lg:group-hover:scale-[1.02]"
+                        className="home-photo-grade scale-[1.035] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.055] lg:scale-100 lg:group-hover:scale-[1.02]"
                       />
                     </div>
                     <div className="min-w-0 lg:mt-3">
-                      <p className="text-[0.65rem] font-semibold tracking-[0.07em] text-stone">{guide.readingMinutes} דקות קריאה</p>
+                      <p className="text-[0.6875rem] font-semibold tracking-[0.07em] text-stone">{guide.readingMinutes} דקות קריאה</p>
                       <h3 className="mt-1.5 font-display text-lg font-medium leading-snug transition-colors group-hover:text-gold-deep sm:text-xl">
                         {guide.title}
                       </h3>
@@ -432,33 +408,6 @@ export default function HomePage() {
                 </Link>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ──────────────────────────────────────────── */}
-      <section className="section-faq py-10 lg:py-12">
-        <div className="mx-auto max-w-2xl px-4 sm:px-6">
-          <h2 className="text-center font-display text-2xl font-medium sm:text-[2rem]">
-            פרטים שכדאי לדעת
-          </h2>
-          <div className="mt-5 sm:mt-7">
-            {faqs.slice(0, 3).map((f) => (
-              <details key={f.q} className="faq-item border-b border-line">
-                <summary className="flex items-center justify-between gap-4 py-3.5 sm:py-4">
-                  <span className="text-sm font-semibold leading-6 text-ink-soft">{f.q}</span>
-                  <span className="faq-icon shrink-0 text-base text-gold" aria-hidden>
-                    +
-                  </span>
-                </summary>
-                <p className="pb-5 text-sm leading-7 text-stone">{f.a}</p>
-              </details>
-            ))}
-          </div>
-          <div className="mt-6 text-center">
-            <Link href="/service" className="border-b border-gold/55 pb-1 text-xs font-semibold text-ink-soft transition-colors hover:border-gold hover:text-ink sm:text-sm">
-              לכל פרטי השירות
-            </Link>
           </div>
         </div>
       </section>

@@ -97,20 +97,20 @@ const serviceItems = [
 
 const packagingByCategory: Record<Product["category"], { src: string; alt: string }> = {
   rings: {
-    src: "/images/trust/v1/libi-packaging-mockup.webp",
-    alt: "הדמיה של אריזת טבעת LIBI DIAMONDS בגוון שנהב",
+    src: "/images/trust/v4-midnight/libi-packaging-ring-midnight.webp",
+    alt: "אריזת טבעת LIBI DIAMONDS בכחול חצות עם פנים בגוון פלטינה",
   },
   earrings: {
-    src: "/images/trust/v2/libi-packaging-earrings-mockup.webp",
-    alt: "הדמיה של אריזת עגילים LIBI DIAMONDS עם מגש זוגי בגוון שנהב",
+    src: "/images/trust/v4-midnight/libi-packaging-earrings-midnight.webp",
+    alt: "אריזת עגילים LIBI DIAMONDS בכחול חצות עם מגש זוגי בגוון פלטינה",
   },
   necklaces: {
-    src: "/images/trust/v2/libi-packaging-necklaces-mockup.webp",
-    alt: "הדמיה של אריזת שרשרת LIBI DIAMONDS עם מגש רחב בגוון שנהב",
+    src: "/images/trust/v4-midnight/libi-packaging-necklaces-midnight.webp",
+    alt: "אריזת שרשרת LIBI DIAMONDS בכחול חצות עם מגש בגוון פלטינה",
   },
   bracelets: {
-    src: "/images/trust/v2/libi-packaging-bracelets-mockup.webp",
-    alt: "הדמיה של אריזת צמיד LIBI DIAMONDS עם מגש מאורך בגוון שנהב",
+    src: "/images/trust/v4-midnight/libi-packaging-bracelets-midnight.webp",
+    alt: "אריזת צמיד LIBI DIAMONDS בכחול חצות עם מגש מאורך בגוון פלטינה",
   },
 };
 
@@ -598,14 +598,17 @@ export default function ProductView({ product }: { product: Product }) {
         </dl>
       </section>
 
-      <section className="-mx-4 mt-8 bg-ivory px-4 py-8 sm:-mx-6 sm:mt-12 sm:px-6 sm:py-10 lg:-mx-8 lg:mt-14 lg:px-8 lg:py-12" aria-labelledby="order-includes-title">
+      <section className="product-packaging-section -mx-4 mt-8 px-4 py-8 sm:-mx-6 sm:mt-12 sm:px-6 sm:py-10 lg:-mx-8 lg:mt-14 lg:px-8 lg:py-12" aria-labelledby="order-includes-title">
         <h2 id="order-includes-title" className="sr-only">אריזה ותעודה</h2>
-        <p className="text-[0.95rem] font-medium leading-7 text-ink-soft sm:text-base">
-          דאגנו לכל פרט — גם לאריזה.
-        </p>
-        <div className="mt-3.5 grid grid-cols-2 gap-3 sm:gap-4 lg:mt-4 lg:grid-cols-[minmax(0,1.55fr)_minmax(16rem,0.65fr)] lg:grid-rows-2 lg:gap-5">
+        <div className="flex items-center gap-3">
+          <span aria-hidden="true" className="h-px w-8 bg-[#9b742f]" />
+          <p className="text-[0.95rem] font-medium leading-7 text-ink-soft sm:text-base">
+            דאגנו לכל פרט — גם לאריזה.
+          </p>
+        </div>
+        <div className="mt-3.5 grid grid-cols-2 gap-3 sm:gap-4 lg:mt-4 lg:grid-cols-[minmax(0,1.55fr)_minmax(16rem,0.65fr)] lg:grid-rows-[15rem_15rem] lg:gap-5 xl:grid-rows-[18rem_18rem]">
           <figure className="col-span-2 lg:col-span-1 lg:row-span-2">
-            <div className="relative aspect-[4/3] overflow-hidden bg-ivory lg:h-full lg:aspect-auto">
+            <div className="product-packaging-surface relative aspect-[4/3] overflow-hidden lg:h-full lg:aspect-auto">
               <Image
                 src={assetPath(packaging.src)}
                 alt={packaging.alt}
@@ -617,10 +620,10 @@ export default function ProductView({ product }: { product: Product }) {
           </figure>
 
           <figure>
-            <div className="relative aspect-square overflow-hidden bg-ivory lg:h-full lg:aspect-auto">
+            <div className="product-packaging-surface relative aspect-square overflow-hidden lg:h-full lg:aspect-auto">
               <Image
-                src={assetPath("/images/trust/v3/libi-shopping-bag-mockup.webp")}
-                alt="שקית קנייה יוקרתית של LIBI DIAMONDS בגוון שנהב עם ידיות סרט"
+                src={assetPath("/images/trust/v4-midnight/libi-shopping-bag-midnight.webp")}
+                alt="שקית קנייה של LIBI DIAMONDS בכחול חצות עם ידיות סרט כסופות"
                 fill
                 sizes="(min-width: 1024px) 27vw, 50vw"
                 className="object-cover"
@@ -629,13 +632,13 @@ export default function ProductView({ product }: { product: Product }) {
           </figure>
 
           <figure id="certificate-figure" className="scroll-mt-24">
-            <div className="relative aspect-square overflow-hidden bg-ivory lg:h-full lg:aspect-auto">
+            <div className="product-packaging-surface product-certificate-surface relative aspect-square overflow-hidden lg:h-full lg:aspect-auto">
               <Image
                 src={assetPath("/images/trust/v1/certificate-sample-mockup.webp")}
                 alt="דוגמה כללית למבנה של תעודה גמולוגית"
                 fill
                 sizes="(min-width: 1024px) 27vw, 50vw"
-                className="object-cover"
+                className="product-certificate-image object-cover"
               />
             </div>
             <figcaption className="mt-2 text-[0.65rem] leading-5 text-ink-soft sm:text-xs">תעודה גמולוגית מותאמת ליהלום.</figcaption>

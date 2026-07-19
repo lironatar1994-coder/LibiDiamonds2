@@ -60,12 +60,12 @@ run_npm_install
 
 log "Building Next.js app for $PUBLIC_SITE_URL..."
 NEXT_BASE_PATH="$ROUTE_BASE" NEXT_PUBLIC_BASE_PATH="$ROUTE_BASE" \
-    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" npm run build
+    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=false npm run build
 
 log "Starting/restarting PM2 process $PROCESS_NAME on port $FRONTEND_PORT..."
 pm2 delete "$PROCESS_NAME" > /dev/null 2>&1 || true
 PORT="$FRONTEND_PORT" NEXT_BASE_PATH="$ROUTE_BASE" NEXT_PUBLIC_BASE_PATH="$ROUTE_BASE" \
-    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" \
+    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=false \
     pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start
 pm2 save > /dev/null
 

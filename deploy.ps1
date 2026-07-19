@@ -49,9 +49,6 @@ if (-not $currentRemote) {
 $branch = git branch --show-current
 if (-not $branch) {
     git checkout -b main
-} elseif ($branch -ne "main") {
-    Write-Host "Renaming deployment branch to main..." -ForegroundColor Yellow
-    git branch -M main
 }
 
 $status = git status --porcelain
@@ -80,7 +77,7 @@ $remoteExists = ($LASTEXITCODE -eq 0)
 
 if ($remoteExists) {
     Write-Host "Pushing to GitHub..." -ForegroundColor Gray
-    git push -u origin main
+    git push -u origin HEAD:main
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Error: Git push failed." -ForegroundColor Red
         exit $LASTEXITCODE

@@ -35,7 +35,7 @@ export function ExistingRingVisual() {
             x2={index * 20}
             y1="0"
             y2={index % 5 === 0 ? 23 : index % 2 === 0 ? 15 : 10}
-            stroke={index === 13 ? "#756343" : "#686b69"}
+            stroke={index === 13 ? "#38566d" : "#5b6871"}
             strokeWidth={index === 13 ? 2 : 1}
           />
         ))}
@@ -44,7 +44,6 @@ export function ExistingRingVisual() {
     </svg>
   );
 }
-
 export function FingerCircumferenceVisual() {
   return (
     <svg
@@ -66,10 +65,10 @@ export function FingerCircumferenceVisual() {
       <path d="M302 151c18-24 37-36 58-36s40 12 58 36" fill="none" stroke="#d8c7b5" strokeWidth="2" />
 
       <g transform="translate(0 5)">
-        <path d="M220 318c76-18 204-18 280 0v64c-76 18-204 18-280 0z" fill="#ffffff" stroke="#a88f60" strokeWidth="2" />
+        <path d="M220 318c76-18 204-18 280 0v64c-76 18-204 18-280 0z" fill="#ffffff" stroke="#587084" strokeWidth="2" />
         <path d="M444 311v78" stroke="#121313" strokeWidth="3" />
-        <circle cx="444" cy="350" r="6" fill="#a88f60" />
-        <path d="M470 273 446 313" stroke="#756343" strokeWidth="1.5" />
+        <circle cx="444" cy="350" r="6" fill="#587084" />
+        <path d="M470 273 446 313" stroke="#38566d" strokeWidth="1.5" />
         <text x="478" y="265" fill="#2c2e2d" fontFamily="var(--font-body)" fontSize="18">סמנו כאן</text>
       </g>
 
