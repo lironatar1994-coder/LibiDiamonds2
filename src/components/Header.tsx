@@ -37,7 +37,7 @@ export default function Header() {
   return (
     <>
       {/* single-row maison header */}
-      <header className="sticky top-0 z-50 border-b border-line bg-ivory/95 backdrop-blur-sm">
+      <header className="site-header-ivory sticky top-0 z-50 border-b backdrop-blur-sm">
         <div className="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:h-auto sm:px-6 sm:py-3 lg:px-8 lg:py-4">
           {/* start (right in RTL): collections nav / mobile burger */}
           <div className="flex items-center justify-start">
@@ -96,7 +96,7 @@ export default function Header() {
 
       {/* full-screen mobile menu */}
       {open && (
-        <div className="fixed inset-0 z-[60] flex flex-col bg-ivory lg:hidden">
+        <div className="site-menu-ivory fixed inset-0 z-[60] flex flex-col lg:hidden">
           <div className="flex items-center justify-between border-b border-line px-4 py-3">
             <button
               type="button"

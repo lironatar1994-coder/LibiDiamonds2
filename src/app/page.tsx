@@ -15,9 +15,9 @@ import { guides } from "@/data/guides";
 import { site, waLink, assetPath } from "@/lib/site";
 import { onlineStoreJsonLd, pageMetadata } from "@/lib/seo";
 
-const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום אובלי על שכבות אבן בגוני כחול חצות ופלטינה";
+const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום אובלי על שכבות אבן שיש בגוני לבן ושמנת עם עורק זהב עדין";
 const { props: heroDesktopImage } = getImageProps({
-  src: assetPath("/images/hero/slate-gold-v2/hero-desktop.webp"),
+  src: assetPath("/images/hero/ivory-gold-v1/hero-desktop.webp"),
   alt: heroAlt,
   fill: true,
   priority: true,
@@ -26,7 +26,7 @@ const { props: heroDesktopImage } = getImageProps({
 const {
   props: { srcSet: heroMobileSrcSet },
 } = getImageProps({
-  src: assetPath("/images/hero/slate-gold-v2/hero-mobile.webp"),
+  src: assetPath("/images/hero/ivory-gold-v1/hero-mobile.webp"),
   alt: heroAlt,
   fill: true,
   sizes: "100vw",
@@ -84,20 +84,20 @@ const collectionOrder: CategorySlug[] = ["rings", "earrings", "bracelets", "neck
 
 const collectionEditorialImages: Record<CategorySlug, { src: string; alt: string }> = {
   rings: {
-    src: assetPath("/images/editorial/categories/v4-midnight-atelier/rings-yellow-gold.webp"),
-    alt: "טבעת סוליטר מזהב צהוב ויהלום עגול על שכבות אבן בגוני כחול חצות",
+    src: assetPath("/images/editorial/categories/v5-ivory-atelier/rings-yellow-gold.webp"),
+    alt: "טבעת סוליטר מזהב צהוב ויהלום עגול על שכבות אבן שיש בגוני לבן ושמנת",
   },
   earrings: {
-    src: assetPath("/images/editorial/categories/v4-midnight-atelier/earrings-yellow-gold.webp"),
-    alt: "זוג עגילי יהלום צמודים מזהב צהוב על אבן כחולה כהה",
+    src: assetPath("/images/editorial/categories/v5-ivory-atelier/earrings-yellow-gold.webp"),
+    alt: "זוג עגילי יהלום צמודים מזהב צהוב על אבן שיש לבנה עם עורק זהב עדין",
   },
   bracelets: {
-    src: assetPath("/images/editorial/categories/v4-midnight-atelier/bracelets-yellow-gold.webp"),
-    alt: "צמיד טניס מזהב צהוב ויהלומים על שכבות אבן כחולה",
+    src: assetPath("/images/editorial/categories/v5-ivory-atelier/bracelets-yellow-gold.webp"),
+    alt: "צמיד טניס מזהב צהוב ויהלומים על שכבות אבן שיש לבנה",
   },
   necklaces: {
-    src: assetPath("/images/editorial/categories/v4-midnight-atelier/necklaces-yellow-gold.webp"),
-    alt: "שרשרת טניס מדורגת מזהב צהוב ויהלומים על אבן בגוון כחול חצות",
+    src: assetPath("/images/editorial/categories/v5-ivory-atelier/necklaces-yellow-gold.webp"),
+    alt: "שרשרת טניס מדורגת מזהב צהוב ויהלומים על שכבות אבן שיש בגוון אייבורי",
   },
 };
 
@@ -148,7 +148,7 @@ function CollectionTile({ category }: { category: CategorySlug }) {
           className="home-collection-scrim pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[34%]"
         />
         <h3
-          className={`home-collection-label absolute z-10 font-display font-normal leading-none text-[#f7f9fa] drop-shadow-[0_1px_5px_rgba(0,0,0,0.72)] lg:text-xl ${labelSize} ${collectionLabelPlacement[category]}`}
+          className={`home-collection-label absolute z-10 font-display font-medium leading-none text-ink drop-shadow-[0_1px_4px_rgba(255,255,255,0.9)] lg:text-xl ${labelSize} ${collectionLabelPlacement[category]}`}
         >
           {item.name}
         </h3>
@@ -207,14 +207,14 @@ export default function HomePage() {
     <>
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className="hero-editorial relative isolate overflow-hidden" aria-labelledby="home-hero-title">
-        <div className="relative h-[calc(100svh-4rem)] min-h-[570px] max-h-[700px] overflow-hidden bg-[#c4ced5] sm:min-h-[640px] sm:max-h-[760px] lg:h-[min(82svh,760px)] lg:min-h-[620px]">
+        <div className="relative h-[calc(100svh-4rem)] min-h-[570px] max-h-[700px] overflow-hidden bg-[#f2eee6] sm:min-h-[640px] sm:max-h-[760px] lg:h-[min(82svh,760px)] lg:min-h-[620px]">
           <picture className="absolute inset-0 block">
             <source media="(max-width: 1023px)" srcSet={heroMobileSrcSet} sizes="100vw" />
             {/* eslint-disable-next-line @next/next/no-img-element -- getImageProps art direction */}
             <img
               {...heroDesktopImage}
               alt={heroAlt}
-              className="midnight-hero-image object-cover object-top lg:object-[center_54%]"
+              className="ivory-hero-image object-cover object-top lg:object-[center_54%]"
             />
           </picture>
           <div aria-hidden="true" className="hero-cover-shade absolute inset-0" />
@@ -301,7 +301,7 @@ export default function HomePage() {
         <div className="home-bespoke-stage mx-auto max-w-7xl overflow-hidden">
           <div className="home-photo-surface relative aspect-[5/4] overflow-hidden sm:aspect-[16/10] lg:aspect-[16/9]">
             <Image
-              src={assetPath("/images/editorial/v4-cool/bespoke-yellow-gold.webp")}
+              src={assetPath("/images/editorial/v5-ivory/bespoke-yellow-gold.webp")}
               alt="טבעת יהלום מזהב צהוב לצד סקיצה בעיפרון"
               fill
               sizes="(min-width: 1280px) 1280px, 100vw"
@@ -314,7 +314,7 @@ export default function HomePage() {
               <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-gilt">LIBI PRIVATE SERVICE</p>
               <h2
                 id="bespoke-inspiration-title"
-                className="mt-2 font-display text-[2rem] font-medium leading-tight text-ivory sm:text-4xl"
+                className="mt-2 font-display text-[2rem] font-medium leading-tight text-ink sm:text-4xl"
               >
                 יש לכם טבעת בראש?
               </h2>
@@ -357,7 +357,7 @@ export default function HomePage() {
                     alt={featuredJournalCover.alt}
                     fill
                     sizes="(min-width: 1024px) 67vw, 100vw"
-                    className="home-photo-grade object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]"
+                    className="home-journal-image object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]"
                   />
                 </div>
                 <p className="mt-4 text-[0.68rem] font-semibold tracking-[0.08em] text-stone">
@@ -379,7 +379,7 @@ export default function HomePage() {
                         alt={guide.cover.alt}
                         fill
                         sizes="(min-width: 1024px) 26vw, 144px"
-                        className="home-photo-grade scale-[1.035] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.055] lg:scale-100 lg:group-hover:scale-[1.02]"
+                        className="home-journal-image scale-[1.035] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.055] lg:scale-100 lg:group-hover:scale-[1.02]"
                       />
                     </div>
                     <div className="min-w-0 lg:mt-3">
