@@ -12,6 +12,7 @@ import { createPortal } from "react-dom";
 import type { HandLandmarker } from "@mediapipe/tasks-vision";
 import { assetPath } from "@/lib/site";
 import { metalNames, type Metal, type TryOnConfig } from "@/data/products";
+import { diamondDimensions } from "@/data/diamond-dimensions";
 import {
   calculateRingPose,
   choosePrimaryHand,
@@ -46,6 +47,14 @@ interface RingRenderMetrics {
   stoneDiameterMm: number;
   ringInnerDiameterMm: number;
   assetStoneRatio: number;
+  pixelsPerMm: number | null;
+}
+
+interface RingOverlayMetrics {
+  renderMode: TryOnConfig["renderMode"];
+  referenceWidthMm: number;
+  ringInnerDiameterMm: number;
+  caratScale: number;
   pixelsPerMm: number | null;
 }
 
@@ -205,6 +214,46 @@ function drawRingSetting(
   context.restore();
 }
 
+function drawRingOverlay(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  pose: RingPose,
+  metrics: RingOverlayMetrics,
+) {
+  const isBand = metrics.renderMode === "band-overlay";
+  const relativeWidth = isBand
+    ? pose.fingerWidth * 1.18
+    : pose.fingerWidth
+      * (metrics.referenceWidthMm / metrics.ringInnerDiameterMm)
+      * 1.38
+      * metrics.caratScale;
+  const calibratedWidth = metrics.pixelsPerMm === null
+    ? relativeWidth
+    : metrics.referenceWidthMm * metrics.caratScale * metrics.pixelsPerMm;
+  const overlayWidth = isBand
+    ? clamp(calibratedWidth, pose.fingerWidth * 0.94, pose.fingerWidth * 1.42)
+    : clamp(calibratedWidth, pose.fingerWidth * 0.62, pose.fingerWidth * 1.72);
+  const bandHeightScale = isBand ? clamp(0.9 + (metrics.caratScale - 1) * 0.24, 0.82, 1.16) : 1;
+  const overlayHeight = overlayWidth * (image.height / image.width) * bandHeightScale;
+
+  context.save();
+  context.translate(pose.x, pose.y);
+  context.rotate(pose.rotation);
+  context.transform(1, 0, pose.skew, pose.perspectiveScale, 0, 0);
+  context.shadowColor = "rgba(15, 12, 8, 0.16)";
+  context.shadowBlur = Math.max(1, pose.fingerWidth * 0.06);
+  context.shadowOffsetY = Math.max(0.5, pose.fingerWidth * 0.02);
+  context.filter = "brightness(0.96) saturate(0.94)";
+  context.drawImage(
+    image,
+    -overlayWidth / 2,
+    -overlayHeight * (isBand ? 0.46 : 0.54),
+    overlayWidth,
+    overlayHeight,
+  );
+  context.restore();
+}
+
 function drawCalibrationOverlay(
   context: CanvasRenderingContext2D,
   points: CalibrationPoint[],
@@ -272,15 +321,17 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
   const streamRef = useRef<MediaStream | null>(null);
   const animationRef = useRef<number | null>(null);
   const lastDetectionRequestRef = useRef(0);
-  const ringHeadRef = useRef<HTMLImageElement | null>(null);
+  const ringAssetRef = useRef<HTMLImageElement | null>(null);
   const draggingRef = useRef<{ pointerId: number; x: number; y: number; originX: number; originY: number } | null>(null);
 
-  const selectedAssets = config.assetsByMetal[metal] ?? config.assetsByMetal.yellow;
+  const selectedAssets = config.assetsByMetal[metal];
+  const selectedAssetSrc = selectedAssets?.head ?? selectedAssets?.overlay;
   const effectiveRingSize = ringSize === "unsure" ? (config.defaultRingSize ?? 14) : ringSize;
   const ringInnerDiameterMm = (effectiveRingSize + 40) / Math.PI;
-  const stoneDiameterMm = config.stoneDiameterByCarat[caratValue]
-    ?? config.stoneDiameterByCarat[config.referenceCarat]
-    ?? 6.5;
+  const stoneDiameterMm = diamondDimensions(config.shape, caratValue).width;
+  const caratScale = Math.cbrt(
+    Math.max(0.1, Number(caratValue) || 1) / Math.max(0.1, Number(config.referenceCarat) || 1),
+  );
   const calibratedPixelsPerMm = calibrationPoints.length === 2
     ? Math.hypot(
         calibrationPoints[1].x - calibrationPoints[0].x,
@@ -411,14 +462,14 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
   }, [open]);
 
   useEffect(() => {
-    if (!open || !selectedAssets) return;
+    if (!open || !selectedAssetSrc) return;
     let active = true;
-    ringHeadRef.current = null;
-    loadImage(assetPath(selectedAssets.head)).then((head) => {
-      if (active) ringHeadRef.current = head;
+    ringAssetRef.current = null;
+    loadImage(assetPath(selectedAssetSrc)).then((asset) => {
+      if (active) ringAssetRef.current = asset;
     }).catch(() => setCameraError("נכסי הטבעת לא נטענו. רעננו את העמוד ונסו שוב."));
     return () => { active = false; };
-  }, [open, selectedAssets]);
+  }, [open, selectedAssetSrc]);
 
   const sendFrame = useCallback((source: HTMLVideoElement | HTMLImageElement) => {
     const landmarker = landmarkerRef.current;
@@ -535,8 +586,8 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       if (source && sourceWidth && sourceHeight) {
         const transform = drawMedia(context, source, sourceWidth, sourceHeight, canvasWidth, canvasHeight, mirrored);
         const hand = latestHandRef.current;
-        const ringHead = ringHeadRef.current;
-        if (hand && ringHead) {
+        const ringAsset = ringAssetRef.current;
+        if (hand && ringAsset) {
           const mapped = mapLandmarks(hand, transform, sourceWidth, sourceHeight);
           const detectedPose = calculateRingPose(mapped, latestFingerWidthRatioRef.current);
           if (detectedPose) {
@@ -550,12 +601,22 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
             };
             const pose = smoothPose(smoothedPoseRef.current, adjustedPose, mode === "live" ? 0.32 : 0.58);
             smoothedPoseRef.current = pose;
-            drawRingSetting(context, ringHead, pose, metal, {
-              stoneDiameterMm,
-              ringInnerDiameterMm,
-              assetStoneRatio: config.assetStoneRatio ?? 0.68,
-              pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm * manualScale,
-            });
+            if (config.renderMode === "generated-band") {
+              drawRingSetting(context, ringAsset, pose, metal, {
+                stoneDiameterMm,
+                ringInnerDiameterMm,
+                assetStoneRatio: config.assetStoneRatio ?? 0.68,
+                pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm * manualScale,
+              });
+            } else {
+              drawRingOverlay(context, ringAsset, pose, {
+                renderMode: config.renderMode,
+                referenceWidthMm: config.referenceWidthMm,
+                ringInnerDiameterMm,
+                caratScale,
+                pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm * manualScale,
+              });
+            }
           }
         }
         drawCalibrationOverlay(context, calibrationPoints, calibrationActive);
@@ -571,10 +632,13 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     };
   }, [
     calibratedPixelsPerMm,
+    caratScale,
     calibrationActive,
     calibrationPoints,
     cameraState,
     config.assetStoneRatio,
+    config.referenceWidthMm,
+    config.renderMode,
     facingMode,
     frozen,
     manualOffset,

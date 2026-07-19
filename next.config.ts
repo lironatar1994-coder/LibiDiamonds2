@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/try-on/v1/:path*",
+        source: "/try-on/:version/:path*",
         headers: [
           {
             key: "Cache-Control",

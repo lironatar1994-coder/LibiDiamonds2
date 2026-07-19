@@ -1,6 +1,8 @@
 import { assetPath } from "@/lib/site";
 import { expansionProducts } from "@/data/catalog/expansion";
 import { ringExpansionProducts } from "@/data/catalog/ring-expansion";
+import { diamondDimensions } from "@/data/diamond-dimensions";
+import { tryOnEntryForSlug, type TryOnRenderMode } from "@/data/try-on-manifest";
 
 export type Metal = "yellow" | "white" | "rose";
 export type CategorySlug = "rings" | "earrings" | "necklaces" | "bracelets";
@@ -64,15 +66,19 @@ export interface ProductDimension {
 }
 
 export interface TryOnAssetPair {
-  head: string;
+  head?: string;
+  overlay?: string;
 }
 
 export interface TryOnConfig {
   enabled: boolean;
+  renderMode: TryOnRenderMode;
+  scaleModel: "center-stone" | "setting-footprint" | "band-width";
+  shape: DiamondShape;
   referenceCarat: string;
+  referenceWidthMm: number;
   defaultRingSize?: number;
   assetStoneRatio?: number;
-  stoneDiameterByCarat: Record<string, number>;
   assetsByMetal: Partial<Record<Metal, TryOnAssetPair>>;
 }
 
@@ -1034,6 +1040,56 @@ function productCaratScope(slug: string): CaratScope {
   return scope;
 }
 
+function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOnConfig | undefined {
+  const entry = tryOnEntryForSlug(product.slug);
+  if (!entry || product.category !== "rings") return undefined;
+
+  const shape = product.diamondShape ?? "round";
+  const referenceCarat = product.carats.reduce((closest, option) => (
+    Math.abs(Number(option.value) - 1) < Math.abs(Number(closest.value) - 1) ? option : closest
+  ), product.carats[0]).value;
+  const caratScope = product.caratScope ?? productCaratScope(product.slug);
+  const isBand = entry.renderMode === "band-overlay";
+  const scaleModel: TryOnConfig["scaleModel"] = isBand
+    ? "band-width"
+    : caratScope === "total"
+      ? "setting-footprint"
+      : "center-stone";
+  const centerCarat = scaleModel === "setting-footprint"
+    ? Math.max(0.2, Number(referenceCarat) * 0.55)
+    : Number(referenceCarat);
+  const stone = diamondDimensions(shape, centerCarat);
+  const stoneWidth = product.slug.includes("east-west") ? stone.length : stone.width;
+  const referenceWidthMm = isBand
+    ? 17.5
+    : product.art === "three-stone"
+      ? stoneWidth * 2.35
+      : product.art === "halo"
+        ? stoneWidth + 3.2
+        : product.art === "pave"
+          ? stoneWidth + 5
+          : Math.max(9.5, stoneWidth + (style === "solitaire" ? 4 : 5));
+  const fileKind = entry.renderMode === "generated-band" ? "head" : "overlay";
+  const asset = (metal: "yellow" | "white"): TryOnAssetPair => ({
+    [fileKind]: `/try-on/v2/rings/${product.slug}/${metal}-${fileKind}.webp`,
+  });
+
+  return {
+    enabled: true,
+    renderMode: entry.renderMode,
+    scaleModel,
+    shape,
+    referenceCarat,
+    referenceWidthMm,
+    defaultRingSize: 14,
+    assetStoneRatio: entry.renderMode === "generated-band" ? 0.68 : undefined,
+    assetsByMetal: {
+      yellow: asset("yellow"),
+      white: asset("white"),
+    },
+  };
+}
+
 export const products: Product[] = catalogProducts.map((product) => {
   const defaultMetal: Metal = product.category === "rings" ? "yellow" : "white";
   const styleByArt: Record<ArtType, CatalogStyle> = {
@@ -1049,10 +1105,11 @@ export const products: Product[] = catalogProducts.map((product) => {
     "tennis-bracelet": "tennis",
     bangle: "bangle",
   };
+  const resolvedStyle = product.style ?? styleByArt[product.art];
   return {
     ...product,
     caratScope: product.caratScope ?? productCaratScope(product.slug),
-    style: product.style ?? styleByArt[product.art],
+    style: resolvedStyle,
     highlights: product.highlights ?? highlightsByArt[product.art],
     metals: ["yellow", "white"],
     defaultMetal,
@@ -1060,28 +1117,7 @@ export const products: Product[] = catalogProducts.map((product) => {
       yellow: productMetalGallery(product, "yellow"),
       white: productMetalGallery(product, "white"),
     },
-    tryOn: product.slug === "aura-solitaire-ring"
-      ? {
-          enabled: true,
-          referenceCarat: "1.00",
-          defaultRingSize: 14,
-          assetStoneRatio: 0.68,
-          stoneDiameterByCarat: {
-            "0.70": 5.7,
-            "1.00": 6.5,
-            "1.50": 7.4,
-            "2.00": 8.2,
-          },
-          assetsByMetal: {
-            yellow: {
-              head: "/try-on/v2/rings/aura/yellow-head.webp",
-            },
-            white: {
-              head: "/try-on/v2/rings/aura/white-head.webp",
-            },
-          },
-        }
-      : undefined,
+    tryOn: productTryOnConfig(product, resolvedStyle),
   };
 });
 
