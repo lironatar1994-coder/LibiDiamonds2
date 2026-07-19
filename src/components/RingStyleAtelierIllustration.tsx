@@ -1,41 +1,21 @@
 import type { CatalogStyle } from "@/data/products";
+import { assetPath } from "@/lib/site";
 
 export type RingAtelierStyle = Extract<CatalogStyle, "solitaire" | "halo" | "multi-stone" | "band">;
 
-function FacetedStone({
-  cx,
-  cy,
-  radius,
-  stroke,
-  fill,
-}: {
-  cx: number;
-  cy: number;
-  radius: number;
-  stroke: string;
-  fill: string;
-}) {
-  const diagonal = radius * 0.68;
+const settingAssets: Record<RingAtelierStyle, string> = {
+  solitaire: "/try-on/v3/rings/aura-solitaire-ring/white-setting.webp",
+  halo: "/try-on/v3/rings/nova-halo-ring/white-setting.webp",
+  "multi-stone": "/try-on/v3/rings/trio-three-stone-ring/white-setting.webp",
+  band: "/try-on/v3/rings/cadre-channel-diamond-band/white-front.webp",
+};
 
-  return (
-    <g>
-      <circle cx={cx} cy={cy} r={radius} fill={fill} stroke={stroke} strokeWidth="1.35" />
-      <path
-        d={`M ${cx} ${cy - radius} L ${cx + diagonal} ${cy - diagonal} L ${cx + radius} ${cy} L ${cx + diagonal} ${cy + diagonal} L ${cx} ${cy + radius} L ${cx - diagonal} ${cy + diagonal} L ${cx - radius} ${cy} L ${cx - diagonal} ${cy - diagonal} Z`}
-        stroke={stroke}
-        strokeWidth="0.72"
-        opacity="0.72"
-      />
-      <path
-        d={`M ${cx} ${cy - radius} L ${cx} ${cy + radius} M ${cx - radius} ${cy} L ${cx + radius} ${cy} M ${cx - diagonal} ${cy - diagonal} L ${cx + diagonal} ${cy + diagonal} M ${cx + diagonal} ${cy - diagonal} L ${cx - diagonal} ${cy + diagonal}`}
-        stroke={stroke}
-        strokeWidth="0.58"
-        opacity="0.48"
-      />
-      <circle cx={cx} cy={cy} r={radius * 0.26} stroke={stroke} strokeWidth="0.58" opacity="0.58" />
-    </g>
-  );
-}
+const settingFrame: Record<RingAtelierStyle, { x: number; y: number; width: number; height: number }> = {
+  solitaire: { x: 66, y: 13, width: 48, height: 48 },
+  halo: { x: 55, y: 8, width: 70, height: 58 },
+  "multi-stone": { x: 48, y: 15, width: 84, height: 50 },
+  band: { x: 28, y: 7, width: 124, height: 70 },
+};
 
 export default function RingStyleAtelierIllustration({
   style,
@@ -44,82 +24,77 @@ export default function RingStyleAtelierIllustration({
   style: RingAtelierStyle;
   active: boolean;
 }) {
-  const ink = active ? "#ffffff" : "#b8c7d1";
-  const ice = active ? "#f8fbfd" : "#dbe5eb";
-  const gold = active ? "#e2c477" : "#9d8555";
+  const ink = active ? "#f8fbfd" : "#b7c7d1";
+  const reflection = active ? "#ffffff" : "#d9e4ea";
+  const frame = settingFrame[style];
+  const isBand = style === "band";
 
   return (
     <svg
       viewBox="0 0 180 108"
-      className="h-full w-full"
+      className="h-full w-full overflow-visible"
       aria-hidden="true"
       focusable="false"
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      {style === "solitaire" && (
-        <g>
-          <ellipse cx="90" cy="65" rx="49" ry="29" stroke={ink} strokeWidth="1.55" />
-          <path d="M43 68 C55 89 125 89 137 68" stroke={ink} strokeWidth="0.62" opacity="0.45" />
-          <path d="M76 42 C81 49 99 49 104 42" stroke={ink} strokeWidth="1.2" opacity="0.8" />
-          <FacetedStone cx={90} cy={33} radius={14.5} stroke={ink} fill={ice} />
-          <path d="M78 25 l-3 -3 M102 25 l3 -3 M78 41 l-3 3 M102 41 l3 3" stroke={gold} strokeWidth="2" />
-        </g>
-      )}
+      <defs>
+        <linearGradient id={`ring-metal-${style}-${active ? "active" : "rest"}`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#7e929f" />
+          <stop offset="0.34" stopColor={reflection} />
+          <stop offset="0.6" stopColor="#8195a1" />
+          <stop offset="0.83" stopColor="#eef4f7" />
+          <stop offset="1" stopColor="#6f8491" />
+        </linearGradient>
+        <radialGradient id={`diamond-aura-${style}-${active ? "active" : "rest"}`}>
+          <stop offset="0" stopColor="#ffffff" stopOpacity={active ? "0.19" : "0.1"} />
+          <stop offset="1" stopColor="#d7efff" stopOpacity="0" />
+        </radialGradient>
+        <filter id={`setting-shadow-${style}-${active ? "active" : "rest"}`} x="-35%" y="-35%" width="170%" height="190%">
+          <feDropShadow dx="0" dy="3" stdDeviation={active ? "3" : "2.2"} floodColor="#000b12" floodOpacity={active ? "0.66" : "0.5"} />
+        </filter>
+      </defs>
 
-      {style === "halo" && (
-        <g>
-          <ellipse cx="90" cy="66" rx="49" ry="28" stroke={ink} strokeWidth="1.55" />
-          <path d="M43 69 C56 89 124 89 137 69" stroke={ink} strokeWidth="0.62" opacity="0.45" />
-          <circle cx="90" cy="34" r="22" stroke={gold} strokeWidth="1.15" />
-          {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => {
-            const radians = (angle * Math.PI) / 180;
-            return (
-              <circle
-                key={angle}
-                cx={90 + Math.cos(radians) * 18.2}
-                cy={34 + Math.sin(radians) * 18.2}
-                r="2.25"
-                fill={ice}
-                stroke={gold}
-                strokeWidth="0.7"
-              />
-            );
-          })}
-          <FacetedStone cx={90} cy={34} radius={11.5} stroke={ink} fill={ice} />
-          <path d="M70 43 C77 50 103 50 110 43" stroke={ink} strokeWidth="1.25" />
-        </g>
-      )}
+      <ellipse
+        cx="90"
+        cy={isBand ? 62 : 67}
+        rx={isBand ? 52 : 49}
+        ry={isBand ? 29 : 27}
+        stroke={`url(#ring-metal-${style}-${active ? "active" : "rest"})`}
+        strokeWidth={active ? "2.05" : "1.65"}
+        opacity={active ? "0.96" : "0.76"}
+      />
+      <path
+        d={isBand ? "M40 64 C55 87 125 87 140 64" : "M43 69 C56 88 124 88 137 69"}
+        stroke={ink}
+        strokeWidth="0.58"
+        opacity="0.28"
+      />
 
-      {style === "multi-stone" && (
-        <g>
-          <ellipse cx="90" cy="66" rx="50" ry="28" stroke={ink} strokeWidth="1.55" />
-          <path d="M42 69 C56 89 124 89 138 69" stroke={ink} strokeWidth="0.62" opacity="0.45" />
-          <path d="M62 43 C72 50 108 50 118 43" stroke={ink} strokeWidth="1.3" />
-          <FacetedStone cx={90} cy={33} radius={12.5} stroke={ink} fill={ice} />
-          <FacetedStone cx={68} cy={39} radius={8.2} stroke={ink} fill={ice} />
-          <FacetedStone cx={112} cy={39} radius={8.2} stroke={ink} fill={ice} />
-          <path d="M77 30 l-3 -3 M103 30 l3 -3 M60 37 l-3 -1 M120 37 l3 -1" stroke={gold} strokeWidth="1.8" />
-        </g>
-      )}
+      <ellipse
+        cx="90"
+        cy="37"
+        rx={style === "multi-stone" ? "48" : isBand ? "55" : style === "halo" ? "35" : "28"}
+        ry={style === "multi-stone" ? "29" : isBand ? "25" : style === "halo" ? "32" : "28"}
+        fill={`url(#diamond-aura-${style}-${active ? "active" : "rest"})`}
+      />
 
-      {style === "band" && (
-        <g>
-          <ellipse cx="90" cy="59" rx="51" ry="30" stroke={ink} strokeWidth="1.55" />
-          <path d="M41 62 C54 85 126 85 139 62" stroke={ink} strokeWidth="0.62" opacity="0.45" />
-          <path d="M47 43 C67 26 113 26 133 43" stroke={gold} strokeWidth="1" />
-          {[
-            [51, 42, 5.2],
-            [63, 34.5, 5.8],
-            [76, 30, 6.2],
-            [90, 28.5, 6.5],
-            [104, 30, 6.2],
-            [117, 34.5, 5.8],
-            [129, 42, 5.2],
-          ].map(([cx, cy, radius]) => (
-            <FacetedStone key={cx} cx={cx} cy={cy} radius={radius} stroke={ink} fill={ice} />
-          ))}
+      <image
+        href={assetPath(settingAssets[style])}
+        x={frame.x}
+        y={frame.y}
+        width={frame.width}
+        height={frame.height}
+        preserveAspectRatio="xMidYMid meet"
+        filter={`url(#setting-shadow-${style}-${active ? "active" : "rest"})`}
+        opacity={active ? "1" : "0.92"}
+      />
+
+      {active && (
+        <g fill="#e2c477">
+          <path d="M145 20 l1.3 3.7 3.7 1.3 -3.7 1.3 -1.3 3.7 -1.3 -3.7 -3.7 -1.3 3.7 -1.3z" opacity="0.88" />
+          <circle cx="36" cy="39" r="1.15" opacity="0.72" />
         </g>
       )}
     </svg>
