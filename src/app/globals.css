@@ -202,7 +202,7 @@ h3,
 
 .home-try-on-layout {
   position: relative;
-  min-height: clamp(41rem, 178vw, 49rem);
+  min-height: clamp(38rem, 164vw, 45rem);
   isolation: isolate;
   background: #071827;
 }
@@ -255,13 +255,17 @@ h3,
   justify-content: center;
   min-height: 18rem;
   padding: 7rem 1.5rem 2.5rem;
-  background: linear-gradient(180deg, transparent 0, rgba(7, 24, 39, 0.92) 34%, #071827 58%);
+  background: linear-gradient(180deg, transparent 0, rgba(7, 24, 39, 0.1) 30%, rgba(7, 24, 39, 0.78) 58%, #071827 76%);
 }
 
 .home-try-on-copy-inner {
   width: 100%;
   max-width: 34rem;
   margin-inline: auto;
+}
+
+.home-try-on-copy h2 {
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
 }
 
 .home-try-on-kicker {
@@ -288,6 +292,21 @@ h3,
   height: 0.52rem;
   border: 1px solid currentColor;
   transform: rotate(45deg);
+}
+
+@media (max-width: 767px) {
+  .section-most-loved {
+    padding-bottom: 1.5rem;
+  }
+
+  .home-try-on-media::after {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 82%, rgba(255, 249, 226, 0.2), rgba(214, 184, 111, 0.07) 12%, transparent 29%);
+    content: "";
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
 }
 
 @media (min-width: 768px) {
