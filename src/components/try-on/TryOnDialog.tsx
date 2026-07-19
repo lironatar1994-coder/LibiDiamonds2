@@ -52,6 +52,7 @@ interface RingRenderMetrics {
 
 interface RingOverlayMetrics {
   renderMode: TryOnConfig["renderMode"];
+  scaleModel: TryOnConfig["scaleModel"];
   referenceWidthMm: number;
   ringInnerDiameterMm: number;
   caratScale: number;
@@ -221,20 +222,24 @@ function drawRingOverlay(
   metrics: RingOverlayMetrics,
 ) {
   const isBand = metrics.renderMode === "band-overlay";
+  const effectiveCaratScale = metrics.scaleModel === "center-stone"
+    ? metrics.caratScale
+    : metrics.scaleModel === "setting-footprint"
+      ? 0.82 + metrics.caratScale * 0.18
+      : 1;
   const relativeWidth = isBand
-    ? pose.fingerWidth * 1.18
+    ? pose.fingerWidth * 1.34
     : pose.fingerWidth
       * (metrics.referenceWidthMm / metrics.ringInnerDiameterMm)
-      * 1.38
-      * metrics.caratScale;
+      * 2.05
+      * effectiveCaratScale;
   const calibratedWidth = metrics.pixelsPerMm === null
     ? relativeWidth
-    : metrics.referenceWidthMm * metrics.caratScale * metrics.pixelsPerMm;
+    : metrics.referenceWidthMm * effectiveCaratScale * metrics.pixelsPerMm / 0.84;
   const overlayWidth = isBand
-    ? clamp(calibratedWidth, pose.fingerWidth * 0.94, pose.fingerWidth * 1.42)
-    : clamp(calibratedWidth, pose.fingerWidth * 0.62, pose.fingerWidth * 1.72);
-  const bandHeightScale = isBand ? clamp(0.9 + (metrics.caratScale - 1) * 0.24, 0.82, 1.16) : 1;
-  const overlayHeight = overlayWidth * (image.height / image.width) * bandHeightScale;
+    ? clamp(calibratedWidth, pose.fingerWidth * 1.12, pose.fingerWidth * 1.58)
+    : clamp(calibratedWidth, pose.fingerWidth * 0.82, pose.fingerWidth * 2.05);
+  const overlayHeight = overlayWidth * (image.height / image.width);
 
   context.save();
   context.translate(pose.x, pose.y);
@@ -611,6 +616,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
             } else {
               drawRingOverlay(context, ringAsset, pose, {
                 renderMode: config.renderMode,
+                scaleModel: config.scaleModel,
                 referenceWidthMm: config.referenceWidthMm,
                 ringInnerDiameterMm,
                 caratScale,
@@ -639,6 +645,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     config.assetStoneRatio,
     config.referenceWidthMm,
     config.renderMode,
+    config.scaleModel,
     facingMode,
     frozen,
     manualOffset,
