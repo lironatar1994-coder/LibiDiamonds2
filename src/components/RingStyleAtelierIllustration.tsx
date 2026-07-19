@@ -36,6 +36,7 @@ export default function RingStyleAtelierIllustration({
         src={assetPath(ringAssets[style])}
         alt=""
         fill
+        priority
         sizes="(min-width: 640px) 220px, 46vw"
         className={`object-contain drop-shadow-[0_8px_8px_rgba(0,8,14,0.48)] transition-[transform,filter,opacity] duration-500 ${
           ringScale[style]
