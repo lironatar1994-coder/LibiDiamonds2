@@ -33,6 +33,10 @@ const {
 });
 
 const featuredJournalGuide = guides.find((guide) => guide.slug === "why-choose-a-lab-diamond")!;
+const featuredJournalCover = {
+  src: assetPath("/images/journal/v2-platinum-ice/why-choose-a-lab-diamond.webp"),
+  alt: "יהלום עגול מלוטש בין משטח אבן בגוון פלטינה למשטח קריסטל חלבי",
+};
 const secondaryJournalGuides = ["what-is-a-lab-diamond", "the-four-cs"].map(
   (slug) => guides.find((guide) => guide.slug === slug)!,
 );
@@ -221,7 +225,7 @@ export default function HomePage() {
                 היהלום במרכז.
               </h1>
               <div className="cascade mt-4 flex justify-center lg:mt-8 lg:justify-start" style={{ animationDelay: "220ms" }}>
-                <Link href="/jewelry/rings" className="hero-cover-cta inline-flex min-h-[52px] min-w-60 items-center justify-center gap-3 px-8 text-sm font-semibold tracking-[0.035em] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742f]">
+                <Link href="/jewelry/rings" className="hero-cover-cta inline-flex min-h-[52px] min-w-60 items-center justify-center gap-3 px-8 text-sm font-semibold tracking-[0.035em] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gilt">
                   <i aria-hidden="true" />
                   <span>גלו טבעות יהלום</span>
                 </Link>
@@ -283,7 +287,7 @@ export default function HomePage() {
           <div className="mt-10 text-center sm:mt-12">
             <Link
               href="/jewelry/rings"
-              className="home-most-loved-link inline-flex min-h-11 items-center justify-center gap-3 border-b border-gold/55 px-1 text-sm font-semibold tracking-[0.035em] text-ink-soft transition-colors hover:border-gold hover:text-ink"
+              className="home-most-loved-link inline-flex min-h-11 items-center justify-center gap-3 border-b border-gilt/55 px-1 text-sm font-semibold tracking-[0.035em] text-ink-soft transition-colors hover:border-gilt hover:text-ink"
             >
               לכל קולקציית הטבעות <span aria-hidden="true">←</span>
             </Link>
@@ -307,7 +311,7 @@ export default function HomePage() {
 
           <div className="home-bespoke-copy">
             <div className="home-bespoke-heading">
-              <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-[#c5a460]">LIBI PRIVATE SERVICE</p>
+              <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-gilt">LIBI PRIVATE SERVICE</p>
               <h2
                 id="bespoke-inspiration-title"
                 className="mt-2 font-display text-[2rem] font-medium leading-tight text-ivory sm:text-4xl"
@@ -338,7 +342,7 @@ export default function HomePage() {
             <h2 className="font-display text-[2rem] font-medium leading-none sm:text-4xl">לדעת מה בוחרים.</h2>
             <Link
               href="/journal"
-              className="shrink-0 border-b border-gold/55 pb-1 text-xs font-semibold tracking-[0.05em] text-ink-soft hover:border-gold hover:text-ink sm:text-sm"
+              className="shrink-0 border-b border-gilt/55 pb-1 text-xs font-semibold tracking-[0.05em] text-ink-soft hover:border-gilt hover:text-ink sm:text-sm"
             >
               לכל המדריכים
             </Link>
@@ -349,8 +353,8 @@ export default function HomePage() {
               <article>
                 <div className="home-photo-surface relative aspect-[3/2] overflow-hidden bg-warm-stone">
                   <Image
-                    src={assetPath(featuredJournalGuide.cover.src)}
-                    alt={featuredJournalGuide.cover.alt}
+                    src={featuredJournalCover.src}
+                    alt={featuredJournalCover.alt}
                     fill
                     sizes="(min-width: 1024px) 67vw, 100vw"
                     className="home-photo-grade object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]"
