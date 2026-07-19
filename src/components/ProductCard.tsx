@@ -26,13 +26,13 @@ export default function ProductCard({
         secondaryImage={detailImage}
         sizes={editorial ? "(min-width: 1024px) 34vw, 50vw" : compact ? "(min-width: 1024px) 20vw, 50vw" : "(min-width: 1024px) 33vw, 50vw"}
         className={`product-card-frame ${catalog ? "catalog-card-media aspect-[4/5]" : editorial ? "catalog-card-media aspect-[16/9]" : "aspect-square"}`}
-        imageClassName={`object-cover transition-all duration-700 ease-out ${catalog || editorial ? "scale-[1.07]" : ""} ${
+        imageClassName={`object-cover transition-all duration-700 ease-out ${compact ? "home-signature-product-image" : ""} ${catalog || editorial ? "scale-[1.07]" : compact ? "scale-[1.08]" : ""} ${
             detailImage
-              ? `${catalog || editorial ? "group-hover:scale-[1.11]" : "group-hover:scale-[1.015]"} group-hover:opacity-0 group-focus-visible:opacity-0`
-              : catalog || editorial ? "group-hover:scale-[1.11]" : "group-hover:scale-[1.025]"
+              ? `${catalog || editorial ? "group-hover:scale-[1.11]" : compact ? "group-hover:scale-[1.105]" : "group-hover:scale-[1.015]"} group-hover:opacity-0 group-focus-visible:opacity-0`
+              : catalog || editorial ? "group-hover:scale-[1.11]" : compact ? "group-hover:scale-[1.105]" : "group-hover:scale-[1.025]"
           }`}
-        secondaryImageClassName={`pointer-events-none object-cover opacity-0 transition-all duration-700 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 ${
-          catalog || editorial ? "scale-[1.07] group-hover:scale-[1.11]" : "group-hover:scale-[1.015]"
+        secondaryImageClassName={`pointer-events-none object-cover opacity-0 transition-all duration-700 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 ${compact ? "home-signature-product-image" : ""} ${
+          catalog || editorial ? "scale-[1.07] group-hover:scale-[1.11]" : compact ? "scale-[1.08] group-hover:scale-[1.105]" : "group-hover:scale-[1.015]"
         }`}
       />
       <div className={`px-0.5 sm:px-1 ${catalog || editorial ? "pt-3 text-right sm:pt-4" : `text-center ${compact ? "pt-3 sm:pt-4" : "pt-3 sm:pt-5"}`}`}>
