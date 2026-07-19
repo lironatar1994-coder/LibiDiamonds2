@@ -113,7 +113,7 @@ export function calculateRingPose(hand: HandPoint[], measuredWidthRatio?: number
 
   // The setting belongs on the proximal phalanx, clear of the webbing. A small
   // width-aware adjustment is more stable than a single landmark percentage.
-  const positionRatio = clamp(0.57 + (widthRatio - 0.5) * 0.08, 0.54, 0.62);
+  const positionRatio = clamp(0.65 + (widthRatio - 0.5) * 0.08, 0.62, 0.69);
   const x = ringMcp.x + (ringPip.x - ringMcp.x) * positionRatio;
   const y = ringMcp.y + (ringPip.y - ringMcp.y) * positionRatio;
   const depthDelta = (ringPip.z ?? 0) - (ringMcp.z ?? 0);
