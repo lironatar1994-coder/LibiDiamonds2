@@ -302,11 +302,11 @@ export default function HomePage() {
           <div className="home-bespoke-images">
             <div className="home-bespoke-media home-bespoke-media-ring relative overflow-hidden">
               <Image
-                src={assetPath("/images/editorial/v6-bespoke/ring-luminous.webp")}
-                alt="טבעת סוליטר מזהב צהוב עם יהלום עגול בוהק על משטח שיש בגוון אייבורי"
+                src={assetPath("/images/editorial/v6-bespoke/bespoke-combined-contrast.webp")}
+                alt="טבעת סוליטר מזהב צהוב עם יהלום בוהק לצד סקיצה ועיפרון על משטח שיש בגוון אייבורי"
                 fill
-                sizes="(min-width: 1280px) 1280px, 100vw"
-                className="home-bespoke-image object-cover object-[center_58%]"
+                sizes="(min-width: 1024px) 1024px, 100vw"
+                className="home-bespoke-image object-cover object-[center_55%]"
               />
             </div>
           </div>
