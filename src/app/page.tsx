@@ -299,34 +299,42 @@ export default function HomePage() {
 
       <section className="section-bespoke" aria-labelledby="bespoke-inspiration-title">
         <div className="home-bespoke-stage mx-auto max-w-7xl overflow-hidden">
-          <div className="home-photo-surface relative aspect-[5/4] overflow-hidden sm:aspect-[16/10] lg:aspect-[16/9]">
-            <Image
-              src={assetPath("/images/editorial/v5-ivory/bespoke-yellow-gold.webp")}
-              alt="טבעת יהלום מזהב צהוב לצד סקיצה בעיפרון"
-              fill
-              sizes="(min-width: 1280px) 1280px, 100vw"
-              className="home-bespoke-image object-cover object-[center_62%] lg:object-[center_58%]"
-            />
+          <div className="home-bespoke-images">
+            <div className="home-bespoke-media home-bespoke-media-ring relative overflow-hidden">
+              <Image
+                src={assetPath("/images/editorial/v6-bespoke/ring-luminous.webp")}
+                alt="טבעת סוליטר מזהב צהוב עם יהלום עגול בוהק על משטח שיש בגוון אייבורי"
+                fill
+                sizes="(min-width: 1280px) 700px, 56vw"
+                className="home-bespoke-image object-cover"
+              />
+            </div>
+            <div className="home-bespoke-media home-bespoke-media-atelier relative overflow-hidden">
+              <Image
+                src={assetPath("/images/editorial/v6-bespoke/atelier-tools.webp")}
+                alt="סקיצה של טבעת יהלום לצד עיפרון, לופה וכלי מדידה של צורף"
+                fill
+                sizes="(min-width: 1280px) 580px, 44vw"
+                className="home-bespoke-image object-cover"
+              />
+            </div>
           </div>
 
           <div className="home-bespoke-copy">
             <div className="home-bespoke-heading">
-              <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-gilt">LIBI PRIVATE SERVICE</p>
+              <p className="home-bespoke-kicker">LIBI BESPOKE</p>
               <h2
                 id="bespoke-inspiration-title"
-                className="mt-2 font-display text-[2rem] font-medium leading-tight text-ink sm:text-4xl"
+                className="mt-2 font-display text-[2.2rem] font-medium leading-tight text-ivory sm:text-5xl"
               >
                 יש לכם טבעת בראש?
               </h2>
             </div>
-            <p className="home-bespoke-description mx-auto mt-4 max-w-md text-sm leading-7 sm:text-base lg:mx-0">
-              נבחר יחד את האבן, הפרופורציות וגוון הזהב — עד שהכול מרגיש מדויק.
-            </p>
             <a
               href={waLink("היי, יש לי רעיון לטבעת ואשמח לייעוץ אישי")}
               target="_blank"
               rel="noopener noreferrer"
-              className="home-bespoke-cta mx-auto mt-6 inline-flex min-h-11 items-center justify-center gap-2 px-1 text-sm font-semibold lg:mx-0 lg:mt-0"
+              className="home-bespoke-cta inline-flex min-h-[52px] items-center justify-center gap-2 px-7 text-sm font-semibold"
             >
               <WhatsAppIcon className="h-4 w-4" />
               ייעוץ אישי בוואטסאפ
