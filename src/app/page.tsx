@@ -305,17 +305,8 @@ export default function HomePage() {
                 src={assetPath("/images/editorial/v6-bespoke/ring-luminous.webp")}
                 alt="טבעת סוליטר מזהב צהוב עם יהלום עגול בוהק על משטח שיש בגוון אייבורי"
                 fill
-                sizes="(min-width: 1280px) 700px, 56vw"
-                className="home-bespoke-image object-cover"
-              />
-            </div>
-            <div className="home-bespoke-media home-bespoke-media-atelier relative overflow-hidden">
-              <Image
-                src={assetPath("/images/editorial/v6-bespoke/atelier-tools.webp")}
-                alt="סקיצה של טבעת יהלום לצד עיפרון, לופה וכלי מדידה של צורף"
-                fill
-                sizes="(min-width: 1280px) 580px, 44vw"
-                className="home-bespoke-image object-cover"
+                sizes="(min-width: 1280px) 1280px, 100vw"
+                className="home-bespoke-image object-cover object-[center_58%]"
               />
             </div>
           </div>

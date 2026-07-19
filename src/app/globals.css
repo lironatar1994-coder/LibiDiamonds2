@@ -361,18 +361,12 @@ h3,
 }
 
 .home-bespoke-images {
-  display: grid;
-  height: clamp(18rem, 72vw, 34rem);
-  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  height: clamp(22rem, 80vw, 30rem);
 }
 
 .home-bespoke-media {
   height: 100%;
   background: var(--home-ivory-stone);
-}
-
-.home-bespoke-media-atelier {
-  border-left: 1px solid rgba(181, 146, 75, 0.52);
 }
 
 .home-bespoke-copy {
@@ -416,7 +410,7 @@ h3,
 
 @media (min-width: 1024px) {
   .home-bespoke-images {
-    height: clamp(30rem, 39vw, 34rem);
+    height: clamp(34rem, 47vw, 40rem);
   }
 
   .home-bespoke-copy {
