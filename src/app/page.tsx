@@ -215,37 +215,17 @@ export default function HomePage() {
           </picture>
           <div aria-hidden="true" className="hero-cover-shade absolute inset-0" />
           <span className="midnight-hero-facet" aria-hidden="true" />
-          <div dir="ltr" className="hero-mobile-kicker cascade lg:hidden" style={{ animationDelay: "40ms" }}>
-            <span aria-hidden="true" />
-            <p>THE AURA · 18K YELLOW GOLD</p>
-            <span aria-hidden="true" />
-          </div>
           <div dir="ltr" className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-7xl px-5 pb-8 sm:px-10 sm:pb-12 lg:inset-y-0 lg:grid lg:grid-cols-2 lg:items-center lg:px-12 lg:pb-0">
             <div dir="rtl" className="text-center lg:col-start-1 lg:max-w-[32rem] lg:text-right">
-              <div dir="ltr" className="hero-cover-kicker hero-cover-kicker--desktop cascade mx-auto lg:mx-0" style={{ animationDelay: "40ms" }}>
-                <span aria-hidden="true" />
-                <p>THE AURA · 18K YELLOW GOLD</p>
-              </div>
-              <h1 id="home-hero-title" className="cascade mt-2 font-display text-[clamp(2.8rem,13vw,4.35rem)] font-light leading-[1.05] tracking-[-0.01em] text-[#071827] lg:mt-5 lg:text-[clamp(4.75rem,5.8vw,6rem)]" style={{ animationDelay: "100ms" }}>
+              <h1 id="home-hero-title" className="cascade font-display text-[clamp(2.8rem,13vw,4.35rem)] font-light leading-[1.05] tracking-[-0.01em] text-[#071827] lg:text-[clamp(4.75rem,5.8vw,6rem)]" style={{ animationDelay: "100ms" }}>
                 היהלום במרכז.
               </h1>
-              <div className="hero-cover-divider cascade" aria-hidden="true" style={{ animationDelay: "140ms" }}>
-                <span />
-                <i />
-                <span />
-              </div>
-              <p className="hero-cover-detail-line cascade mx-auto mt-2 max-w-md text-sm leading-6 text-[#243847] sm:text-base sm:leading-7 lg:mx-0 lg:mt-5" style={{ animationDelay: "160ms" }}>
-                יהלום מעבדה&nbsp;&nbsp;·&nbsp;&nbsp;זהב צהוב 18K&nbsp;&nbsp;·&nbsp;&nbsp;אלגנטיות נצחית
-              </p>
               <div className="cascade mt-4 flex justify-center lg:mt-8 lg:justify-start" style={{ animationDelay: "220ms" }}>
                 <Link href="/jewelry/rings" className="hero-cover-cta inline-flex min-h-[52px] min-w-60 items-center justify-center gap-3 px-8 text-sm font-semibold tracking-[0.035em] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742f]">
                   <i aria-hidden="true" />
                   <span>גלו טבעות יהלום</span>
                 </Link>
               </div>
-              <p className="hero-cover-proof cascade mt-4 text-xs tracking-[0.045em] text-[#243847] lg:mt-5" style={{ animationDelay: "280ms" }}>
-                תעודה גמולוגית בינלאומית&nbsp;&nbsp;·&nbsp;&nbsp;משלוח מבוטח
-              </p>
             </div>
           </div>
         </div>
