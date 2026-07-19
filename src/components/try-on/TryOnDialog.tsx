@@ -117,7 +117,6 @@ function drawRingSetting(
   pose: RingPose,
   metal: Metal,
   metrics: RingRenderMetrics,
-  redrawFinger?: () => void,
 ) {
   context.save();
   context.translate(pose.x, pose.y);
@@ -191,14 +190,6 @@ function drawRingSetting(
   context.lineWidth = Math.max(0.7, fingerWidth * 0.018);
   context.strokeStyle = highlightGradient;
   context.stroke();
-
-  context.restore();
-  redrawFinger?.();
-
-  context.save();
-  context.translate(pose.x, pose.y);
-  context.rotate(pose.rotation);
-  context.transform(1, 0, pose.skew, pose.perspectiveScale, 0, 0);
 
   const relativeStoneSize = fingerWidth * (metrics.stoneDiameterMm / metrics.ringInnerDiameterMm) * 1.3;
   const calibratedStoneSize = metrics.pixelsPerMm === null
@@ -551,7 +542,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
           if (detectedPose) {
             const adjustedPose = {
               ...detectedPose,
-              x: detectedPose.x + manualOffset.x * pixelRatio,
+              x: detectedPose.x + detectedPose.fingerWidth * 0.12 + manualOffset.x * pixelRatio,
               y: detectedPose.y + manualOffset.y * pixelRatio,
               width: detectedPose.width * manualScale,
               fingerWidth: detectedPose.fingerWidth * manualScale,
@@ -564,32 +555,6 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
               ringInnerDiameterMm,
               assetStoneRatio: config.assetStoneRatio ?? 0.68,
               pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm * manualScale,
-            }, () => {
-              context.save();
-              context.translate(pose.x, pose.y);
-              context.rotate(pose.rotation);
-              context.beginPath();
-              context.ellipse(
-                0,
-                detectedPose.fingerWidth * 0.02,
-                detectedPose.fingerWidth * 0.43,
-                detectedPose.axisLength * 0.55,
-                0,
-                0,
-                Math.PI * 2,
-              );
-              context.clip();
-              context.setTransform(1, 0, 0, 1, 0, 0);
-              drawMedia(
-                context,
-                source,
-                sourceWidth,
-                sourceHeight,
-                canvas.width,
-                canvas.height,
-                mirrored,
-              );
-              context.restore();
             });
           }
         }
