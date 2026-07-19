@@ -482,7 +482,7 @@ function drawCalibrationOverlay(
 }
 
 export default function TryOnDialog({ open, onClose, productName, metal, caratValue, caratSelected, ringSize, config }: TryOnDialogProps) {
-  const [mode, setMode] = useState<Mode>("live");
+  const [mode, setMode] = useState<Mode>("photo");
   const [modelState, setModelState] = useState<ModelState>("loading");
   const [cameraState, setCameraState] = useState<CameraState>("idle");
   const [cameraError, setCameraError] = useState("");
@@ -571,7 +571,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
 
   useEffect(() => {
     if (!open) return;
-    setMode("live");
+    setMode("photo");
     setCameraError("");
     setTrackingVisible(false);
     setCalibrationActive(false);
@@ -1057,7 +1057,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
 
   if (!open || typeof document === "undefined") return null;
 
-  const hasMedia = (mode === "live" && cameraState === "active") || (mode === "photo" && photoReady);
+  const hasMedia = photoReady;
 
   return createPortal(
     <div className="fixed inset-0 z-[100] bg-black/70 sm:grid sm:place-items-center sm:p-5" role="presentation">
@@ -1080,11 +1080,6 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
           </button>
         </header>
 
-        <div className="grid grid-cols-2 border-b border-line bg-white p-1.5" role="tablist" aria-label="סוג הדמיה">
-          <button type="button" role="tab" aria-selected={mode === "live"} onClick={() => switchMode("live")} className={`min-h-11 text-sm font-semibold transition-colors ${mode === "live" ? "bg-ink text-ivory" : "text-stone"}`}>מצלמה חיה</button>
-          <button type="button" role="tab" aria-selected={mode === "photo"} onClick={() => switchMode("photo")} className={`min-h-11 text-sm font-semibold transition-colors ${mode === "photo" ? "bg-ink text-ivory" : "text-stone"}`}>תמונה</button>
-        </div>
-
         <div ref={stageRef} className="relative min-h-0 flex-1 overflow-hidden bg-[#171817]">
           <video ref={videoRef} playsInline muted className="hidden" />
           <img ref={photoRef} alt="התמונה שנבחרה להדמיית הטבעת" className="hidden" />
@@ -1101,27 +1096,19 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
           {!hasMedia && (
             <div className="absolute inset-0 grid place-items-center px-7 text-center text-ivory">
               <div className="max-w-sm">
-                <ToolIcon name={mode === "live" ? "camera" : "upload"} className="mx-auto h-9 w-9 text-[#c9b78e]" />
-                <h3 className="mt-5 font-display text-2xl font-medium sm:text-3xl">
-                  {mode === "live" ? "הניחו את גב היד מול המצלמה" : "בחרו צילום ברור של גב היד"}
-                </h3>
+                <ToolIcon name="camera" className="mx-auto h-9 w-9 text-[#c9b78e]" />
+                <h3 className="mt-5 font-display text-2xl font-medium sm:text-3xl">בחרו צילום ברור של גב היד</h3>
                 <p className="mt-3 text-sm leading-6 text-white/65">האצבעות מעט פתוחות, בתאורה טבעית וללא תכשיטים נוספים.</p>
-                {mode === "live" ? (
-                  <button type="button" disabled={cameraState === "starting"} onClick={() => void startCamera()} className="mt-7 min-h-12 min-w-52 bg-ivory px-6 text-sm font-semibold text-ink disabled:opacity-60">
-                    {cameraState === "starting" ? "פותחים מצלמה..." : "הפעלת המצלמה"}
-                  </button>
-                ) : (
-                  <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                    <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 bg-ivory px-5 text-sm font-semibold text-ink">
-                      <ToolIcon name="camera" className="h-4 w-4" /> צילום חדש
-                      <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={handlePhoto} />
-                    </label>
-                    <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-ivory">
-                      <ToolIcon name="upload" className="h-4 w-4" /> בחירת תמונה
-                      <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
-                    </label>
-                  </div>
-                )}
+                <div className="mt-7 grid gap-3 sm:grid-cols-2">
+                  <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 bg-ivory px-5 text-sm font-semibold text-ink">
+                    <ToolIcon name="camera" className="h-4 w-4" /> צילום חדש
+                    <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={handlePhoto} />
+                  </label>
+                  <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-ivory">
+                    <ToolIcon name="upload" className="h-4 w-4" /> בחירת תמונה
+                    <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
+                  </label>
+                </div>
               </div>
             </div>
           )}
@@ -1150,12 +1137,6 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
 
           {hasMedia && (
             <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 border-t border-white/15 bg-black/65 px-3 pb-[max(0.9rem,env(safe-area-inset-bottom))] pt-3 text-white backdrop-blur-sm">
-              {mode === "live" && (
-                <>
-                  <button type="button" onClick={() => void startCamera(facingMode === "environment" ? "user" : "environment")} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35" aria-label="החלפת מצלמה"><ToolIcon name="switch" /></button>
-                  <button type="button" onClick={() => void toggleFreeze()} className={`grid h-11 w-11 place-items-center border ${frozen ? "border-[#c9b78e] bg-[#c9b78e] text-ink" : "border-white/35 bg-black/35"}`} aria-label={frozen ? "המשך מצלמה" : "הקפאת התמונה"}><ToolIcon name="freeze" /></button>
-                </>
-              )}
               <button
                 type="button"
                 onClick={() => void startCalibration()}
