@@ -70,7 +70,14 @@ export interface TryOnAssetPair {
   overlay?: string;
 }
 
+export interface TryOnLayeredAssetPair {
+  setting?: string;
+  front?: string;
+  rear?: string;
+}
+
 export interface TryOnConfig {
+  version: 3;
   enabled: boolean;
   renderMode: TryOnRenderMode;
   scaleModel: "center-stone" | "setting-footprint" | "band-width";
@@ -80,6 +87,7 @@ export interface TryOnConfig {
   defaultRingSize?: number;
   assetStoneRatio?: number;
   assetsByMetal: Partial<Record<Metal, TryOnAssetPair>>;
+  layeredAssetsByMetal: Partial<Record<Metal, TryOnLayeredAssetPair>>;
 }
 
 export interface ProductSpinAsset {
@@ -1073,8 +1081,14 @@ function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOn
   const asset = (metal: "yellow" | "white"): TryOnAssetPair => ({
     [fileKind]: `/try-on/v2/rings/${product.slug}/${metal}-${fileKind}.webp`,
   });
+  const layeredAsset = (metal: "yellow" | "white"): TryOnLayeredAssetPair => ({
+    setting: isBand ? undefined : `/try-on/v3/rings/${product.slug}/${metal}-setting.webp`,
+    front: entry.renderMode === "generated-band" ? undefined : `/try-on/v3/rings/${product.slug}/${metal}-front.webp`,
+    rear: entry.renderMode === "generated-band" ? undefined : `/try-on/v3/rings/${product.slug}/${metal}-rear.webp`,
+  });
 
   return {
+    version: 3,
     enabled: true,
     renderMode: entry.renderMode,
     scaleModel,
@@ -1086,6 +1100,10 @@ function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOn
     assetsByMetal: {
       yellow: asset("yellow"),
       white: asset("white"),
+    },
+    layeredAssetsByMetal: {
+      yellow: layeredAsset("yellow"),
+      white: layeredAsset("white"),
     },
   };
 }

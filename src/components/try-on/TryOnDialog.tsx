@@ -15,11 +15,15 @@ import { metalNames, type Metal, type TryOnConfig } from "@/data/products";
 import { diamondDimensions } from "@/data/diamond-dimensions";
 import {
   calculateRingPose,
-  choosePrimaryHand,
+  choosePrimaryHandIndex,
   coverTransform,
-  estimateLocalFingerWidth,
+  estimateLocalFingerSection,
+  fingerSectionForPose,
+  fingerSectionMeasurement,
   mapLandmarks,
   smoothPose,
+  type FingerSection,
+  type FingerSectionMeasurement,
   type HandPoint,
   type RingPose,
 } from "./geometry";
@@ -58,6 +62,18 @@ interface RingOverlayMetrics {
   ringInnerDiameterMm: number;
   caratScale: number;
   pixelsPerMm: number | null;
+}
+
+interface LayeredRingAssets {
+  setting?: HTMLImageElement;
+  front?: HTMLImageElement;
+  rear?: HTMLImageElement;
+}
+
+interface HandTrackingSample {
+  landmarks: HandPoint[];
+  worldLandmarks: HandPoint[] | null;
+  handedness: "Left" | "Right" | null;
 }
 
 function ToolIcon({ name, className = "h-5 w-5" }: { name: "camera" | "switch" | "freeze" | "reset" | "upload" | "close" | "calibrate"; className?: string }) {
@@ -260,6 +276,171 @@ function drawRingOverlay(
   context.restore();
 }
 
+function traceFingerSection(
+  context: CanvasRenderingContext2D,
+  pose: RingPose,
+  section: FingerSection,
+) {
+  const normalX = -pose.axisY;
+  const normalY = pose.axisX;
+  const samples = section.contour.length >= 2
+    ? section.contour
+    : [-0.28, 0, 0.28].map((axisOffset) => ({
+        axisOffset,
+        left: pose.fingerWidth / 2,
+        right: pose.fingerWidth / 2,
+      }));
+  const extended = [
+    { ...samples[0], axisOffset: Math.min(-0.32, samples[0].axisOffset - 0.12) },
+    ...samples,
+    { ...samples[samples.length - 1], axisOffset: Math.max(0.32, samples[samples.length - 1].axisOffset + 0.12) },
+  ];
+  const point = (sample: typeof extended[number], side: "left" | "right") => {
+    const distance = side === "left" ? -sample.left : sample.right;
+    return {
+      x: pose.x + pose.axisX * pose.axisLength * sample.axisOffset + normalX * distance,
+      y: pose.y + pose.axisY * pose.axisLength * sample.axisOffset + normalY * distance,
+    };
+  };
+  const left = extended.map((sample) => point(sample, "left"));
+  const right = extended.map((sample) => point(sample, "right")).reverse();
+  context.beginPath();
+  context.moveTo(left[0].x, left[0].y);
+  for (const value of left.slice(1)) context.lineTo(value.x, value.y);
+  for (const value of right) context.lineTo(value.x, value.y);
+  context.closePath();
+}
+
+function redrawFingerOverRear(
+  context: CanvasRenderingContext2D,
+  pristineFrame: HTMLCanvasElement,
+  pose: RingPose,
+  section: FingerSection,
+) {
+  context.save();
+  traceFingerSection(context, pose, section);
+  context.clip();
+  context.drawImage(pristineFrame, 0, 0);
+  context.restore();
+}
+
+function drawLayer(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  pose: RingPose,
+  width: number,
+  options: { alpha?: number; shadow?: boolean; sideOnly?: boolean } = {},
+) {
+  const height = width * (image.height / image.width);
+  context.save();
+  context.translate(pose.x, pose.y);
+  context.rotate(pose.rotation);
+  context.transform(1, 0, pose.skew, pose.perspectiveScale, 0, 0);
+  if (options.sideOnly) {
+    context.beginPath();
+    context.rect(-width, -height, width - pose.fingerWidth * 0.28, height * 2);
+    context.rect(pose.fingerWidth * 0.28, -height, width, height * 2);
+    context.clip();
+  }
+  context.globalAlpha = options.alpha ?? 1;
+  if (options.shadow) {
+    context.shadowColor = "rgba(18,14,9,0.16)";
+    context.shadowBlur = Math.max(1, pose.fingerWidth * 0.07);
+    context.shadowOffsetY = Math.max(0.5, pose.fingerWidth * 0.025);
+  }
+  context.filter = `brightness(${clamp(0.97 - Math.abs(pose.depthTilt) * 0.04, 0.9, 0.98)}) saturate(0.96)`;
+  context.drawImage(image, -width / 2, -height / 2, width, height);
+  context.restore();
+}
+
+function drawGeneratedBandLayer(
+  context: CanvasRenderingContext2D,
+  pose: RingPose,
+  metal: Metal,
+  width: number,
+  layer: "rear" | "front",
+) {
+  context.save();
+  context.translate(pose.x, pose.y);
+  context.rotate(pose.rotation);
+  context.transform(1, 0, pose.skew, pose.perspectiveScale, 0, 0);
+  const gradient = context.createLinearGradient(-width / 2, 0, width / 2, 0);
+  if (metal === "white") {
+    gradient.addColorStop(0, "rgba(125,131,131,0)");
+    gradient.addColorStop(0.12, "#8f9494");
+    gradient.addColorStop(0.34, "#f7f8f7");
+    gradient.addColorStop(0.66, "#d3d6d5");
+    gradient.addColorStop(0.88, "#858a89");
+    gradient.addColorStop(1, "rgba(125,131,131,0)");
+  } else {
+    gradient.addColorStop(0, "rgba(139,89,18,0)");
+    gradient.addColorStop(0.12, "#8e5f16");
+    gradient.addColorStop(0.34, "#f5d77b");
+    gradient.addColorStop(0.66, "#d6a442");
+    gradient.addColorStop(0.88, "#8b5912");
+    gradient.addColorStop(1, "rgba(139,89,18,0)");
+  }
+  context.strokeStyle = gradient;
+  context.lineWidth = Math.max(2, pose.fingerWidth * 0.1);
+  context.lineCap = "round";
+  context.shadowColor = layer === "front" ? "rgba(16,12,8,0.18)" : "rgba(16,12,8,0.1)";
+  context.shadowBlur = Math.max(1, pose.fingerWidth * (layer === "front" ? 0.06 : 0.03));
+  context.beginPath();
+  if (layer === "rear") {
+    context.ellipse(0, pose.fingerWidth * 0.02, width * 0.47, pose.fingerWidth * 0.2, 0, Math.PI, Math.PI * 2);
+  } else {
+    context.moveTo(-width * 0.48, pose.fingerWidth * 0.03);
+    context.quadraticCurveTo(-width * 0.34, -pose.fingerWidth * 0.02, -pose.fingerWidth * 0.28, 0);
+    context.moveTo(pose.fingerWidth * 0.28, 0);
+    context.quadraticCurveTo(width * 0.34, -pose.fingerWidth * 0.02, width * 0.48, pose.fingerWidth * 0.03);
+  }
+  context.stroke();
+  context.restore();
+}
+
+function drawLayeredRing(
+  context: CanvasRenderingContext2D,
+  pristineFrame: HTMLCanvasElement,
+  assets: LayeredRingAssets,
+  pose: RingPose,
+  section: FingerSection,
+  metal: Metal,
+  metrics: RingOverlayMetrics & { ringSizeSelected: boolean; manualScale: number },
+) {
+  const ringSizeScale = metrics.ringSizeSelected
+    ? clamp(metrics.ringInnerDiameterMm / ((14 + 40) / Math.PI), 0.84, 1.18)
+    : 1;
+  const shankWidth = pose.fingerWidth * 1.46 * ringSizeScale * metrics.manualScale;
+  const settingScale = metrics.scaleModel === "center-stone"
+    ? metrics.caratScale
+    : metrics.scaleModel === "setting-footprint"
+      ? 0.84 + metrics.caratScale * 0.16
+      : 1;
+  const settingWidth = clamp(
+    pose.fingerWidth * (metrics.referenceWidthMm / ((14 + 40) / Math.PI)) * 2.32 * settingScale,
+    pose.fingerWidth * 0.9,
+    pose.fingerWidth * 2.08,
+  ) * metrics.manualScale;
+
+  if (assets.rear) drawLayer(context, assets.rear, pose, shankWidth, { alpha: 0.94 });
+  else drawGeneratedBandLayer(context, pose, metal, shankWidth, "rear");
+  redrawFingerOverRear(context, pristineFrame, pose, section);
+  if (assets.front) drawLayer(context, assets.front, pose, shankWidth, { sideOnly: true, shadow: true });
+  else drawGeneratedBandLayer(context, pose, metal, shankWidth, "front");
+  if (assets.setting) drawLayer(context, assets.setting, pose, settingWidth, { shadow: true });
+
+  context.save();
+  context.translate(pose.x, pose.y);
+  context.rotate(pose.rotation);
+  context.globalCompositeOperation = "multiply";
+  context.fillStyle = "rgba(32,23,14,0.055)";
+  context.filter = `blur(${Math.max(0.8, pose.fingerWidth * 0.035)}px)`;
+  context.beginPath();
+  context.ellipse(0, pose.fingerWidth * 0.08, settingWidth * 0.22, pose.fingerWidth * 0.075, 0, 0, Math.PI * 2);
+  context.fill();
+  context.restore();
+}
+
 function drawCalibrationOverlay(
   context: CanvasRenderingContext2D,
   points: CalibrationPoint[],
@@ -320,19 +501,22 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
   const analysisCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const framePendingRef = useRef(false);
   const lastDetectionTimestampRef = useRef(0);
-  const latestHandRef = useRef<HandPoint[] | null>(null);
-  const latestFingerWidthRatioRef = useRef<number | null>(null);
+  const latestHandRef = useRef<HandTrackingSample | null>(null);
+  const latestFingerSectionRef = useRef<FingerSectionMeasurement | null>(null);
   const lastHandAtRef = useRef(0);
   const smoothedPoseRef = useRef<RingPose | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const animationRef = useRef<number | null>(null);
   const lastDetectionRequestRef = useRef(0);
   const ringAssetRef = useRef<HTMLImageElement | null>(null);
+  const layeredAssetsRef = useRef<LayeredRingAssets | null>(null);
+  const pristineFrameRef = useRef<HTMLCanvasElement | null>(null);
   const draggingRef = useRef<{ pointerId: number; x: number; y: number; originX: number; originY: number } | null>(null);
 
   const selectedAssets = config.assetsByMetal[metal];
   const selectedAssetSrc = selectedAssets?.head ?? selectedAssets?.overlay;
-  const effectiveRingSize = ringSize === "unsure" ? (config.defaultRingSize ?? 14) : ringSize;
+  const selectedLayeredAssets = config.layeredAssetsByMetal[metal];
+  const effectiveRingSize = ringSize === "unsure" ? 14 : ringSize;
   const ringInnerDiameterMm = (effectiveRingSize + 40) / Math.PI;
   const effectiveCaratValue = caratSelected ? caratValue : config.referenceCarat;
   const stoneDiameterMm = diamondDimensions(config.shape, effectiveCaratValue).width;
@@ -466,7 +650,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       landmarkerRef.current = null;
       analysisCanvasRef.current = null;
       framePendingRef.current = false;
-      latestFingerWidthRatioRef.current = null;
+      latestFingerSectionRef.current = null;
     };
   }, [open]);
 
@@ -479,6 +663,22 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     }).catch(() => setCameraError("נכסי הטבעת לא נטענו. רעננו את העמוד ונסו שוב."));
     return () => { active = false; };
   }, [open, selectedAssetSrc]);
+
+  useEffect(() => {
+    if (!open || !selectedLayeredAssets) return;
+    let active = true;
+    layeredAssetsRef.current = null;
+    const entries = Object.entries(selectedLayeredAssets).filter((entry): entry is [keyof LayeredRingAssets, string] => Boolean(entry[1]));
+    Promise.all(entries.map(async ([key, src]) => [key, await loadImage(assetPath(src))] as const))
+      .then((loaded) => {
+        if (active) layeredAssetsRef.current = Object.fromEntries(loaded) as LayeredRingAssets;
+      })
+      .catch(() => {
+        // V2 remains loaded and is used automatically if any V3 layer is unavailable.
+        if (active) layeredAssetsRef.current = null;
+      });
+    return () => { active = false; };
+  }, [open, selectedLayeredAssets]);
 
   const sendFrame = useCallback((source: HTMLVideoElement | HTMLImageElement) => {
     const landmarker = landmarkerRef.current;
@@ -508,27 +708,31 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       lastDetectionTimestampRef.current = timestamp;
       const result = landmarker.detectForVideo(analysisCanvas, timestamp);
       const hands = result.landmarks.map((hand) => hand.map(({ x, y, z }) => ({ x, y, z })));
-      const hand = choosePrimaryHand(hands);
+      const primaryIndex = choosePrimaryHandIndex(hands);
+      const hand = primaryIndex >= 0 ? hands[primaryIndex] : null;
       if (hand) {
-        latestHandRef.current = hand;
+        const worldHand = result.worldLandmarks[primaryIndex]?.map(({ x, y, z }) => ({ x, y, z })) ?? null;
+        const handednessLabel = result.handedness[primaryIndex]?.[0]?.categoryName;
+        const handedness = handednessLabel === "Left" || handednessLabel === "Right" ? handednessLabel : null;
+        latestHandRef.current = { landmarks: hand, worldLandmarks: worldHand, handedness };
         const analysisHand = mapLandmarks(
           hand,
           { scale: 1, offsetX: 0, offsetY: 0, mirrored: false },
           analysisWidth,
           analysisHeight,
         );
-        const analysisPose = calculateRingPose(analysisHand);
+        const analysisPose = calculateRingPose(analysisHand, { worldHand, handedness });
         if (analysisPose) {
-          const measuredWidth = estimateLocalFingerWidth(analysisContext, analysisPose);
-          latestFingerWidthRatioRef.current = measuredWidth
-            ? measuredWidth / analysisPose.axisLength
-            : analysisPose.fingerWidth / analysisPose.axisLength;
+          const section = estimateLocalFingerSection(analysisContext, analysisPose);
+          latestFingerSectionRef.current = section
+            ? fingerSectionMeasurement(section, analysisPose.axisLength)
+            : null;
         }
         lastHandAtRef.current = performance.now();
         setTrackingVisible(true);
       } else if (performance.now() - lastHandAtRef.current > 350) {
         latestHandRef.current = null;
-        latestFingerWidthRatioRef.current = null;
+        latestFingerSectionRef.current = null;
         smoothedPoseRef.current = null;
         setTrackingVisible(false);
       }
@@ -593,32 +797,68 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       }
 
       if (source && sourceWidth && sourceHeight) {
-        const transform = drawMedia(context, source, sourceWidth, sourceHeight, canvasWidth, canvasHeight, mirrored);
-        const hand = latestHandRef.current;
+        const pristineFrame = pristineFrameRef.current ?? document.createElement("canvas");
+        pristineFrameRef.current = pristineFrame;
+        if (pristineFrame.width !== canvasWidth) pristineFrame.width = canvasWidth;
+        if (pristineFrame.height !== canvasHeight) pristineFrame.height = canvasHeight;
+        const pristineContext = pristineFrame.getContext("2d", { alpha: false });
+        if (!pristineContext) return;
+        pristineContext.fillStyle = "#171817";
+        pristineContext.fillRect(0, 0, canvasWidth, canvasHeight);
+        const transform = drawMedia(pristineContext, source, sourceWidth, sourceHeight, canvasWidth, canvasHeight, mirrored);
+        context.drawImage(pristineFrame, 0, 0);
+        const sample = latestHandRef.current;
         const ringAsset = ringAssetRef.current;
-        if (hand && ringAsset) {
-          const mapped = mapLandmarks(hand, transform, sourceWidth, sourceHeight);
-          const detectedPose = calculateRingPose(mapped, latestFingerWidthRatioRef.current);
+        if (sample && ringAsset) {
+          const mapped = mapLandmarks(sample.landmarks, transform, sourceWidth, sourceHeight);
+          const detectedPose = calculateRingPose(mapped, {
+            section: latestFingerSectionRef.current,
+            worldHand: sample.worldLandmarks,
+            handedness: sample.handedness,
+          });
           if (detectedPose) {
             const adjustedPose = {
               ...detectedPose,
-              x: detectedPose.x + detectedPose.fingerWidth * 0.12 + manualOffset.x * pixelRatio,
+              x: detectedPose.x + manualOffset.x * pixelRatio,
               y: detectedPose.y + manualOffset.y * pixelRatio,
-              width: detectedPose.width * manualScale,
-              fingerWidth: detectedPose.fingerWidth * manualScale,
               rotation: detectedPose.rotation + manualRotation,
             };
             const pose = smoothPose(smoothedPoseRef.current, adjustedPose, mode === "live" ? 0.32 : 0.58);
             smoothedPoseRef.current = pose;
-            if (config.renderMode === "generated-band") {
-              drawRingSetting(context, ringAsset, pose, metal, {
+            const layeredAssets = layeredAssetsRef.current;
+            const hasLayeredAssets = config.renderMode === "generated-band"
+              ? Boolean(layeredAssets?.setting)
+              : config.renderMode === "band-overlay"
+                ? Boolean(layeredAssets?.front && layeredAssets?.rear)
+                : Boolean(layeredAssets?.setting && layeredAssets?.front && layeredAssets?.rear);
+            if (layeredAssets && hasLayeredAssets) {
+              drawLayeredRing(
+                context,
+                pristineFrame,
+                layeredAssets,
+                pose,
+                fingerSectionForPose(pose, latestFingerSectionRef.current),
+                metal,
+                {
+                  renderMode: config.renderMode,
+                  scaleModel: config.scaleModel,
+                  referenceWidthMm: config.referenceWidthMm,
+                  ringInnerDiameterMm,
+                  caratScale,
+                  pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm,
+                  ringSizeSelected: ringSize !== "unsure",
+                  manualScale,
+                },
+              );
+            } else if (config.renderMode === "generated-band") {
+              drawRingSetting(context, ringAsset, { ...pose, width: pose.width * manualScale, fingerWidth: pose.fingerWidth * manualScale }, metal, {
                 stoneDiameterMm,
                 ringInnerDiameterMm,
                 assetStoneRatio: config.assetStoneRatio ?? 0.68,
                 pixelsPerMm: calibratedPixelsPerMm === null ? null : calibratedPixelsPerMm * manualScale,
               });
             } else {
-              drawRingOverlay(context, ringAsset, pose, {
+              drawRingOverlay(context, ringAsset, { ...pose, width: pose.width * manualScale, fingerWidth: pose.fingerWidth * manualScale }, {
                 renderMode: config.renderMode,
                 scaleModel: config.scaleModel,
                 referenceWidthMm: config.referenceWidthMm,
@@ -661,6 +901,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     open,
     photoReady,
     ringInnerDiameterMm,
+    ringSize,
     sendFrame,
     stoneDiameterMm,
   ]);
@@ -670,7 +911,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       stopCamera();
       clearPhoto();
       latestHandRef.current = null;
-      latestFingerWidthRatioRef.current = null;
+      latestFingerSectionRef.current = null;
       smoothedPoseRef.current = null;
       resetAdjustment();
       resetCalibration();
@@ -713,7 +954,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     setMode(nextMode);
     setCameraError("");
     latestHandRef.current = null;
-    latestFingerWidthRatioRef.current = null;
+    latestFingerSectionRef.current = null;
     smoothedPoseRef.current = null;
     setTrackingVisible(false);
     resetAdjustment();

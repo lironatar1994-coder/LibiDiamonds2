@@ -15,6 +15,35 @@ export interface RingPose {
   rotation: number;
   perspectiveScale: number;
   skew: number;
+  depthTilt: number;
+}
+
+export interface FingerContourSample {
+  axisOffset: number;
+  left: number;
+  right: number;
+}
+
+export interface FingerSection {
+  width: number;
+  centerX: number;
+  centerY: number;
+  centerOffset: number;
+  confidence: number;
+  contour: FingerContourSample[];
+}
+
+export interface FingerSectionMeasurement {
+  widthRatio: number;
+  centerOffsetRatio: number;
+  confidence: number;
+  contour: FingerContourSample[];
+}
+
+export interface RingPoseOptions {
+  section?: FingerSectionMeasurement | null;
+  worldHand?: HandPoint[] | null;
+  handedness?: "Left" | "Right" | null;
 }
 
 export interface DrawTransform {
@@ -54,6 +83,33 @@ export function choosePrimaryHand(hands: HandPoint[][]): HandPoint[] | null {
   }, { hand: hands[0], score: -1 }).hand;
 }
 
+export function choosePrimaryHandIndex(hands: HandPoint[][]): number {
+  if (!hands.length) return -1;
+  let bestIndex = 0;
+  let bestScore = -1;
+  hands.forEach((hand, index) => {
+    const bounds = hand.reduce(
+      (box, point) => ({
+        minX: Math.min(box.minX, point.x),
+        maxX: Math.max(box.maxX, point.x),
+        minY: Math.min(box.minY, point.y),
+        maxY: Math.max(box.maxY, point.y),
+      }),
+      { minX: 1, maxX: 0, minY: 1, maxY: 0 },
+    );
+    const area = Math.max(0, bounds.maxX - bounds.minX) * Math.max(0, bounds.maxY - bounds.minY);
+    const centerX = (bounds.minX + bounds.maxX) / 2;
+    const centerY = (bounds.minY + bounds.maxY) / 2;
+    const centrality = 1 - Math.min(1, Math.hypot(centerX - 0.5, centerY - 0.5));
+    const score = area * (0.75 + centrality * 0.25);
+    if (score > bestScore) {
+      bestIndex = index;
+      bestScore = score;
+    }
+  });
+  return bestIndex;
+}
+
 export function coverTransform(
   sourceWidth: number,
   sourceHeight: number,
@@ -83,7 +139,7 @@ export function mapLandmarks(
   }));
 }
 
-export function calculateRingPose(hand: HandPoint[], measuredWidthRatio?: number | null): RingPose | null {
+export function calculateRingPose(hand: HandPoint[], options: RingPoseOptions = {}): RingPose | null {
   if (hand.length < 18) return null;
 
   const middleMcp = hand[9];
@@ -106,18 +162,36 @@ export function calculateRingPose(hand: HandPoint[], measuredWidthRatio?: number
     axisLength * 0.36,
     axisLength * 0.72,
   );
-  const widthRatio = measuredWidthRatio === undefined || measuredWidthRatio === null
+  const measuredWidthRatio = options.section?.confidence && options.section.confidence >= 0.42
+    ? options.section.widthRatio
+    : null;
+  const widthRatio = measuredWidthRatio === null
     ? fallbackWidth / axisLength
     : clamp(measuredWidthRatio, 0.34, 0.78);
   const fingerWidth = axisLength * widthRatio;
 
-  // The setting belongs on the proximal phalanx, clear of the webbing. A small
-  // width-aware adjustment is more stable than a single landmark percentage.
-  const positionRatio = clamp(0.65 + (widthRatio - 0.5) * 0.08, 0.62, 0.69);
-  const x = ringMcp.x + (ringPip.x - ringMcp.x) * positionRatio;
-  const y = ringMcp.y + (ringPip.y - ringMcp.y) * positionRatio;
+  // Move the ring toward the PIP joint by a proportional amount. This stays
+  // stable across near/far photos instead of relying on a fixed pixel offset.
+  const positionRatio = clamp(0.73 + (widthRatio - 0.5) * 0.06, 0.69, 0.77);
+  const normalX = -axisY;
+  const normalY = axisX;
+  const centerOffset = options.section?.confidence && options.section.confidence >= 0.42
+    ? clamp(options.section.centerOffsetRatio, -0.16, 0.16) * axisLength
+    : 0;
+  const x = ringMcp.x + (ringPip.x - ringMcp.x) * positionRatio + normalX * centerOffset;
+  const y = ringMcp.y + (ringPip.y - ringMcp.y) * positionRatio + normalY * centerOffset;
   const depthDelta = (ringPip.z ?? 0) - (ringMcp.z ?? 0);
-  const depthSlope = clamp(depthDelta / axisLength, -0.6, 0.6);
+  const imageDepthSlope = clamp(depthDelta / axisLength, -0.6, 0.6);
+  const worldMcp = options.worldHand?.[13];
+  const worldPip = options.worldHand?.[14];
+  const worldLength = worldMcp && worldPip
+    ? Math.hypot(worldPip.x - worldMcp.x, worldPip.y - worldMcp.y, (worldPip.z ?? 0) - (worldMcp.z ?? 0))
+    : 0;
+  const worldDepthSlope = worldMcp && worldPip && worldLength > 0.0001
+    ? clamp(((worldPip.z ?? 0) - (worldMcp.z ?? 0)) / worldLength, -0.9, 0.9)
+    : imageDepthSlope;
+  const depthSlope = imageDepthSlope * 0.35 + worldDepthSlope * 0.65;
+  const handednessSign = options.handedness === "Left" ? -1 : 1;
 
   return {
     x,
@@ -128,8 +202,9 @@ export function calculateRingPose(hand: HandPoint[], measuredWidthRatio?: number
     axisX,
     axisY,
     rotation: Math.atan2(ringPip.y - ringMcp.y, ringPip.x - ringMcp.x) + Math.PI / 2,
-    perspectiveScale: clamp(1 - Math.abs(depthSlope) * 0.42, 0.8, 1),
-    skew: clamp(depthSlope * 0.3, -0.16, 0.16),
+    perspectiveScale: clamp(1 - Math.abs(depthSlope) * 0.32, 0.76, 1),
+    skew: clamp(depthSlope * 0.22 * handednessSign, -0.18, 0.18),
+    depthTilt: depthSlope,
   };
 }
 
@@ -152,10 +227,10 @@ function colorDistance(a: PixelColor, b: PixelColor): number {
  * on-device video and falls back to landmark geometry whenever the edge is not
  * trustworthy.
  */
-export function estimateLocalFingerWidth(
+export function estimateLocalFingerSection(
   context: CanvasRenderingContext2D,
   pose: RingPose,
-): number | null {
+): FingerSection | null {
   const expectedWidth = pose.fingerWidth;
   const searchRadius = Math.ceil(Math.min(pose.axisLength * 0.72, expectedWidth * 1.25));
   const cropX = Math.max(0, Math.floor(pose.x - searchRadius - 4));
@@ -217,15 +292,15 @@ export function estimateLocalFingerWidth(
   reference.g /= referenceSamples.length;
   reference.b /= referenceSamples.length;
 
-  const scanBoundary = (direction: -1 | 1): number | null => {
+  const scanBoundary = (axisOffset: number, direction: -1 | 1): number | null => {
     const minDistance = expectedWidth * 0.3;
     const maxDistance = Math.min(searchRadius, expectedWidth * 1.05);
     let previous = reference;
     let misses = 0;
     for (let distanceFromCenter = 2; distanceFromCenter <= maxDistance; distanceFromCenter += 1) {
       const color = sample(
-        pose.x + normalX * distanceFromCenter * direction,
-        pose.y + normalY * distanceFromCenter * direction,
+        pose.x + pose.axisX * pose.axisLength * axisOffset + normalX * distanceFromCenter * direction,
+        pose.y + pose.axisY * pose.axisLength * axisOffset + normalY * distanceFromCenter * direction,
         1,
       );
       if (!color) return null;
@@ -239,17 +314,79 @@ export function estimateLocalFingerWidth(
     return null;
   };
 
-  const left = scanBoundary(-1);
-  const right = scanBoundary(1);
-  if (left === null || right === null) return null;
-  const measuredWidth = left + right;
+  const contour: FingerContourSample[] = [];
+  for (const axisOffset of [-0.16, 0, 0.16]) {
+    const left = scanBoundary(axisOffset, -1);
+    const right = scanBoundary(axisOffset, 1);
+    if (left !== null && right !== null) contour.push({ axisOffset, left, right });
+  }
+  if (contour.length < 2) return null;
+  const centerSample = contour.find((sample) => sample.axisOffset === 0) ?? contour[Math.floor(contour.length / 2)];
+  const measuredWidth = centerSample.left + centerSample.right;
   const widthToAxis = measuredWidth / pose.axisLength;
   const widthToFallback = measuredWidth / expectedWidth;
   if (widthToAxis < 0.32 || widthToAxis > 0.84 || widthToFallback < 0.7 || widthToFallback > 1.55) {
     return null;
   }
 
-  return measuredWidth * 0.74 + expectedWidth * 0.26;
+  const smoothedWidth = measuredWidth * 0.78 + expectedWidth * 0.22;
+  const centerOffset = (centerSample.right - centerSample.left) / 2;
+  const centerX = pose.x + normalX * centerOffset;
+  const centerY = pose.y + normalY * centerOffset;
+  const widthConsistency = 1 - clamp(
+    Math.max(...contour.map((sample) => Math.abs(sample.left + sample.right - measuredWidth))) / measuredWidth,
+    0,
+    1,
+  );
+  const confidence = clamp(0.38 + contour.length * 0.16 + widthConsistency * 0.14, 0, 0.98);
+
+  return {
+    width: smoothedWidth,
+    centerX,
+    centerY,
+    centerOffset,
+    confidence,
+    contour,
+  };
+}
+
+export function fingerSectionMeasurement(section: FingerSection, axisLength: number): FingerSectionMeasurement {
+  return {
+    widthRatio: section.width / axisLength,
+    centerOffsetRatio: section.centerOffset / axisLength,
+    confidence: section.confidence,
+    contour: section.contour.map((sample) => ({
+      axisOffset: sample.axisOffset,
+      left: sample.left / axisLength,
+      right: sample.right / axisLength,
+    })),
+  };
+}
+
+export function fingerSectionForPose(pose: RingPose, measurement?: FingerSectionMeasurement | null): FingerSection {
+  const normalX = -pose.axisY;
+  const normalY = pose.axisX;
+  const fallbackHalf = pose.fingerWidth / 2;
+  const contour = measurement?.confidence && measurement.confidence >= 0.42
+    ? measurement.contour.map((sample) => ({
+        axisOffset: sample.axisOffset,
+        left: sample.left * pose.axisLength,
+        right: sample.right * pose.axisLength,
+      }))
+    : [-0.18, 0, 0.18].map((axisOffset) => ({ axisOffset, left: fallbackHalf, right: fallbackHalf }));
+  const centerOffset = measurement?.confidence && measurement.confidence >= 0.42
+    ? measurement.centerOffsetRatio * pose.axisLength
+    : 0;
+  return {
+    width: measurement?.confidence && measurement.confidence >= 0.42
+      ? measurement.widthRatio * pose.axisLength
+      : pose.fingerWidth,
+    centerX: pose.x + normalX * centerOffset,
+    centerY: pose.y + normalY * centerOffset,
+    centerOffset,
+    confidence: measurement?.confidence ?? 0,
+    contour,
+  };
 }
 
 function interpolateAngle(from: number, to: number, amount: number): number {
@@ -271,5 +408,6 @@ export function smoothPose(previous: RingPose | null, next: RingPose, amount = 0
     rotation: interpolateAngle(previous.rotation, next.rotation, amount),
     perspectiveScale: previous.perspectiveScale + (next.perspectiveScale - previous.perspectiveScale) * amount,
     skew: previous.skew + (next.skew - previous.skew) * amount,
+    depthTilt: previous.depthTilt + (next.depthTilt - previous.depthTilt) * amount,
   };
 }
