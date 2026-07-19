@@ -155,8 +155,8 @@ nginx -t
 systemctl reload nginx
 
 log "Running canonical-domain HTTPS checks..."
-curl -fsS --resolve "$CANONICAL_DOMAIN:443:127.0.0.1" "$PUBLIC_SITE_URL/" > /dev/null
-curl -fsSI --resolve "$ROOT_DOMAIN:443:127.0.0.1" "https://$ROOT_DOMAIN/" | grep -qi "location: $PUBLIC_SITE_URL/"
+curl --noproxy '*' -fsS --resolve "$CANONICAL_DOMAIN:443:127.0.0.1" "$PUBLIC_SITE_URL/" > /dev/null
+curl --noproxy '*' -fsSI --resolve "$ROOT_DOMAIN:443:127.0.0.1" "https://$ROOT_DOMAIN/" | grep -qi "location: $PUBLIC_SITE_URL/"
 
 log "LIBI DIAMONDS canonical-domain deployment complete." "SUCCESS"
 log "Public: $PUBLIC_SITE_URL" "SUCCESS"
