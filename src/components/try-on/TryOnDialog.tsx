@@ -191,7 +191,7 @@ function drawRingSetting(
   context.strokeStyle = highlightGradient;
   context.stroke();
 
-  const relativeStoneSize = fingerWidth * (metrics.stoneDiameterMm / metrics.ringInnerDiameterMm) * 1.3;
+  const relativeStoneSize = fingerWidth * (metrics.stoneDiameterMm / metrics.ringInnerDiameterMm) * 1.4;
   const calibratedStoneSize = metrics.pixelsPerMm === null
     ? relativeStoneSize
     : metrics.stoneDiameterMm * metrics.pixelsPerMm;
