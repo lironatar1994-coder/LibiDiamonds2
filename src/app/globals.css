@@ -201,17 +201,17 @@ h3,
 }
 
 .home-try-on-layout {
-  display: grid;
-  grid-template-areas:
-    "media"
-    "copy";
+  position: relative;
+  min-height: clamp(41rem, 178vw, 49rem);
+  isolation: isolate;
   background: #071827;
 }
 
 .home-try-on-media {
-  position: relative;
-  grid-area: media;
+  position: absolute;
+  inset: 0 0 auto;
   aspect-ratio: 4 / 5;
+  width: 100%;
   overflow: hidden;
   background: #142839;
 }
@@ -219,7 +219,7 @@ h3,
 .home-try-on-media-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 67%, rgba(7, 24, 39, 0.32));
+  background: linear-gradient(180deg, transparent 56%, rgba(7, 24, 39, 0.08) 70%, #071827 100%);
   pointer-events: none;
 }
 
@@ -247,15 +247,21 @@ h3,
 }
 
 .home-try-on-copy {
-  position: relative;
-  z-index: 1;
-  grid-area: copy;
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background:
-    radial-gradient(circle at 82% 18%, rgba(61, 89, 109, 0.22), transparent 18rem),
-    #071827;
+  min-height: 18rem;
+  padding: 7rem 1.5rem 2.5rem;
+  background: linear-gradient(180deg, transparent 0, rgba(7, 24, 39, 0.92) 34%, #071827 58%);
+}
+
+.home-try-on-copy-inner {
+  width: 100%;
+  max-width: 34rem;
+  margin-inline: auto;
 }
 
 .home-try-on-kicker {
@@ -287,14 +293,18 @@ h3,
 @media (min-width: 768px) {
   .home-try-on-layout {
     min-height: 34rem;
-    grid-template-columns: minmax(0, 1.85fr) minmax(20rem, 1fr);
-    grid-template-areas: "media copy";
-    direction: ltr;
+    aspect-ratio: 16 / 7.4;
   }
 
   .home-try-on-media {
-    min-height: 34rem;
+    inset: 0;
     aspect-ratio: auto;
+  }
+
+  .home-try-on-media-shade {
+    background:
+      linear-gradient(90deg, rgba(7, 24, 39, 0.92) 0%, rgba(7, 24, 39, 0.72) 28%, rgba(7, 24, 39, 0.12) 55%, transparent 72%),
+      linear-gradient(180deg, rgba(7, 24, 39, 0.08), transparent 52%, rgba(7, 24, 39, 0.2));
   }
 
   .home-try-on-focus {
@@ -306,6 +316,11 @@ h3,
   }
 
   .home-try-on-copy {
+    inset: 0 auto 0 0;
+    width: min(46%, 35rem);
+    min-height: 0;
+    padding: 4rem 3rem;
+    background: none;
     direction: rtl;
   }
 }

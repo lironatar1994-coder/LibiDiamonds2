@@ -39,19 +39,21 @@ export default function HomeTryOnFeature() {
             <span className="home-try-on-focus" aria-hidden="true" />
           </div>
 
-          <div className="home-try-on-copy px-6 py-11 text-center sm:px-10 sm:py-14 lg:px-12 lg:py-16 lg:text-right xl:px-14">
-            <p className="home-try-on-kicker">VIRTUAL TRY-ON</p>
-            <h2 id="home-try-on-title" className="mt-4 font-display text-[2.35rem] font-medium leading-[1.08] text-ivory sm:text-5xl lg:text-[3.25rem]">
-              לפני שבוחרים, רואים.
-            </h2>
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              className="home-try-on-cta mx-auto mt-7 inline-flex min-h-[52px] items-center justify-center gap-3 px-7 text-sm font-semibold lg:mx-0"
-            >
-              <span className="home-try-on-cta-gem" aria-hidden="true" />
-              נסו את ״אורה״ על היד
-            </button>
+          <div className="home-try-on-copy text-center">
+            <div className="home-try-on-copy-inner">
+              <p className="home-try-on-kicker">VIRTUAL TRY-ON</p>
+              <h2 id="home-try-on-title" className="mt-4 font-display text-[2.35rem] font-medium leading-[1.08] text-ivory sm:text-5xl lg:text-[3.25rem]">
+                לפני שבוחרים, רואים.
+              </h2>
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                className="home-try-on-cta mx-auto mt-7 inline-flex min-h-[52px] items-center justify-center gap-3 px-7 text-sm font-semibold"
+              >
+                <span className="home-try-on-cta-gem" aria-hidden="true" />
+                נסו את ״אורה״ על היד
+              </button>
+            </div>
           </div>
         </div>
       </section>
