@@ -40,4 +40,12 @@ const measured = {
 };
 const adjusted = geometry.calculateWristPose(hand(), { section: measured, handedness: "Right" });
 assert(adjusted && adjusted.x !== right.x, "measured wrist center was not applied");
-console.log("Validated bracelet geometry: wrist position, scale, mirrored hands and measured centering.");
+
+const manual = geometry.calculateManualWristPose({ x: 90, y: 220 }, { x: 190, y: 250 });
+assert(manual, "manual wrist pose calculation failed");
+assert(Math.abs(manual.x - 140) < 0.01 && Math.abs(manual.y - 235) < 0.01, "manual wrist center is incorrect");
+assert(Math.abs(manual.fingerWidth - Math.hypot(100, 30)) < 0.01, "manual wrist width is incorrect");
+assert(Math.abs(manual.rotation - Math.atan2(30, 100)) < 0.01, "manual wrist angle is incorrect");
+assert(geometry.calculateManualWristPose({ x: 10, y: 10 }, { x: 15, y: 12 }) === null, "tiny manual wrist section was accepted");
+
+console.log("Validated bracelet geometry: automatic and manual wrist placement, scale, angle and mirrored hands.");

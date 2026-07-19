@@ -359,6 +359,35 @@ export function calculateWristPose(hand: HandPoint[], options: RingPoseOptions =
   };
 }
 
+/**
+ * Creates a wrist pose from two user-selected wrist edges. This is the
+ * deterministic fallback for photos where the wrist is visible but the full
+ * hand is outside the frame and landmark detection cannot initialize.
+ */
+export function calculateManualWristPose(edgeA: HandPoint, edgeB: HandPoint): RingPose | null {
+  const wristWidth = distance(edgeA, edgeB);
+  if (!Number.isFinite(wristWidth) || wristWidth < 12) return null;
+
+  const edgeX = (edgeB.x - edgeA.x) / wristWidth;
+  const edgeY = (edgeB.y - edgeA.y) / wristWidth;
+  const axisX = -edgeY;
+  const axisY = edgeX;
+
+  return {
+    x: (edgeA.x + edgeB.x) / 2,
+    y: (edgeA.y + edgeB.y) / 2,
+    width: wristWidth,
+    fingerWidth: wristWidth,
+    axisLength: wristWidth / 0.72,
+    axisX,
+    axisY,
+    rotation: Math.atan2(edgeY, edgeX),
+    perspectiveScale: 1,
+    skew: 0,
+    depthTilt: 0,
+  };
+}
+
 interface PixelColor {
   r: number;
   g: number;
