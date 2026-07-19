@@ -19,6 +19,7 @@ import ProductHelpSheet, { type ProductHelpTopic } from "@/components/product/Pr
 import RingSizeSheet from "@/components/product/RingSizeSheet";
 
 const TryOnDialog = dynamic(() => import("@/components/try-on/TryOnDialog"), { ssr: false });
+const EarringTryOnDialog = dynamic(() => import("@/components/try-on/EarringTryOnDialog"), { ssr: false });
 const RingSpinViewer = dynamic(() => import("@/components/product/RingSpinViewer"), { ssr: false });
 
 function TryOnGlyph({ className }: { className?: string }) {
@@ -39,6 +40,15 @@ function BraceletTryOnGlyph({ className }: { className?: string }) {
       <path d="M8.2 3.8c.6 2.7.4 5.7-.6 8.3-.8 2.2-.8 4.6.1 6.8.5 1.1 1.6 1.8 2.8 1.8h3c1.3 0 2.4-.8 2.9-2 1-2.5.9-5.3-.2-7.7-.9-2.2-1.1-4.7-.5-7.1" strokeLinecap="round" />
       <path d="M6.8 13.2c3.4 1.6 7.1 1.6 10.5 0" strokeLinecap="round" />
       <path d="M7.4 11.1c3 1.3 6.2 1.3 9.2 0" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function EarringTryOnGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.45" aria-hidden="true">
+      <path d="M13.5 3.5c-4.7 0-8 3.6-8 8.4 0 3.9 2.1 7.7 5.5 8.6 2.1.6 4.3-.7 4.5-2.9.2-1.8-.9-3-2.5-3.2-1.2-.2-2.2-1.1-2.2-2.4 0-1.6 1.2-2.7 2.8-2.7 2 0 3.2-1.2 3.2-2.9 0-1.7-1.2-2.9-3.3-2.9Z" />
+      <circle cx="11.9" cy="17.1" r="1.45" />
     </svg>
   );
 }
@@ -317,8 +327,12 @@ export default function ProductView({ product }: { product: Product }) {
               >
                 {product.tryOn.target === "wrist"
                   ? <BraceletTryOnGlyph className="h-[1.2rem] w-[1.2rem]" />
-                  : <TryOnGlyph className="h-[1.2rem] w-[1.2rem]" />}
-                {product.tryOn.target === "wrist" ? "נסו על פרק היד" : "נסו על היד"}
+                  : product.tryOn.target === "ear"
+                    ? <EarringTryOnGlyph className="h-[1.2rem] w-[1.2rem]" />
+                    : <TryOnGlyph className="h-[1.2rem] w-[1.2rem]" />}
+                {product.tryOn.target === "wrist"
+                  ? "נסו על פרק היד"
+                  : product.tryOn.target === "ear" ? "נסו את העגילים" : "נסו על היד"}
               </button>
             )}
           </div>
@@ -384,8 +398,12 @@ export default function ProductView({ product }: { product: Product }) {
               >
                 {product.tryOn.target === "wrist"
                   ? <BraceletTryOnGlyph className="h-5 w-5" />
-                  : <TryOnGlyph className="h-5 w-5" />}
-                {product.tryOn.target === "wrist" ? "נסו על פרק היד" : "נסו על היד"}
+                  : product.tryOn.target === "ear"
+                    ? <EarringTryOnGlyph className="h-5 w-5" />
+                    : <TryOnGlyph className="h-5 w-5" />}
+                {product.tryOn.target === "wrist"
+                  ? "נסו על פרק היד"
+                  : product.tryOn.target === "ear" ? "נסו את העגילים" : "נסו על היד"}
               </button>
             )}
           </div>
@@ -740,7 +758,7 @@ export default function ProductView({ product }: { product: Product }) {
         </div>
       )}
 
-      {product.tryOn?.enabled && (
+      {product.tryOn?.enabled && product.tryOn.target !== "ear" && (
         <TryOnDialog
           open={tryOnOpen}
           onClose={() => setTryOnOpen(false)}
@@ -749,6 +767,18 @@ export default function ProductView({ product }: { product: Product }) {
           caratValue={carat.value}
           caratSelected={caratSelected}
           ringSize={ringSize}
+          config={product.tryOn}
+        />
+      )}
+
+      {product.tryOn?.enabled && product.tryOn.target === "ear" && (
+        <EarringTryOnDialog
+          open={tryOnOpen}
+          onClose={() => setTryOnOpen(false)}
+          productName={product.name}
+          metal={metal}
+          caratValue={carat.value}
+          caratSelected={caratSelected}
           config={product.tryOn}
         />
       )}

@@ -14,7 +14,7 @@ const auraCarat = auraProduct.carats.find((option) => option.value === "1.00") ?
 export default function HomeTryOnFeature() {
   const [open, setOpen] = useState(false);
 
-  if (!auraProduct.tryOn) return null;
+  if (!auraProduct.tryOn || auraProduct.tryOn.target !== "finger") return null;
 
   return (
     <>

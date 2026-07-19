@@ -7,6 +7,10 @@ import {
   braceletTryOnEntryForSlug,
   type BraceletTryOnRenderMode,
 } from "@/data/bracelet-try-on-manifest";
+import {
+  earringTryOnEntryForSlug,
+  type EarringTryOnRenderMode,
+} from "@/data/earring-try-on-manifest";
 
 export type Metal = "yellow" | "white" | "rose";
 export type CategorySlug = "rings" | "earrings" | "necklaces" | "bracelets";
@@ -108,7 +112,20 @@ export interface BraceletTryOnConfig {
   layeredAssetsByMetal: Partial<Record<Metal, TryOnLayeredAssetPair>>;
 }
 
-export type TryOnConfig = RingTryOnConfig | BraceletTryOnConfig;
+export interface EarringTryOnConfig {
+  version: 1;
+  target: "ear";
+  enabled: boolean;
+  renderMode: EarringTryOnRenderMode;
+  shape: DiamondShape;
+  referenceCarat: string;
+  referenceWidthMm: number;
+  referenceHeightMm: number;
+  anchorY: number;
+  layeredAssetsByMetal: Partial<Record<Metal, TryOnLayeredAssetPair>>;
+}
+
+export type TryOnConfig = RingTryOnConfig | BraceletTryOnConfig | EarringTryOnConfig;
 
 export interface ProductSpinAsset {
   basePath: string;
@@ -1069,6 +1086,32 @@ function productCaratScope(slug: string): CaratScope {
 }
 
 function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOnConfig | undefined {
+  if (product.category === "earrings") {
+    const earringEntry = earringTryOnEntryForSlug(product.slug);
+    if (!earringEntry) return undefined;
+    const layeredAsset = (metal: "yellow" | "white"): TryOnLayeredAssetPair => ({
+      front: `/try-on/v1/earrings/${product.slug}/${metal}-front.webp`,
+      rear: earringEntry.renderMode === "huggie" || earringEntry.renderMode === "hoop"
+        ? `/try-on/v1/earrings/${product.slug}/${metal}-rear.webp`
+        : undefined,
+    });
+    return {
+      version: 1,
+      target: "ear",
+      enabled: true,
+      renderMode: earringEntry.renderMode,
+      shape: product.diamondShape ?? "round",
+      referenceCarat: earringEntry.referenceCarat,
+      referenceWidthMm: earringEntry.referenceWidthMm,
+      referenceHeightMm: earringEntry.referenceHeightMm,
+      anchorY: earringEntry.anchorY,
+      layeredAssetsByMetal: {
+        yellow: layeredAsset("yellow"),
+        white: layeredAsset("white"),
+      },
+    };
+  }
+
   if (product.category === "bracelets") {
     const braceletEntry = braceletTryOnEntryForSlug(product.slug);
     if (!braceletEntry) return undefined;

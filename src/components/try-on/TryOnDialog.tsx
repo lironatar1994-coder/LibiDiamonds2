@@ -16,7 +16,6 @@ import {
   type BraceletTryOnConfig,
   type Metal,
   type RingTryOnConfig,
-  type TryOnConfig,
 } from "@/data/products";
 import { diamondDimensions } from "@/data/diamond-dimensions";
 import {
@@ -50,7 +49,7 @@ interface TryOnDialogProps {
   caratValue: string;
   caratSelected: boolean;
   ringSize: number | "unsure";
-  config: TryOnConfig;
+  config: RingTryOnConfig | BraceletTryOnConfig;
 }
 
 interface CalibrationPoint {
