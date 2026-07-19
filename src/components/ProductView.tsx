@@ -117,6 +117,7 @@ const packagingByCategory: Record<Product["category"], { src: string; alt: strin
 export default function ProductView({ product }: { product: Product }) {
   const [metal, setMetal] = useState<Metal>(product.defaultMetal ?? product.metals[0]);
   const [caratIdx, setCaratIdx] = useState(0);
+  const [caratSelected, setCaratSelected] = useState(false);
   const [ringSize, setRingSize] = useState<number | "unsure">("unsure");
   const [selectedImage, setSelectedImage] = useState(0);
   const [viewerOpen, setViewerOpen] = useState(false);
@@ -487,7 +488,10 @@ export default function ProductView({ product }: { product: Product }) {
                   <button
                     key={`${option.value}-${option.price}`}
                     type="button"
-                    onClick={() => setCaratIdx(index)}
+                    onClick={() => {
+                      setCaratIdx(index);
+                      setCaratSelected(true);
+                    }}
                     aria-pressed={selected}
                     aria-label={`${option.value} ${caratCopy.qualifier}, ${formatPrice(option.price)}`}
                     className={`flex min-h-[72px] min-w-[25%] flex-1 flex-col items-center justify-center border-l border-line px-1.5 py-2 text-center transition-colors last:border-l-0 ${
@@ -726,6 +730,7 @@ export default function ProductView({ product }: { product: Product }) {
           productName={product.name}
           metal={metal}
           caratValue={carat.value}
+          caratSelected={caratSelected}
           ringSize={ringSize}
           config={product.tryOn}
         />

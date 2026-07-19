@@ -34,6 +34,7 @@ interface TryOnDialogProps {
   productName: string;
   metal: Metal;
   caratValue: string;
+  caratSelected: boolean;
   ringSize: number | "unsure";
   config: TryOnConfig;
 }
@@ -231,7 +232,7 @@ function drawRingOverlay(
     ? pose.fingerWidth * 1.34
     : pose.fingerWidth
       * (metrics.referenceWidthMm / metrics.ringInnerDiameterMm)
-      * 2.05
+      * 2.35
       * effectiveCaratScale;
   const calibratedWidth = metrics.pixelsPerMm === null
     ? relativeWidth
@@ -292,7 +293,7 @@ function drawCalibrationOverlay(
   context.restore();
 }
 
-export default function TryOnDialog({ open, onClose, productName, metal, caratValue, ringSize, config }: TryOnDialogProps) {
+export default function TryOnDialog({ open, onClose, productName, metal, caratValue, caratSelected, ringSize, config }: TryOnDialogProps) {
   const [mode, setMode] = useState<Mode>("live");
   const [modelState, setModelState] = useState<ModelState>("loading");
   const [cameraState, setCameraState] = useState<CameraState>("idle");
@@ -333,10 +334,13 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
   const selectedAssetSrc = selectedAssets?.head ?? selectedAssets?.overlay;
   const effectiveRingSize = ringSize === "unsure" ? (config.defaultRingSize ?? 14) : ringSize;
   const ringInnerDiameterMm = (effectiveRingSize + 40) / Math.PI;
-  const stoneDiameterMm = diamondDimensions(config.shape, caratValue).width;
+  const effectiveCaratValue = caratSelected ? caratValue : config.referenceCarat;
+  const stoneDiameterMm = diamondDimensions(config.shape, effectiveCaratValue).width;
   const caratScale = Math.cbrt(
-    Math.max(0.1, Number(caratValue) || 1) / Math.max(0.1, Number(config.referenceCarat) || 1),
+    Math.max(0.1, Number(effectiveCaratValue) || 1) / Math.max(0.1, Number(config.referenceCarat) || 1),
   );
+  const caratSummary = caratSelected ? `${caratValue} קראט` : "קראט מותאם אוטומטית";
+  const ringSizeSummary = ringSize === "unsure" ? "מידה מותאמת אוטומטית" : `מידה ${ringSize}`;
   const calibratedPixelsPerMm = calibrationPoints.length === 2
     ? Math.hypot(
         calibrationPoints[1].x - calibrationPoints[0].x,
@@ -816,7 +820,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
           <div className="min-w-0">
             <h2 id="try-on-title" className="font-display text-xl font-medium sm:text-2xl">{productName} על היד</h2>
             <p className="mt-0.5 truncate text-[0.7rem] tracking-[0.05em] text-stone">
-              {metalNames[metal]} · {caratValue} קראט · {ringSize === "unsure" ? `מידה ${effectiveRingSize} משוערת` : `מידה ${ringSize}`}
+              {metalNames[metal]} · {caratSummary} · {ringSizeSummary}
             </p>
           </div>
           <button ref={closeButtonRef} type="button" onClick={onClose} className="grid h-11 w-11 place-items-center text-ink" aria-label="סגירת ההדמיה">
@@ -919,7 +923,9 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
 
         <footer className="border-t border-line bg-white px-4 py-3 text-center sm:px-6">
           <p className="text-[0.7rem] leading-5 text-stone">
-            הצילום נשאר במכשיר ואינו נשלח ל־LIBI. גודל האבן מחושב לפי {caratValue} קראט ו{ringSize === "unsure" ? `מידה ${effectiveRingSize} משוערת` : `מידה ${ringSize}`}.
+            הצילום נשאר במכשיר ואינו נשלח ל־LIBI. {caratSelected || ringSize !== "unsure"
+              ? `הגודל מתעדכן לפי ${caratSelected ? `${caratValue} קראט` : "פרופורציית האבן האוטומטית"} ו${ringSize === "unsure" ? "מידת היד האוטומטית" : `מידה ${ringSize}`}.`
+              : "גודל הטבעת מותאם אוטומטית לפרופורציות היד; בחירת קראט או מידה בעמוד המוצר תעדכן את ההדמיה."}
             {calibratedPixelsPerMm !== null ? " כיול הכרטיס פעיל." : " ללא כיול, התוצאה היא הערכה חזותית."}
             {photoName ? <span className="sr-only"> קובץ נבחר: {photoName}</span> : null}
           </p>
