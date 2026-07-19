@@ -137,27 +137,27 @@ h3,
 }
 
 .home-collection-link {
-  filter: drop-shadow(0 13px 20px rgba(32, 55, 72, 0.08));
+  filter: drop-shadow(0 18px 26px rgba(9, 25, 37, 0.14));
 }
 
 .home-collection-tile {
-  border: 1px solid rgba(255, 255, 255, 0.76);
-  background: #e4eaee;
+  border: 1px solid rgba(202, 219, 229, 0.18);
+  background: #0a1c29;
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.92) inset,
-    0 18px 42px rgba(32, 55, 72, 0.07);
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 20px 46px rgba(9, 25, 37, 0.14);
   transition: border-color 320ms ease, box-shadow 320ms ease;
 }
 
 .home-collection-link:hover .home-collection-tile {
-  border-color: rgba(178, 139, 71, 0.48);
+  border-color: rgba(198, 166, 91, 0.56);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.92) inset,
-    0 24px 54px rgba(21, 43, 59, 0.13);
+    0 1px 0 rgba(255, 255, 255, 0.16) inset,
+    0 26px 58px rgba(7, 22, 33, 0.22);
 }
 
 .home-collection-scrim {
-  background: linear-gradient(to top, rgba(238, 243, 246, 0.96) 0%, rgba(238, 243, 246, 0.48) 48%, rgba(238, 243, 246, 0) 100%);
+  background: linear-gradient(to top, rgba(3, 15, 24, 0.72) 0%, rgba(4, 17, 27, 0.2) 52%, rgba(4, 17, 27, 0) 100%);
 }
 
 .home-collection-label::after {
@@ -418,7 +418,7 @@ h3,
 
 /* One restrained cool grade makes the homepage photography read as one campaign. */
 .home-photo-surface {
-  background: #dfe7eb;
+  background: #0a1c29;
   isolation: isolate;
 }
 
@@ -426,14 +426,15 @@ h3,
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(145deg, rgba(94, 130, 155, 0.16), rgba(229, 236, 240, 0.075) 55%);
+  background:
+    radial-gradient(circle at 26% 16%, rgba(232, 243, 249, 0.09), transparent 34%),
+    linear-gradient(180deg, rgba(6, 22, 33, 0) 58%, rgba(2, 12, 20, 0.18) 100%);
   content: "";
-  mix-blend-mode: color;
   pointer-events: none;
 }
 
 .home-photo-grade {
-  filter: saturate(0.8) contrast(1.025) brightness(1.012);
+  filter: saturate(1.04) contrast(1.035);
 }
 
 .product-card-frame {

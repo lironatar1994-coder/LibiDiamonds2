@@ -80,20 +80,20 @@ const collectionOrder: CategorySlug[] = ["rings", "earrings", "bracelets", "neck
 
 const collectionEditorialImages: Record<CategorySlug, { src: string; alt: string }> = {
   rings: {
-    src: assetPath("/images/editorial/categories/v3-cool/rings-white-gold.webp"),
-    alt: "טבעת סוליטר מזהב לבן עם יהלום עגול",
+    src: assetPath("/images/editorial/categories/v4-midnight-atelier/rings-yellow-gold.webp"),
+    alt: "טבעת סוליטר מזהב צהוב ויהלום עגול על שכבות אבן בגוני כחול חצות",
   },
   earrings: {
-    src: assetPath("/images/editorial/categories/v3-cool/earrings-platinum.webp"),
-    alt: "זוג עגילי יהלום צמודים מזהב לבן",
+    src: assetPath("/images/editorial/categories/v4-midnight-atelier/earrings-yellow-gold.webp"),
+    alt: "זוג עגילי יהלום צמודים מזהב צהוב על אבן כחולה כהה",
   },
   bracelets: {
-    src: assetPath("/images/editorial/categories/v3-cool/bracelets-platinum.webp"),
-    alt: "צמיד טניס מזהב לבן ויהלומים",
+    src: assetPath("/images/editorial/categories/v4-midnight-atelier/bracelets-yellow-gold.webp"),
+    alt: "צמיד טניס מזהב צהוב ויהלומים על שכבות אבן כחולה",
   },
   necklaces: {
-    src: assetPath("/images/editorial/categories/v3-cool/necklaces-platinum.webp"),
-    alt: "שרשרת טניס מדורגת מזהב לבן ויהלומים",
+    src: assetPath("/images/editorial/categories/v4-midnight-atelier/necklaces-yellow-gold.webp"),
+    alt: "שרשרת טניס מדורגת מזהב צהוב ויהלומים על אבן בגוון כחול חצות",
   },
 };
 
@@ -137,14 +137,14 @@ function CollectionTile({ category }: { category: CategorySlug }) {
           alt={images.alt}
           fill
           sizes={tall || wide ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
-          className="home-photo-grade object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.025]"
+          className="home-photo-grade object-cover transition-transform duration-1000 ease-out motion-safe:lg:group-hover:scale-[1.025]"
         />
         <div
           aria-hidden="true"
           className="home-collection-scrim pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[34%]"
         />
         <h3
-          className={`home-collection-label absolute z-10 font-display font-normal leading-none text-ink lg:text-xl ${labelSize} ${collectionLabelPlacement[category]}`}
+          className={`home-collection-label absolute z-10 font-display font-normal leading-none text-[#f7f9fa] drop-shadow-[0_1px_5px_rgba(0,0,0,0.72)] lg:text-xl ${labelSize} ${collectionLabelPlacement[category]}`}
         >
           {item.name}
         </h3>
