@@ -158,6 +158,9 @@ function CollectionTile({ category }: { category: CategorySlug }) {
           alt={images.alt}
           fill
           sizes={tall || wide ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
+          loading="eager"
+          fetchPriority="low"
+          unoptimized
           className="home-photo-grade object-cover transition-transform duration-1000 ease-out motion-safe:lg:group-hover:scale-[1.025]"
         />
         <div
@@ -335,6 +338,9 @@ export default function HomePage() {
                 alt="טבעת סוליטר מזהב צהוב עם יהלום בוהק לצד סקיצה ועיפרון על משטח שיש בגוון אייבורי"
                 fill
                 sizes="(min-width: 1024px) 1024px, 100vw"
+                loading="eager"
+                fetchPriority="low"
+                unoptimized
                 className="home-bespoke-image object-cover object-[center_55%]"
               />
             </div>
@@ -384,6 +390,9 @@ export default function HomePage() {
                     alt={featuredJournalCover.alt}
                     fill
                     sizes="(min-width: 1024px) 67vw, 100vw"
+                    loading="eager"
+                    fetchPriority="low"
+                    unoptimized
                     className="home-journal-image object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]"
                   />
                 </div>
@@ -406,6 +415,9 @@ export default function HomePage() {
                         alt={guide.cover.alt}
                         fill
                         sizes="(min-width: 1024px) 26vw, 144px"
+                        loading="eager"
+                        fetchPriority="low"
+                        unoptimized
                         className="home-journal-image scale-[1.035] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.055] lg:scale-100 lg:group-hover:scale-[1.02]"
                       />
                     </div>

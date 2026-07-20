@@ -38,6 +38,9 @@ export default function ProductCard({
         image={images[0]}
         secondaryImage={detailImage}
         sizes={editorial ? "(min-width: 1024px) 34vw, 50vw" : compact ? "(min-width: 1024px) 20vw, 50vw" : "(min-width: 1024px) 33vw, 50vw"}
+        loading={compact ? "eager" : undefined}
+        fetchPriority={compact ? "low" : undefined}
+        unoptimized={compact}
         className={`product-card-frame ${catalog ? "catalog-card-media aspect-[4/5]" : editorial ? "catalog-card-media aspect-[16/9]" : "aspect-square"}`}
         imageClassName={`object-cover transition-all duration-700 ease-out ${compact ? "home-signature-product-image" : ""} ${catalog || editorial ? "scale-[1.07]" : ""} ${
           detailImage

@@ -10,6 +10,8 @@ interface ProductMediaProps {
   secondaryImageClassName?: string;
   priority?: boolean;
   fetchPriority?: "high" | "low" | "auto";
+  loading?: "eager" | "lazy";
+  unoptimized?: boolean;
   decorative?: boolean;
 }
 
@@ -22,6 +24,8 @@ export default function ProductMedia({
   secondaryImageClassName = "",
   priority = false,
   fetchPriority,
+  loading,
+  unoptimized = false,
   decorative = false,
 }: ProductMediaProps) {
   return (
@@ -33,6 +37,8 @@ export default function ProductMedia({
         sizes={sizes}
         priority={priority}
         fetchPriority={fetchPriority}
+        loading={loading}
+        unoptimized={unoptimized}
         className={imageClassName}
         style={image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
       />
@@ -42,6 +48,8 @@ export default function ProductMedia({
           alt=""
           fill
           sizes={sizes}
+          loading={loading}
+          unoptimized={unoptimized}
           className={secondaryImageClassName}
           style={
             secondaryImage.objectPosition
