@@ -249,8 +249,7 @@ export default function HomePage() {
       <section className="section-gallery section-gallery-collection section-collection-atmosphere" aria-labelledby="collection-title">
         <div className="mx-auto max-w-7xl px-4 pb-14 pt-11 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
           <div className="home-collection-heading text-center">
-            <p className="home-section-kicker">FIND YOUR PIECE</p>
-            <h2 id="collection-title" className="mt-3 font-display text-[2.15rem] font-medium leading-none text-ink sm:text-[2.8rem]">
+            <h2 id="collection-title" className="font-display text-[2.15rem] font-medium leading-none text-ink sm:text-[2.8rem]">
               מצאו את התכשיט שלכם
             </h2>
             <div className="home-collection-ornament mx-auto mt-5" aria-hidden="true">
@@ -272,8 +271,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div>
             <div>
-              <p className="home-section-kicker">LIBI SIGNATURES</p>
-              <h2 id="most-loved-title" className="mt-2 font-display text-[2rem] font-medium leading-none sm:text-4xl">
+              <h2 id="most-loved-title" className="font-display text-[2rem] font-medium leading-none sm:text-4xl">
                 הטבעות הנבחרות
               </h2>
             </div>

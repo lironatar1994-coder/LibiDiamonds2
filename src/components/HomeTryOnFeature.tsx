@@ -41,8 +41,7 @@ export default function HomeTryOnFeature() {
 
           <div className="home-try-on-copy text-center">
             <div className="home-try-on-copy-inner">
-              <p className="home-try-on-kicker">VIRTUAL TRY-ON</p>
-              <h2 id="home-try-on-title" className="mt-4 font-display text-[2.35rem] font-medium leading-[1.08] text-ivory sm:text-5xl lg:text-[3.25rem]">
+              <h2 id="home-try-on-title" className="font-display text-[2.35rem] font-medium leading-[1.08] text-ivory sm:text-5xl lg:text-[3.25rem]">
                 לפני שבוחרים, רואים.
               </h2>
               <button
