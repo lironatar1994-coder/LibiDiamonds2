@@ -897,6 +897,23 @@ h3,
   transform: scale(var(--home-signature-scale));
 }
 
+.section-most-loved [data-display-metal="white"] .product-card-frame,
+.section-most-loved [data-display-metal="white"] .product-media-surface {
+  background:
+    radial-gradient(ellipse at 50% 67%, rgba(61, 82, 96, 0.14) 0 8%, transparent 43%),
+    radial-gradient(circle at 50% 38%, rgba(249, 251, 252, 0.98) 0 22%, transparent 58%),
+    linear-gradient(145deg, #e8eef0 0%, #dfe7ea 100%);
+}
+
+.section-most-loved [data-display-metal="white"] .home-signature-product-image {
+  filter:
+    saturate(0.985)
+    contrast(1.13)
+    brightness(0.988)
+    drop-shadow(0 14px 12px rgba(18, 35, 47, 0.27))
+    drop-shadow(0 2px 3px rgba(18, 35, 47, 0.12));
+}
+
 [data-product-slug="aura-solitaire-ring"] .home-signature-product-image {
   --home-signature-scale: 1.14;
   --home-signature-hover-scale: 1.165;
@@ -909,8 +926,13 @@ h3,
 }
 
 [data-product-slug="atelier-emerald-cathedral-ring"] .home-signature-product-image {
-  --home-signature-scale: 1.15;
-  --home-signature-hover-scale: 1.175;
+  --home-signature-scale: 1.18;
+  --home-signature-hover-scale: 1.205;
+}
+
+[data-product-slug="seren-pear-solitaire-ring"] .home-signature-product-image {
+  --home-signature-scale: 1.2;
+  --home-signature-hover-scale: 1.225;
 }
 
 .group:hover .home-signature-product-image,

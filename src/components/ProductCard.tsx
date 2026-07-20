@@ -28,7 +28,12 @@ export default function ProductCard({
   const editorial = variant === "editorial-landscape";
 
   return (
-    <Link href={`/product/${product.slug}`} className="group block" data-product-slug={product.slug}>
+    <Link
+      href={`/product/${product.slug}`}
+      className="group block"
+      data-product-slug={product.slug}
+      data-display-metal={metal}
+    >
       <ProductMedia
         image={images[0]}
         secondaryImage={detailImage}
