@@ -4,10 +4,12 @@
   --catalog-background: #e8edf0;
   --home-diamond-mist: #e6ecef;
   --home-porcelain: #fbfaf7;
+  --home-pearl-white: #f8f7f3;
+  --home-diamond-field: #eef2f4;
   --home-ivory-stone: #f2eee6;
   --home-mineral-beige: #ded6c9;
   --home-midnight: #071a28;
-  --home-platinum-ice: #f2eee6;
+  --home-platinum-ice: var(--home-pearl-white);
   --home-gallery-white: #fbfaf7;
 }
 
@@ -182,11 +184,11 @@ h3,
 }
 
 .section-most-loved {
-  background: #f7f3ec;
+  background: var(--home-pearl-white);
 }
 
 .home-section-kicker {
-  color: var(--color-gilt-deep);
+  color: #9b7a3f;
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.2em;
@@ -509,10 +511,10 @@ h3,
 }
 
 .section-most-loved .product-card-frame {
-  background: var(--home-ivory-stone);
+  background: var(--home-diamond-field);
   box-shadow:
-    0 14px 30px rgba(76, 59, 33, 0.07),
-    inset 0 0 0 1px rgba(181, 146, 75, 0.16);
+    0 14px 30px rgba(38, 55, 67, 0.055),
+    inset 0 0 0 1px rgba(119, 137, 149, 0.16);
 }
 
 .home-signature-product-image {
@@ -526,12 +528,12 @@ h3,
 
 .section-most-loved .group:hover .product-card-frame {
   box-shadow:
-    0 22px 46px rgba(76, 59, 33, 0.13),
-    inset 0 0 0 1px rgba(181, 146, 75, 0.32);
+    0 22px 46px rgba(38, 55, 67, 0.11),
+    inset 0 0 0 1px rgba(181, 146, 75, 0.25);
 }
 
 .section-most-loved .product-media-surface {
-  background: var(--home-ivory-stone);
+  background: var(--home-diamond-field);
 }
 
 .shape-stone-field {
