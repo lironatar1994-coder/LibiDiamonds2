@@ -7,9 +7,11 @@ import HomeTryOnFeature from "@/components/HomeTryOnFeature";
 import { WhatsAppIcon } from "@/components/icons";
 import {
   categories,
+  productImages,
   products,
   type CategorySlug,
   type Metal,
+  type ProductGalleryImage,
 } from "@/data/products";
 import { guides } from "@/data/guides";
 import { site, waLink, assetPath } from "@/lib/site";
@@ -47,6 +49,21 @@ const mostLovedRings: Array<{ slug: string; metal: Metal }> = [
   { slug: "atelier-emerald-cathedral-ring", metal: "white" },
   { slug: "seren-pear-solitaire-ring", metal: "white" },
 ];
+
+function homeSignatureMedia(
+  slug: string,
+  metal: Metal,
+  gallery: ProductGalleryImage[],
+) {
+  const [primary, secondary] = gallery;
+  const homeAsset = (view: "primary" | "detail") =>
+    assetPath(`/images/editorial/home-signatures/${slug}-${metal}-${view}.webp`);
+
+  return {
+    primary: { ...primary, src: homeAsset("primary") },
+    secondary: secondary ? { ...secondary, src: homeAsset("detail") } : undefined,
+  };
+}
 
 export const metadata: Metadata = pageMetadata({
   title: `${site.name} — תכשיטי יהלומי מעבדה וטבעות אירוסין`,
@@ -130,10 +147,10 @@ function CollectionTile({ category }: { category: CategorySlug }) {
       <div
         className={`home-collection-tile home-photo-surface relative overflow-hidden ${
           tall
-            ? "aspect-[4/3] lg:h-full lg:aspect-auto"
+            ? "aspect-[1.42] lg:h-full lg:aspect-auto"
             : wide
-              ? "aspect-[15/8] lg:h-full lg:aspect-auto"
-              : "aspect-[4/3] lg:h-full lg:aspect-auto"
+              ? "aspect-[2/1] lg:h-full lg:aspect-auto"
+              : "aspect-[1.42] lg:h-full lg:aspect-auto"
         }`}
       >
         <Image
@@ -252,7 +269,7 @@ export default function HomePage() {
 
       {/* ── Categories ───────────────────────────────────── */}
       <section className="section-gallery section-gallery-collection section-collection-atmosphere" aria-labelledby="collection-title">
-        <div className="mx-auto max-w-7xl px-4 pb-14 pt-11 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 pb-11 pt-9 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
           <div className="home-collection-heading text-center">
             <h2 id="collection-title" className="scroll-mt-24 font-display text-[2.15rem] font-medium leading-none text-ink sm:text-[2.8rem]">
               מצאו את התכשיט שלכם
@@ -263,7 +280,7 @@ export default function HomePage() {
               <span />
             </div>
           </div>
-          <div className="home-collection-grid mt-9 grid grid-cols-2 gap-3 sm:mt-11 sm:gap-5 lg:grid-cols-12 lg:grid-rows-[17rem_17rem] xl:grid-rows-[20rem_20rem]">
+          <div className="home-collection-grid mt-7 grid grid-cols-2 gap-3 sm:mt-11 sm:gap-5 lg:grid-cols-12 lg:grid-rows-[17rem_17rem] xl:grid-rows-[20rem_20rem]">
             {collectionOrder.map((category) => (
               <CollectionTile key={category} category={category} />
             ))}
@@ -272,7 +289,7 @@ export default function HomePage() {
       </section>
 
       {/* Four intentional bestsellers, not an endless storefront carousel. */}
-      <section className="section-most-loved py-14 sm:py-20 lg:py-24" aria-labelledby="most-loved-title">
+      <section className="section-most-loved py-11 sm:py-16 lg:py-20" aria-labelledby="most-loved-title">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div>
             <div>
@@ -284,10 +301,19 @@ export default function HomePage() {
           <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 lg:mt-11 lg:grid-cols-4 lg:gap-6">
             {mostLovedRings.map(({ slug, metal }) => {
               const product = products.find((candidate) => candidate.slug === slug)!;
-              return <ProductCard key={slug} product={product} variant="compact" metal={metal} />;
+              const gallery = productImages(product, metal);
+              return (
+                <ProductCard
+                  key={slug}
+                  product={product}
+                  variant="compact"
+                  metal={metal}
+                  mediaOverride={homeSignatureMedia(slug, metal, gallery)}
+                />
+              );
             })}
           </div>
-          <div className="mt-10 text-center sm:mt-12">
+          <div className="mt-7 text-center sm:mt-9">
             <Link
               href="/jewelry/rings"
               className="home-most-loved-link inline-flex min-h-11 items-center justify-center gap-3 border-b border-gilt/55 px-1 text-sm font-semibold tracking-[0.035em] text-ink-soft transition-colors hover:border-gilt hover:text-ink"
@@ -337,7 +363,7 @@ export default function HomePage() {
       </section>
 
       {/* ── LIBI Journal ───────────────────────────────── */}
-      <section className="section-gallery section-gallery-journal py-14 sm:py-20 lg:py-24">
+      <section className="section-gallery section-gallery-journal py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-6">
             <h2 className="font-display text-[2rem] font-medium leading-none sm:text-4xl">לדעת מה בוחרים.</h2>

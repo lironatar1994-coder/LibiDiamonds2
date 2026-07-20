@@ -5,7 +5,7 @@
   --home-diamond-mist: #e6ecef;
   --home-porcelain: #fbfaf7;
   --home-pearl-white: #f8f7f3;
-  --home-diamond-field: #eef2f4;
+  --home-diamond-field: #e9eef0;
   --home-ivory-stone: #f2eee6;
   --home-mineral-beige: #ded6c9;
   --home-midnight: #071a28;
@@ -89,7 +89,7 @@ h3,
 }
 
 .home-hero-brand-veil {
-  background: radial-gradient(ellipse at 50% 10%, rgba(251, 250, 247, 0.76), rgba(251, 250, 247, 0.28) 32%, transparent 58%);
+  background: radial-gradient(ellipse at 50% 10%, rgba(251, 250, 247, 0.62), rgba(251, 250, 247, 0.2) 32%, transparent 58%);
   pointer-events: none;
 }
 
@@ -113,6 +113,7 @@ h3,
   width: clamp(8.5rem, 38vw, 10.5rem);
   height: auto;
   margin-inline: auto;
+  filter: contrast(1.1);
 }
 
 .home-hero-title {
@@ -120,7 +121,8 @@ h3,
   font-size: clamp(1.45rem, 6vw, 1.85rem);
   font-weight: 400;
   line-height: 1.15;
-  text-shadow: 0 1px 16px rgba(251, 250, 247, 0.88);
+  color: #071a28;
+  text-shadow: 0 1px 10px rgba(251, 250, 247, 0.74);
 }
 
 .home-hero-scroll {
@@ -163,7 +165,7 @@ h3,
   }
 
   .home-hero-brand-veil {
-    background: radial-gradient(ellipse at 24% 48%, rgba(251, 250, 247, 0.8), rgba(251, 250, 247, 0.24) 38%, transparent 64%);
+    background: radial-gradient(ellipse at 24% 48%, rgba(251, 250, 247, 0.68), rgba(251, 250, 247, 0.18) 38%, transparent 64%);
   }
 
   .home-hero-brand {
@@ -288,7 +290,7 @@ h3,
 }
 
 .section-most-loved {
-  background: var(--home-pearl-white);
+  background: #f3f5f5;
 }
 
 .home-try-on {
@@ -332,14 +334,14 @@ h3,
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
   background:
-    linear-gradient(#d1b36f, #d1b36f) left top / 1.6rem 1px no-repeat,
-    linear-gradient(#d1b36f, #d1b36f) left top / 1px 1.6rem no-repeat,
-    linear-gradient(#d1b36f, #d1b36f) right top / 1.6rem 1px no-repeat,
-    linear-gradient(#d1b36f, #d1b36f) right top / 1px 1.6rem no-repeat,
-    linear-gradient(#d1b36f, #d1b36f) left bottom / 1.6rem 1px no-repeat,
-    linear-gradient(#d1b36f, #d1b36f) left bottom / 1px 1.6rem no-repeat,
-    linear-gradient(#d1b36f, #d1b36f) right bottom / 1.6rem 1px no-repeat,
-    linear-gradient(#d1b36f, #d1b36f) right bottom / 1px 1.6rem no-repeat;
+    linear-gradient(#b5924b, #b5924b) left top / 1.6rem 1px no-repeat,
+    linear-gradient(#b5924b, #b5924b) left top / 1px 1.6rem no-repeat,
+    linear-gradient(#b5924b, #b5924b) right top / 1.6rem 1px no-repeat,
+    linear-gradient(#b5924b, #b5924b) right top / 1px 1.6rem no-repeat,
+    linear-gradient(#b5924b, #b5924b) left bottom / 1.6rem 1px no-repeat,
+    linear-gradient(#b5924b, #b5924b) left bottom / 1px 1.6rem no-repeat,
+    linear-gradient(#b5924b, #b5924b) right bottom / 1.6rem 1px no-repeat,
+    linear-gradient(#b5924b, #b5924b) right bottom / 1px 1.6rem no-repeat;
   filter: drop-shadow(0 0 0.5rem rgba(181, 146, 75, 0.2));
   opacity: 0.68;
   pointer-events: none;
@@ -403,7 +405,7 @@ h3,
   width: 100%;
   max-height: 94svh;
   overflow: auto;
-  border-top: 1px solid #c4a15a;
+  border-top: 1px solid var(--color-gilt);
   background: #f8f7f3;
   color: #071827;
   box-shadow: 0 -22px 70px rgba(1, 12, 21, 0.28);
@@ -426,7 +428,7 @@ h3,
   left: 50%;
   width: 4.5rem;
   height: 1px;
-  background: #c4a15a;
+  background: var(--color-gilt);
   transform: translateX(-50%);
 }
 
@@ -590,7 +592,7 @@ h3,
   left: 50%;
   width: 0.66rem;
   height: 0.66rem;
-  border: 1px solid #c4a15a;
+  border: 1px solid var(--color-gilt);
   background: #f8f7f3;
   box-shadow: 0 0 0 5px #f8f7f3;
   transform: translate(-50%, -50%) rotate(45deg);
@@ -727,7 +729,7 @@ h3,
 }
 
 .home-bespoke-images {
-  height: clamp(22rem, 80vw, 30rem);
+  height: clamp(22rem, 78vw, 29rem);
 }
 
 .home-bespoke-media {
@@ -740,9 +742,9 @@ h3,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.65rem;
+  gap: 1.2rem;
   border-top: 1px solid rgba(181, 146, 75, 0.72);
-  padding: 2.35rem 1.25rem 2.5rem;
+  padding: 1.9rem 1.25rem 2.05rem;
   text-align: center;
   background:
     radial-gradient(circle at 82% 12%, rgba(51, 82, 103, 0.24), transparent 18rem),
@@ -773,13 +775,13 @@ h3,
   }
 
   .home-bespoke-images {
-    height: clamp(38rem, 62vw, 48rem);
+    height: clamp(34rem, 48vw, 40rem);
   }
 
   .home-bespoke-copy {
     flex-direction: row;
     justify-content: space-between;
-    padding: 2.5rem 3.25rem;
+    padding: 2rem 3.25rem;
     text-align: right;
     direction: rtl;
   }
@@ -863,7 +865,7 @@ h3,
 }
 
 .home-photo-grade {
-  filter: saturate(1.04) contrast(1.035);
+  filter: saturate(1.035) contrast(1.06) brightness(0.995);
 }
 
 .home-journal-image {
@@ -885,7 +887,35 @@ h3,
 }
 
 .home-signature-product-image {
-  filter: saturate(1.02) contrast(1.03) brightness(1.005);
+  --home-signature-scale: 1.16;
+  --home-signature-hover-scale: 1.185;
+  filter:
+    saturate(1.025)
+    contrast(1.055)
+    brightness(1.008)
+    drop-shadow(0 13px 12px rgba(18, 35, 47, 0.18));
+  transform: scale(var(--home-signature-scale));
+}
+
+[data-product-slug="aura-solitaire-ring"] .home-signature-product-image {
+  --home-signature-scale: 1.14;
+  --home-signature-hover-scale: 1.165;
+}
+
+[data-product-slug="elara-oval-hidden-halo-ring"] .home-signature-product-image,
+[data-product-slug="seren-pear-solitaire-ring"] .home-signature-product-image {
+  --home-signature-scale: 1.18;
+  --home-signature-hover-scale: 1.205;
+}
+
+[data-product-slug="atelier-emerald-cathedral-ring"] .home-signature-product-image {
+  --home-signature-scale: 1.15;
+  --home-signature-hover-scale: 1.175;
+}
+
+.group:hover .home-signature-product-image,
+.group:focus-visible .home-signature-product-image {
+  transform: scale(var(--home-signature-hover-scale));
 }
 
 .group:hover .product-card-frame {
@@ -936,9 +966,10 @@ h3,
 
 /* Header nav link — platinum hairline grows from center on hover. */
 .site-header-ivory {
-  border-color: rgba(181, 146, 75, 0.24);
-  background: rgba(251, 250, 247, 0.94);
-  box-shadow: 0 8px 30px rgba(76, 59, 33, 0.035);
+  border-color: rgba(181, 146, 75, 0.34);
+  background: rgba(251, 250, 247, 0.97);
+  box-shadow: 0 8px 30px rgba(11, 23, 34, 0.055);
+  color: var(--color-ink);
 }
 
 .site-header-home {
@@ -980,7 +1011,7 @@ h3,
   padding-bottom: 2px;
   font-size: 13px;
   letter-spacing: 0.08em;
-  color: var(--color-ink-soft);
+  color: #172937;
   transition: color 0.25s ease;
 }
 
@@ -1019,6 +1050,7 @@ h3,
   display: block;
   width: 5.5rem;
   height: auto;
+  filter: contrast(1.08);
 }
 
 @media (max-width: 639px) {
@@ -1162,7 +1194,7 @@ h3,
 }
 
 .ivory-hero-image {
-  filter: saturate(0.98) contrast(1.018) brightness(1.005);
+  filter: saturate(0.99) contrast(1.045) brightness(1.002);
   transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 

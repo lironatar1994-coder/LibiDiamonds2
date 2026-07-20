@@ -89,7 +89,7 @@ export default function Header() {
               aria-label="פתיחת תפריט"
               aria-expanded={open}
             >
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <svg width="23" height="23" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.55">
                 <path d="M3 6h16M3 11h16M3 16h16" />
               </svg>
             </button>
@@ -129,7 +129,7 @@ export default function Header() {
               aria-label={`בדיקת זמינות ומחיר בוואטסאפ עם ${site.name}`}
               title="בדיקת זמינות ומחיר בוואטסאפ"
             >
-              <WhatsAppIcon className="h-5 w-5" />
+              <WhatsAppIcon className="h-[1.35rem] w-[1.35rem]" />
             </a>
           </div>
         </div>
