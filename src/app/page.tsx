@@ -313,22 +313,21 @@ export default function HomePage() {
 
           <div className="home-bespoke-copy">
             <div className="home-bespoke-heading">
-              <p className="home-bespoke-kicker">LIBI BESPOKE</p>
               <h2
                 id="bespoke-inspiration-title"
-                className="mt-2 font-display text-[2.2rem] font-medium leading-tight text-ivory sm:text-5xl"
+                className="font-display text-[2.2rem] font-medium leading-tight text-ivory sm:text-5xl"
               >
-                יש לכם טבעת בראש?
+                יש לכם השראה לתכשיט?
               </h2>
             </div>
             <a
-              href={waLink("היי, יש לי רעיון לטבעת ואשמח לייעוץ אישי")}
+              href={waLink("היי, יש לי השראה לתכשיט ואשמח לשתף אתכם")}
               target="_blank"
               rel="noopener noreferrer"
               className="home-bespoke-cta inline-flex min-h-[52px] items-center justify-center gap-2 px-7 text-sm font-semibold"
             >
               <WhatsAppIcon className="h-4 w-4" />
-              ייעוץ אישי בוואטסאפ
+              שליחת השראה בוואטסאפ
             </a>
           </div>
         </div>
