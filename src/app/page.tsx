@@ -207,7 +207,7 @@ export default function HomePage() {
     <>
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className="hero-editorial relative isolate overflow-hidden" aria-labelledby="home-hero-title">
-        <div className="relative h-[calc(100svh-4rem)] min-h-[570px] max-h-[700px] overflow-hidden bg-[#f2eee6] sm:min-h-[640px] sm:max-h-[760px] lg:h-[min(82svh,760px)] lg:min-h-[620px]">
+        <div className="home-hero-frame">
           <picture className="absolute inset-0 block">
             <source media="(max-width: 1023px)" srcSet={heroMobileSrcSet} sizes="100vw" />
             {/* eslint-disable-next-line @next/next/no-img-element -- getImageProps art direction */}
@@ -217,21 +217,26 @@ export default function HomePage() {
               className="ivory-hero-image object-cover object-top lg:object-[center_54%]"
             />
           </picture>
-          <div aria-hidden="true" className="hero-cover-shade absolute inset-0" />
-          <span className="midnight-hero-facet" aria-hidden="true" />
-          <div dir="ltr" className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-7xl px-5 pb-8 sm:px-10 sm:pb-12 lg:inset-y-0 lg:grid lg:grid-cols-2 lg:items-center lg:px-12 lg:pb-0">
-            <div dir="rtl" className="text-center lg:col-start-1 lg:max-w-[32rem] lg:text-right">
-              <h1 id="home-hero-title" className="cascade font-display text-[clamp(2.8rem,13vw,4.35rem)] font-light leading-[1.05] tracking-[-0.01em] text-[#071827] lg:text-[clamp(4.75rem,5.8vw,6rem)]" style={{ animationDelay: "100ms" }}>
+          <div aria-hidden="true" className="home-hero-brand-veil absolute inset-0" />
+
+          <div className="home-hero-brand" data-home-hero-brand>
+            <div className="home-hero-brand-lockup">
+              <img
+                src={assetPath("/brand/libi-diamonds-logo.svg")}
+                alt="LIBI DIAMONDS"
+                width="184"
+                height="92"
+                className="home-hero-brand-logo"
+              />
+              <h1 id="home-hero-title" className="home-hero-title font-display">
                 היהלום במרכז.
               </h1>
-              <div className="cascade mt-4 flex justify-center lg:mt-8 lg:justify-start" style={{ animationDelay: "220ms" }}>
-                <Link href="/jewelry/rings" className="hero-cover-cta inline-flex min-h-[52px] min-w-60 items-center justify-center gap-3 px-8 text-sm font-semibold tracking-[0.035em] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gilt">
-                  <i aria-hidden="true" />
-                  <span>גלו טבעות יהלום</span>
-                </Link>
-              </div>
             </div>
           </div>
+
+          <a href="#collection-title" className="home-hero-scroll scroll-hint" aria-label="מעבר לקולקציות">
+            <span aria-hidden="true" />
+          </a>
         </div>
       </section>
 
@@ -249,7 +254,7 @@ export default function HomePage() {
       <section className="section-gallery section-gallery-collection section-collection-atmosphere" aria-labelledby="collection-title">
         <div className="mx-auto max-w-7xl px-4 pb-14 pt-11 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
           <div className="home-collection-heading text-center">
-            <h2 id="collection-title" className="font-display text-[2.15rem] font-medium leading-none text-ink sm:text-[2.8rem]">
+            <h2 id="collection-title" className="scroll-mt-24 font-display text-[2.15rem] font-medium leading-none text-ink sm:text-[2.8rem]">
               מצאו את התכשיט שלכם
             </h2>
             <div className="home-collection-ornament mx-auto mt-5" aria-hidden="true">
