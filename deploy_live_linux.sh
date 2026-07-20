@@ -6,7 +6,10 @@
 
 set -euo pipefail
 
-APP_ROOT="$(pwd)"
+BUILD_ROOT="$(pwd)"
+APP_ROOT="${LIVE_APP_ROOT:-$BUILD_ROOT}"
+ROLLBACK_ROOT="${ROLLBACK_APP_ROOT:-${APP_ROOT}.rollback}"
+FAILED_ROOT="${APP_ROOT}.failed"
 PROCESS_NAME="libi-diamonds-live"
 FRONTEND_PORT="${FRONTEND_PORT:-3105}"
 ROOT_DOMAIN="libidiamonds.co.il"
@@ -48,11 +51,49 @@ NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
     NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=true \
     npm run build
 
+STAGED_ACTIVATION=false
+if [ "$BUILD_ROOT" != "$APP_ROOT" ]; then
+    if [ "$APP_ROOT" != "/root/LibiDiamonds-live" ] || \
+       [ "$ROLLBACK_ROOT" != "/root/LibiDiamonds-live.rollback" ] || \
+       [ "$FAILED_ROOT" != "/root/LibiDiamonds-live.failed" ]; then
+        log "Refusing to rotate unexpected deployment paths." "ERROR"
+        exit 64
+    fi
+
+    log "Activating the clean staged release..."
+    rm -rf -- "$ROLLBACK_ROOT" "$FAILED_ROOT"
+    if [ -d "$APP_ROOT" ]; then
+        mv "$APP_ROOT" "$ROLLBACK_ROOT"
+    fi
+    mv "$BUILD_ROOT" "$APP_ROOT"
+    cd "$APP_ROOT"
+    STAGED_ACTIVATION=true
+fi
+
+restore_previous_release() {
+    if [ "$STAGED_ACTIVATION" != true ] || [ ! -d "$ROLLBACK_ROOT" ]; then
+        return
+    fi
+
+    log "Restoring the previous canonical-domain release..." "WARN"
+    pm2 delete "$PROCESS_NAME" > /dev/null 2>&1 || true
+    mv "$APP_ROOT" "$FAILED_ROOT"
+    mv "$ROLLBACK_ROOT" "$APP_ROOT"
+    cd "$APP_ROOT"
+    PORT="$FRONTEND_PORT" NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
+        NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=true \
+        pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start
+    pm2 save > /dev/null
+}
+
 log "Starting PM2 process $PROCESS_NAME on port $FRONTEND_PORT..."
 pm2 delete "$PROCESS_NAME" > /dev/null 2>&1 || true
-PORT="$FRONTEND_PORT" NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
-    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=true \
-    pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start
+if ! PORT="$FRONTEND_PORT" NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
+     NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=true \
+     pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start; then
+    restore_previous_release
+    exit 1
+fi
 pm2 save > /dev/null
 
 log "Waiting for the root-path application health check..."
@@ -63,6 +104,7 @@ for attempt in {1..30}; do
     if [ "$attempt" -eq 30 ]; then
         log "The canonical-domain application did not become healthy." "ERROR"
         pm2 logs "$PROCESS_NAME" --lines 100 --nostream --no-color || true
+        restore_previous_release
         exit 1
     fi
     sleep 1

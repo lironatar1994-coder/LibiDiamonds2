@@ -11,6 +11,8 @@ $ErrorActionPreference = "Stop"
 $SSH_HOST = "root@vee-app.co.il"
 $SSH_DOMAIN = "vee-app.co.il"
 $REMOTE_DIR = "/root/LibiDiamonds-live"
+$REMOTE_STAGE_DIR = "/root/LibiDiamonds-live.next"
+$REMOTE_ROLLBACK_DIR = "/root/LibiDiamonds-live.rollback"
 $ARCHIVE_NAME = "libi-diamonds-live-deploy.tar.gz"
 
 Write-Host "--- Starting LIBI DIAMONDS canonical-domain deployment ---" -ForegroundColor Cyan
@@ -50,7 +52,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "Building and activating www.libidiamonds.co.il..." -ForegroundColor Blue
-$REMOTE_CMD = "mkdir -p $REMOTE_DIR && cd $REMOTE_DIR && tar -xzf /tmp/$ARCHIVE_NAME && sed -i 's/\r$//' deploy_live_linux.sh && chmod +x deploy_live_linux.sh && bash deploy_live_linux.sh"
+$REMOTE_CMD = "set -e && if [ '$REMOTE_STAGE_DIR' != '/root/LibiDiamonds-live.next' ]; then exit 64; fi && rm -rf -- '$REMOTE_STAGE_DIR' && mkdir -p '$REMOTE_STAGE_DIR' && tar -xzf '/tmp/$ARCHIVE_NAME' -C '$REMOTE_STAGE_DIR' && cd '$REMOTE_STAGE_DIR' && sed -i 's/\r$//' deploy_live_linux.sh && chmod +x deploy_live_linux.sh && LIVE_APP_ROOT='$REMOTE_DIR' ROLLBACK_APP_ROOT='$REMOTE_ROLLBACK_DIR' bash deploy_live_linux.sh"
 ssh $SSH_HOST $REMOTE_CMD
 
 if ($LASTEXITCODE -ne 0) {
