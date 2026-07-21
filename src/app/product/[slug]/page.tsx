@@ -107,8 +107,8 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
-      <div className="bg-white">
-        <div className="mx-auto max-w-[88rem] px-4 py-2 sm:px-6 sm:py-5 lg:px-8 lg:py-9">
+      <div className="pdp-page-shell">
+        <div className="mx-auto max-w-[88rem] px-4 pb-0 pt-0 sm:px-6 sm:pt-5 lg:px-8 lg:pt-9">
           <nav className="mb-6 hidden text-xs tracking-[0.04em] text-stone md:block lg:mb-9" aria-label="פירורי לחם">
             <Link href="/" className="hover:text-gold-deep">
               ראשי
@@ -125,20 +125,20 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </div>
 
-      <section id="related-products" className="mt-6 scroll-mt-24 bg-ivory py-7 sm:mt-8 sm:py-9 lg:mt-10 lg:py-11">
+      <section id="related-products" className="pdp-related scroll-mt-24 py-9 sm:py-11 lg:py-14">
         <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-5">
-            <h2 className="font-display text-[1.6rem] font-medium leading-tight sm:text-3xl lg:text-[2rem]">{relatedTitle}</h2>
+            <h2 className="font-display text-[1.8rem] font-medium leading-tight sm:text-3xl lg:text-[2rem]">{relatedTitle}</h2>
             <Link
               href={`/jewelry/${category.slug}`}
-              className="shrink-0 border-b border-gold/45 pb-0.5 text-xs font-medium text-ink-soft transition-colors hover:border-gold hover:text-ink sm:text-sm"
+              className="shrink-0 border-b border-[#b5924b]/55 pb-0.5 text-xs font-medium text-ink-soft transition-colors hover:border-[#b5924b] hover:text-ink sm:text-sm"
             >
               לכל ה{category.name}
             </Link>
           </div>
-          <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-8 lg:mt-7 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-10">
-            {related.map((p, index) => (
-              <div key={p.slug} className={index > 1 ? "hidden sm:block" : "block"}>
+          <div className="no-scrollbar -mx-4 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-5 sm:gap-y-9 sm:overflow-visible sm:px-0 lg:mt-8 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-10" dir="rtl">
+            {related.map((p) => (
+              <div key={p.slug} className="w-[78vw] max-w-[20rem] shrink-0 snap-start sm:w-auto sm:max-w-none">
                 <ProductCard product={p} />
               </div>
             ))}

@@ -27,6 +27,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [homeHeroPassed, setHomeHeroPassed] = useState(false);
   const isHome = pathname === "/";
+  const isProduct = pathname.startsWith("/product/");
 
   useEffect(() => {
     if (!isHome) {
@@ -73,7 +74,7 @@ export default function Header() {
       {/* single-row maison header */}
       <header
         aria-hidden={isHome && !headerVisible ? true : undefined}
-        className={`site-header-ivory z-50 border-b backdrop-blur-sm ${
+        className={`site-header-ivory ${isProduct ? "site-header-product" : ""} z-50 border-b backdrop-blur-sm ${
           isHome
             ? `site-header-home fixed inset-x-0 top-0 ${headerVisible ? "site-header-home-visible" : "site-header-home-hidden"}`
             : "sticky top-0"

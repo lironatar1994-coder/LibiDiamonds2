@@ -11,6 +11,12 @@
   --home-midnight: #071a28;
   --home-platinum-ice: var(--home-pearl-white);
   --home-gallery-white: #fbfaf7;
+  --pdp-porcelain: #fbfaf7;
+  --pdp-pearl: #fcfdfe;
+  --pdp-ice: #e8edf0;
+  --pdp-ice-deep: #dfe7ea;
+  --pdp-midnight: #071a28;
+  --pdp-champagne: #b5924b;
 }
 
 @theme {
@@ -822,14 +828,196 @@ h3,
   background: #f6f8f9;
 }
 
+.pdp-page-shell {
+  overflow-x: clip;
+  background: var(--pdp-pearl);
+}
+
+.pdp-media-surface {
+  background: var(--pdp-ice);
+}
+
+.pdp-media-cutout {
+  background:
+    radial-gradient(ellipse at 50% 67%, rgba(67, 89, 103, 0.12) 0 7%, transparent 42%),
+    linear-gradient(145deg, #edf1f3 0%, var(--pdp-ice) 54%, var(--pdp-ice-deep) 100%);
+}
+
+.pdp-media-editorial {
+  background: var(--pdp-porcelain);
+}
+
+.pdp-product-image-cutout {
+  box-sizing: border-box;
+  padding: clamp(0.65rem, 2.25vw, 1.4rem);
+  filter:
+    saturate(1.015)
+    contrast(1.035)
+    drop-shadow(0 14px 13px rgba(20, 39, 52, 0.16));
+  transform: scale(var(--pdp-optical-scale, 1.08));
+  transform-origin: center;
+}
+
+.pdp-product-image-editorial {
+  transform: scale(var(--pdp-optical-scale, 1));
+  transform-origin: center;
+}
+
+.pdp-gallery-pagination {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(181, 146, 75, 0.24);
+  background: var(--pdp-porcelain);
+}
+
+.pdp-gallery-count {
+  min-width: 2.4rem;
+  color: var(--color-stone);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.pdp-media-actions {
+  display: flex;
+  min-height: 48px;
+  border-bottom: 1px solid rgba(181, 146, 75, 0.28);
+  background: var(--pdp-porcelain);
+}
+
+.pdp-media-action {
+  display: inline-flex;
+  min-height: 48px;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-inline-start: 1px solid rgba(181, 146, 75, 0.24);
+  color: var(--color-ink-soft);
+  font-size: 0.8rem;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.pdp-media-action:first-child {
+  border-inline-start: 0;
+}
+
+.pdp-media-action:hover,
+.pdp-media-action:focus-visible {
+  background: rgba(181, 146, 75, 0.08);
+  color: var(--color-ink);
+}
+
+.pdp-media-action-primary {
+  color: var(--color-ink);
+}
+
+.pdp-configurator {
+  border-bottom: 1px solid rgba(181, 146, 75, 0.3);
+  background: var(--pdp-porcelain);
+}
+
+.pdp-spec-line,
+.pdp-dimensions,
+.pdp-service-list,
+.pdp-service-list .faq-item {
+  border-color: rgba(126, 143, 154, 0.3);
+}
+
+.pdp-metal-options,
+.pdp-carat-options,
+.pdp-size-option {
+  border: 1px solid rgba(126, 143, 154, 0.28);
+}
+
+.pdp-metal-option + .pdp-metal-option,
+.pdp-carat-option + .pdp-carat-option {
+  border-inline-start: 1px solid rgba(126, 143, 154, 0.26);
+}
+
+.pdp-metal-option::after {
+  position: absolute;
+  inset-inline: 0.75rem;
+  bottom: -1px;
+  height: 2px;
+  background: transparent;
+  content: "";
+  transition: background-color 180ms ease;
+}
+
+.pdp-metal-option-selected {
+  background: rgba(181, 146, 75, 0.075);
+}
+
+.pdp-metal-option-selected::after {
+  background: var(--pdp-champagne);
+}
+
+.pdp-carat-option-selected {
+  background: var(--pdp-midnight);
+}
+
+.pdp-size-option {
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.pdp-size-option:hover,
+.pdp-size-option:focus-visible {
+  border-color: rgba(181, 146, 75, 0.7);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.pdp-assurance-line {
+  border-top: 1px solid rgba(181, 146, 75, 0.3);
+  padding-top: 0.85rem;
+}
+
+.pdp-primary-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  background: var(--pdp-midnight);
+  color: var(--pdp-pearl);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.pdp-primary-cta:hover,
+.pdp-primary-cta:focus-visible {
+  background: #112f43;
+  transform: translateY(-1px);
+}
+
+.pdp-story {
+  background: var(--pdp-pearl);
+}
+
+.pdp-story-media .pdp-media-cutout {
+  background:
+    radial-gradient(ellipse at 50% 68%, rgba(116, 95, 60, 0.1) 0 8%, transparent 43%),
+    var(--pdp-porcelain);
+}
+
+.pdp-story-copy {
+  border-color: var(--pdp-champagne);
+  background: var(--pdp-porcelain);
+  box-shadow: 0 18px 44px rgba(31, 45, 54, 0.075);
+}
+
 .product-packaging-section {
-  border-top: 1px solid rgba(139, 159, 173, 0.28);
-  border-bottom: 1px solid rgba(139, 159, 173, 0.28);
-  background: #eaf0f3;
+  border-top: 1px solid rgba(181, 146, 75, 0.55);
+  border-bottom: 1px solid rgba(181, 146, 75, 0.45);
+  background:
+    radial-gradient(circle at 14% 10%, rgba(65, 96, 116, 0.16), transparent 28rem),
+    var(--pdp-midnight);
 }
 
 .product-packaging-surface {
-  border: 1px solid rgba(137, 157, 171, 0.3);
+  border: 1px solid rgba(181, 146, 75, 0.22);
   background: #dfe7eb;
 }
 
@@ -848,7 +1036,44 @@ h3,
 }
 
 .product-certificate-image {
-  filter: saturate(0.58) contrast(1.02) brightness(1.015);
+  filter: saturate(0.42) contrast(1.045) brightness(1.035) hue-rotate(178deg);
+}
+
+.pdp-service-list {
+  background: var(--pdp-porcelain);
+}
+
+.pdp-service-list .faq-icon {
+  transition: transform 180ms ease;
+}
+
+.pdp-service-list details[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+.pdp-related {
+  background: #f3f5f5;
+}
+
+.pdp-related .product-card-frame,
+.pdp-related .product-media-surface {
+  background: var(--pdp-ice);
+}
+
+.pdp-related .product-card-frame {
+  box-shadow: inset 0 0 0 1px rgba(126, 143, 154, 0.16);
+}
+
+.pdp-sticky-cta {
+  background: rgba(7, 26, 40, 0.985);
+  box-shadow: 0 -12px 30px rgba(7, 26, 40, 0.2);
+  backdrop-filter: blur(14px);
+}
+
+@media (min-width: 640px) {
+  .pdp-gallery-pagination {
+    display: none;
+  }
 }
 
 /* One restrained cool grade makes the homepage photography read as one campaign. */
@@ -996,6 +1221,12 @@ h3,
   background: rgba(251, 250, 247, 0.97);
   box-shadow: 0 8px 30px rgba(11, 23, 34, 0.055);
   color: var(--color-ink);
+}
+
+.site-header-product {
+  border-color: rgba(181, 146, 75, 0.42);
+  background: rgba(251, 250, 247, 0.975);
+  box-shadow: 0 5px 18px rgba(11, 23, 34, 0.035);
 }
 
 .site-header-home {

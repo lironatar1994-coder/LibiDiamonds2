@@ -59,6 +59,9 @@ export interface ProductGalleryImage {
   src: string;
   alt: string;
   view?: "primary" | "angle" | "profile" | "detail";
+  presentation?: "cutout" | "editorial";
+  fit?: "contain" | "cover";
+  opticalScale?: number;
   legacy?: boolean;
   objectPosition?: string;
 }
@@ -366,7 +369,7 @@ const catalogProducts: CatalogProduct[] = [
   {
     slug: "aura-solitaire-ring",
     name: "טבעת סוליטר ״אורה״",
-    subtitle: "יהלום מעבדה עגול · שיבוץ 4 שיניים",
+    subtitle: "יהלום עגול · שיבוץ ארבע שיניים",
     category: "rings",
     diamondShape: "round",
     art: "solitaire",
