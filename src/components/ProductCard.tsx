@@ -3,6 +3,7 @@ import type { Metal, Product, ProductGalleryImage } from "@/data/products";
 import { productImages } from "@/data/products";
 import { formatPrice } from "@/lib/site";
 import ProductMedia from "@/components/ProductMedia";
+import { ringCatalogOpticalScale } from "@/data/catalog-presentation";
 
 export default function ProductCard({
   product,
@@ -26,6 +27,14 @@ export default function ProductCard({
   const compact = variant === "compact";
   const catalog = variant === "catalog";
   const editorial = variant === "editorial-landscape";
+  const ringCatalog = catalog && product.category === "rings";
+  const catalogScale = ringCatalog ? ringCatalogOpticalScale(product.slug) : undefined;
+  const primaryImage = ringCatalog
+    ? { ...images[0], fit: "contain" as const, presentation: "cutout" as const, opticalScale: catalogScale }
+    : images[0];
+  const secondaryImage = ringCatalog && detailImage
+    ? { ...detailImage, fit: "contain" as const, presentation: "cutout" as const, opticalScale: catalogScale }
+    : detailImage;
 
   return (
     <Link
@@ -35,27 +44,28 @@ export default function ProductCard({
       data-display-metal={metal}
     >
       <ProductMedia
-        image={images[0]}
-        secondaryImage={detailImage}
+        image={primaryImage}
+        secondaryImage={secondaryImage}
         sizes={editorial ? "(min-width: 1024px) 34vw, 50vw" : compact ? "(min-width: 1024px) 20vw, 50vw" : "(min-width: 1024px) 33vw, 50vw"}
         loading={compact ? "eager" : undefined}
         fetchPriority={compact ? "low" : undefined}
         unoptimized={compact}
-        className={`product-card-frame ${catalog ? "catalog-card-media aspect-[4/5]" : editorial ? "catalog-card-media aspect-[16/9]" : "aspect-square"}`}
-        imageClassName={`object-cover transition-all duration-700 ease-out ${compact ? "home-signature-product-image" : ""} ${catalog || editorial ? "scale-[1.07]" : ""} ${
+        variant={ringCatalog ? "catalog" : "default"}
+        className={`product-card-frame ${ringCatalog ? "catalog-card-media catalog-ring-media aspect-square sm:aspect-[4/5]" : catalog ? "catalog-card-media aspect-[4/5]" : editorial ? "catalog-card-media aspect-[16/9]" : "aspect-square"}`}
+        imageClassName={`${ringCatalog ? "object-contain" : "object-cover"} transition-all duration-700 ease-out ${compact ? "home-signature-product-image" : ""} ${catalog && !ringCatalog || editorial ? "scale-[1.07]" : ""} ${
           detailImage
-              ? `${catalog || editorial ? "group-hover:scale-[1.11]" : compact ? "" : "group-hover:scale-[1.015]"} group-hover:opacity-0 group-focus-visible:opacity-0`
-              : catalog || editorial ? "group-hover:scale-[1.11]" : compact ? "" : "group-hover:scale-[1.025]"
+              ? `${catalog && !ringCatalog || editorial ? "group-hover:scale-[1.11]" : compact || ringCatalog ? "" : "group-hover:scale-[1.015]"} group-hover:opacity-0 group-focus-visible:opacity-0`
+              : catalog && !ringCatalog || editorial ? "group-hover:scale-[1.11]" : compact || ringCatalog ? "" : "group-hover:scale-[1.025]"
           }`}
-        secondaryImageClassName={`pointer-events-none object-cover opacity-0 transition-all duration-700 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 ${compact ? "home-signature-product-image" : ""} ${
-          catalog || editorial ? "scale-[1.07] group-hover:scale-[1.11]" : compact ? "" : "group-hover:scale-[1.015]"
+        secondaryImageClassName={`pointer-events-none ${ringCatalog ? "object-contain catalog-product-image catalog-product-image-cutout" : "object-cover"} opacity-0 transition-all duration-700 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 ${compact ? "home-signature-product-image" : ""} ${
+          catalog && !ringCatalog || editorial ? "scale-[1.07] group-hover:scale-[1.11]" : compact || ringCatalog ? "" : "group-hover:scale-[1.015]"
         }`}
       />
-      <div className={`px-0.5 sm:px-1 ${catalog || editorial ? "pt-3 text-right sm:pt-4" : `text-center ${compact ? "pt-3 sm:pt-4" : "pt-3 sm:pt-5"}`}`}>
-        <h3 className={`font-display leading-snug transition-colors group-hover:text-gold-deep ${compact ? "text-[0.9rem] sm:text-base" : catalog ? "text-base sm:text-lg" : editorial ? "text-base lg:text-lg" : "text-[0.95rem] sm:text-lg"}`}>
+      <div className={`px-0.5 sm:px-1 ${catalog || editorial ? `${ringCatalog ? "catalog-ring-copy pt-2.5" : "pt-3"} text-right sm:pt-4` : `text-center ${compact ? "pt-3 sm:pt-4" : "pt-3 sm:pt-5"}`}`}>
+        <h3 className={`font-display leading-snug transition-colors group-hover:text-gold-deep ${ringCatalog ? "catalog-ring-name text-[0.96rem] sm:text-lg" : compact ? "text-[0.9rem] sm:text-base" : catalog ? "text-base sm:text-lg" : editorial ? "text-base lg:text-lg" : "text-[0.95rem] sm:text-lg"}`}>
           {product.name}
         </h3>
-        <p className={`font-display font-medium tracking-[0.02em] text-ink ${compact ? "mt-1 text-[0.95rem] sm:mt-2 sm:text-base" : catalog ? "mt-2 text-[1.05rem] sm:text-lg" : editorial ? "mt-1.5 text-base" : "mt-1.5 text-base sm:mt-2.5 sm:text-[1.08rem]"}`}>
+        <p className={`${ringCatalog ? "catalog-ring-price mt-1 text-[0.94rem] tabular-nums sm:mt-2 sm:text-base" : "font-display tracking-[0.02em]"} font-medium text-ink ${compact ? "mt-1 text-[0.95rem] sm:mt-2 sm:text-base" : ringCatalog ? "" : catalog ? "mt-2 text-[1.05rem] sm:text-lg" : editorial ? "mt-1.5 text-base" : "mt-1.5 text-base sm:mt-2.5 sm:text-[1.08rem]"}`}>
           {catalog || editorial ? `מ־${formatPrice(product.priceFrom)}` : `החל מ־${formatPrice(product.priceFrom)}`}
         </p>
       </div>

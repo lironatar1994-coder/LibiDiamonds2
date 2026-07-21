@@ -12,6 +12,7 @@ import {
 } from "@/data/products";
 import { absoluteUrl, site } from "@/lib/site";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
+import { sortProductsByPopularity } from "@/lib/product-sorting";
 
 interface Props {
   params: Promise<{ category: string }>;
@@ -42,7 +43,7 @@ export default async function CategoryPage({ params }: Props) {
   const cat = getCategory(category as CategorySlug);
   if (!cat) notFound();
 
-  const items = productsByCategory(cat.slug);
+  const items = sortProductsByPopularity(productsByCategory(cat.slug));
   const others = categories.filter((c) => c.slug !== cat.slug);
   const breadcrumb = breadcrumbJsonLd([
     { name: "ראשי", path: "/" },
@@ -83,15 +84,22 @@ export default async function CategoryPage({ params }: Props) {
 
         <CategoryCatalog items={items} category={cat.slug} />
 
-        <aside className="mt-16 border-t border-line pt-8 sm:mt-20 sm:pt-10" aria-label="קטגוריות נוספות">
-          <div className="flex flex-nowrap justify-center divide-x divide-gold/35" dir="rtl">
+        <aside className={`${cat.slug === "rings" ? "catalog-collection-index mt-14 border-y border-line py-8" : "mt-16 border-t border-line pt-8 sm:mt-20 sm:pt-10"}`} aria-label="קטגוריות נוספות">
+          {cat.slug === "rings" && (
+            <h2 className="mb-4 font-display text-[1.65rem] font-medium text-ink">להמשיך לגלות</h2>
+          )}
+          <div className={cat.slug === "rings" ? "divide-y divide-line/80" : "flex flex-nowrap justify-center divide-x divide-gold/35"} dir="rtl">
             {others.map((c) => (
               <Link
                 key={c.slug}
                 href={`/jewelry/${c.slug}`}
-                className="px-5 py-1 text-sm text-ink-soft transition-colors hover:text-gold-deep focus-visible:text-gold-deep sm:px-7"
+                className={cat.slug === "rings"
+                  ? "flex min-h-12 items-center justify-between text-sm text-ink-soft transition-colors hover:text-gilt-deep focus-visible:text-gilt-deep"
+                  : "px-5 py-1 text-sm text-ink-soft transition-colors hover:text-gold-deep focus-visible:text-gold-deep sm:px-7"
+                }
               >
-                {c.name}
+                <span>{c.name}</span>
+                {cat.slug === "rings" && <span className="text-gilt" aria-hidden="true">←</span>}
               </Link>
             ))}
           </div>

@@ -1126,6 +1126,110 @@ h3,
   transform: scale(var(--home-signature-scale));
 }
 
+/* Rings collection: the product field reads as a jeweler's viewing tray. */
+.catalog-ring-media {
+  background:
+    radial-gradient(ellipse at 50% 64%, rgba(75, 96, 109, 0.13) 0 8%, transparent 40%),
+    radial-gradient(circle at 50% 41%, rgba(252, 253, 254, 0.98) 0 25%, transparent 63%),
+    linear-gradient(145deg, #e9eef0 0%, #e2e9ec 100%);
+  box-shadow: inset 0 0 0 1px rgba(112, 133, 146, 0.14);
+}
+
+.catalog-ring-media::before {
+  position: absolute;
+  right: 24%;
+  bottom: 25%;
+  left: 24%;
+  z-index: 0;
+  height: 9%;
+  border-radius: 50%;
+  background: rgba(19, 40, 54, 0.13);
+  filter: blur(12px);
+  content: "";
+  pointer-events: none;
+}
+
+.catalog-ring-media .catalog-product-image {
+  z-index: 1;
+  filter:
+    saturate(1.02)
+    contrast(1.075)
+    brightness(1.01)
+    drop-shadow(0 11px 9px rgba(20, 38, 50, 0.19));
+  transform: scale(var(--catalog-optical-scale, 1.12));
+  transition:
+    opacity 0.38s ease,
+    filter 0.38s ease,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-display-metal="white"] .catalog-ring-media {
+  background:
+    radial-gradient(ellipse at 50% 64%, rgba(45, 68, 83, 0.16) 0 8%, transparent 41%),
+    radial-gradient(circle at 50% 40%, rgba(251, 253, 254, 0.99) 0 22%, transparent 62%),
+    linear-gradient(145deg, #e7edef 0%, #dce5e9 100%);
+}
+
+[data-display-metal="white"] .catalog-ring-media .catalog-product-image {
+  filter:
+    saturate(0.99)
+    contrast(1.12)
+    brightness(0.995)
+    drop-shadow(0 12px 9px rgba(19, 37, 50, 0.25));
+}
+
+.group:hover .catalog-ring-media .catalog-product-image,
+.group:focus-visible .catalog-ring-media .catalog-product-image {
+  transform: scale(calc(var(--catalog-optical-scale, 1.12) + 0.025));
+}
+
+.catalog-ring-name {
+  display: -webkit-box;
+  min-height: 2.65em;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.catalog-ring-price {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
+.catalog-mobile-utility {
+  box-shadow: 0 8px 24px rgba(7, 26, 40, 0.055);
+}
+
+.catalog-control-sheet {
+  animation: catalog-sheet-enter 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  box-shadow: 0 -20px 50px rgba(7, 26, 40, 0.22);
+}
+
+.catalog-results-grid {
+  animation: catalog-results-enter 210ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes catalog-sheet-enter {
+  from { opacity: 0.82; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes catalog-results-enter {
+  from { opacity: 0.72; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catalog-control-sheet,
+  .catalog-results-grid {
+    animation: none;
+  }
+
+  .catalog-ring-media .catalog-product-image {
+    transition: opacity 0.01ms linear;
+  }
+}
+
 .section-most-loved [data-display-metal="white"] .product-card-frame,
 .section-most-loved [data-display-metal="white"] .product-media-surface {
   background:

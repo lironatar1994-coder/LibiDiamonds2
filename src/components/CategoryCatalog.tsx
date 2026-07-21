@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import CatalogControlSheet from "@/components/catalog/CatalogControlSheet";
 import ProductCard from "@/components/ProductCard";
 import ProductMedia from "@/components/ProductMedia";
 import RingStyleAtelierIllustration, { type RingAtelierStyle } from "@/components/RingStyleAtelierIllustration";
@@ -9,7 +10,7 @@ import { productImages } from "@/data/products";
 import type { CatalogStyle, CategorySlug, DiamondShape, Metal, Product } from "@/data/products";
 import { assetPath } from "@/lib/site";
 
-type SortMode = "featured" | "price-low" | "price-high";
+type SortMode = "popular" | "price-low" | "price-high";
 
 const INITIAL_PRODUCT_COUNT = 18;
 const PRODUCT_COUNT_STEP = 12;
@@ -17,7 +18,7 @@ const PRODUCT_COUNT_STEP = 12;
 const categoryEditorial: Record<CategorySlug, { desktop: string; mobile: string; alt: string }> = {
   rings: {
     desktop: "/images/editorial/categories/rings-desktop.webp",
-    mobile: "/images/editorial/categories/rings-mobile.webp",
+    mobile: "/images/editorial/categories/rings-mobile-viewing-tray.webp",
     alt: "טבעת סוליטר מזהב צהוב עם יהלום עגול על אבן מינרלית בהירה",
   },
   earrings: {
@@ -84,11 +85,14 @@ export default function CategoryCatalog({
 }) {
   const [shape, setShape] = useState<DiamondShape | "all">("all");
   const [style, setStyle] = useState<CatalogStyle | "all">("all");
-  const [sort, setSort] = useState<SortMode>("featured");
-  const [displayMetal, setDisplayMetal] = useState<Extract<Metal, "yellow" | "white">>(
-    category === "rings" ? "yellow" : "white",
-  );
+  const defaultMetal: Extract<Metal, "yellow" | "white"> = category === "rings" ? "yellow" : "white";
+  const [sort, setSort] = useState<SortMode>("popular");
+  const [displayMetal, setDisplayMetal] = useState<Extract<Metal, "yellow" | "white">>(defaultMetal);
+  const [draftShape, setDraftShape] = useState<DiamondShape | "all">("all");
+  const [draftMetal, setDraftMetal] = useState<Extract<Metal, "yellow" | "white">>(defaultMetal);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [mobileSortOpen, setMobileSortOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(INITIAL_PRODUCT_COUNT);
   const availableShapes = useMemo(
     () => shapeOrder.filter((option) => items.some((item) => item.diamondShape === option)),
@@ -103,20 +107,20 @@ export default function CategoryCatalog({
       (shape === "all" || item.diamondShape === shape) &&
       (style === "all" || item.style === style),
     );
+    if (sort === "popular") return filtered;
     return [...filtered].sort((a, b) => {
       if (sort === "price-low") return a.priceFrom - b.priceFrom;
-      if (sort === "price-high") return b.priceFrom - a.priceFrom;
-      return Number(Boolean(b.featured || b.bestseller)) - Number(Boolean(a.featured || a.bestseller));
+      return b.priceFrom - a.priceFrom;
     });
   }, [items, shape, sort, style]);
   const displayedItems = visibleItems.slice(0, visibleCount);
 
   useEffect(() => {
     setVisibleCount(INITIAL_PRODUCT_COUNT);
-  }, [shape, sort, style]);
+  }, [displayMetal, shape, sort, style]);
   const showShapeFilter = category === "rings" && availableShapes.length > 1;
   const showStyleFilter = availableStyles.length > 1;
-  const activeFilterCount = Number(shape !== "all") + Number(style !== "all");
+  const activeFilterCount = Number(shape !== "all") + Number(style !== "all") + Number(displayMetal !== defaultMetal);
   const styleShowcase = availableStyles.slice(0, 4).map((option) => ({
     style: option,
     product: items.find((item) => item.style === option)!,
@@ -125,7 +129,36 @@ export default function CategoryCatalog({
   const clearFilters = () => {
     setShape("all");
     setStyle("all");
+    setDisplayMetal(defaultMetal);
   };
+
+  const draftResultCount = useMemo(() => items.filter((item) =>
+    (draftShape === "all" || item.diamondShape === draftShape) &&
+    (style === "all" || item.style === style),
+  ).length, [draftShape, items, style]);
+
+  const openMobileFilters = () => {
+    setDraftShape(shape);
+    setDraftMetal(displayMetal);
+    setMobileFilterOpen(true);
+  };
+  const closeMobileFilters = useCallback(() => setMobileFilterOpen(false), []);
+  const closeMobileSort = useCallback(() => setMobileSortOpen(false), []);
+  const applyMobileFilters = () => {
+    setShape(draftShape);
+    setDisplayMetal(draftMetal);
+    setMobileFilterOpen(false);
+  };
+  const selectSort = (nextSort: SortMode) => {
+    setSort(nextSort);
+    setMobileSortOpen(false);
+  };
+  const sortLabel = sort === "popular"
+    ? "הפופולריים ביותר"
+    : sort === "price-low"
+      ? "מחיר: מהנמוך לגבוה"
+      : "מחיר: מהגבוה לנמוך";
+  const resultTransitionKey = `${style}-${shape}-${sort}-${displayMetal}`;
 
   return (
     <>
@@ -180,14 +213,14 @@ export default function CategoryCatalog({
                     {isRingAtelierStyle ? (
                       <span className="flex flex-col items-center">
                         <RingStyleAtelierIllustration style={option as RingAtelierStyle} active={active} />
-                        <span className={`mt-2.5 block min-h-5 text-center text-[0.78rem] leading-5 text-[#172b3b] transition-[color,font-weight] sm:mt-3 sm:text-[0.84rem] ${
-                          active ? "font-medium text-[#0b1f2e]" : "font-normal"
+                        <span className={`mt-2.5 block min-h-5 text-center text-[0.78rem] leading-5 text-ink-soft transition-[color,font-weight] sm:mt-3 sm:text-[0.84rem] ${
+                          active ? "font-medium text-ink" : "font-normal"
                         }`}>
                           {styleNames[option]}
                         </span>
                         <span
-                          className={`mt-1.5 h-1.5 w-1.5 rotate-45 border border-[#c6a65b] transition-opacity motion-reduce:transition-none ${
-                            active ? "bg-[#c6a65b] opacity-100" : "bg-transparent opacity-0 group-focus-visible:opacity-100"
+                          className={`mt-1.5 h-1.5 w-1.5 rotate-45 border border-gilt transition-opacity motion-reduce:transition-none ${
+                            active ? "bg-gilt opacity-100" : "bg-transparent opacity-0 group-focus-visible:opacity-100"
                           }`}
                           aria-hidden="true"
                         />
@@ -218,7 +251,28 @@ export default function CategoryCatalog({
         </section>
       )}
 
-      <div className="mt-5 border-y border-line/70 sm:mt-7">
+      {category === "rings" && <div className="catalog-mobile-utility sticky top-16 z-30 -mx-4 mt-5 grid h-14 grid-cols-[44fr_56fr] divide-x divide-x-reverse divide-line/80 border-y border-line/80 bg-ivory/95 backdrop-blur-md sm:hidden">
+        <button
+          type="button"
+          onClick={openMobileFilters}
+          className="flex min-w-0 items-center justify-center gap-1.5 px-2 text-ink"
+          aria-haspopup="dialog"
+        >
+          <span className="text-[0.76rem] font-semibold">סינון</span>
+          <span className="text-[0.66rem] text-gilt" aria-hidden="true">·</span>
+          <span className="text-[0.7rem] text-stone">{visibleItems.length} עיצובים</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileSortOpen(true)}
+          className="min-w-0 px-2 text-[0.75rem] font-medium text-ink"
+          aria-haspopup="dialog"
+        >
+          <span className="block truncate">מיון: {sortLabel}</span>
+        </button>
+      </div>}
+
+      <div className={`${category === "rings" ? "mt-7 hidden sm:block" : "mt-5 block sm:mt-7"} border-y border-line/70`}>
         <div className="grid h-14 min-w-0 grid-cols-2 items-center divide-x divide-x-reverse divide-line/70">
           <button
             type="button"
@@ -237,7 +291,7 @@ export default function CategoryCatalog({
               className="w-full min-w-0 border-0 bg-transparent px-1 text-center text-sm text-ink outline-none"
               aria-label="מיון מוצרים"
             >
-              <option value="featured">מומלצים</option>
+              <option value="popular">הפופולריים ביותר</option>
               <option value="price-low">מחיר: מהנמוך לגבוה</option>
               <option value="price-high">מחיר: מהגבוה לנמוך</option>
             </select>
@@ -246,7 +300,7 @@ export default function CategoryCatalog({
 
         {filtersOpen && (
           <div id="catalog-filters" className="border-t border-line/70 py-6 sm:px-4 sm:py-7">
-            {showStyleFilter && (
+            {showStyleFilter && category !== "rings" && (
               <fieldset>
                 <legend className="mb-3 text-xs text-stone">סגנון</legend>
                 <div className="flex flex-wrap gap-x-6 gap-y-2.5">
@@ -261,7 +315,7 @@ export default function CategoryCatalog({
             )}
 
             {showShapeFilter && (
-              <fieldset className={showStyleFilter ? "mt-6 border-t border-line/60 pt-5" : ""}>
+              <fieldset className={showStyleFilter && category !== "rings" ? "mt-6 border-t border-line/60 pt-5" : ""}>
                 <legend className="mb-3 text-xs text-stone">חיתוך היהלום</legend>
                 <div className="flex flex-wrap gap-x-6 gap-y-2.5">
                   <FilterChoice active={shape === "all"} onClick={() => setShape("all")}>הכל</FilterChoice>
@@ -283,7 +337,7 @@ export default function CategoryCatalog({
             </fieldset>
 
             {activeFilterCount > 0 && (
-              <button type="button" onClick={clearFilters} className="mt-5 border-b border-stone/50 pb-0.5 text-xs text-stone transition-colors hover:text-ink">
+              <button type="button" onClick={clearFilters} className="mt-5 min-h-11 border-b border-stone/50 px-2 text-xs text-stone transition-colors hover:text-ink">
                 ניקוי הסינון
               </button>
             )}
@@ -291,31 +345,125 @@ export default function CategoryCatalog({
         )}
       </div>
 
-      <div className="mt-7 grid grid-cols-2 gap-x-3 gap-y-9 sm:mt-9 sm:gap-x-5 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-6">
-        {displayedItems.map((product, index) => (
-          <Fragment key={product.slug}>
-            <ProductCard product={product} metal={displayMetal} variant="catalog" />
-            {visibleItems.length > 10 && index === 7 && (
-              <CategoryEditorial category={category} viewport="mobile" />
-            )}
-            {visibleItems.length > 10 && index === 8 && (
-              <CategoryEditorial category={category} viewport="desktop" />
-            )}
-          </Fragment>
-        ))}
-      </div>
+      {category === "rings" && activeFilterCount > 0 && (
+        <div className="mt-3 flex min-h-11 flex-wrap items-center gap-x-5 gap-y-1.5 border-b border-line/60 pb-2 sm:mt-4" aria-label="סינון פעיל">
+          {style !== "all" && <ActiveFilterLabel onClear={() => setStyle("all")}>{styleNames[style]}</ActiveFilterLabel>}
+          {shape !== "all" && <ActiveFilterLabel onClear={() => setShape("all")}>{shapeNames[shape]}</ActiveFilterLabel>}
+          {displayMetal !== defaultMetal && <ActiveFilterLabel onClear={() => setDisplayMetal(defaultMetal)}>זהב לבן</ActiveFilterLabel>}
+          <button type="button" onClick={clearFilters} className="ms-auto min-h-11 text-[0.7rem] text-stone underline decoration-line underline-offset-4">
+            ניקוי הכל
+          </button>
+        </div>
+      )}
+
+      <p className="sr-only" aria-live="polite">נמצאו {visibleItems.length} עיצובים</p>
+
+      {visibleItems.length > 0 ? (
+        <div
+          key={resultTransitionKey}
+          className={`catalog-results-grid mt-6 grid grid-cols-2 gap-x-3 sm:mt-9 sm:gap-x-5 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-6 ${
+            category === "rings" ? "gap-y-8" : "gap-y-9"
+          }`}
+        >
+          {displayedItems.map((product, index) => (
+            <Fragment key={product.slug}>
+              <ProductCard product={product} metal={displayMetal} variant="catalog" />
+              {visibleItems.length > 10 && index === 7 && (
+                <CategoryEditorial category={category} viewport="mobile" />
+              )}
+              {visibleItems.length > 10 && index === 8 && (
+                <CategoryEditorial category={category} viewport="desktop" />
+              )}
+            </Fragment>
+          ))}
+        </div>
+      ) : (
+        <div className="my-14 border-y border-line/70 px-5 py-14 text-center sm:my-20 sm:py-20">
+          <span className="mx-auto block h-3 w-3 rotate-45 border border-gilt" aria-hidden="true" />
+          <h3 className="mt-6 font-display text-2xl font-medium text-ink">לא מצאנו טבעת בשילוב הזה.</h3>
+          <button type="button" onClick={clearFilters} className="mt-5 min-h-11 border-b border-gilt px-3 text-sm text-ink">
+            ניקוי הסינון
+          </button>
+        </div>
+      )}
 
       {visibleCount < visibleItems.length && (
         <div className="mt-10 flex justify-center sm:mt-14">
           <button
             type="button"
             onClick={() => setVisibleCount((count) => count + PRODUCT_COUNT_STEP)}
-            className="min-w-56 border-b border-ink px-6 pb-2 text-sm text-ink transition-colors hover:border-gold-deep hover:text-gold-deep"
+            className={`catalog-load-more flex min-h-12 min-w-64 items-center justify-center gap-3 px-6 text-sm text-ink transition-colors ${
+              category === "rings" ? "border border-gilt bg-ivory hover:bg-[#f8f6f0]" : "border-b border-ink pb-2 hover:border-gold-deep hover:text-gold-deep"
+            }`}
           >
+            {category === "rings" && <span className="h-2 w-2 rotate-45 border border-gilt" aria-hidden="true" />}
             הצגת טבעות נוספות
           </button>
         </div>
       )}
+
+      {category === "rings" && <CatalogControlSheet
+        open={mobileFilterOpen}
+        title="סינון הטבעות"
+        titleId="catalog-mobile-filter-title"
+        onClose={closeMobileFilters}
+        footer={(
+          <div>
+            <button
+              type="button"
+              onClick={applyMobileFilters}
+              disabled={draftResultCount === 0}
+              className="btn-primary min-h-[52px] w-full disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              {draftResultCount > 0 ? `הצגת ${draftResultCount} טבעות` : "אין תוצאות"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setDraftShape("all");
+                setDraftMetal(defaultMetal);
+              }}
+              className="mx-auto mt-3 block min-h-11 px-3 text-xs text-stone underline decoration-line underline-offset-4"
+            >
+              ניקוי בחירה
+            </button>
+          </div>
+        )}
+      >
+        {showShapeFilter && (
+          <fieldset>
+            <legend className="mb-3 text-xs font-semibold text-stone">חיתוך היהלום</legend>
+            <div className="grid grid-cols-3 gap-2">
+              <SheetChoice active={draftShape === "all"} onClick={() => setDraftShape("all")}>הכל</SheetChoice>
+              {availableShapes.map((option) => (
+                <SheetChoice key={option} active={draftShape === option} onClick={() => setDraftShape(option)}>
+                  {shapeNames[option]}
+                </SheetChoice>
+              ))}
+            </div>
+          </fieldset>
+        )}
+        <fieldset className={showShapeFilter ? "mt-7 border-t border-line pt-6" : ""}>
+          <legend className="mb-3 text-xs font-semibold text-stone">תצוגת מתכת</legend>
+          <div className="grid grid-cols-2 border border-line bg-white">
+            <MetalChoice metal="yellow" active={draftMetal === "yellow"} onClick={() => setDraftMetal("yellow")}>זהב צהוב</MetalChoice>
+            <MetalChoice metal="white" active={draftMetal === "white"} onClick={() => setDraftMetal("white")}>זהב לבן</MetalChoice>
+          </div>
+        </fieldset>
+      </CatalogControlSheet>}
+
+      {category === "rings" && <CatalogControlSheet
+        open={mobileSortOpen}
+        title="מיון הטבעות"
+        titleId="catalog-mobile-sort-title"
+        onClose={closeMobileSort}
+      >
+        <div role="radiogroup" aria-label="מיון הטבעות" className="divide-y divide-line">
+          <SortChoice active={sort === "popular"} onClick={() => selectSort("popular")}>הפופולריים ביותר</SortChoice>
+          <SortChoice active={sort === "price-low"} onClick={() => selectSort("price-low")}>מחיר: מהנמוך לגבוה</SortChoice>
+          <SortChoice active={sort === "price-high"} onClick={() => selectSort("price-high")}>מחיר: מהגבוה לנמוך</SortChoice>
+        </div>
+      </CatalogControlSheet>}
     </>
   );
 }
@@ -333,7 +481,7 @@ function CategoryEditorial({
   return (
     <div
       className={mobile
-        ? "col-span-2 -mx-4 my-2 aspect-[3/4] overflow-hidden sm:-mx-6 lg:hidden"
+        ? "relative col-span-2 -mx-4 my-10 aspect-[3/4] overflow-hidden sm:-mx-6 lg:hidden"
         : "hidden lg:col-span-3 lg:my-3 lg:block lg:aspect-[15/8] lg:overflow-hidden"}
     >
       <Image
@@ -344,7 +492,55 @@ function CategoryEditorial({
         sizes={mobile ? "100vw" : "(min-width: 1280px) 1216px, 100vw"}
         className="h-full w-full object-cover"
       />
+      {mobile && category === "rings" && (
+        <span
+          className="absolute left-5 top-6 border-s border-gilt ps-3 text-[0.62rem] font-semibold tracking-[0.22em] text-ink-soft"
+          dir="ltr"
+        >
+          AURA · 18K YELLOW GOLD
+        </span>
+      )}
     </div>
+  );
+}
+
+function ActiveFilterLabel({ onClear, children }: { onClear: () => void; children: React.ReactNode }) {
+  return (
+    <button type="button" onClick={onClear} className="flex min-h-11 items-center gap-2 text-xs font-medium text-ink-soft">
+      <span>{children}</span>
+      <span className="text-base font-light text-gilt-deep" aria-hidden="true">×</span>
+      <span className="sr-only">הסרה</span>
+    </button>
+  );
+}
+
+function SheetChoice({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`min-h-11 border px-2 text-sm transition-colors ${
+        active ? "border-ink bg-ink text-ivory" : "border-line bg-white text-ink-soft"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function SortChoice({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      type="button"
+      role="radio"
+      aria-checked={active}
+      onClick={onClick}
+      className="flex min-h-[54px] w-full items-center justify-between py-2 text-right text-sm text-ink"
+    >
+      <span>{children}</span>
+      <span className={`h-2.5 w-2.5 rotate-45 border border-gilt ${active ? "bg-gilt" : "bg-transparent"}`} aria-hidden="true" />
+    </button>
   );
 }
 

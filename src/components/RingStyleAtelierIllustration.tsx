@@ -29,9 +29,9 @@ export default function RingStyleAtelierIllustration({
     <span
       className={`relative block h-[6.5rem] w-[6.5rem] rounded-full border transition-[border-color,box-shadow] duration-300 motion-reduce:transition-none sm:h-[8.25rem] sm:w-[8.25rem] ${
         active
-          ? "border-[#c6a65b] shadow-[0_0_0_1px_rgba(198,166,91,0.2),0_12px_24px_rgba(7,24,36,0.18)]"
+          ? "border-gilt shadow-[0_0_0_1px_rgba(181,146,75,0.2),0_12px_24px_rgba(7,24,36,0.18)]"
           : "border-[#cbd8df] shadow-[0_10px_22px_rgba(17,41,56,0.14)] group-hover:border-[#aebfc9]"
-      } group-focus-visible:border-[#c6a65b] group-focus-visible:shadow-[0_0_0_1px_rgba(198,166,91,0.25),0_12px_24px_rgba(7,24,36,0.18)]`}
+      } group-focus-visible:border-gilt group-focus-visible:shadow-[0_0_0_1px_rgba(181,146,75,0.25),0_12px_24px_rgba(7,24,36,0.18)]`}
       aria-hidden="true"
     >
       <span
