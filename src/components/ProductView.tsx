@@ -734,6 +734,14 @@ export default function ProductView({ product }: { product: Product }) {
           caratSelected={caratSelected}
           ringSize={ringSize}
           config={product.tryOn}
+          caratOptions={product.carats}
+          onCaratChange={(value) => {
+            const index = product.carats.findIndex((option) => option.value === value);
+            if (index >= 0) {
+              setCaratIdx(index);
+              setCaratSelected(true);
+            }
+          }}
         />
       )}
 

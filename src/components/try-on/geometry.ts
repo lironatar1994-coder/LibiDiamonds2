@@ -64,6 +64,14 @@ export interface RingVisualDimensions {
   shankWidth: number;
 }
 
+export interface HandScaleAssessment {
+  boundsAreaRatio: number;
+  ringAxisPixels: number;
+  geometryConfidence: number;
+  shouldRefine: boolean;
+  tooFar: boolean;
+}
+
 const AUTO_RING_SIZE = 14;
 const AUTO_RING_INNER_DIAMETER_MM = (AUTO_RING_SIZE + 40) / Math.PI;
 // V3 setting masters reserve a consistent transparent margin around jewelry.
@@ -184,6 +192,65 @@ export function choosePrimaryHandIndex(hands: HandPoint[][]): number {
     }
   });
   return bestIndex;
+}
+
+function directionSimilarity(a0: HandPoint, a1: HandPoint, b0: HandPoint, b1: HandPoint): number {
+  const ax = a1.x - a0.x;
+  const ay = a1.y - a0.y;
+  const bx = b1.x - b0.x;
+  const by = b1.y - b0.y;
+  const denominator = Math.hypot(ax, ay) * Math.hypot(bx, by);
+  return denominator > 0.0001 ? (ax * bx + ay * by) / denominator : -1;
+}
+
+function rangeScore(value: number, idealMin: number, idealMax: number, hardMin: number, hardMax: number): number {
+  if (!Number.isFinite(value) || value <= hardMin || value >= hardMax) return 0;
+  if (value >= idealMin && value <= idealMax) return 1;
+  if (value < idealMin) return (value - hardMin) / (idealMin - hardMin);
+  return (hardMax - value) / (hardMax - idealMax);
+}
+
+/**
+ * Validates scale and finger topology before an automatic placement is shown.
+ * Image pixels are intentional here: world landmarks describe relative hand
+ * geometry and cannot recover distance to an unknown phone camera by itself.
+ */
+export function assessHandScale(
+  hand: HandPoint[],
+  imageWidth: number,
+  imageHeight: number,
+): HandScaleAssessment {
+  if (hand.length < 19 || imageWidth <= 0 || imageHeight <= 0) {
+    return { boundsAreaRatio: 0, ringAxisPixels: 0, geometryConfidence: 0, shouldRefine: false, tooFar: true };
+  }
+  const bounds = hand.reduce(
+    (box, point) => ({
+      minX: Math.min(box.minX, point.x),
+      maxX: Math.max(box.maxX, point.x),
+      minY: Math.min(box.minY, point.y),
+      maxY: Math.max(box.maxY, point.y),
+    }),
+    { minX: 1, maxX: 0, minY: 1, maxY: 0 },
+  );
+  const boundsAreaRatio = Math.max(0, bounds.maxX - bounds.minX) * Math.max(0, bounds.maxY - bounds.minY);
+  const pixelPoint = (point: HandPoint) => ({ x: point.x * imageWidth, y: point.y * imageHeight });
+  const ringMcp = pixelPoint(hand[13]);
+  const ringPip = pixelPoint(hand[14]);
+  const middleMcp = pixelPoint(hand[9]);
+  const middlePip = pixelPoint(hand[10]);
+  const pinkyMcp = pixelPoint(hand[17]);
+  const pinkyPip = pixelPoint(hand[18]);
+  const ringAxisPixels = distance(ringMcp, ringPip);
+  const middleAxis = distance(middleMcp, middlePip);
+  const pinkyAxis = distance(pinkyMcp, pinkyPip);
+  const lengthScore = rangeScore(ringAxisPixels / Math.max(1, middleAxis), 0.72, 1.28, 0.42, 1.75)
+    * rangeScore(ringAxisPixels / Math.max(1, pinkyAxis), 0.72, 1.45, 0.42, 2.05);
+  const alignmentScore = rangeScore(directionSimilarity(ringMcp, ringPip, middleMcp, middlePip), 0.72, 1.01, 0.15, 1.02)
+    * rangeScore(directionSimilarity(ringMcp, ringPip, pinkyMcp, pinkyPip), 0.58, 1.01, 0.02, 1.02);
+  const geometryConfidence = clamp(Math.sqrt(lengthScore * alignmentScore), 0, 1);
+  const tooFar = ringAxisPixels < 24 || boundsAreaRatio < 0.018;
+  const shouldRefine = !tooFar && (ringAxisPixels < 82 || boundsAreaRatio < 0.16);
+  return { boundsAreaRatio, ringAxisPixels, geometryConfidence, shouldRefine, tooFar };
 }
 
 export function coverTransform(
@@ -412,6 +479,26 @@ export function calculateManualRingPose(edgeA: HandPoint, edgeB: HandPoint): Rin
     skew: 0,
     depthTilt: 0,
   };
+}
+
+/**
+ * Converts the selected stone's real face-up width into image pixels. Unlike
+ * settingWidth this value deliberately excludes the shank and shoulders, so a
+ * carat change can resize only the diamond head.
+ */
+export function calculateStoneVisualWidth(options: {
+  fingerWidth: number;
+  stoneWidthMm: number;
+  ringInnerDiameterMm: number;
+  pixelsPerMm?: number | null;
+  manualScale?: number;
+}): number {
+  const fingerWidth = Math.max(1, options.fingerWidth);
+  const manualScale = clamp(options.manualScale ?? 1, 0.55, 1.8);
+  const physicalWidth = options.pixelsPerMm && options.pixelsPerMm > 0
+    ? options.stoneWidthMm * options.pixelsPerMm
+    : fingerWidth * options.stoneWidthMm / Math.max(12, options.ringInnerDiameterMm);
+  return clamp(physicalWidth, fingerWidth * 0.24, fingerWidth * 0.72) * manualScale;
 }
 
 interface PixelColor {

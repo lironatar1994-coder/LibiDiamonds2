@@ -46,4 +46,41 @@ const dimensions = geometry.calculateRingVisualDimensions({
 });
 assert(dimensions.shankWidth > 130 && dimensions.settingWidth > 90, "V4 manual scale was not applied to both shank and setting");
 
-console.log("Validated V4 manual placement, dense contour geometry and independent physical ring scaling.");
+const makeHand = (scale) => {
+  const center = { x: 0.5, y: 0.55 };
+  const base = Array.from({ length: 21 }, () => ({ ...center }));
+  const point = (x, y) => ({ x: center.x + (x - center.x) * scale, y: center.y + (y - center.y) * scale });
+  base[0] = point(0.5, 0.92);
+  base[4] = point(0.22, 0.58);
+  base[8] = point(0.33, 0.18);
+  base[9] = point(0.45, 0.66);
+  base[10] = point(0.45, 0.5);
+  base[12] = point(0.46, 0.2);
+  base[13] = point(0.55, 0.67);
+  base[14] = point(0.55, 0.52);
+  base[16] = point(0.56, 0.25);
+  base[17] = point(0.65, 0.69);
+  base[18] = point(0.65, 0.56);
+  base[20] = point(0.67, 0.34);
+  return base;
+};
+const nearHand = geometry.assessHandScale(makeHand(1), 720, 720);
+const mediumHand = geometry.assessHandScale(makeHand(0.52), 720, 720);
+const farHand = geometry.assessHandScale(makeHand(0.16), 720, 720);
+assert(nearHand.geometryConfidence > 0.7 && !nearHand.tooFar, "valid near-hand topology was rejected");
+assert(mediumHand.shouldRefine && !mediumHand.tooFar, "medium-distance hand did not request ROI refinement");
+assert(farHand.tooFar, "unsafe tiny hand was accepted for automatic placement");
+
+const stone070 = geometry.calculateStoneVisualWidth({
+  fingerWidth: 80,
+  stoneWidthMm: 6.5 * Math.cbrt(0.7),
+  ringInnerDiameterMm: (14 + 40) / Math.PI,
+});
+const stone200 = geometry.calculateStoneVisualWidth({
+  fingerWidth: 80,
+  stoneWidthMm: 6.5 * Math.cbrt(2),
+  ringInnerDiameterMm: (14 + 40) / Math.PI,
+});
+assert(stone200 > stone070 * 1.35, "carat control did not resize the independent diamond head");
+
+console.log("Validated V4 far-hand refinement gates, diamond-only carat scaling and physical ring geometry.");

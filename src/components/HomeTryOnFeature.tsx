@@ -268,6 +268,7 @@ export default function HomeTryOnFeature() {
         caratSelected={false}
         ringSize="unsure"
         config={auraTryOn}
+        caratOptions={auraProduct.carats}
       />
 
       <EarringTryOnDialog

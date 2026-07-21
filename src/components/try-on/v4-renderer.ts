@@ -1,4 +1,4 @@
-import type { Metal, RingTryOnV4Config } from "@/data/products";
+import type { DiamondShape, Metal, RingTryOnV4Config } from "@/data/products";
 import type { FingerSection, RingPose } from "./geometry";
 
 export interface RingTryOnV4Assets {
@@ -11,6 +11,7 @@ export interface RingTryOnV4Assets {
 export interface RingTryOnV4Dimensions {
   settingWidth: number;
   shankWidth: number;
+  stoneWidth: number;
 }
 
 interface LocalLighting {
@@ -91,7 +92,13 @@ function drawPerspectiveLayer(
   pose: RingPose,
   canvasWidth: number,
   centerYRatio: number,
-  options: { alpha?: number; shadow?: boolean; filter?: string; composite?: GlobalCompositeOperation } = {},
+  options: {
+    alpha?: number;
+    shadow?: boolean;
+    filter?: string;
+    composite?: GlobalCompositeOperation;
+    centerCutout?: { width: number; height: number };
+  } = {},
 ) {
   const canvasHeight = canvasWidth * (image.height / image.width);
   const segments = 10;
@@ -105,6 +112,14 @@ function drawPerspectiveLayer(
   context.globalAlpha = options.alpha ?? 1;
   context.globalCompositeOperation = options.composite ?? "source-over";
   context.filter = options.filter ?? "none";
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = "high";
+  if (options.centerCutout) {
+    context.beginPath();
+    context.rect(-canvasWidth, -canvasHeight, canvasWidth * 2, canvasHeight * 2);
+    context.ellipse(0, 0, options.centerCutout.width / 2, options.centerCutout.height / 2, 0, 0, Math.PI * 2);
+    context.clip("evenodd");
+  }
   if (options.shadow) {
     context.shadowColor = "rgba(20,14,8,0.22)";
     context.shadowBlur = Math.max(1.2, pose.fingerWidth * 0.08);
@@ -131,6 +146,111 @@ function drawPerspectiveLayer(
   context.restore();
 }
 
+const HEAD_CROP_WIDTH_RATIO = 0.38;
+const HEAD_STONE_CONTENT_RATIO = 0.74;
+
+function drawIndependentHead(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  pose: RingPose,
+  centerYRatio: number,
+  stoneWidth: number,
+  filter: string,
+) {
+  const sourceWidth = image.width * HEAD_CROP_WIDTH_RATIO;
+  const sourceHeight = image.height * HEAD_CROP_WIDTH_RATIO;
+  const sourceX = image.width * 0.5 - sourceWidth / 2;
+  const sourceY = image.height * centerYRatio - sourceHeight / 2;
+  const destinationWidth = stoneWidth / HEAD_STONE_CONTENT_RATIO;
+  const destinationHeight = destinationWidth * (sourceHeight / sourceWidth);
+
+  context.save();
+  context.translate(pose.x, pose.y);
+  context.rotate(pose.rotation);
+  context.transform(1, 0, pose.skew * 0.72, pose.perspectiveScale, 0, 0);
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = "high";
+  context.filter = filter;
+  context.shadowColor = "rgba(18,12,7,0.2)";
+  context.shadowBlur = Math.max(1.2, pose.fingerWidth * 0.075);
+  context.shadowOffsetY = Math.max(0.7, pose.fingerWidth * 0.026);
+  context.drawImage(
+    image,
+    sourceX,
+    sourceY,
+    sourceWidth,
+    sourceHeight,
+    -destinationWidth / 2,
+    -destinationHeight / 2,
+    destinationWidth,
+    destinationHeight,
+  );
+  context.restore();
+}
+
+function drawDiamondOptics(
+  context: CanvasRenderingContext2D,
+  pose: RingPose,
+  shape: DiamondShape,
+  stoneWidth: number,
+  glintStrength: number,
+) {
+  if (shape !== "round" || stoneWidth < 4) return;
+  const radius = stoneWidth * 0.48;
+  context.save();
+  context.translate(pose.x, pose.y);
+  context.rotate(pose.rotation);
+  context.transform(1, 0, pose.skew * 0.72, pose.perspectiveScale, 0, 0);
+  context.beginPath();
+  context.arc(0, 0, radius, 0, Math.PI * 2);
+  context.clip();
+  context.globalCompositeOperation = "screen";
+
+  const facetAlpha = 0.035 + glintStrength * 0.08;
+  for (let index = 0; index < 12; index += 1) {
+    const start = index * Math.PI / 6 - Math.PI / 12;
+    const end = start + Math.PI / 6;
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.arc(0, 0, radius, start, end);
+    context.closePath();
+    context.fillStyle = index % 3 === 0
+      ? `rgba(202,226,255,${facetAlpha})`
+      : index % 3 === 1
+        ? `rgba(255,238,205,${facetAlpha * 0.82})`
+        : `rgba(255,255,255,${facetAlpha * 0.58})`;
+    context.fill();
+  }
+
+  const table = context.createRadialGradient(-radius * 0.18, -radius * 0.2, 0, 0, 0, radius);
+  table.addColorStop(0, `rgba(255,255,255,${0.12 + glintStrength * 0.16})`);
+  table.addColorStop(0.34, "rgba(255,255,255,0.015)");
+  table.addColorStop(1, "rgba(180,210,255,0.04)");
+  context.fillStyle = table;
+  context.fillRect(-radius, -radius, radius * 2, radius * 2);
+
+  if (glintStrength > 0.03) {
+    const travel = 1 - glintStrength;
+    const glintX = -radius * 0.64 + travel * radius * 1.05;
+    const glintY = -radius * 0.42 + travel * radius * 0.28;
+    const glow = context.createRadialGradient(glintX, glintY, 0, glintX, glintY, radius * 0.32);
+    glow.addColorStop(0, `rgba(255,255,255,${0.9 * glintStrength})`);
+    glow.addColorStop(0.2, `rgba(220,238,255,${0.42 * glintStrength})`);
+    glow.addColorStop(1, "rgba(255,255,255,0)");
+    context.fillStyle = glow;
+    context.fillRect(-radius, -radius, radius * 2, radius * 2);
+    context.strokeStyle = `rgba(255,255,255,${0.78 * glintStrength})`;
+    context.lineWidth = Math.max(0.55, stoneWidth * 0.018);
+    context.beginPath();
+    context.moveTo(glintX - radius * 0.24, glintY);
+    context.lineTo(glintX + radius * 0.24, glintY);
+    context.moveTo(glintX, glintY - radius * 0.24);
+    context.lineTo(glintX, glintY + radius * 0.24);
+    context.stroke();
+  }
+  context.restore();
+}
+
 export function drawLayeredRingV4(
   context: CanvasRenderingContext2D,
   pristineFrame: HTMLCanvasElement,
@@ -139,6 +259,7 @@ export function drawLayeredRingV4(
   section: FingerSection,
   metal: Metal,
   config: RingTryOnV4Config,
+  shape: DiamondShape,
   dimensions: RingTryOnV4Dimensions,
   glintStrength: number,
 ) {
@@ -179,10 +300,18 @@ export function drawLayeredRingV4(
     context.ellipse(0, pose.fingerWidth * 0.075, settingCanvasWidth * 0.24, pose.fingerWidth * 0.075, 0, 0, Math.PI * 2);
     context.fill();
     context.restore();
+    const independentHead = config.renderProfile === "solitaire";
     drawPerspectiveLayer(context, assets.setting, pose, settingCanvasWidth, config.assetCenterYRatio, {
       shadow: true,
       filter,
+      centerCutout: independentHead
+        ? { width: settingCanvasWidth * HEAD_CROP_WIDTH_RATIO * 1.06, height: settingCanvasWidth * HEAD_CROP_WIDTH_RATIO * 1.06 }
+        : undefined,
     });
+    if (independentHead) {
+      drawIndependentHead(context, assets.setting, pose, config.assetCenterYRatio, dimensions.stoneWidth, filter);
+      drawDiamondOptics(context, pose, shape, dimensions.stoneWidth, glintStrength);
+    }
   }
 
   const highlightAlpha = clamp(0.055 + glintStrength * 0.24, 0.055, 0.295);
@@ -190,5 +319,8 @@ export function drawLayeredRingV4(
     alpha: highlightAlpha,
     composite: "screen",
     filter: `brightness(${1.04 + glintStrength * 0.18}) contrast(1.08)`,
+    centerCutout: config.renderProfile === "solitaire"
+      ? { width: settingCanvasWidth * HEAD_CROP_WIDTH_RATIO * 1.06, height: settingCanvasWidth * HEAD_CROP_WIDTH_RATIO * 1.06 }
+      : undefined,
   });
 }
