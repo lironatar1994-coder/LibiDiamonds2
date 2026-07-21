@@ -1248,6 +1248,20 @@ h3,
   box-shadow: 0 8px 24px rgba(7, 26, 40, 0.055);
 }
 
+@media (max-width: 639px) {
+  .catalog-ring-style-viewport::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 2.75rem;
+    height: 2.25rem;
+    background: linear-gradient(to right, rgba(243, 246, 247, 0.98) 0%, rgba(243, 246, 247, 0.82) 48%, rgba(243, 246, 247, 0) 100%);
+    content: "";
+    pointer-events: none;
+  }
+}
+
 .catalog-flow {
   position: relative;
 }

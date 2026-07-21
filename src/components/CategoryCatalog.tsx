@@ -177,7 +177,7 @@ export default function CategoryCatalog({
       {styleShowcase.length > 1 && (
         <section
           className={category === "rings"
-            ? "-mx-4 mt-6 border-y border-[#d7e1e6] bg-[radial-gradient(circle_at_12%_16%,rgba(145,169,183,0.16),transparent_33%),radial-gradient(circle_at_88%_82%,rgba(178,195,204,0.12),transparent_36%),linear-gradient(118deg,rgba(255,255,255,0.9)_0%,rgba(243,246,247,0.76)_42%,rgba(232,239,242,0.58)_100%),#f3f6f7] py-5 sm:mx-0 sm:mt-9 sm:py-7"
+            ? "-mx-4 mt-4 border-y border-[#d7e1e6] bg-[radial-gradient(circle_at_12%_16%,rgba(145,169,183,0.16),transparent_33%),radial-gradient(circle_at_88%_82%,rgba(178,195,204,0.12),transparent_36%),linear-gradient(118deg,rgba(255,255,255,0.9)_0%,rgba(243,246,247,0.76)_42%,rgba(232,239,242,0.58)_100%),#f3f6f7] pb-3 pt-4 sm:mx-0 sm:mt-9 sm:py-7"
             : "mt-5 sm:mt-8"
           }
           aria-labelledby="catalog-style-heading"
@@ -197,8 +197,9 @@ export default function CategoryCatalog({
             </div>
           )}
 
+          <div className={category === "rings" ? "catalog-ring-style-viewport relative" : ""}>
           <div className={category === "rings"
-            ? "mt-4 overflow-x-auto overscroll-x-contain px-4 pb-1 scroll-px-4 snap-x snap-mandatory [scrollbar-width:none] sm:mt-5 sm:overflow-visible sm:px-7 [&::-webkit-scrollbar]:hidden"
+            ? "catalog-ring-style-rail mt-2.5 overflow-x-auto overscroll-x-contain px-2 pb-1 scroll-px-2 snap-x snap-mandatory [scrollbar-width:none] sm:mt-5 sm:overflow-visible sm:px-7 sm:scroll-px-7 [&::-webkit-scrollbar]:hidden"
             : "-mx-4 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden"
           } dir={category === "rings" ? "rtl" : undefined}>
             <div className={category === "rings"
@@ -225,13 +226,13 @@ export default function CategoryCatalog({
                     {isRingAtelierStyle ? (
                       <span className="flex flex-col items-center">
                         <RingStyleAtelierIllustration style={option as RingAtelierStyle} active={active} />
-                        <span className={`mt-2.5 block min-h-5 text-center text-[0.78rem] leading-5 text-ink-soft transition-[color,font-weight] sm:mt-3 sm:text-[0.84rem] ${
+                        <span className={`mt-2 block min-h-5 text-center text-[0.78rem] leading-5 text-ink-soft transition-[color,font-weight] sm:mt-3 sm:text-[0.84rem] ${
                           active ? "font-medium text-ink" : "font-normal"
                         }`}>
                           {styleNames[option]}
                         </span>
                         <span
-                          className={`mt-1.5 h-1.5 w-1.5 rotate-45 border border-gilt transition-opacity motion-reduce:transition-none ${
+                          className={`mt-1 h-1.5 w-1.5 rotate-45 border border-gilt transition-opacity motion-reduce:transition-none sm:mt-1.5 ${
                             active ? "bg-gilt opacity-100" : "bg-transparent opacity-0 group-focus-visible:opacity-100"
                           }`}
                           aria-hidden="true"
@@ -260,11 +261,12 @@ export default function CategoryCatalog({
               })}
             </div>
           </div>
+          </div>
         </section>
       )}
 
       {category === "rings" && <div
-        className={`catalog-mobile-utility sticky top-16 z-30 -mx-4 mt-5 grid h-14 grid-cols-[44fr_56fr] divide-x divide-x-reverse divide-line/80 border-y border-line/80 bg-ivory/95 backdrop-blur-md transition-[opacity,transform] duration-200 motion-reduce:transition-none sm:hidden ${
+        className={`catalog-mobile-utility sticky top-16 z-30 -mx-4 mt-2 grid h-14 grid-cols-[44fr_56fr] divide-x divide-x-reverse divide-line/80 border-y border-line/80 bg-ivory/95 backdrop-blur-md transition-[opacity,transform] duration-200 motion-reduce:transition-none sm:hidden ${
           mobileUtilityVisible ? "opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
         }`}
         aria-hidden={!mobileUtilityVisible}
@@ -278,7 +280,7 @@ export default function CategoryCatalog({
         >
           <span className="text-[0.76rem] font-semibold">סינון</span>
           <span className="text-[0.66rem] text-gilt" aria-hidden="true">·</span>
-          <span className="text-[0.7rem] text-stone">{visibleItems.length} עיצובים</span>
+          <span className="text-[0.7rem] text-stone">{visibleItems.length}</span>
         </button>
         <button
           type="button"
@@ -287,7 +289,7 @@ export default function CategoryCatalog({
           aria-haspopup="dialog"
           tabIndex={mobileUtilityVisible ? 0 : -1}
         >
-          <span className="block truncate">מיון: {sortLabel}</span>
+          <span className="block truncate">{sortLabel}</span>
         </button>
       </div>}
 

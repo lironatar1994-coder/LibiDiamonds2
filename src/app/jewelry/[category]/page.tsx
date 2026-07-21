@@ -84,7 +84,7 @@ export default async function CategoryPage({ params }: Props) {
   };
   return (
     <div className="section-gallery">
-      <div className={`mx-auto max-w-7xl px-4 pt-6 sm:px-6 sm:pt-11 lg:px-8 ${cat.slug === "rings" ? "pb-0" : "pb-14 sm:pb-20"}`}>
+      <div className={`mx-auto max-w-7xl px-4 sm:px-6 sm:pt-11 lg:px-8 ${cat.slug === "rings" ? "pb-0 pt-4" : "pb-14 pt-6 sm:pb-20"}`}>
         <nav className="hidden text-xs text-stone sm:block" aria-label="פירורי לחם">
         <Link href="/" className="hover:text-gold-deep">
           ראשי
@@ -95,7 +95,7 @@ export default async function CategoryPage({ params }: Props) {
 
         <header className="text-center sm:mt-6 sm:max-w-2xl sm:text-right">
           <h1 className="font-display text-[2.15rem] font-medium leading-tight sm:text-4xl">{cat.name}</h1>
-          <BrandSignature className="mt-4" />
+          <BrandSignature className={cat.slug === "rings" ? "mt-3" : "mt-4"} />
         </header>
 
         <CategoryCatalog items={items} category={cat.slug} />
