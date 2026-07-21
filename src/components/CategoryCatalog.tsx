@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import CatalogControlSheet from "@/components/catalog/CatalogControlSheet";
 import ProductCard from "@/components/ProductCard";
 import ProductMedia from "@/components/ProductMedia";
@@ -93,7 +93,9 @@ export default function CategoryCatalog({
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [mobileSortOpen, setMobileSortOpen] = useState(false);
+  const [mobileUtilityVisible, setMobileUtilityVisible] = useState(true);
   const [visibleCount, setVisibleCount] = useState(INITIAL_PRODUCT_COUNT);
+  const catalogEndRef = useRef<HTMLSpanElement>(null);
   const availableShapes = useMemo(
     () => shapeOrder.filter((option) => items.some((item) => item.diamondShape === option)),
     [items],
@@ -118,6 +120,15 @@ export default function CategoryCatalog({
   useEffect(() => {
     setVisibleCount(INITIAL_PRODUCT_COUNT);
   }, [displayMetal, shape, sort, style]);
+  useEffect(() => {
+    if (category !== "rings" || !catalogEndRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setMobileUtilityVisible(!entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(catalogEndRef.current);
+    return () => observer.disconnect();
+  }, [category]);
   const showShapeFilter = category === "rings" && availableShapes.length > 1;
   const showStyleFilter = availableStyles.length > 1;
   const activeFilterCount = Number(shape !== "all") + Number(style !== "all") + Number(displayMetal !== defaultMetal);
@@ -162,6 +173,7 @@ export default function CategoryCatalog({
 
   return (
     <>
+      <div className="catalog-flow">
       {styleShowcase.length > 1 && (
         <section
           className={category === "rings"
@@ -251,12 +263,18 @@ export default function CategoryCatalog({
         </section>
       )}
 
-      {category === "rings" && <div className="catalog-mobile-utility sticky top-16 z-30 -mx-4 mt-5 grid h-14 grid-cols-[44fr_56fr] divide-x divide-x-reverse divide-line/80 border-y border-line/80 bg-ivory/95 backdrop-blur-md sm:hidden">
+      {category === "rings" && <div
+        className={`catalog-mobile-utility sticky top-16 z-30 -mx-4 mt-5 grid h-14 grid-cols-[44fr_56fr] divide-x divide-x-reverse divide-line/80 border-y border-line/80 bg-ivory/95 backdrop-blur-md transition-[opacity,transform] duration-200 motion-reduce:transition-none sm:hidden ${
+          mobileUtilityVisible ? "opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
+        }`}
+        aria-hidden={!mobileUtilityVisible}
+      >
         <button
           type="button"
           onClick={openMobileFilters}
           className="flex min-w-0 items-center justify-center gap-1.5 px-2 text-ink"
           aria-haspopup="dialog"
+          tabIndex={mobileUtilityVisible ? 0 : -1}
         >
           <span className="text-[0.76rem] font-semibold">סינון</span>
           <span className="text-[0.66rem] text-gilt" aria-hidden="true">·</span>
@@ -267,6 +285,7 @@ export default function CategoryCatalog({
           onClick={() => setMobileSortOpen(true)}
           className="min-w-0 px-2 text-[0.75rem] font-medium text-ink"
           aria-haspopup="dialog"
+          tabIndex={mobileUtilityVisible ? 0 : -1}
         >
           <span className="block truncate">מיון: {sortLabel}</span>
         </button>
@@ -401,6 +420,8 @@ export default function CategoryCatalog({
           </button>
         </div>
       )}
+      {category === "rings" && <span ref={catalogEndRef} className="block h-px" aria-hidden="true" />}
+      </div>
 
       {category === "rings" && <CatalogControlSheet
         open={mobileFilterOpen}

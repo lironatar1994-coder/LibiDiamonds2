@@ -816,6 +816,11 @@ h3,
   color: #fcfdfe;
 }
 
+.catalog-collection-prefooter {
+  background: var(--home-midnight);
+  color: var(--home-pearl-white);
+}
+
 .footer-graphite .brand-signature-line {
   background: var(--color-gilt);
 }
@@ -1198,6 +1203,10 @@ h3,
 
 .catalog-mobile-utility {
   box-shadow: 0 8px 24px rgba(7, 26, 40, 0.055);
+}
+
+.catalog-flow {
+  position: relative;
 }
 
 .catalog-control-sheet {

@@ -68,7 +68,7 @@ export default async function CategoryPage({ params }: Props) {
   };
   return (
     <div className="section-gallery">
-      <div className="mx-auto max-w-7xl px-4 pb-14 pt-6 sm:px-6 sm:pb-20 sm:pt-11 lg:px-8">
+      <div className={`mx-auto max-w-7xl px-4 pt-6 sm:px-6 sm:pt-11 lg:px-8 ${cat.slug === "rings" ? "pb-0" : "pb-14 sm:pb-20"}`}>
         <nav className="hidden text-xs text-stone sm:block" aria-label="פירורי לחם">
         <Link href="/" className="hover:text-gold-deep">
           ראשי
@@ -84,30 +84,43 @@ export default async function CategoryPage({ params }: Props) {
 
         <CategoryCatalog items={items} category={cat.slug} />
 
-        <aside className={`${cat.slug === "rings" ? "catalog-collection-index mt-14 border-y border-line py-8" : "mt-16 border-t border-line pt-8 sm:mt-20 sm:pt-10"}`} aria-label="קטגוריות נוספות">
-          {cat.slug === "rings" && (
-            <h2 className="mb-4 font-display text-[1.65rem] font-medium text-ink">להמשיך לגלות</h2>
-          )}
-          <div className={cat.slug === "rings" ? "divide-y divide-line/80" : "flex flex-nowrap justify-center divide-x divide-gold/35"} dir="rtl">
+        {cat.slug !== "rings" && <aside className="mt-16 border-t border-line pt-8 sm:mt-20 sm:pt-10" aria-label="קטגוריות נוספות">
+          <div className="flex flex-nowrap justify-center divide-x divide-gold/35" dir="rtl">
             {others.map((c) => (
               <Link
                 key={c.slug}
                 href={`/jewelry/${c.slug}`}
-                className={cat.slug === "rings"
-                  ? "flex min-h-12 items-center justify-between text-sm text-ink-soft transition-colors hover:text-gilt-deep focus-visible:text-gilt-deep"
-                  : "px-5 py-1 text-sm text-ink-soft transition-colors hover:text-gold-deep focus-visible:text-gold-deep sm:px-7"
-                }
+                className="px-5 py-1 text-sm text-ink-soft transition-colors hover:text-gold-deep focus-visible:text-gold-deep sm:px-7"
               >
                 <span>{c.name}</span>
-                {cat.slug === "rings" && <span className="text-gilt" aria-hidden="true">←</span>}
               </Link>
             ))}
           </div>
-        </aside>
+        </aside>}
 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
       </div>
+
+      {cat.slug === "rings" && (
+        <aside className="catalog-collection-prefooter mt-10 sm:mt-14" aria-label="קטגוריות נוספות">
+          <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
+            <h2 className="font-display text-[1.25rem] font-medium sm:text-[1.4rem]">הקולקציה ממשיכה</h2>
+            <div className="mt-4 divide-y divide-white/15 border-y border-white/15" dir="rtl">
+              {others.map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/jewelry/${c.slug}`}
+                  className="group flex min-h-16 items-center justify-between outline-none transition-colors hover:text-white focus-visible:text-white sm:min-h-[4.75rem]"
+                >
+                  <span className="font-display text-[1.45rem] font-normal sm:text-[1.75rem]">{c.name}</span>
+                  <span className="text-lg text-gilt transition-transform duration-300 group-hover:-translate-x-1.5 group-focus-visible:-translate-x-1.5 motion-reduce:transition-none" aria-hidden="true">←</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </aside>
+      )}
     </div>
   );
 }
