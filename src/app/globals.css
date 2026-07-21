@@ -89,7 +89,7 @@ h3,
 }
 
 .home-hero-brand-veil {
-  background: radial-gradient(ellipse at 50% 10%, rgba(251, 250, 247, 0.62), rgba(251, 250, 247, 0.2) 32%, transparent 58%);
+  background: radial-gradient(ellipse at 50% 10%, rgba(251, 250, 247, 0.6), rgba(251, 250, 247, 0.14) 30%, transparent 52%);
   pointer-events: none;
 }
 

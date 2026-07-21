@@ -8,6 +8,7 @@
     "start": "next start",
     "homepage:signatures": "node scripts/homepage/process-signatures.mjs",
     "homepage:categories": "node scripts/homepage/process-categories.mjs",
+    "homepage:hero": "node scripts/homepage/process-hero.mjs",
     "images:prepare": "python scripts/product-images/prepare_masters.py",
     "images:render": "node scripts/product-images/render.mjs",
     "images:validate": "node scripts/product-images/validate.mjs --strict",

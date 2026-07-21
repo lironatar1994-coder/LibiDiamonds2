@@ -19,7 +19,7 @@ import { onlineStoreJsonLd, pageMetadata } from "@/lib/seo";
 
 const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום אובלי על שכבות אבן שיש בגוני לבן ושמנת עם עורק זהב עדין";
 const { props: heroDesktopImage } = getImageProps({
-  src: assetPath("/images/hero/ivory-gold-v1/hero-desktop.webp"),
+  src: assetPath("/images/hero/ivory-gold-v2/hero-desktop.webp"),
   alt: heroAlt,
   fill: true,
   priority: true,
@@ -28,7 +28,7 @@ const { props: heroDesktopImage } = getImageProps({
 const {
   props: { srcSet: heroMobileSrcSet },
 } = getImageProps({
-  src: assetPath("/images/hero/ivory-gold-v1/hero-mobile.webp"),
+  src: assetPath("/images/hero/ivory-gold-v2/hero-mobile.webp"),
   alt: heroAlt,
   fill: true,
   sizes: "100vw",
