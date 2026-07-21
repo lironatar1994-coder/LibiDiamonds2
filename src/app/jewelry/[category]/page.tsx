@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import CategoryCatalog from "@/components/CategoryCatalog";
@@ -10,13 +11,28 @@ import {
   productsByCategory,
   type CategorySlug,
 } from "@/data/products";
-import { absoluteUrl, site } from "@/lib/site";
+import { absoluteUrl, assetPath, site } from "@/lib/site";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { sortProductsByPopularity } from "@/lib/product-sorting";
 
 interface Props {
   params: Promise<{ category: string }>;
 }
+
+const collectionContinuationImages: Partial<Record<CategorySlug, { src: string; position: string }>> = {
+  earrings: {
+    src: "/images/editorial/categories/v4-midnight-atelier/earrings-yellow-gold.webp",
+    position: "50% 58%",
+  },
+  necklaces: {
+    src: "/images/editorial/categories/v4-midnight-atelier/necklaces-yellow-gold.webp",
+    position: "52% 59%",
+  },
+  bracelets: {
+    src: "/images/editorial/categories/v4-midnight-atelier/bracelets-yellow-gold.webp",
+    position: "50% 58%",
+  },
+};
 
 export function generateStaticParams() {
   return categories.map((c) => ({ category: c.slug }));
@@ -107,16 +123,33 @@ export default async function CategoryPage({ params }: Props) {
           <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
             <h2 className="font-display text-[1.25rem] font-medium sm:text-[1.4rem]">הקולקציה ממשיכה</h2>
             <div className="mt-4 divide-y divide-white/15 border-y border-white/15" dir="rtl">
-              {others.map((c) => (
-                <Link
-                  key={c.slug}
-                  href={`/jewelry/${c.slug}`}
-                  className="group flex min-h-16 items-center justify-between outline-none transition-colors hover:text-white focus-visible:text-white sm:min-h-[4.75rem]"
-                >
-                  <span className="font-display text-[1.45rem] font-normal sm:text-[1.75rem]">{c.name}</span>
-                  <span className="text-lg text-gilt transition-transform duration-300 group-hover:-translate-x-1.5 group-focus-visible:-translate-x-1.5 motion-reduce:transition-none" aria-hidden="true">←</span>
-                </Link>
-              ))}
+              {others.map((c) => {
+                const editorial = collectionContinuationImages[c.slug];
+                return (
+                  <Link
+                    key={c.slug}
+                    href={`/jewelry/${c.slug}`}
+                    className="catalog-continuation-row group flex min-h-[6.5rem] overflow-hidden text-[var(--home-pearl-white)] outline-none sm:min-h-[7.75rem]"
+                  >
+                    <span className="relative z-10 flex min-w-0 basis-3/5 items-center justify-between gap-4 pe-4 sm:basis-[64%] sm:pe-6">
+                      <span className="font-display text-[1.5rem] font-normal sm:text-[1.75rem]">{c.name}</span>
+                      <span className="text-lg text-gilt transition-transform duration-300 group-hover:-translate-x-1.5 group-focus-visible:-translate-x-1.5 motion-reduce:transition-none" aria-hidden="true">←</span>
+                    </span>
+                    {editorial && (
+                      <span className="catalog-continuation-media relative min-h-[6.5rem] basis-2/5 overflow-hidden sm:min-h-[7.75rem] sm:basis-[36%]" aria-hidden="true">
+                        <Image
+                          src={assetPath(editorial.src)}
+                          alt=""
+                          fill
+                          sizes="(min-width: 1280px) 450px, (min-width: 640px) 36vw, 40vw"
+                          className="catalog-continuation-image object-cover"
+                          style={{ objectPosition: editorial.position }}
+                        />
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </aside>
