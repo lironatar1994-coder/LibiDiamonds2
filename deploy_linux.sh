@@ -13,6 +13,7 @@ FRONTEND_PORT="${FRONTEND_PORT:-3103}"
 ROUTE_BASE="/LibiDiamonds2"
 LOWER_ROUTE_BASE="/libidiamonds2"
 PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://vee-app.co.il$ROUTE_BASE}"
+RING_TRY_ON_ENGINE="${NEXT_PUBLIC_RING_TRY_ON_ENGINE:-v4-pilot}"
 NGINX_CONF="/etc/nginx/sites-available/vee-app.co.il.conf"
 NGINX_SNIPPET="/etc/nginx/snippets/libi-diamonds-2-locations.conf"
 
@@ -60,12 +61,14 @@ run_npm_install
 
 log "Building Next.js app for $PUBLIC_SITE_URL..."
 NEXT_BASE_PATH="$ROUTE_BASE" NEXT_PUBLIC_BASE_PATH="$ROUTE_BASE" \
-    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=false npm run build
+    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=false \
+    NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" npm run build
 
 log "Starting/restarting PM2 process $PROCESS_NAME on port $FRONTEND_PORT..."
 pm2 delete "$PROCESS_NAME" > /dev/null 2>&1 || true
 PORT="$FRONTEND_PORT" NEXT_BASE_PATH="$ROUTE_BASE" NEXT_PUBLIC_BASE_PATH="$ROUTE_BASE" \
     NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=false \
+    NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" \
     pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start
 pm2 save > /dev/null
 
