@@ -101,19 +101,19 @@ const collectionOrder: CategorySlug[] = ["rings", "earrings", "bracelets", "neck
 
 const collectionEditorialImages: Record<CategorySlug, { src: string; alt: string }> = {
   rings: {
-    src: assetPath("/images/editorial/categories/v5-ivory-atelier/rings-yellow-gold.webp"),
+    src: assetPath("/images/editorial/categories/v6-ivory-depth/rings-yellow-gold.webp"),
     alt: "טבעת סוליטר מזהב צהוב ויהלום עגול על שכבות אבן שיש בגוני לבן ושמנת",
   },
   earrings: {
-    src: assetPath("/images/editorial/categories/v5-ivory-atelier/earrings-yellow-gold.webp"),
+    src: assetPath("/images/editorial/categories/v6-ivory-depth/earrings-yellow-gold.webp"),
     alt: "זוג עגילי יהלום צמודים מזהב צהוב על אבן שיש לבנה עם עורק זהב עדין",
   },
   bracelets: {
-    src: assetPath("/images/editorial/categories/v5-ivory-atelier/bracelets-yellow-gold.webp"),
+    src: assetPath("/images/editorial/categories/v6-ivory-depth/bracelets-yellow-gold.webp"),
     alt: "צמיד טניס מזהב צהוב ויהלומים על שכבות אבן שיש לבנה",
   },
   necklaces: {
-    src: assetPath("/images/editorial/categories/v5-ivory-atelier/necklaces-yellow-gold.webp"),
+    src: assetPath("/images/editorial/categories/v6-ivory-depth/necklaces-yellow-gold.webp"),
     alt: "שרשרת טניס מדורגת מזהב צהוב ויהלומים על שכבות אבן שיש בגוון אייבורי",
   },
 };
@@ -161,7 +161,7 @@ function CollectionTile({ category }: { category: CategorySlug }) {
           loading="eager"
           fetchPriority="low"
           unoptimized
-          className="home-photo-grade object-cover transition-transform duration-1000 ease-out motion-safe:lg:group-hover:scale-[1.025]"
+          className="home-collection-image object-cover transition-transform duration-1000 ease-out motion-safe:lg:group-hover:scale-[1.025]"
         />
         <div
           aria-hidden="true"
