@@ -119,10 +119,12 @@ export default async function CategoryPage({ params }: Props) {
       </div>
 
       {cat.slug === "rings" && (
-        <aside className="catalog-collection-prefooter mt-10 sm:mt-14" aria-label="קטגוריות נוספות">
-          <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
-            <h2 className="font-display text-[1.25rem] font-medium sm:text-[1.4rem]">הקולקציה ממשיכה</h2>
-            <div className="mt-4 divide-y divide-white/15 border-y border-white/15" dir="rtl">
+        <aside className="catalog-collection-prefooter mt-8 sm:mt-10" aria-label="קטגוריות נוספות">
+          <div className="mx-auto max-w-7xl px-4 pb-6 pt-7 sm:px-6 sm:pb-8 sm:pt-9 lg:px-8">
+            <h2 className="font-display text-[1.1rem] font-medium sm:text-[1.25rem]">
+              עוד ב־<span dir="ltr">LIBI</span>
+            </h2>
+            <div className="mt-3 divide-y divide-white/15 border-y border-white/15" dir="rtl">
               {others.map((c) => {
                 const editorial = collectionContinuationImages[c.slug];
                 return (
@@ -142,7 +144,7 @@ export default async function CategoryPage({ params }: Props) {
                           alt=""
                           fill
                           sizes="(min-width: 1280px) 450px, (min-width: 640px) 36vw, 40vw"
-                          className="catalog-continuation-image object-cover"
+                          className={`catalog-continuation-image object-cover ${c.slug !== "earrings" ? "catalog-continuation-image--lifted" : ""}`}
                           style={{ objectPosition: editorial.position }}
                         />
                       </span>

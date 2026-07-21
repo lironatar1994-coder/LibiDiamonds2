@@ -842,10 +842,19 @@ h3,
   transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1), filter 480ms ease;
 }
 
+.catalog-continuation-image--lifted {
+  filter: brightness(1.06) saturate(0.98) contrast(1.04);
+}
+
 .catalog-continuation-row:hover .catalog-continuation-image,
 .catalog-continuation-row:focus-visible .catalog-continuation-image {
   filter: saturate(1) contrast(1.07);
   transform: scale(1.025);
+}
+
+.catalog-continuation-row:hover .catalog-continuation-image--lifted,
+.catalog-continuation-row:focus-visible .catalog-continuation-image--lifted {
+  filter: brightness(1.07) saturate(1) contrast(1.06);
 }
 
 @media (prefers-reduced-motion: reduce) {
