@@ -147,6 +147,9 @@ function drawPerspectiveLayer(
 }
 
 const HEAD_CROP_WIDTH_RATIO = 0.38;
+// The scalable mask hugs the center stone and four prongs. The wider crop is
+// retained only as source padding; ring shoulders outside this mask stay fixed.
+const HEAD_MASK_WIDTH_RATIO = 0.335;
 const HEAD_STONE_CONTENT_RATIO = 0.74;
 
 function drawIndependentHead(
@@ -170,6 +173,10 @@ function drawIndependentHead(
   context.transform(1, 0, pose.skew * 0.72, pose.perspectiveScale, 0, 0);
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = "high";
+  const maskDiameter = destinationWidth * HEAD_MASK_WIDTH_RATIO / HEAD_CROP_WIDTH_RATIO;
+  context.beginPath();
+  context.ellipse(0, 0, maskDiameter / 2, maskDiameter / 2, 0, 0, Math.PI * 2);
+  context.clip();
   context.filter = filter;
   context.shadowColor = "rgba(18,12,7,0.2)";
   context.shadowBlur = Math.max(1.2, pose.fingerWidth * 0.075);
@@ -305,7 +312,7 @@ export function drawLayeredRingV4(
       shadow: true,
       filter,
       centerCutout: independentHead
-        ? { width: settingCanvasWidth * HEAD_CROP_WIDTH_RATIO * 1.06, height: settingCanvasWidth * HEAD_CROP_WIDTH_RATIO * 1.06 }
+        ? { width: settingCanvasWidth * HEAD_MASK_WIDTH_RATIO, height: settingCanvasWidth * HEAD_MASK_WIDTH_RATIO }
         : undefined,
     });
     if (independentHead) {
@@ -320,7 +327,7 @@ export function drawLayeredRingV4(
     composite: "screen",
     filter: `brightness(${1.04 + glintStrength * 0.18}) contrast(1.08)`,
     centerCutout: config.renderProfile === "solitaire"
-      ? { width: settingCanvasWidth * HEAD_CROP_WIDTH_RATIO * 1.06, height: settingCanvasWidth * HEAD_CROP_WIDTH_RATIO * 1.06 }
+      ? { width: settingCanvasWidth * HEAD_MASK_WIDTH_RATIO, height: settingCanvasWidth * HEAD_MASK_WIDTH_RATIO }
       : undefined,
   });
 }
