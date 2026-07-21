@@ -87,6 +87,25 @@ export interface TryOnLayeredAssetPair {
   rear?: string;
 }
 
+export type RingTryOnV4Profile = "solitaire" | "halo" | "three-stone" | "band" | "sculptural";
+
+export interface RingTryOnV4AssetSet {
+  setting?: string;
+  front: string;
+  rear: string;
+  highlight: string;
+}
+
+export interface RingTryOnV4Config {
+  version: 4;
+  renderProfile: RingTryOnV4Profile;
+  assetCenterYRatio: number;
+  assetContentWidthRatio: number;
+  settingContentWidthRatio: number;
+  pilot: boolean;
+  assetsByMetal: Partial<Record<Metal, RingTryOnV4AssetSet>>;
+}
+
 export interface RingTryOnConfig {
   version: 3;
   target: "finger";
@@ -100,6 +119,7 @@ export interface RingTryOnConfig {
   assetStoneRatio?: number;
   assetsByMetal: Partial<Record<Metal, TryOnAssetPair>>;
   layeredAssetsByMetal: Partial<Record<Metal, TryOnLayeredAssetPair>>;
+  v4: RingTryOnV4Config;
 }
 
 export interface BraceletTryOnConfig {
@@ -1088,6 +1108,13 @@ function productCaratScope(slug: string): CaratScope {
   return scope;
 }
 
+const v4PilotSlugs = new Set([
+  "aura-solitaire-ring",
+  "nova-halo-ring",
+  "trio-three-stone-ring",
+  "etoile-shared-prong-eternity-ring",
+]);
+
 function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOnConfig | undefined {
   if (product.category === "earrings") {
     const earringEntry = earringTryOnEntryForSlug(product.slug);
@@ -1177,6 +1204,21 @@ function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOn
     front: entry.renderMode === "generated-band" ? undefined : `/try-on/v3/rings/${product.slug}/${metal}-front.webp`,
     rear: entry.renderMode === "generated-band" ? undefined : `/try-on/v3/rings/${product.slug}/${metal}-rear.webp`,
   });
+  const v4Asset = (metal: "yellow" | "white"): RingTryOnV4AssetSet => ({
+    setting: isBand ? undefined : `/try-on/v4/rings/${product.slug}/${metal}-setting.webp`,
+    front: `/try-on/v4/rings/${product.slug}/${metal}-front.webp`,
+    rear: `/try-on/v4/rings/${product.slug}/${metal}-rear.webp`,
+    highlight: `/try-on/v4/rings/${product.slug}/${metal}-highlight.webp`,
+  });
+  const renderProfile: RingTryOnV4Profile = isBand
+    ? "band"
+    : product.art === "halo"
+      ? "halo"
+      : product.art === "three-stone"
+        ? "three-stone"
+        : product.art === "solitaire"
+          ? "solitaire"
+          : "sculptural";
 
   return {
     version: 3,
@@ -1196,6 +1238,18 @@ function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOn
     layeredAssetsByMetal: {
       yellow: layeredAsset("yellow"),
       white: layeredAsset("white"),
+    },
+    v4: {
+      version: 4,
+      renderProfile,
+      assetCenterYRatio: entry.assetAnchor === "top" ? 0.4 : 0.6,
+      assetContentWidthRatio: 0.9,
+      settingContentWidthRatio: isBand ? 0.9 : 0.78,
+      pilot: v4PilotSlugs.has(product.slug),
+      assetsByMetal: {
+        yellow: v4Asset("yellow"),
+        white: v4Asset("white"),
+      },
     },
   };
 }

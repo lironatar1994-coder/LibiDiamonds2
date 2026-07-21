@@ -9,7 +9,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { createPortal } from "react-dom";
-import type { HandLandmarker } from "@mediapipe/tasks-vision";
+import type { HandLandmarker, InteractiveSegmenter } from "@mediapipe/tasks-vision";
 import { assetPath } from "@/lib/site";
 import {
   metalNames,
@@ -21,6 +21,7 @@ import { diamondDimensions } from "@/data/diamond-dimensions";
 import {
   calculateRingPose,
   calculateRingVisualDimensions,
+  calculateManualRingPose,
   calculateManualWristPose,
   calculateWristPose,
   choosePrimaryHandIndex,
@@ -36,6 +37,8 @@ import {
   type HandPoint,
   type RingPose,
 } from "./geometry";
+import { fingerSectionMeasurementFromMask } from "./finger-segmentation";
+import { drawLayeredRingV4, type RingTryOnV4Assets } from "./v4-renderer";
 
 type Mode = "live" | "photo";
 type CameraState = "idle" | "starting" | "active" | "error";
@@ -83,6 +86,16 @@ interface HandTrackingSample {
   landmarks: HandPoint[];
   worldLandmarks: HandPoint[] | null;
   handedness: "Left" | "Right" | null;
+}
+
+interface PointerGesture {
+  mode: "drag" | "pinch";
+  originOffset: { x: number; y: number };
+  originScale: number;
+  originRotation: number;
+  originDistance: number;
+  originAngle: number;
+  originMidpoint: { x: number; y: number };
 }
 
 function ToolIcon({ name, className = "h-5 w-5" }: { name: "camera" | "switch" | "freeze" | "reset" | "upload" | "close" | "calibrate"; className?: string }) {
@@ -145,6 +158,46 @@ function drawMedia(
   );
   context.restore();
   return transform;
+}
+
+function displayPoseToSource(
+  pose: RingPose,
+  transform: ReturnType<typeof coverTransform>,
+  canvasWidth: number,
+): RingPose {
+  const sourceRotation = transform.mirrored ? Math.PI - pose.rotation : pose.rotation;
+  const displayX = transform.mirrored ? canvasWidth - pose.x : pose.x;
+  return {
+    ...pose,
+    x: (displayX - transform.offsetX) / transform.scale,
+    y: (pose.y - transform.offsetY) / transform.scale,
+    width: pose.width / transform.scale,
+    fingerWidth: pose.fingerWidth / transform.scale,
+    axisLength: pose.axisLength / transform.scale,
+    axisX: -Math.sin(sourceRotation),
+    axisY: Math.cos(sourceRotation),
+    rotation: sourceRotation,
+  };
+}
+
+function sourcePoseToDisplay(
+  pose: RingPose,
+  transform: ReturnType<typeof coverTransform>,
+  canvasWidth: number,
+): RingPose {
+  const sourceX = transform.offsetX + pose.x * transform.scale;
+  const displayRotation = transform.mirrored ? Math.PI - pose.rotation : pose.rotation;
+  return {
+    ...pose,
+    x: transform.mirrored ? canvasWidth - sourceX : sourceX,
+    y: transform.offsetY + pose.y * transform.scale,
+    width: pose.width * transform.scale,
+    fingerWidth: pose.fingerWidth * transform.scale,
+    axisLength: pose.axisLength * transform.scale,
+    axisX: -Math.sin(displayRotation),
+    axisY: Math.cos(displayRotation),
+    rotation: displayRotation,
+  };
 }
 
 function drawRingSetting(
@@ -551,6 +604,9 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
   const [calibrationPoints, setCalibrationPoints] = useState<CalibrationPoint[]>([]);
   const [wristPlacementActive, setWristPlacementActive] = useState(false);
   const [wristPlacementPoints, setWristPlacementPoints] = useState<CalibrationPoint[]>([]);
+  const [ringPlacementActive, setRingPlacementActive] = useState(false);
+  const [ringPlacementPoints, setRingPlacementPoints] = useState<CalibrationPoint[]>([]);
+  const [segmentationState, setSegmentationState] = useState<"idle" | "loading" | "ready" | "fallback">("idle");
 
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -560,6 +616,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
   const photoRef = useRef<HTMLImageElement>(null);
   const photoUrlRef = useRef<string | null>(null);
   const landmarkerRef = useRef<HandLandmarker | null>(null);
+  const segmenterRef = useRef<InteractiveSegmenter | null>(null);
   const analysisCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const framePendingRef = useRef(false);
   const lastDetectionTimestampRef = useRef(0);
@@ -572,15 +629,26 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
   const lastDetectionRequestRef = useRef(0);
   const ringAssetRef = useRef<HTMLImageElement | null>(null);
   const layeredAssetsRef = useRef<LayeredTryOnAssets | null>(null);
+  const v4AssetsRef = useRef<RingTryOnV4Assets | null>(null);
   const pristineFrameRef = useRef<HTMLCanvasElement | null>(null);
   const manualWristPoseRef = useRef<RingPose | null>(null);
+  const manualRingPoseRef = useRef<RingPose | null>(null);
   const draggingRef = useRef<{ pointerId: number; x: number; y: number; originX: number; originY: number } | null>(null);
+  const activePointersRef = useRef(new Map<number, { x: number; y: number }>());
+  const pointerGestureRef = useRef<PointerGesture | null>(null);
+  const glintUntilRef = useRef(0);
+  const poseWasVisibleRef = useRef(false);
 
   const selectedAssets = config.assetsByMetal[metal];
   const selectedAssetSrc = selectedAssets?.head ?? selectedAssets?.overlay;
   const selectedLayeredAssets = config.layeredAssetsByMetal[metal];
   const isBracelet = config.target === "wrist";
   const ringConfig = config.target === "finger" ? config : null;
+  const v4Engine = process.env.NEXT_PUBLIC_RING_TRY_ON_ENGINE;
+  const v4Enabled = Boolean(ringConfig && (
+    v4Engine === "v4" || (v4Engine === "v4-pilot" && ringConfig.v4.pilot)
+  ));
+  const selectedV4Assets = v4Enabled ? ringConfig?.v4.assetsByMetal[metal] : undefined;
   const effectiveRingSize = ringSize === "unsure" ? 14 : ringSize;
   const ringInnerDiameterMm = (effectiveRingSize + 40) / Math.PI;
   const effectiveCaratValue = caratSelected ? caratValue : config.referenceCarat;
@@ -601,6 +669,12 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     setManualRotation(0);
     setManualOffset({ x: 0, y: 0 });
     smoothedPoseRef.current = null;
+    activePointersRef.current.clear();
+    pointerGestureRef.current = null;
+  }, []);
+
+  const triggerGlint = useCallback(() => {
+    glintUntilRef.current = performance.now() + 720;
   }, []);
 
   const resetCalibration = useCallback(() => {
@@ -612,6 +686,12 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     setWristPlacementActive(false);
     setWristPlacementPoints([]);
     manualWristPoseRef.current = null;
+  }, []);
+
+  const resetRingPlacement = useCallback(() => {
+    setRingPlacementActive(false);
+    setRingPlacementPoints([]);
+    manualRingPoseRef.current = null;
   }, []);
 
   const stopCamera = useCallback(() => {
@@ -641,6 +721,9 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     setCalibrationActive(false);
     setCalibrationPoints([]);
     resetWristPlacement();
+    resetRingPlacement();
+    setSegmentationState(v4Enabled ? "loading" : "idle");
+    poseWasVisibleRef.current = false;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     closeButtonRef.current?.focus();
@@ -666,7 +749,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [onClose, open, resetWristPlacement]);
+  }, [onClose, open, resetRingPlacement, resetWristPlacement, v4Enabled]);
 
   useEffect(() => {
     if (!open) return;
@@ -676,7 +759,11 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
 
     void (async () => {
       try {
-        const { FilesetResolver, HandLandmarker: HandLandmarkerClass } = await import("@mediapipe/tasks-vision");
+        const {
+          FilesetResolver,
+          HandLandmarker: HandLandmarkerClass,
+          InteractiveSegmenter: InteractiveSegmenterClass,
+        } = await import("@mediapipe/tasks-vision");
         const vision = await FilesetResolver.forVisionTasks(assetPath("/try-on/v1/wasm"));
         const options = {
           baseOptions: {
@@ -708,6 +795,39 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
         }
         landmarkerRef.current = landmarker;
         setModelState("ready");
+        if (v4Enabled && ringConfig) {
+          setSegmentationState("loading");
+          try {
+            const segmenterOptions = {
+              baseOptions: {
+                modelAssetPath: assetPath("/try-on/v4/models/magic_touch.tflite"),
+              },
+              outputConfidenceMasks: true,
+              outputCategoryMask: false,
+            };
+            let segmenter: InteractiveSegmenter;
+            try {
+              segmenter = await InteractiveSegmenterClass.createFromOptions(vision, {
+                ...segmenterOptions,
+                baseOptions: { ...segmenterOptions.baseOptions, delegate: "GPU" },
+              });
+            } catch {
+              segmenter = await InteractiveSegmenterClass.createFromOptions(vision, {
+                ...segmenterOptions,
+                baseOptions: { ...segmenterOptions.baseOptions, delegate: "CPU" },
+              });
+            }
+            if (cancelled) {
+              segmenter.close();
+              return;
+            }
+            segmenterRef.current = segmenter;
+            setSegmentationState("ready");
+          } catch (error) {
+            console.warn("Ring try-on finger segmentation is unavailable; using local contour fallback", error);
+            setSegmentationState("fallback");
+          }
+        }
       } catch (error) {
         if (cancelled) return;
         console.error("Ring try-on hand tracking failed to initialize", error);
@@ -720,11 +840,13 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       cancelled = true;
       landmarkerRef.current?.close();
       landmarkerRef.current = null;
+      segmenterRef.current?.close();
+      segmenterRef.current = null;
       analysisCanvasRef.current = null;
       framePendingRef.current = false;
       latestFingerSectionRef.current = null;
     };
-  }, [open]);
+  }, [open, ringConfig, v4Enabled]);
 
   useEffect(() => {
     if (!open || !selectedAssetSrc) return;
@@ -758,6 +880,30 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       });
     return () => { active = false; };
   }, [isBracelet, open, selectedLayeredAssets]);
+
+  useEffect(() => {
+    if (!open || !v4Enabled || !selectedV4Assets) {
+      v4AssetsRef.current = null;
+      return;
+    }
+    let active = true;
+    v4AssetsRef.current = null;
+    const entries = Object.entries(selectedV4Assets).filter(
+      (entry): entry is [keyof RingTryOnV4Assets, string] => Boolean(entry[1]),
+    );
+    Promise.all(entries.map(async ([key, src]) => [key, await loadImage(assetPath(src))] as const))
+      .then((loaded) => {
+        if (!active) return;
+        const assets = Object.fromEntries(loaded) as Partial<RingTryOnV4Assets>;
+        if (!assets.front || !assets.rear || !assets.highlight) throw new Error("Incomplete V4 ring asset set");
+        v4AssetsRef.current = assets as RingTryOnV4Assets;
+      })
+      .catch((error) => {
+        console.error("V4 ring assets failed to load", error);
+        if (active) setCameraError("נכסי ההדמיה החדשים לא נטענו. רעננו את העמוד ונסו שוב.");
+      });
+    return () => { active = false; };
+  }, [open, selectedV4Assets, v4Enabled]);
 
   const sendFrame = useCallback((source: HTMLVideoElement | HTMLImageElement) => {
     const landmarker = landmarkerRef.current;
@@ -793,10 +939,6 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
         const worldHand = result.worldLandmarks[primaryIndex]?.map(({ x, y, z }) => ({ x, y, z })) ?? null;
         const handednessLabel = result.handedness[primaryIndex]?.[0]?.categoryName;
         const handedness = handednessLabel === "Left" || handednessLabel === "Right" ? handednessLabel : null;
-        latestHandRef.current = { landmarks: hand, worldLandmarks: worldHand, handedness };
-        manualWristPoseRef.current = null;
-        setWristPlacementActive(false);
-        setWristPlacementPoints([]);
         const analysisHand = mapLandmarks(
           hand,
           { scale: 1, offsetX: 0, offsetY: 0, mirrored: false },
@@ -806,16 +948,66 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
         const analysisPose = isBracelet
           ? calculateWristPose(analysisHand, { worldHand, handedness })
           : calculateRingPose(analysisHand, { worldHand, handedness });
+        let sectionMeasurement: FingerSectionMeasurement | null = null;
         if (analysisPose) {
           const section = isBracelet
             ? estimateLocalWristSection(analysisContext, analysisPose)
             : estimateLocalFingerSection(analysisContext, analysisPose);
-          latestFingerSectionRef.current = section
+          sectionMeasurement = section
             ? fingerSectionMeasurement(section, analysisPose.axisLength)
             : null;
+
+          const segmenter = !isBracelet && v4Enabled ? segmenterRef.current : null;
+          if (segmenter) {
+            try {
+              const segmentation = segmenter.segment(analysisCanvas, {
+                keypoint: {
+                  x: clamp(analysisPose.x / analysisWidth, 0, 1),
+                  y: clamp(analysisPose.y / analysisHeight, 0, 1),
+                },
+              });
+              const confidenceMask = segmentation.confidenceMasks?.[0];
+              if (confidenceMask) {
+                const maskMeasurement = fingerSectionMeasurementFromMask({
+                  data: confidenceMask.getAsFloat32Array(),
+                  width: confidenceMask.width,
+                  height: confidenceMask.height,
+                  quality: segmentation.qualityScores?.[0] ?? 0.78,
+                }, analysisPose, analysisWidth, analysisHeight);
+                confidenceMask.close();
+                if (maskMeasurement && (!sectionMeasurement || maskMeasurement.confidence >= sectionMeasurement.confidence)) {
+                  sectionMeasurement = maskMeasurement;
+                }
+              }
+            } catch (error) {
+              console.warn("Finger segmentation failed; using contour measurement", error);
+              setSegmentationState("fallback");
+            }
+          }
         }
-        lastHandAtRef.current = performance.now();
-        setTrackingVisible(true);
+        latestFingerSectionRef.current = sectionMeasurement;
+        const confidentPlacement = Boolean(analysisPose) && (
+          !v4Enabled || isBracelet || (sectionMeasurement?.confidence ?? 0) >= 0.48
+        );
+        if (confidentPlacement) {
+          latestHandRef.current = { landmarks: hand, worldLandmarks: worldHand, handedness };
+          manualWristPoseRef.current = null;
+          manualRingPoseRef.current = null;
+          setWristPlacementActive(false);
+          setWristPlacementPoints([]);
+          setRingPlacementActive(false);
+          setRingPlacementPoints([]);
+          lastHandAtRef.current = performance.now();
+          setTrackingVisible(true);
+          if (!poseWasVisibleRef.current) {
+            poseWasVisibleRef.current = true;
+            triggerGlint();
+          }
+        } else if (!manualRingPoseRef.current) {
+          latestHandRef.current = null;
+          smoothedPoseRef.current = null;
+          setTrackingVisible(false);
+        }
       } else if (isBracelet || performance.now() - lastHandAtRef.current > 350) {
         latestHandRef.current = null;
         latestFingerSectionRef.current = null;
@@ -833,7 +1025,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       framePendingRef.current = false;
       lastDetectionRequestRef.current = performance.now();
     }
-  }, [isBracelet]);
+  }, [isBracelet, triggerGlint, v4Enabled]);
 
   useEffect(() => {
     if (!open || mode !== "photo" || !photoReady || modelState !== "ready" || !photoRef.current) return;
@@ -899,16 +1091,22 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
         context.drawImage(pristineFrame, 0, 0);
         const sample = latestHandRef.current;
         const manualWristPose = isBracelet ? manualWristPoseRef.current : null;
+        const manualRingPose = !isBracelet && manualRingPoseRef.current
+          ? sourcePoseToDisplay(manualRingPoseRef.current, transform, canvasWidth)
+          : null;
         const ringAsset = ringAssetRef.current;
         const layeredAssets = layeredAssetsRef.current;
+        const v4Assets = v4AssetsRef.current;
         const assetsReady = isBracelet
           ? Boolean(layeredAssets?.front && layeredAssets?.rear)
-          : Boolean(ringAsset);
-        if ((sample || manualWristPose) && assetsReady) {
+          : v4Enabled
+            ? Boolean(v4Assets)
+            : Boolean(ringAsset);
+        if ((sample || manualWristPose || manualRingPose) && assetsReady) {
           const mapped = sample
             ? mapLandmarks(sample.landmarks, transform, sourceWidth, sourceHeight)
             : null;
-          const detectedPose = manualWristPose ?? (mapped && sample
+          const detectedPose = manualWristPose ?? manualRingPose ?? (mapped && sample
             ? isBracelet
               ? calculateWristPose(mapped, {
                   section: latestFingerSectionRef.current,
@@ -930,7 +1128,29 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
             };
             const pose = smoothPose(smoothedPoseRef.current, adjustedPose, mode === "live" ? 0.32 : 0.58);
             smoothedPoseRef.current = pose;
-            if (isBracelet && layeredAssets && config.target === "wrist") {
+            if (v4Enabled && ringConfig && v4Assets) {
+              const dimensions = calculateRingVisualDimensions({
+                fingerWidth: pose.fingerWidth,
+                scaleModel: ringConfig.scaleModel,
+                referenceWidthMm: ringConfig.referenceWidthMm,
+                ringInnerDiameterMm,
+                caratScale,
+                pixelsPerMm: calibratedPixelsPerMm,
+                ringSizeSelected: ringSize !== "unsure",
+                manualScale,
+              });
+              drawLayeredRingV4(
+                context,
+                pristineFrame,
+                v4Assets,
+                pose,
+                fingerSectionForPose(pose, manualRingPose ? null : latestFingerSectionRef.current),
+                metal,
+                ringConfig.v4,
+                dimensions,
+                clamp((glintUntilRef.current - now) / 720, 0, 1),
+              );
+            } else if (isBracelet && layeredAssets && config.target === "wrist") {
               drawLayeredBracelet(
                 context,
                 pristineFrame,
@@ -986,6 +1206,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
         }
         drawCalibrationOverlay(context, calibrationPoints, calibrationActive);
         drawWristPlacementOverlay(context, wristPlacementPoints, wristPlacementActive);
+        drawWristPlacementOverlay(context, ringPlacementPoints, ringPlacementActive);
       }
 
       animationRef.current = requestAnimationFrame(render);
@@ -1017,8 +1238,11 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     isBracelet,
     ringConfig,
     ringSize,
+    ringPlacementActive,
+    ringPlacementPoints,
     sendFrame,
     stoneDiameterMm,
+    v4Enabled,
     wristPlacementActive,
     wristPlacementPoints,
   ]);
@@ -1031,16 +1255,18 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       latestFingerSectionRef.current = null;
       smoothedPoseRef.current = null;
       resetWristPlacement();
+      resetRingPlacement();
       resetAdjustment();
       resetCalibration();
     }
-  }, [clearPhoto, open, resetAdjustment, resetCalibration, resetWristPlacement, stopCamera]);
+  }, [clearPhoto, open, resetAdjustment, resetCalibration, resetRingPlacement, resetWristPlacement, stopCamera]);
 
   const startCamera = useCallback(async (requestedFacing = facingMode) => {
     stopCamera();
     setCameraState("starting");
     setCameraError("");
     resetWristPlacement();
+    resetRingPlacement();
     resetAdjustment();
     resetCalibration();
     try {
@@ -1065,7 +1291,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       const denied = error instanceof DOMException && (error.name === "NotAllowedError" || error.name === "SecurityError");
       setCameraError(denied ? "הגישה למצלמה לא אושרה. אפשר לעבור לתמונה ולהעלות צילום קיים." : "לא הצלחנו להפעיל את המצלמה במכשיר הזה.");
     }
-  }, [facingMode, resetAdjustment, resetCalibration, resetWristPlacement, stopCamera]);
+  }, [facingMode, resetAdjustment, resetCalibration, resetRingPlacement, resetWristPlacement, stopCamera]);
 
   const switchMode = (nextMode: Mode) => {
     if (nextMode === mode) return;
@@ -1077,6 +1303,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     smoothedPoseRef.current = null;
     setTrackingVisible(false);
     resetWristPlacement();
+    resetRingPlacement();
     resetAdjustment();
     resetCalibration();
   };
@@ -1097,6 +1324,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     setCameraError("");
     lastHandAtRef.current = 0;
     resetWristPlacement();
+    resetRingPlacement();
     resetAdjustment();
     resetCalibration();
     const url = URL.createObjectURL(file);
@@ -1149,6 +1377,49 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
     draggingRef.current = null;
   }, [isBracelet, resetCalibration]);
 
+  const startRingPlacement = useCallback(() => {
+    if (isBracelet || !v4Enabled) return;
+    resetCalibration();
+    resetAdjustment();
+    latestHandRef.current = null;
+    latestFingerSectionRef.current = null;
+    manualRingPoseRef.current = null;
+    smoothedPoseRef.current = null;
+    setTrackingVisible(false);
+    setRingPlacementPoints([]);
+    setRingPlacementActive(true);
+    activePointersRef.current.clear();
+    pointerGestureRef.current = null;
+  }, [isBracelet, resetAdjustment, resetCalibration, v4Enabled]);
+
+  const beginPointerGesture = useCallback(() => {
+    const points = [...activePointersRef.current.values()];
+    if (points.length >= 2) {
+      const [first, second] = points;
+      pointerGestureRef.current = {
+        mode: "pinch",
+        originOffset: manualOffset,
+        originScale: manualScale,
+        originRotation: manualRotation,
+        originDistance: Math.max(1, Math.hypot(second.x - first.x, second.y - first.y)),
+        originAngle: Math.atan2(second.y - first.y, second.x - first.x),
+        originMidpoint: { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 },
+      };
+    } else if (points.length === 1) {
+      pointerGestureRef.current = {
+        mode: "drag",
+        originOffset: manualOffset,
+        originScale: manualScale,
+        originRotation: manualRotation,
+        originDistance: 1,
+        originAngle: 0,
+        originMidpoint: points[0],
+      };
+    } else {
+      pointerGestureRef.current = null;
+    }
+  }, [manualOffset, manualRotation, manualScale]);
+
   const onPointerDown = (event: ReactPointerEvent<HTMLCanvasElement>) => {
     if (calibrationActive) {
       const rect = event.currentTarget.getBoundingClientRect();
@@ -1183,19 +1454,74 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
       setTrackingVisible(true);
       return;
     }
+    if (!isBracelet && ringPlacementActive) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const point = {
+        x: (event.clientX - rect.left) * (event.currentTarget.width / rect.width),
+        y: (event.clientY - rect.top) * (event.currentTarget.height / rect.height),
+      };
+      if (ringPlacementPoints.length === 0) {
+        setRingPlacementPoints([point]);
+        return;
+      }
+      const pose = calculateManualRingPose(ringPlacementPoints[0], point);
+      if (!pose) return;
+      const source = mode === "photo" ? photoRef.current : videoRef.current;
+      const sourceWidth = mode === "photo" ? photoRef.current?.naturalWidth : videoRef.current?.videoWidth;
+      const sourceHeight = mode === "photo" ? photoRef.current?.naturalHeight : videoRef.current?.videoHeight;
+      if (!source || !sourceWidth || !sourceHeight) return;
+      const transform = coverTransform(
+        sourceWidth,
+        sourceHeight,
+        event.currentTarget.width,
+        event.currentTarget.height,
+        mode === "live" && facingMode === "user",
+      );
+      manualRingPoseRef.current = displayPoseToSource(pose, transform, event.currentTarget.width);
+      smoothedPoseRef.current = null;
+      setRingPlacementPoints([ringPlacementPoints[0], point]);
+      setRingPlacementActive(false);
+      setTrackingVisible(true);
+      poseWasVisibleRef.current = true;
+      triggerGlint();
+      return;
+    }
     if (!trackingVisible) return;
     event.currentTarget.setPointerCapture(event.pointerId);
-    draggingRef.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, originX: manualOffset.x, originY: manualOffset.y };
+    activePointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    beginPointerGesture();
   };
 
   const onPointerMove = (event: ReactPointerEvent<HTMLCanvasElement>) => {
-    const drag = draggingRef.current;
-    if (!drag || drag.pointerId !== event.pointerId) return;
-    setManualOffset({ x: drag.originX + event.clientX - drag.x, y: drag.originY + event.clientY - drag.y });
+    if (!activePointersRef.current.has(event.pointerId)) return;
+    activePointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    const gesture = pointerGestureRef.current;
+    const points = [...activePointersRef.current.values()];
+    if (!gesture || points.length === 0) return;
+    if (gesture.mode === "pinch" && points.length >= 2) {
+      const [first, second] = points;
+      const distance = Math.max(1, Math.hypot(second.x - first.x, second.y - first.y));
+      const angle = Math.atan2(second.y - first.y, second.x - first.x);
+      const midpoint = { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 };
+      setManualScale(clamp(gesture.originScale * distance / gesture.originDistance, 0.55, 1.8));
+      setManualRotation(gesture.originRotation + angle - gesture.originAngle);
+      setManualOffset({
+        x: gesture.originOffset.x + midpoint.x - gesture.originMidpoint.x,
+        y: gesture.originOffset.y + midpoint.y - gesture.originMidpoint.y,
+      });
+    } else if (gesture.mode === "drag") {
+      setManualOffset({
+        x: gesture.originOffset.x + points[0].x - gesture.originMidpoint.x,
+        y: gesture.originOffset.y + points[0].y - gesture.originMidpoint.y,
+      });
+    }
+    triggerGlint();
   };
 
   const onPointerEnd = (event: ReactPointerEvent<HTMLCanvasElement>) => {
-    if (draggingRef.current?.pointerId === event.pointerId) draggingRef.current = null;
+    activePointersRef.current.delete(event.pointerId);
+    pointerGestureRef.current = null;
+    if (activePointersRef.current.size > 0) beginPointerGesture();
   };
 
   if (!open || typeof document === "undefined") return null;
@@ -1219,7 +1545,9 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
             <p className="mt-0.5 truncate text-[0.7rem] tracking-[0.05em] text-stone">
               {isBracelet
                 ? `${metalNames[metal]} · התאמה אוטומטית לפרק היד`
-                : `${metalNames[metal]} · ${caratSummary} · ${ringSizeSummary}`}
+                : v4Enabled
+                  ? `${metalNames[metal]} · המחשה חזותית מדויקת יותר${calibratedPixelsPerMm !== null ? " · גודל מכויל" : ""}`
+                  : `${metalNames[metal]} · ${caratSummary} · ${ringSizeSummary}`}
             </p>
           </div>
           <button ref={closeButtonRef} type="button" onClick={onClose} className="grid h-11 w-11 place-items-center text-ink" aria-label="סגירת ההדמיה">
@@ -1232,7 +1560,7 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
           <img ref={photoRef} alt={isBracelet ? "התמונה שנבחרה להדמיית הצמיד" : "התמונה שנבחרה להדמיית הטבעת"} className="hidden" />
           <canvas
             ref={canvasRef}
-            className={`h-full w-full touch-none ${calibrationActive || wristPlacementActive ? "cursor-crosshair" : trackingVisible ? "cursor-move" : ""}`}
+            className={`h-full w-full touch-none ${calibrationActive || wristPlacementActive || ringPlacementActive ? "cursor-crosshair" : trackingVisible ? "cursor-move" : ""}`}
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerEnd}
@@ -1269,9 +1597,14 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
           {hasMedia && modelState === "loading" && !calibrationActive && (
             <div className="absolute inset-x-4 top-4 mx-auto w-fit bg-black/70 px-4 py-2 text-xs text-white backdrop-blur">מכינים את זיהוי היד...</div>
           )}
-          {hasMedia && modelState === "ready" && !trackingVisible && !calibrationActive && !wristPlacementActive && (
-            <div className="absolute inset-x-4 top-4 mx-auto w-fit bg-black/70 px-4 py-2 text-xs text-white backdrop-blur">
-              {isBracelet ? "ודאו שפרק היד וחלק מהאמה נראים בתמונה" : "מקמו את גב היד במרכז התמונה"}
+          {hasMedia && modelState === "ready" && !trackingVisible && !calibrationActive && !wristPlacementActive && !ringPlacementActive && (
+            <div className="absolute inset-x-4 top-4 mx-auto flex w-fit max-w-[calc(100%-2rem)] items-center gap-3 bg-black/72 px-4 py-2 text-xs text-white backdrop-blur">
+              <span>{isBracelet ? "ודאו שפרק היד וחלק מהאמה נראים בתמונה" : v4Enabled ? "הזיהוי האוטומטי לא בטוח מספיק" : "מקמו את גב היד במרכז התמונה"}</span>
+              {v4Enabled && !isBracelet ? (
+                <button type="button" onClick={startRingPlacement} className="shrink-0 border border-[#c9b78e] px-3 py-1.5 font-semibold text-[#eadab5]">
+                  מיקום ידני
+                </button>
+              ) : null}
             </div>
           )}
           {hasMedia && isBracelet && wristPlacementActive && !calibrationActive && (
@@ -1279,6 +1612,13 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
               {wristPlacementPoints.length === 0
                 ? "סמנו צד אחד של פרק היד"
                 : "כעת סמנו את הצד השני של פרק היד"}
+            </div>
+          )}
+          {hasMedia && !isBracelet && ringPlacementActive && !calibrationActive && (
+            <div className="absolute inset-x-4 top-4 mx-auto max-w-sm bg-black/78 px-4 py-3 text-center text-xs leading-5 text-white backdrop-blur">
+              {ringPlacementPoints.length === 0
+                ? "סמנו קצה אחד של האצבע במקום שבו הטבעת צריכה לשבת"
+                : "כעת סמנו את הקצה השני של האצבע"}
             </div>
           )}
           {cameraError && (
@@ -1296,9 +1636,17 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
               כיול גודל פעיל
             </div>
           )}
+          {hasMedia && v4Enabled && trackingVisible && !calibrationActive && !ringPlacementActive && (
+            <div className="absolute right-3 top-3 border border-white/20 bg-black/58 px-2.5 py-1.5 text-[0.62rem] text-white/85 backdrop-blur">
+              {manualRingPoseRef.current ? "מיקום ידני · ניתן לגרור ולצבוט" : segmentationState === "ready" ? "התאמה חכמה לאצבע" : "התאמת קווי מתאר"}
+            </div>
+          )}
 
           {hasMedia && (
             <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 border-t border-white/15 bg-black/65 px-3 pb-[max(0.9rem,env(safe-area-inset-bottom))] pt-3 text-white backdrop-blur-sm">
+              {v4Enabled && !isBracelet ? (
+                <button type="button" onClick={startRingPlacement} className={`min-h-11 border px-3 text-xs font-semibold ${ringPlacementActive ? "border-[#c9b78e] bg-[#c9b78e] text-ink" : "border-white/35 bg-black/35"}`} aria-label="מיקום ידני של הטבעת">מיקום ידני</button>
+              ) : null}
               <button
                 type="button"
                 onClick={() => isBracelet ? startWristPlacement() : void startCalibration()}
@@ -1308,9 +1656,9 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
               >
                 <ToolIcon name="calibrate" />
               </button>
-              <button type="button" onClick={() => setManualScale((value) => Math.max(0.72, value - 0.08))} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label={isBracelet ? "הקטנת הצמיד" : "הקטנת הטבעת"}>−</button>
-              <button type="button" onClick={() => setManualScale((value) => Math.min(1.45, value + 0.08))} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label={isBracelet ? "הגדלת הצמיד" : "הגדלת הטבעת"}>+</button>
-              <button type="button" onClick={() => setManualRotation((value) => value - Math.PI / 24)} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-lg" aria-label={isBracelet ? "סיבוב הצמיד שמאלה" : "סיבוב הטבעת שמאלה"}>↶</button>
+              <button type="button" onClick={() => { setManualScale((value) => Math.max(0.55, value - 0.08)); triggerGlint(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label={isBracelet ? "הקטנת הצמיד" : "הקטנת הטבעת"}>−</button>
+              <button type="button" onClick={() => { setManualScale((value) => Math.min(1.8, value + 0.08)); triggerGlint(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label={isBracelet ? "הגדלת הצמיד" : "הגדלת הטבעת"}>+</button>
+              <button type="button" onClick={() => { setManualRotation((value) => value - Math.PI / 24); triggerGlint(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-lg" aria-label={isBracelet ? "סיבוב הצמיד שמאלה" : "סיבוב הטבעת שמאלה"}>↶</button>
               <button type="button" onClick={() => { resetAdjustment(); resetCalibration(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35" aria-label={isBracelet ? "איפוס מיקום וגודל הצמיד" : "איפוס מיקום וגודל הטבעת"}><ToolIcon name="reset" /></button>
             </div>
           )}
@@ -1322,6 +1670,10 @@ export default function TryOnDialog({ open, onClose, productName, metal, caratVa
               ? manualWristPoseRef.current
                 ? "מיקום וגודל הצמיד נקבעים לפי שני צדי פרק היד שסומנו."
                 : "גודל הצמיד מותאם אוטומטית לפרופורציות פרק היד."
+              : v4Enabled
+                ? manualRingPoseRef.current
+                  ? "מיקום הטבעת נקבע לפי שני צדי האצבע שסומנו; ניתן לגרור, לצבוט ולסובב."
+                  : "מיקום הטבעת מותאם לקווי המתאר של האצבע; ניתן לתקן בגרירה ובצביטה."
               : caratSelected || ringSize !== "unsure"
               ? `הגודל מתעדכן לפי ${caratSelected ? `${caratValue} קראט` : "פרופורציית האבן האוטומטית"} ו${ringSize === "unsure" ? "מידת היד האוטומטית" : `מידה ${ringSize}`}.`
               : "גודל הטבעת מותאם אוטומטית לפרופורציות היד; בחירת קראט או מידה בעמוד המוצר תעדכן את ההדמיה."}

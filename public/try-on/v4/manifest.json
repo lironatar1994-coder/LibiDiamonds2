@@ -1,0 +1,5273 @@
+{
+  "version": 4,
+  "generatedAt": "2026-07-21T11:07:47.962Z",
+  "rings": 49,
+  "size": 1024,
+  "contentWidthRatio": 0.9,
+  "assets": [
+    {
+      "slug": "aura-solitaire-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/aura-solitaire-ring/yellow-setting.webp",
+      "bytes": 47688,
+      "bounds": {
+        "left": 147,
+        "top": 462,
+        "right": 883,
+        "bottom": 772,
+        "widthRatio": 0.7197
+      }
+    },
+    {
+      "slug": "aura-solitaire-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/aura-solitaire-ring/yellow-front.webp",
+      "bytes": 11364,
+      "bounds": {
+        "left": 107,
+        "top": 496,
+        "right": 926,
+        "bottom": 592,
+        "widthRatio": 0.8008
+      }
+    },
+    {
+      "slug": "aura-solitaire-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/aura-solitaire-ring/yellow-rear.webp",
+      "bytes": 49362,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "aura-solitaire-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/aura-solitaire-ring/yellow-highlight.webp",
+      "bytes": 127824,
+      "bounds": {
+        "left": 51,
+        "top": 251,
+        "right": 972,
+        "bottom": 772,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "aura-solitaire-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/aura-solitaire-ring/white-setting.webp",
+      "bytes": 45498,
+      "bounds": {
+        "left": 147,
+        "top": 462,
+        "right": 883,
+        "bottom": 772,
+        "widthRatio": 0.7197
+      }
+    },
+    {
+      "slug": "aura-solitaire-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/aura-solitaire-ring/white-front.webp",
+      "bytes": 10362,
+      "bounds": {
+        "left": 107,
+        "top": 496,
+        "right": 926,
+        "bottom": 592,
+        "widthRatio": 0.8008
+      }
+    },
+    {
+      "slug": "aura-solitaire-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/aura-solitaire-ring/white-rear.webp",
+      "bytes": 47060,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "aura-solitaire-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/aura-solitaire-ring/white-highlight.webp",
+      "bytes": 132382,
+      "bounds": {
+        "left": 51,
+        "top": 251,
+        "right": 972,
+        "bottom": 772,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "nova-halo-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/nova-halo-ring/yellow-setting.webp",
+      "bytes": 66440,
+      "bounds": {
+        "left": 162,
+        "top": 409,
+        "right": 863,
+        "bottom": 746,
+        "widthRatio": 0.6855
+      }
+    },
+    {
+      "slug": "nova-halo-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/nova-halo-ring/yellow-front.webp",
+      "bytes": 8474,
+      "bounds": {
+        "left": 123,
+        "top": 496,
+        "right": 903,
+        "bottom": 545,
+        "widthRatio": 0.7627
+      }
+    },
+    {
+      "slug": "nova-halo-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/nova-halo-ring/yellow-rear.webp",
+      "bytes": 80774,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "nova-halo-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/nova-halo-ring/yellow-highlight.webp",
+      "bytes": 144296,
+      "bounds": {
+        "left": 51,
+        "top": 276,
+        "right": 972,
+        "bottom": 744,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "nova-halo-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/nova-halo-ring/white-setting.webp",
+      "bytes": 59010,
+      "bounds": {
+        "left": 162,
+        "top": 409,
+        "right": 863,
+        "bottom": 746,
+        "widthRatio": 0.6855
+      }
+    },
+    {
+      "slug": "nova-halo-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/nova-halo-ring/white-front.webp",
+      "bytes": 7416,
+      "bounds": {
+        "left": 123,
+        "top": 496,
+        "right": 903,
+        "bottom": 545,
+        "widthRatio": 0.7627
+      }
+    },
+    {
+      "slug": "nova-halo-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/nova-halo-ring/white-rear.webp",
+      "bytes": 71440,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "nova-halo-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/nova-halo-ring/white-highlight.webp",
+      "bytes": 154846,
+      "bounds": {
+        "left": 51,
+        "top": 276,
+        "right": 972,
+        "bottom": 744,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "trio-three-stone-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/trio-three-stone-ring/yellow-setting.webp",
+      "bytes": 68480,
+      "bounds": {
+        "left": 137,
+        "top": 429,
+        "right": 887,
+        "bottom": 755,
+        "widthRatio": 0.7334
+      }
+    },
+    {
+      "slug": "trio-three-stone-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/trio-three-stone-ring/yellow-front.webp",
+      "bytes": 22602,
+      "bounds": {
+        "left": 92,
+        "top": 496,
+        "right": 932,
+        "bottom": 659,
+        "widthRatio": 0.8213
+      }
+    },
+    {
+      "slug": "trio-three-stone-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/trio-three-stone-ring/yellow-rear.webp",
+      "bytes": 69270,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "trio-three-stone-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/trio-three-stone-ring/yellow-highlight.webp",
+      "bytes": 175338,
+      "bounds": {
+        "left": 51,
+        "top": 268,
+        "right": 972,
+        "bottom": 755,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "trio-three-stone-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/trio-three-stone-ring/white-setting.webp",
+      "bytes": 62552,
+      "bounds": {
+        "left": 139,
+        "top": 426,
+        "right": 885,
+        "bottom": 751,
+        "widthRatio": 0.7295
+      }
+    },
+    {
+      "slug": "trio-three-stone-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/trio-three-stone-ring/white-front.webp",
+      "bytes": 20116,
+      "bounds": {
+        "left": 94,
+        "top": 496,
+        "right": 929,
+        "bottom": 655,
+        "widthRatio": 0.8164
+      }
+    },
+    {
+      "slug": "trio-three-stone-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/trio-three-stone-ring/white-rear.webp",
+      "bytes": 62510,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "trio-three-stone-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/trio-three-stone-ring/white-highlight.webp",
+      "bytes": 153748,
+      "bounds": {
+        "left": 51,
+        "top": 271,
+        "right": 972,
+        "bottom": 751,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "lumiere-pave-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/lumiere-pave-ring/yellow-setting.webp",
+      "bytes": 50134,
+      "bounds": {
+        "left": 135,
+        "top": 474,
+        "right": 885,
+        "bottom": 727,
+        "widthRatio": 0.7334
+      }
+    },
+    {
+      "slug": "lumiere-pave-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/lumiere-pave-ring/yellow-front.webp",
+      "bytes": 20600,
+      "bounds": {
+        "left": 85,
+        "top": 496,
+        "right": 937,
+        "bottom": 586,
+        "widthRatio": 0.833
+      }
+    },
+    {
+      "slug": "lumiere-pave-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/lumiere-pave-ring/yellow-rear.webp",
+      "bytes": 63730,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "lumiere-pave-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/lumiere-pave-ring/yellow-highlight.webp",
+      "bytes": 140618,
+      "bounds": {
+        "left": 51,
+        "top": 296,
+        "right": 972,
+        "bottom": 727,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "lumiere-pave-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/lumiere-pave-ring/white-setting.webp",
+      "bytes": 48380,
+      "bounds": {
+        "left": 135,
+        "top": 474,
+        "right": 885,
+        "bottom": 727,
+        "widthRatio": 0.7334
+      }
+    },
+    {
+      "slug": "lumiere-pave-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/lumiere-pave-ring/white-front.webp",
+      "bytes": 19504,
+      "bounds": {
+        "left": 85,
+        "top": 496,
+        "right": 937,
+        "bottom": 586,
+        "widthRatio": 0.833
+      }
+    },
+    {
+      "slug": "lumiere-pave-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/lumiere-pave-ring/white-rear.webp",
+      "bytes": 61306,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "lumiere-pave-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/lumiere-pave-ring/white-highlight.webp",
+      "bytes": 142526,
+      "bounds": {
+        "left": 51,
+        "top": 296,
+        "right": 972,
+        "bottom": 727,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "elara-oval-hidden-halo-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/elara-oval-hidden-halo-ring/yellow-setting.webp",
+      "bytes": 53960,
+      "bounds": {
+        "left": 150,
+        "top": 248,
+        "right": 873,
+        "bottom": 614,
+        "widthRatio": 0.707
+      }
+    },
+    {
+      "slug": "elara-oval-hidden-halo-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/elara-oval-hidden-halo-ring/yellow-front.webp",
+      "bytes": 12540,
+      "bounds": {
+        "left": 91,
+        "top": 462,
+        "right": 933,
+        "bottom": 547,
+        "widthRatio": 0.8232
+      }
+    },
+    {
+      "slug": "elara-oval-hidden-halo-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/elara-oval-hidden-halo-ring/yellow-rear.webp",
+      "bytes": 26434,
+      "bounds": {
+        "left": 308,
+        "top": 248,
+        "right": 719,
+        "bottom": 460,
+        "widthRatio": 0.4023
+      }
+    },
+    {
+      "slug": "elara-oval-hidden-halo-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/elara-oval-hidden-halo-ring/yellow-highlight.webp",
+      "bytes": 161466,
+      "bounds": {
+        "left": 51,
+        "top": 248,
+        "right": 972,
+        "bottom": 765,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "elara-oval-hidden-halo-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/elara-oval-hidden-halo-ring/white-setting.webp",
+      "bytes": 51042,
+      "bounds": {
+        "left": 150,
+        "top": 248,
+        "right": 873,
+        "bottom": 614,
+        "widthRatio": 0.707
+      }
+    },
+    {
+      "slug": "elara-oval-hidden-halo-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/elara-oval-hidden-halo-ring/white-front.webp",
+      "bytes": 11608,
+      "bounds": {
+        "left": 91,
+        "top": 462,
+        "right": 933,
+        "bottom": 547,
+        "widthRatio": 0.8232
+      }
+    },
+    {
+      "slug": "elara-oval-hidden-halo-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/elara-oval-hidden-halo-ring/white-rear.webp",
+      "bytes": 25644,
+      "bounds": {
+        "left": 308,
+        "top": 248,
+        "right": 719,
+        "bottom": 460,
+        "widthRatio": 0.4023
+      }
+    },
+    {
+      "slug": "elara-oval-hidden-halo-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/elara-oval-hidden-halo-ring/white-highlight.webp",
+      "bytes": 164114,
+      "bounds": {
+        "left": 51,
+        "top": 248,
+        "right": 972,
+        "bottom": 766,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "atelier-emerald-cathedral-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/atelier-emerald-cathedral-ring/yellow-setting.webp",
+      "bytes": 59034,
+      "bounds": {
+        "left": 149,
+        "top": 204,
+        "right": 875,
+        "bottom": 603,
+        "widthRatio": 0.71
+      }
+    },
+    {
+      "slug": "atelier-emerald-cathedral-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/atelier-emerald-cathedral-ring/yellow-front.webp",
+      "bytes": 17362,
+      "bounds": {
+        "left": 102,
+        "top": 390,
+        "right": 922,
+        "bottom": 547,
+        "widthRatio": 0.8018
+      }
+    },
+    {
+      "slug": "atelier-emerald-cathedral-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/atelier-emerald-cathedral-ring/yellow-rear.webp",
+      "bytes": 40358,
+      "bounds": {
+        "left": 196,
+        "top": 153,
+        "right": 829,
+        "bottom": 460,
+        "widthRatio": 0.6191
+      }
+    },
+    {
+      "slug": "atelier-emerald-cathedral-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/atelier-emerald-cathedral-ring/yellow-highlight.webp",
+      "bytes": 185306,
+      "bounds": {
+        "left": 51,
+        "top": 145,
+        "right": 972,
+        "bottom": 865,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "atelier-emerald-cathedral-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/atelier-emerald-cathedral-ring/white-setting.webp",
+      "bytes": 56170,
+      "bounds": {
+        "left": 149,
+        "top": 204,
+        "right": 875,
+        "bottom": 603,
+        "widthRatio": 0.71
+      }
+    },
+    {
+      "slug": "atelier-emerald-cathedral-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/atelier-emerald-cathedral-ring/white-front.webp",
+      "bytes": 16170,
+      "bounds": {
+        "left": 102,
+        "top": 390,
+        "right": 922,
+        "bottom": 547,
+        "widthRatio": 0.8018
+      }
+    },
+    {
+      "slug": "atelier-emerald-cathedral-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/atelier-emerald-cathedral-ring/white-rear.webp",
+      "bytes": 38332,
+      "bounds": {
+        "left": 196,
+        "top": 153,
+        "right": 829,
+        "bottom": 460,
+        "widthRatio": 0.6191
+      }
+    },
+    {
+      "slug": "atelier-emerald-cathedral-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/atelier-emerald-cathedral-ring/white-highlight.webp",
+      "bytes": 192118,
+      "bounds": {
+        "left": 51,
+        "top": 145,
+        "right": 972,
+        "bottom": 867,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "marais-marquise-solitaire-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/marais-marquise-solitaire-ring/yellow-setting.webp",
+      "bytes": 40094,
+      "bounds": {
+        "left": 159,
+        "top": 409,
+        "right": 863,
+        "bottom": 811,
+        "widthRatio": 0.6885
+      }
+    },
+    {
+      "slug": "marais-marquise-solitaire-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/marais-marquise-solitaire-ring/yellow-front.webp",
+      "bytes": 7524,
+      "bounds": {
+        "left": 111,
+        "top": 496,
+        "right": 910,
+        "bottom": 535,
+        "widthRatio": 0.7813
+      }
+    },
+    {
+      "slug": "marais-marquise-solitaire-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/marais-marquise-solitaire-ring/yellow-rear.webp",
+      "bytes": 49754,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "marais-marquise-solitaire-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/marais-marquise-solitaire-ring/yellow-highlight.webp",
+      "bytes": 148048,
+      "bounds": {
+        "left": 51,
+        "top": 212,
+        "right": 972,
+        "bottom": 802,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "marais-marquise-solitaire-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/marais-marquise-solitaire-ring/white-setting.webp",
+      "bytes": 38066,
+      "bounds": {
+        "left": 159,
+        "top": 409,
+        "right": 863,
+        "bottom": 811,
+        "widthRatio": 0.6885
+      }
+    },
+    {
+      "slug": "marais-marquise-solitaire-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/marais-marquise-solitaire-ring/white-front.webp",
+      "bytes": 7056,
+      "bounds": {
+        "left": 111,
+        "top": 496,
+        "right": 910,
+        "bottom": 535,
+        "widthRatio": 0.7813
+      }
+    },
+    {
+      "slug": "marais-marquise-solitaire-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/marais-marquise-solitaire-ring/white-rear.webp",
+      "bytes": 47022,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "marais-marquise-solitaire-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/marais-marquise-solitaire-ring/white-highlight.webp",
+      "bytes": 142958,
+      "bounds": {
+        "left": 51,
+        "top": 212,
+        "right": 972,
+        "bottom": 805,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "celeste-radiant-pave-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/celeste-radiant-pave-ring/yellow-setting.webp",
+      "bytes": 66882,
+      "bounds": {
+        "left": 150,
+        "top": 211,
+        "right": 874,
+        "bottom": 600,
+        "widthRatio": 0.708
+      }
+    },
+    {
+      "slug": "celeste-radiant-pave-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/celeste-radiant-pave-ring/yellow-front.webp",
+      "bytes": 20806,
+      "bounds": {
+        "left": 95,
+        "top": 446,
+        "right": 929,
+        "bottom": 547,
+        "widthRatio": 0.8154
+      }
+    },
+    {
+      "slug": "celeste-radiant-pave-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/celeste-radiant-pave-ring/yellow-rear.webp",
+      "bytes": 33082,
+      "bounds": {
+        "left": 240,
+        "top": 199,
+        "right": 787,
+        "bottom": 460,
+        "widthRatio": 0.5352
+      }
+    },
+    {
+      "slug": "celeste-radiant-pave-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/celeste-radiant-pave-ring/yellow-highlight.webp",
+      "bytes": 180378,
+      "bounds": {
+        "left": 51,
+        "top": 199,
+        "right": 972,
+        "bottom": 814,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "celeste-radiant-pave-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/celeste-radiant-pave-ring/white-setting.webp",
+      "bytes": 63274,
+      "bounds": {
+        "left": 150,
+        "top": 211,
+        "right": 874,
+        "bottom": 600,
+        "widthRatio": 0.708
+      }
+    },
+    {
+      "slug": "celeste-radiant-pave-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/celeste-radiant-pave-ring/white-front.webp",
+      "bytes": 19370,
+      "bounds": {
+        "left": 95,
+        "top": 446,
+        "right": 929,
+        "bottom": 547,
+        "widthRatio": 0.8154
+      }
+    },
+    {
+      "slug": "celeste-radiant-pave-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/celeste-radiant-pave-ring/white-rear.webp",
+      "bytes": 31588,
+      "bounds": {
+        "left": 240,
+        "top": 199,
+        "right": 787,
+        "bottom": 460,
+        "widthRatio": 0.5352
+      }
+    },
+    {
+      "slug": "celeste-radiant-pave-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/celeste-radiant-pave-ring/white-highlight.webp",
+      "bytes": 184976,
+      "bounds": {
+        "left": 51,
+        "top": 199,
+        "right": 972,
+        "bottom": 815,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "velour-cushion-solitaire-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/velour-cushion-solitaire-ring/yellow-setting.webp",
+      "bytes": 48290,
+      "bounds": {
+        "left": 142,
+        "top": 428,
+        "right": 882,
+        "bottom": 748,
+        "widthRatio": 0.7236
+      }
+    },
+    {
+      "slug": "velour-cushion-solitaire-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/velour-cushion-solitaire-ring/yellow-front.webp",
+      "bytes": 10314,
+      "bounds": {
+        "left": 96,
+        "top": 496,
+        "right": 927,
+        "bottom": 576,
+        "widthRatio": 0.8125
+      }
+    },
+    {
+      "slug": "velour-cushion-solitaire-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/velour-cushion-solitaire-ring/yellow-rear.webp",
+      "bytes": 52832,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "velour-cushion-solitaire-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/velour-cushion-solitaire-ring/yellow-highlight.webp",
+      "bytes": 149262,
+      "bounds": {
+        "left": 51,
+        "top": 275,
+        "right": 972,
+        "bottom": 748,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "velour-cushion-solitaire-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/velour-cushion-solitaire-ring/white-setting.webp",
+      "bytes": 46448,
+      "bounds": {
+        "left": 142,
+        "top": 428,
+        "right": 882,
+        "bottom": 748,
+        "widthRatio": 0.7236
+      }
+    },
+    {
+      "slug": "velour-cushion-solitaire-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/velour-cushion-solitaire-ring/white-front.webp",
+      "bytes": 9674,
+      "bounds": {
+        "left": 96,
+        "top": 496,
+        "right": 927,
+        "bottom": 576,
+        "widthRatio": 0.8125
+      }
+    },
+    {
+      "slug": "velour-cushion-solitaire-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/velour-cushion-solitaire-ring/white-rear.webp",
+      "bytes": 51118,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "velour-cushion-solitaire-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/velour-cushion-solitaire-ring/white-highlight.webp",
+      "bytes": 152502,
+      "bounds": {
+        "left": 51,
+        "top": 275,
+        "right": 972,
+        "bottom": 748,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "seren-pear-solitaire-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/seren-pear-solitaire-ring/yellow-setting.webp",
+      "bytes": 45432,
+      "bounds": {
+        "left": 142,
+        "top": 409,
+        "right": 882,
+        "bottom": 780,
+        "widthRatio": 0.7236
+      }
+    },
+    {
+      "slug": "seren-pear-solitaire-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/seren-pear-solitaire-ring/yellow-front.webp",
+      "bytes": 10938,
+      "bounds": {
+        "left": 94,
+        "top": 496,
+        "right": 930,
+        "bottom": 573,
+        "widthRatio": 0.8174
+      }
+    },
+    {
+      "slug": "seren-pear-solitaire-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/seren-pear-solitaire-ring/yellow-rear.webp",
+      "bytes": 51190,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "seren-pear-solitaire-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/seren-pear-solitaire-ring/yellow-highlight.webp",
+      "bytes": 157936,
+      "bounds": {
+        "left": 51,
+        "top": 242,
+        "right": 972,
+        "bottom": 780,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "seren-pear-solitaire-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/seren-pear-solitaire-ring/white-setting.webp",
+      "bytes": 42312,
+      "bounds": {
+        "left": 142,
+        "top": 409,
+        "right": 882,
+        "bottom": 780,
+        "widthRatio": 0.7236
+      }
+    },
+    {
+      "slug": "seren-pear-solitaire-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/seren-pear-solitaire-ring/white-front.webp",
+      "bytes": 10342,
+      "bounds": {
+        "left": 94,
+        "top": 496,
+        "right": 930,
+        "bottom": 573,
+        "widthRatio": 0.8174
+      }
+    },
+    {
+      "slug": "seren-pear-solitaire-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/seren-pear-solitaire-ring/white-rear.webp",
+      "bytes": 48296,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "seren-pear-solitaire-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/seren-pear-solitaire-ring/white-highlight.webp",
+      "bytes": 161104,
+      "bounds": {
+        "left": 51,
+        "top": 242,
+        "right": 972,
+        "bottom": 780,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "axis-princess-solitaire-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/axis-princess-solitaire-ring/yellow-setting.webp",
+      "bytes": 54304,
+      "bounds": {
+        "left": 135,
+        "top": 271,
+        "right": 889,
+        "bottom": 588,
+        "widthRatio": 0.7373
+      }
+    },
+    {
+      "slug": "axis-princess-solitaire-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/axis-princess-solitaire-ring/yellow-front.webp",
+      "bytes": 15906,
+      "bounds": {
+        "left": 73,
+        "top": 432,
+        "right": 951,
+        "bottom": 547,
+        "widthRatio": 0.8584
+      }
+    },
+    {
+      "slug": "axis-princess-solitaire-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/axis-princess-solitaire-ring/yellow-rear.webp",
+      "bytes": 30552,
+      "bounds": {
+        "left": 174,
+        "top": 271,
+        "right": 852,
+        "bottom": 460,
+        "widthRatio": 0.6631
+      }
+    },
+    {
+      "slug": "axis-princess-solitaire-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/axis-princess-solitaire-ring/yellow-highlight.webp",
+      "bytes": 146664,
+      "bounds": {
+        "left": 51,
+        "top": 271,
+        "right": 972,
+        "bottom": 740,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "axis-princess-solitaire-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/axis-princess-solitaire-ring/white-setting.webp",
+      "bytes": 52172,
+      "bounds": {
+        "left": 135,
+        "top": 271,
+        "right": 889,
+        "bottom": 588,
+        "widthRatio": 0.7373
+      }
+    },
+    {
+      "slug": "axis-princess-solitaire-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/axis-princess-solitaire-ring/white-front.webp",
+      "bytes": 14720,
+      "bounds": {
+        "left": 73,
+        "top": 432,
+        "right": 951,
+        "bottom": 547,
+        "widthRatio": 0.8584
+      }
+    },
+    {
+      "slug": "axis-princess-solitaire-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/axis-princess-solitaire-ring/white-rear.webp",
+      "bytes": 29500,
+      "bounds": {
+        "left": 174,
+        "top": 271,
+        "right": 852,
+        "bottom": 460,
+        "widthRatio": 0.6631
+      }
+    },
+    {
+      "slug": "axis-princess-solitaire-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/axis-princess-solitaire-ring/white-highlight.webp",
+      "bytes": 149850,
+      "bounds": {
+        "left": 51,
+        "top": 271,
+        "right": 972,
+        "bottom": 742,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "deco-asscher-bezel-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/deco-asscher-bezel-ring/yellow-setting.webp",
+      "bytes": 44208,
+      "bounds": {
+        "left": 144,
+        "top": 409,
+        "right": 879,
+        "bottom": 721,
+        "widthRatio": 0.7188
+      }
+    },
+    {
+      "slug": "deco-asscher-bezel-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/deco-asscher-bezel-ring/yellow-front.webp",
+      "bytes": 10108,
+      "bounds": {
+        "left": 96,
+        "top": 496,
+        "right": 927,
+        "bottom": 569,
+        "widthRatio": 0.8125
+      }
+    },
+    {
+      "slug": "deco-asscher-bezel-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/deco-asscher-bezel-ring/yellow-rear.webp",
+      "bytes": 54338,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "deco-asscher-bezel-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/deco-asscher-bezel-ring/yellow-highlight.webp",
+      "bytes": 123484,
+      "bounds": {
+        "left": 51,
+        "top": 302,
+        "right": 972,
+        "bottom": 715,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "deco-asscher-bezel-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/deco-asscher-bezel-ring/white-setting.webp",
+      "bytes": 42140,
+      "bounds": {
+        "left": 144,
+        "top": 409,
+        "right": 879,
+        "bottom": 721,
+        "widthRatio": 0.7188
+      }
+    },
+    {
+      "slug": "deco-asscher-bezel-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/deco-asscher-bezel-ring/white-front.webp",
+      "bytes": 9604,
+      "bounds": {
+        "left": 96,
+        "top": 496,
+        "right": 927,
+        "bottom": 569,
+        "widthRatio": 0.8125
+      }
+    },
+    {
+      "slug": "deco-asscher-bezel-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/deco-asscher-bezel-ring/white-rear.webp",
+      "bytes": 52662,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "deco-asscher-bezel-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/deco-asscher-bezel-ring/white-highlight.webp",
+      "bytes": 128196,
+      "bounds": {
+        "left": 51,
+        "top": 302,
+        "right": 972,
+        "bottom": 717,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "heritage-six-prong-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/heritage-six-prong-ring/yellow-setting.webp",
+      "bytes": 48032,
+      "bounds": {
+        "left": 134,
+        "top": 238,
+        "right": 888,
+        "bottom": 547,
+        "widthRatio": 0.7373
+      }
+    },
+    {
+      "slug": "heritage-six-prong-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/heritage-six-prong-ring/yellow-front.webp",
+      "bytes": 15380,
+      "bounds": {
+        "left": 76,
+        "top": 424,
+        "right": 947,
+        "bottom": 547,
+        "widthRatio": 0.8516
+      }
+    },
+    {
+      "slug": "heritage-six-prong-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/heritage-six-prong-ring/yellow-rear.webp",
+      "bytes": 31298,
+      "bounds": {
+        "left": 166,
+        "top": 238,
+        "right": 850,
+        "bottom": 460,
+        "widthRatio": 0.6689
+      }
+    },
+    {
+      "slug": "heritage-six-prong-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/heritage-six-prong-ring/yellow-highlight.webp",
+      "bytes": 137816,
+      "bounds": {
+        "left": 51,
+        "top": 238,
+        "right": 972,
+        "bottom": 773,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "heritage-six-prong-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/heritage-six-prong-ring/white-setting.webp",
+      "bytes": 45368,
+      "bounds": {
+        "left": 134,
+        "top": 238,
+        "right": 888,
+        "bottom": 547,
+        "widthRatio": 0.7373
+      }
+    },
+    {
+      "slug": "heritage-six-prong-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/heritage-six-prong-ring/white-front.webp",
+      "bytes": 14218,
+      "bounds": {
+        "left": 76,
+        "top": 424,
+        "right": 947,
+        "bottom": 547,
+        "widthRatio": 0.8516
+      }
+    },
+    {
+      "slug": "heritage-six-prong-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/heritage-six-prong-ring/white-rear.webp",
+      "bytes": 29692,
+      "bounds": {
+        "left": 166,
+        "top": 238,
+        "right": 850,
+        "bottom": 460,
+        "widthRatio": 0.6689
+      }
+    },
+    {
+      "slug": "heritage-six-prong-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/heritage-six-prong-ring/white-highlight.webp",
+      "bytes": 141248,
+      "bounds": {
+        "left": 51,
+        "top": 238,
+        "right": 972,
+        "bottom": 774,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "ribbon-twist-pave-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/ribbon-twist-pave-ring/yellow-setting.webp",
+      "bytes": 59958,
+      "bounds": {
+        "left": 123,
+        "top": 465,
+        "right": 908,
+        "bottom": 743,
+        "widthRatio": 0.7676
+      }
+    },
+    {
+      "slug": "ribbon-twist-pave-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/ribbon-twist-pave-ring/yellow-front.webp",
+      "bytes": 23282,
+      "bounds": {
+        "left": 77,
+        "top": 496,
+        "right": 951,
+        "bottom": 638,
+        "widthRatio": 0.8545
+      }
+    },
+    {
+      "slug": "ribbon-twist-pave-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/ribbon-twist-pave-ring/yellow-rear.webp",
+      "bytes": 73392,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "ribbon-twist-pave-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/ribbon-twist-pave-ring/yellow-highlight.webp",
+      "bytes": 160790,
+      "bounds": {
+        "left": 51,
+        "top": 279,
+        "right": 972,
+        "bottom": 741,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "ribbon-twist-pave-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/ribbon-twist-pave-ring/white-setting.webp",
+      "bytes": 56036,
+      "bounds": {
+        "left": 123,
+        "top": 465,
+        "right": 908,
+        "bottom": 743,
+        "widthRatio": 0.7676
+      }
+    },
+    {
+      "slug": "ribbon-twist-pave-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/ribbon-twist-pave-ring/white-front.webp",
+      "bytes": 21094,
+      "bounds": {
+        "left": 77,
+        "top": 496,
+        "right": 951,
+        "bottom": 638,
+        "widthRatio": 0.8545
+      }
+    },
+    {
+      "slug": "ribbon-twist-pave-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/ribbon-twist-pave-ring/white-rear.webp",
+      "bytes": 68992,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "ribbon-twist-pave-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/ribbon-twist-pave-ring/white-highlight.webp",
+      "bytes": 168242,
+      "bounds": {
+        "left": 51,
+        "top": 279,
+        "right": 972,
+        "bottom": 741,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "contour-diamond-band",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/contour-diamond-band/yellow-front.webp",
+      "bytes": 50880,
+      "bounds": {
+        "left": 61,
+        "top": 484,
+        "right": 962,
+        "bottom": 703,
+        "widthRatio": 0.8809
+      }
+    },
+    {
+      "slug": "contour-diamond-band",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/contour-diamond-band/yellow-rear.webp",
+      "bytes": 62672,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "contour-diamond-band",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/contour-diamond-band/yellow-highlight.webp",
+      "bytes": 103908,
+      "bounds": {
+        "left": 51,
+        "top": 320,
+        "right": 972,
+        "bottom": 702,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "contour-diamond-band",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/contour-diamond-band/white-front.webp",
+      "bytes": 47798,
+      "bounds": {
+        "left": 61,
+        "top": 484,
+        "right": 962,
+        "bottom": 703,
+        "widthRatio": 0.8809
+      }
+    },
+    {
+      "slug": "contour-diamond-band",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/contour-diamond-band/white-rear.webp",
+      "bytes": 58900,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "contour-diamond-band",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/contour-diamond-band/white-highlight.webp",
+      "bytes": 107214,
+      "bounds": {
+        "left": 51,
+        "top": 320,
+        "right": 972,
+        "bottom": 702,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "mosaic-baguette-band",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/mosaic-baguette-band/yellow-front.webp",
+      "bytes": 58500,
+      "bounds": {
+        "left": 51,
+        "top": 477,
+        "right": 972,
+        "bottom": 720,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "mosaic-baguette-band",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/mosaic-baguette-band/yellow-rear.webp",
+      "bytes": 59150,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "mosaic-baguette-band",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/mosaic-baguette-band/yellow-highlight.webp",
+      "bytes": 132824,
+      "bounds": {
+        "left": 51,
+        "top": 302,
+        "right": 972,
+        "bottom": 719,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "mosaic-baguette-band",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/mosaic-baguette-band/white-front.webp",
+      "bytes": 54620,
+      "bounds": {
+        "left": 51,
+        "top": 477,
+        "right": 972,
+        "bottom": 720,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "mosaic-baguette-band",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/mosaic-baguette-band/white-rear.webp",
+      "bytes": 55784,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "mosaic-baguette-band",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/mosaic-baguette-band/white-highlight.webp",
+      "bytes": 133646,
+      "bounds": {
+        "left": 51,
+        "top": 302,
+        "right": 972,
+        "bottom": 719,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "sienna-oval-pave-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/sienna-oval-pave-ring/yellow-setting.webp",
+      "bytes": 50668,
+      "bounds": {
+        "left": 167,
+        "top": 297,
+        "right": 856,
+        "bottom": 614,
+        "widthRatio": 0.6738
+      }
+    },
+    {
+      "slug": "sienna-oval-pave-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/sienna-oval-pave-ring/yellow-front.webp",
+      "bytes": 16068,
+      "bounds": {
+        "left": 90,
+        "top": 499,
+        "right": 932,
+        "bottom": 547,
+        "widthRatio": 0.8232
+      }
+    },
+    {
+      "slug": "sienna-oval-pave-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/sienna-oval-pave-ring/yellow-rear.webp",
+      "bytes": 20784,
+      "bounds": {
+        "left": 363,
+        "top": 297,
+        "right": 652,
+        "bottom": 460,
+        "widthRatio": 0.2832
+      }
+    },
+    {
+      "slug": "sienna-oval-pave-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/sienna-oval-pave-ring/yellow-highlight.webp",
+      "bytes": 159032,
+      "bounds": {
+        "left": 51,
+        "top": 297,
+        "right": 972,
+        "bottom": 725,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "sienna-oval-pave-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/sienna-oval-pave-ring/white-setting.webp",
+      "bytes": 48468,
+      "bounds": {
+        "left": 167,
+        "top": 297,
+        "right": 856,
+        "bottom": 614,
+        "widthRatio": 0.6738
+      }
+    },
+    {
+      "slug": "sienna-oval-pave-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/sienna-oval-pave-ring/white-front.webp",
+      "bytes": 14910,
+      "bounds": {
+        "left": 90,
+        "top": 499,
+        "right": 932,
+        "bottom": 547,
+        "widthRatio": 0.8232
+      }
+    },
+    {
+      "slug": "sienna-oval-pave-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/sienna-oval-pave-ring/white-rear.webp",
+      "bytes": 19964,
+      "bounds": {
+        "left": 363,
+        "top": 297,
+        "right": 652,
+        "bottom": 460,
+        "widthRatio": 0.2832
+      }
+    },
+    {
+      "slug": "sienna-oval-pave-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/sienna-oval-pave-ring/white-highlight.webp",
+      "bytes": 162908,
+      "bounds": {
+        "left": 51,
+        "top": 297,
+        "right": 972,
+        "bottom": 725,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "verona-round-bezel-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/verona-round-bezel-ring/yellow-setting.webp",
+      "bytes": 50586,
+      "bounds": {
+        "left": 112,
+        "top": 279,
+        "right": 911,
+        "bottom": 614,
+        "widthRatio": 0.7813
+      }
+    },
+    {
+      "slug": "verona-round-bezel-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/verona-round-bezel-ring/yellow-front.webp",
+      "bytes": 29004,
+      "bounds": {
+        "left": 51,
+        "top": 291,
+        "right": 972,
+        "bottom": 547,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "verona-round-bezel-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/verona-round-bezel-ring/yellow-rear.webp",
+      "bytes": 29232,
+      "bounds": {
+        "left": 55,
+        "top": 279,
+        "right": 966,
+        "bottom": 460,
+        "widthRatio": 0.8906
+      }
+    },
+    {
+      "slug": "verona-round-bezel-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/verona-round-bezel-ring/yellow-highlight.webp",
+      "bytes": 138630,
+      "bounds": {
+        "left": 51,
+        "top": 279,
+        "right": 972,
+        "bottom": 731,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "verona-round-bezel-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/verona-round-bezel-ring/white-setting.webp",
+      "bytes": 47766,
+      "bounds": {
+        "left": 112,
+        "top": 279,
+        "right": 911,
+        "bottom": 614,
+        "widthRatio": 0.7813
+      }
+    },
+    {
+      "slug": "verona-round-bezel-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/verona-round-bezel-ring/white-front.webp",
+      "bytes": 27316,
+      "bounds": {
+        "left": 51,
+        "top": 291,
+        "right": 972,
+        "bottom": 547,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "verona-round-bezel-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/verona-round-bezel-ring/white-rear.webp",
+      "bytes": 27190,
+      "bounds": {
+        "left": 55,
+        "top": 279,
+        "right": 966,
+        "bottom": 460,
+        "widthRatio": 0.8906
+      }
+    },
+    {
+      "slug": "verona-round-bezel-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/verona-round-bezel-ring/white-highlight.webp",
+      "bytes": 144120,
+      "bounds": {
+        "left": 51,
+        "top": 279,
+        "right": 972,
+        "bottom": 734,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "duet-toi-et-moi-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/duet-toi-et-moi-ring/yellow-setting.webp",
+      "bytes": 66076,
+      "bounds": {
+        "left": 151,
+        "top": 409,
+        "right": 876,
+        "bottom": 758,
+        "widthRatio": 0.709
+      }
+    },
+    {
+      "slug": "duet-toi-et-moi-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/duet-toi-et-moi-ring/yellow-front.webp",
+      "bytes": 11740,
+      "bounds": {
+        "left": 107,
+        "top": 496,
+        "right": 920,
+        "bottom": 573,
+        "widthRatio": 0.7949
+      }
+    },
+    {
+      "slug": "duet-toi-et-moi-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/duet-toi-et-moi-ring/yellow-rear.webp",
+      "bytes": 78852,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "duet-toi-et-moi-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/duet-toi-et-moi-ring/yellow-highlight.webp",
+      "bytes": 162108,
+      "bounds": {
+        "left": 51,
+        "top": 265,
+        "right": 972,
+        "bottom": 753,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "duet-toi-et-moi-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/duet-toi-et-moi-ring/white-setting.webp",
+      "bytes": 63280,
+      "bounds": {
+        "left": 151,
+        "top": 409,
+        "right": 876,
+        "bottom": 758,
+        "widthRatio": 0.709
+      }
+    },
+    {
+      "slug": "duet-toi-et-moi-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/duet-toi-et-moi-ring/white-front.webp",
+      "bytes": 11056,
+      "bounds": {
+        "left": 107,
+        "top": 496,
+        "right": 920,
+        "bottom": 573,
+        "widthRatio": 0.7949
+      }
+    },
+    {
+      "slug": "duet-toi-et-moi-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/duet-toi-et-moi-ring/white-rear.webp",
+      "bytes": 75434,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "duet-toi-et-moi-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/duet-toi-et-moi-ring/white-highlight.webp",
+      "bytes": 167002,
+      "bounds": {
+        "left": 51,
+        "top": 265,
+        "right": 972,
+        "bottom": 754,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "lumi-emerald-halo-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/lumi-emerald-halo-ring/yellow-setting.webp",
+      "bytes": 51166,
+      "bounds": {
+        "left": 164,
+        "top": 409,
+        "right": 863,
+        "bottom": 742,
+        "widthRatio": 0.6836
+      }
+    },
+    {
+      "slug": "lumi-emerald-halo-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/lumi-emerald-halo-ring/yellow-front.webp",
+      "bytes": 6666,
+      "bounds": {
+        "left": 110,
+        "top": 496,
+        "right": 919,
+        "bottom": 526,
+        "widthRatio": 0.791
+      }
+    },
+    {
+      "slug": "lumi-emerald-halo-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/lumi-emerald-halo-ring/yellow-rear.webp",
+      "bytes": 54212,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "lumi-emerald-halo-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/lumi-emerald-halo-ring/yellow-highlight.webp",
+      "bytes": 160738,
+      "bounds": {
+        "left": 51,
+        "top": 280,
+        "right": 972,
+        "bottom": 740,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "lumi-emerald-halo-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/lumi-emerald-halo-ring/white-setting.webp",
+      "bytes": 47898,
+      "bounds": {
+        "left": 164,
+        "top": 409,
+        "right": 863,
+        "bottom": 742,
+        "widthRatio": 0.6836
+      }
+    },
+    {
+      "slug": "lumi-emerald-halo-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/lumi-emerald-halo-ring/white-front.webp",
+      "bytes": 6248,
+      "bounds": {
+        "left": 110,
+        "top": 496,
+        "right": 919,
+        "bottom": 526,
+        "widthRatio": 0.791
+      }
+    },
+    {
+      "slug": "lumi-emerald-halo-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/lumi-emerald-halo-ring/white-rear.webp",
+      "bytes": 51694,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "lumi-emerald-halo-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/lumi-emerald-halo-ring/white-highlight.webp",
+      "bytes": 164986,
+      "bounds": {
+        "left": 51,
+        "top": 280,
+        "right": 972,
+        "bottom": 740,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "noa-radiant-solitaire-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/noa-radiant-solitaire-ring/yellow-setting.webp",
+      "bytes": 54940,
+      "bounds": {
+        "left": 170,
+        "top": 409,
+        "right": 854,
+        "bottom": 770,
+        "widthRatio": 0.6689
+      }
+    },
+    {
+      "slug": "noa-radiant-solitaire-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/noa-radiant-solitaire-ring/yellow-front.webp",
+      "bytes": 8392,
+      "bounds": {
+        "left": 141,
+        "top": 496,
+        "right": 885,
+        "bottom": 549,
+        "widthRatio": 0.7275
+      }
+    },
+    {
+      "slug": "noa-radiant-solitaire-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/noa-radiant-solitaire-ring/yellow-rear.webp",
+      "bytes": 58898,
+      "bounds": {
+        "left": 54,
+        "top": 358,
+        "right": 969,
+        "bottom": 665,
+        "widthRatio": 0.8945
+      }
+    },
+    {
+      "slug": "noa-radiant-solitaire-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/noa-radiant-solitaire-ring/yellow-highlight.webp",
+      "bytes": 199512,
+      "bounds": {
+        "left": 51,
+        "top": 252,
+        "right": 972,
+        "bottom": 765,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "noa-radiant-solitaire-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/noa-radiant-solitaire-ring/white-setting.webp",
+      "bytes": 52462,
+      "bounds": {
+        "left": 170,
+        "top": 409,
+        "right": 854,
+        "bottom": 770,
+        "widthRatio": 0.6689
+      }
+    },
+    {
+      "slug": "noa-radiant-solitaire-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/noa-radiant-solitaire-ring/white-front.webp",
+      "bytes": 7958,
+      "bounds": {
+        "left": 141,
+        "top": 496,
+        "right": 885,
+        "bottom": 549,
+        "widthRatio": 0.7275
+      }
+    },
+    {
+      "slug": "noa-radiant-solitaire-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/noa-radiant-solitaire-ring/white-rear.webp",
+      "bytes": 56904,
+      "bounds": {
+        "left": 54,
+        "top": 358,
+        "right": 969,
+        "bottom": 665,
+        "widthRatio": 0.8945
+      }
+    },
+    {
+      "slug": "noa-radiant-solitaire-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/noa-radiant-solitaire-ring/white-highlight.webp",
+      "bytes": 204424,
+      "bounds": {
+        "left": 51,
+        "top": 252,
+        "right": 972,
+        "bottom": 765,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "elan-east-west-marquise-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/elan-east-west-marquise-ring/yellow-setting.webp",
+      "bytes": 52846,
+      "bounds": {
+        "left": 112,
+        "top": 309,
+        "right": 911,
+        "bottom": 614,
+        "widthRatio": 0.7813
+      }
+    },
+    {
+      "slug": "elan-east-west-marquise-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/elan-east-west-marquise-ring/yellow-front.webp",
+      "bytes": 24448,
+      "bounds": {
+        "left": 51,
+        "top": 324,
+        "right": 972,
+        "bottom": 547,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "elan-east-west-marquise-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/elan-east-west-marquise-ring/yellow-rear.webp",
+      "bytes": 23296,
+      "bounds": {
+        "left": 71,
+        "top": 309,
+        "right": 954,
+        "bottom": 460,
+        "widthRatio": 0.8633
+      }
+    },
+    {
+      "slug": "elan-east-west-marquise-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/elan-east-west-marquise-ring/yellow-highlight.webp",
+      "bytes": 134300,
+      "bounds": {
+        "left": 51,
+        "top": 309,
+        "right": 972,
+        "bottom": 706,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "elan-east-west-marquise-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/elan-east-west-marquise-ring/white-setting.webp",
+      "bytes": 49600,
+      "bounds": {
+        "left": 112,
+        "top": 309,
+        "right": 911,
+        "bottom": 614,
+        "widthRatio": 0.7813
+      }
+    },
+    {
+      "slug": "elan-east-west-marquise-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/elan-east-west-marquise-ring/white-front.webp",
+      "bytes": 22756,
+      "bounds": {
+        "left": 51,
+        "top": 324,
+        "right": 972,
+        "bottom": 547,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "elan-east-west-marquise-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/elan-east-west-marquise-ring/white-rear.webp",
+      "bytes": 21566,
+      "bounds": {
+        "left": 71,
+        "top": 309,
+        "right": 954,
+        "bottom": 460,
+        "widthRatio": 0.8633
+      }
+    },
+    {
+      "slug": "elan-east-west-marquise-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/elan-east-west-marquise-ring/white-highlight.webp",
+      "bytes": 140738,
+      "bounds": {
+        "left": 51,
+        "top": 309,
+        "right": 972,
+        "bottom": 707,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "vela-oval-three-stone-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/vela-oval-three-stone-ring/yellow-setting.webp",
+      "bytes": 72540,
+      "bounds": {
+        "left": 154,
+        "top": 409,
+        "right": 869,
+        "bottom": 740,
+        "widthRatio": 0.6992
+      }
+    },
+    {
+      "slug": "vela-oval-three-stone-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/vela-oval-three-stone-ring/yellow-front.webp",
+      "bytes": 22102,
+      "bounds": {
+        "left": 102,
+        "top": 496,
+        "right": 921,
+        "bottom": 653,
+        "widthRatio": 0.8008
+      }
+    },
+    {
+      "slug": "vela-oval-three-stone-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/vela-oval-three-stone-ring/yellow-rear.webp",
+      "bytes": 89626,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "vela-oval-three-stone-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/vela-oval-three-stone-ring/yellow-highlight.webp",
+      "bytes": 221142,
+      "bounds": {
+        "left": 51,
+        "top": 282,
+        "right": 972,
+        "bottom": 740,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "vela-oval-three-stone-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/vela-oval-three-stone-ring/white-setting.webp",
+      "bytes": 69374,
+      "bounds": {
+        "left": 154,
+        "top": 409,
+        "right": 869,
+        "bottom": 740,
+        "widthRatio": 0.6992
+      }
+    },
+    {
+      "slug": "vela-oval-three-stone-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/vela-oval-three-stone-ring/white-front.webp",
+      "bytes": 21240,
+      "bounds": {
+        "left": 102,
+        "top": 496,
+        "right": 921,
+        "bottom": 653,
+        "widthRatio": 0.8008
+      }
+    },
+    {
+      "slug": "vela-oval-three-stone-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/vela-oval-three-stone-ring/white-rear.webp",
+      "bytes": 86104,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "vela-oval-three-stone-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/vela-oval-three-stone-ring/white-highlight.webp",
+      "bytes": 225378,
+      "bounds": {
+        "left": 51,
+        "top": 282,
+        "right": 972,
+        "bottom": 740,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "etoile-shared-prong-eternity-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/etoile-shared-prong-eternity-ring/yellow-front.webp",
+      "bytes": 74232,
+      "bounds": {
+        "left": 53,
+        "top": 477,
+        "right": 970,
+        "bottom": 733,
+        "widthRatio": 0.8965
+      }
+    },
+    {
+      "slug": "etoile-shared-prong-eternity-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/etoile-shared-prong-eternity-ring/yellow-rear.webp",
+      "bytes": 81978,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "etoile-shared-prong-eternity-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/etoile-shared-prong-eternity-ring/yellow-highlight.webp",
+      "bytes": 177602,
+      "bounds": {
+        "left": 51,
+        "top": 289,
+        "right": 972,
+        "bottom": 733,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "etoile-shared-prong-eternity-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/etoile-shared-prong-eternity-ring/white-front.webp",
+      "bytes": 71156,
+      "bounds": {
+        "left": 53,
+        "top": 477,
+        "right": 970,
+        "bottom": 733,
+        "widthRatio": 0.8965
+      }
+    },
+    {
+      "slug": "etoile-shared-prong-eternity-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/etoile-shared-prong-eternity-ring/white-rear.webp",
+      "bytes": 77364,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "etoile-shared-prong-eternity-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/etoile-shared-prong-eternity-ring/white-highlight.webp",
+      "bytes": 183604,
+      "bounds": {
+        "left": 51,
+        "top": 289,
+        "right": 972,
+        "bottom": 733,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "solis-round-hidden-halo-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/solis-round-hidden-halo-ring/yellow-setting.webp",
+      "bytes": 48564,
+      "bounds": {
+        "left": 141,
+        "top": 204,
+        "right": 881,
+        "bottom": 538,
+        "widthRatio": 0.7236
+      }
+    },
+    {
+      "slug": "solis-round-hidden-halo-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/solis-round-hidden-halo-ring/yellow-front.webp",
+      "bytes": 21346,
+      "bounds": {
+        "left": 121,
+        "top": 323,
+        "right": 900,
+        "bottom": 547,
+        "widthRatio": 0.7617
+      }
+    },
+    {
+      "slug": "solis-round-hidden-halo-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/solis-round-hidden-halo-ring/yellow-rear.webp",
+      "bytes": 49094,
+      "bounds": {
+        "left": 155,
+        "top": 153,
+        "right": 866,
+        "bottom": 460,
+        "widthRatio": 0.6953
+      }
+    },
+    {
+      "slug": "solis-round-hidden-halo-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/solis-round-hidden-halo-ring/yellow-highlight.webp",
+      "bytes": 156012,
+      "bounds": {
+        "left": 112,
+        "top": 51,
+        "right": 910,
+        "bottom": 968,
+        "widthRatio": 0.7803
+      }
+    },
+    {
+      "slug": "solis-round-hidden-halo-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/solis-round-hidden-halo-ring/white-setting.webp",
+      "bytes": 43062,
+      "bounds": {
+        "left": 141,
+        "top": 204,
+        "right": 881,
+        "bottom": 538,
+        "widthRatio": 0.7236
+      }
+    },
+    {
+      "slug": "solis-round-hidden-halo-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/solis-round-hidden-halo-ring/white-front.webp",
+      "bytes": 19504,
+      "bounds": {
+        "left": 121,
+        "top": 323,
+        "right": 900,
+        "bottom": 547,
+        "widthRatio": 0.7617
+      }
+    },
+    {
+      "slug": "solis-round-hidden-halo-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/solis-round-hidden-halo-ring/white-rear.webp",
+      "bytes": 43906,
+      "bounds": {
+        "left": 155,
+        "top": 153,
+        "right": 866,
+        "bottom": 460,
+        "widthRatio": 0.6953
+      }
+    },
+    {
+      "slug": "solis-round-hidden-halo-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/solis-round-hidden-halo-ring/white-highlight.webp",
+      "bytes": 175062,
+      "bounds": {
+        "left": 112,
+        "top": 51,
+        "right": 910,
+        "bottom": 969,
+        "widthRatio": 0.7803
+      }
+    },
+    {
+      "slug": "elise-french-pave-cathedral-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/elise-french-pave-cathedral-ring/yellow-setting.webp",
+      "bytes": 66564,
+      "bounds": {
+        "left": 114,
+        "top": 204,
+        "right": 910,
+        "bottom": 523,
+        "widthRatio": 0.7783
+      }
+    },
+    {
+      "slug": "elise-french-pave-cathedral-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/elise-french-pave-cathedral-ring/yellow-front.webp",
+      "bytes": 37600,
+      "bounds": {
+        "left": 66,
+        "top": 291,
+        "right": 957,
+        "bottom": 547,
+        "widthRatio": 0.8711
+      }
+    },
+    {
+      "slug": "elise-french-pave-cathedral-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/elise-french-pave-cathedral-ring/yellow-rear.webp",
+      "bytes": 69410,
+      "bounds": {
+        "left": 103,
+        "top": 153,
+        "right": 920,
+        "bottom": 460,
+        "widthRatio": 0.7988
+      }
+    },
+    {
+      "slug": "elise-french-pave-cathedral-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/elise-french-pave-cathedral-ring/yellow-highlight.webp",
+      "bytes": 227690,
+      "bounds": {
+        "left": 53,
+        "top": 51,
+        "right": 969,
+        "bottom": 971,
+        "widthRatio": 0.8955
+      }
+    },
+    {
+      "slug": "elise-french-pave-cathedral-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/elise-french-pave-cathedral-ring/white-setting.webp",
+      "bytes": 60048,
+      "bounds": {
+        "left": 114,
+        "top": 204,
+        "right": 910,
+        "bottom": 523,
+        "widthRatio": 0.7783
+      }
+    },
+    {
+      "slug": "elise-french-pave-cathedral-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/elise-french-pave-cathedral-ring/white-front.webp",
+      "bytes": 34678,
+      "bounds": {
+        "left": 66,
+        "top": 291,
+        "right": 957,
+        "bottom": 547,
+        "widthRatio": 0.8711
+      }
+    },
+    {
+      "slug": "elise-french-pave-cathedral-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/elise-french-pave-cathedral-ring/white-rear.webp",
+      "bytes": 63024,
+      "bounds": {
+        "left": 103,
+        "top": 153,
+        "right": 920,
+        "bottom": 460,
+        "widthRatio": 0.7988
+      }
+    },
+    {
+      "slug": "elise-french-pave-cathedral-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/elise-french-pave-cathedral-ring/white-highlight.webp",
+      "bytes": 234066,
+      "bounds": {
+        "left": 53,
+        "top": 51,
+        "right": 969,
+        "bottom": 971,
+        "widthRatio": 0.8955
+      }
+    },
+    {
+      "slug": "vesper-knife-edge-solitaire-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/vesper-knife-edge-solitaire-ring/yellow-setting.webp",
+      "bytes": 46366,
+      "bounds": {
+        "left": 128,
+        "top": 206,
+        "right": 896,
+        "bottom": 519,
+        "widthRatio": 0.751
+      }
+    },
+    {
+      "slug": "vesper-knife-edge-solitaire-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/vesper-knife-edge-solitaire-ring/yellow-front.webp",
+      "bytes": 18566,
+      "bounds": {
+        "left": 74,
+        "top": 397,
+        "right": 950,
+        "bottom": 546,
+        "widthRatio": 0.8564
+      }
+    },
+    {
+      "slug": "vesper-knife-edge-solitaire-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/vesper-knife-edge-solitaire-ring/yellow-rear.webp",
+      "bytes": 40608,
+      "bounds": {
+        "left": 143,
+        "top": 206,
+        "right": 883,
+        "bottom": 460,
+        "widthRatio": 0.7236
+      }
+    },
+    {
+      "slug": "vesper-knife-edge-solitaire-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/vesper-knife-edge-solitaire-ring/yellow-highlight.webp",
+      "bytes": 124958,
+      "bounds": {
+        "left": 51,
+        "top": 206,
+        "right": 972,
+        "bottom": 811,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "vesper-knife-edge-solitaire-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/vesper-knife-edge-solitaire-ring/white-setting.webp",
+      "bytes": 44304,
+      "bounds": {
+        "left": 128,
+        "top": 206,
+        "right": 896,
+        "bottom": 519,
+        "widthRatio": 0.751
+      }
+    },
+    {
+      "slug": "vesper-knife-edge-solitaire-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/vesper-knife-edge-solitaire-ring/white-front.webp",
+      "bytes": 17446,
+      "bounds": {
+        "left": 74,
+        "top": 397,
+        "right": 950,
+        "bottom": 546,
+        "widthRatio": 0.8564
+      }
+    },
+    {
+      "slug": "vesper-knife-edge-solitaire-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/vesper-knife-edge-solitaire-ring/white-rear.webp",
+      "bytes": 39020,
+      "bounds": {
+        "left": 143,
+        "top": 206,
+        "right": 883,
+        "bottom": 460,
+        "widthRatio": 0.7236
+      }
+    },
+    {
+      "slug": "vesper-knife-edge-solitaire-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/vesper-knife-edge-solitaire-ring/white-highlight.webp",
+      "bytes": 137490,
+      "bounds": {
+        "left": 51,
+        "top": 206,
+        "right": 972,
+        "bottom": 812,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "aveline-scalloped-pave-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/aveline-scalloped-pave-ring/yellow-setting.webp",
+      "bytes": 62956,
+      "bounds": {
+        "left": 127,
+        "top": 204,
+        "right": 896,
+        "bottom": 523,
+        "widthRatio": 0.752
+      }
+    },
+    {
+      "slug": "aveline-scalloped-pave-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/aveline-scalloped-pave-ring/yellow-front.webp",
+      "bytes": 31228,
+      "bounds": {
+        "left": 66,
+        "top": 392,
+        "right": 958,
+        "bottom": 547,
+        "widthRatio": 0.8721
+      }
+    },
+    {
+      "slug": "aveline-scalloped-pave-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/aveline-scalloped-pave-ring/yellow-rear.webp",
+      "bytes": 53710,
+      "bounds": {
+        "left": 134,
+        "top": 204,
+        "right": 889,
+        "bottom": 460,
+        "widthRatio": 0.7383
+      }
+    },
+    {
+      "slug": "aveline-scalloped-pave-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/aveline-scalloped-pave-ring/yellow-highlight.webp",
+      "bytes": 160880,
+      "bounds": {
+        "left": 51,
+        "top": 204,
+        "right": 972,
+        "bottom": 819,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "aveline-scalloped-pave-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/aveline-scalloped-pave-ring/white-setting.webp",
+      "bytes": 59538,
+      "bounds": {
+        "left": 127,
+        "top": 204,
+        "right": 896,
+        "bottom": 523,
+        "widthRatio": 0.752
+      }
+    },
+    {
+      "slug": "aveline-scalloped-pave-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/aveline-scalloped-pave-ring/white-front.webp",
+      "bytes": 29018,
+      "bounds": {
+        "left": 66,
+        "top": 392,
+        "right": 958,
+        "bottom": 547,
+        "widthRatio": 0.8721
+      }
+    },
+    {
+      "slug": "aveline-scalloped-pave-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/aveline-scalloped-pave-ring/white-rear.webp",
+      "bytes": 50756,
+      "bounds": {
+        "left": 134,
+        "top": 204,
+        "right": 889,
+        "bottom": 460,
+        "widthRatio": 0.7383
+      }
+    },
+    {
+      "slug": "aveline-scalloped-pave-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/aveline-scalloped-pave-ring/white-highlight.webp",
+      "bytes": 162336,
+      "bounds": {
+        "left": 51,
+        "top": 204,
+        "right": 972,
+        "bottom": 819,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "arco-split-shank-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/arco-split-shank-ring/yellow-setting.webp",
+      "bytes": 82938,
+      "bounds": {
+        "left": 116,
+        "top": 254,
+        "right": 906,
+        "bottom": 556,
+        "widthRatio": 0.7725
+      }
+    },
+    {
+      "slug": "arco-split-shank-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/arco-split-shank-ring/yellow-front.webp",
+      "bytes": 45728,
+      "bounds": {
+        "left": 59,
+        "top": 354,
+        "right": 963,
+        "bottom": 547,
+        "widthRatio": 0.8838
+      }
+    },
+    {
+      "slug": "arco-split-shank-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/arco-split-shank-ring/yellow-rear.webp",
+      "bytes": 52910,
+      "bounds": {
+        "left": 109,
+        "top": 254,
+        "right": 913,
+        "bottom": 460,
+        "widthRatio": 0.7861
+      }
+    },
+    {
+      "slug": "arco-split-shank-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/arco-split-shank-ring/yellow-highlight.webp",
+      "bytes": 190722,
+      "bounds": {
+        "left": 51,
+        "top": 255,
+        "right": 971,
+        "bottom": 760,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "arco-split-shank-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/arco-split-shank-ring/white-setting.webp",
+      "bytes": 77040,
+      "bounds": {
+        "left": 116,
+        "top": 254,
+        "right": 906,
+        "bottom": 556,
+        "widthRatio": 0.7725
+      }
+    },
+    {
+      "slug": "arco-split-shank-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/arco-split-shank-ring/white-front.webp",
+      "bytes": 42240,
+      "bounds": {
+        "left": 59,
+        "top": 354,
+        "right": 963,
+        "bottom": 547,
+        "widthRatio": 0.8838
+      }
+    },
+    {
+      "slug": "arco-split-shank-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/arco-split-shank-ring/white-rear.webp",
+      "bytes": 50098,
+      "bounds": {
+        "left": 109,
+        "top": 254,
+        "right": 913,
+        "bottom": 460,
+        "widthRatio": 0.7861
+      }
+    },
+    {
+      "slug": "arco-split-shank-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/arco-split-shank-ring/white-highlight.webp",
+      "bytes": 191476,
+      "bounds": {
+        "left": 51,
+        "top": 255,
+        "right": 971,
+        "bottom": 765,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "delphine-double-halo-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/delphine-double-halo-ring/yellow-setting.webp",
+      "bytes": 93858,
+      "bounds": {
+        "left": 148,
+        "top": 240,
+        "right": 875,
+        "bottom": 614,
+        "widthRatio": 0.7109
+      }
+    },
+    {
+      "slug": "delphine-double-halo-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/delphine-double-halo-ring/yellow-front.webp",
+      "bytes": 17336,
+      "bounds": {
+        "left": 87,
+        "top": 436,
+        "right": 935,
+        "bottom": 547,
+        "widthRatio": 0.8291
+      }
+    },
+    {
+      "slug": "delphine-double-halo-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/delphine-double-halo-ring/yellow-rear.webp",
+      "bytes": 50422,
+      "bounds": {
+        "left": 267,
+        "top": 240,
+        "right": 756,
+        "bottom": 460,
+        "widthRatio": 0.4785
+      }
+    },
+    {
+      "slug": "delphine-double-halo-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/delphine-double-halo-ring/yellow-highlight.webp",
+      "bytes": 205520,
+      "bounds": {
+        "left": 51,
+        "top": 240,
+        "right": 972,
+        "bottom": 779,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "delphine-double-halo-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/delphine-double-halo-ring/white-setting.webp",
+      "bytes": 86068,
+      "bounds": {
+        "left": 148,
+        "top": 240,
+        "right": 875,
+        "bottom": 614,
+        "widthRatio": 0.7109
+      }
+    },
+    {
+      "slug": "delphine-double-halo-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/delphine-double-halo-ring/white-front.webp",
+      "bytes": 16226,
+      "bounds": {
+        "left": 87,
+        "top": 436,
+        "right": 935,
+        "bottom": 547,
+        "widthRatio": 0.8291
+      }
+    },
+    {
+      "slug": "delphine-double-halo-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/delphine-double-halo-ring/white-rear.webp",
+      "bytes": 47184,
+      "bounds": {
+        "left": 267,
+        "top": 240,
+        "right": 756,
+        "bottom": 460,
+        "widthRatio": 0.4785
+      }
+    },
+    {
+      "slug": "delphine-double-halo-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/delphine-double-halo-ring/white-highlight.webp",
+      "bytes": 209664,
+      "bounds": {
+        "left": 51,
+        "top": 240,
+        "right": 972,
+        "bottom": 780,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "orelia-oval-halo-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/orelia-oval-halo-ring/yellow-setting.webp",
+      "bytes": 92128,
+      "bounds": {
+        "left": 149,
+        "top": 204,
+        "right": 874,
+        "bottom": 614,
+        "widthRatio": 0.709
+      }
+    },
+    {
+      "slug": "orelia-oval-halo-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/orelia-oval-halo-ring/yellow-front.webp",
+      "bytes": 24244,
+      "bounds": {
+        "left": 93,
+        "top": 443,
+        "right": 928,
+        "bottom": 547,
+        "widthRatio": 0.8164
+      }
+    },
+    {
+      "slug": "orelia-oval-halo-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/orelia-oval-halo-ring/yellow-rear.webp",
+      "bytes": 48816,
+      "bounds": {
+        "left": 230,
+        "top": 199,
+        "right": 791,
+        "bottom": 460,
+        "widthRatio": 0.5488
+      }
+    },
+    {
+      "slug": "orelia-oval-halo-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/orelia-oval-halo-ring/yellow-highlight.webp",
+      "bytes": 219186,
+      "bounds": {
+        "left": 52,
+        "top": 199,
+        "right": 971,
+        "bottom": 815,
+        "widthRatio": 0.8984
+      }
+    },
+    {
+      "slug": "orelia-oval-halo-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/orelia-oval-halo-ring/white-setting.webp",
+      "bytes": 85686,
+      "bounds": {
+        "left": 149,
+        "top": 204,
+        "right": 874,
+        "bottom": 614,
+        "widthRatio": 0.709
+      }
+    },
+    {
+      "slug": "orelia-oval-halo-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/orelia-oval-halo-ring/white-front.webp",
+      "bytes": 22596,
+      "bounds": {
+        "left": 93,
+        "top": 443,
+        "right": 928,
+        "bottom": 547,
+        "widthRatio": 0.8164
+      }
+    },
+    {
+      "slug": "orelia-oval-halo-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/orelia-oval-halo-ring/white-rear.webp",
+      "bytes": 46396,
+      "bounds": {
+        "left": 230,
+        "top": 199,
+        "right": 791,
+        "bottom": 460,
+        "widthRatio": 0.5488
+      }
+    },
+    {
+      "slug": "orelia-oval-halo-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/orelia-oval-halo-ring/white-highlight.webp",
+      "bytes": 224486,
+      "bounds": {
+        "left": 52,
+        "top": 199,
+        "right": 971,
+        "bottom": 815,
+        "widthRatio": 0.8984
+      }
+    },
+    {
+      "slug": "lune-oval-bezel-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/lune-oval-bezel-ring/yellow-setting.webp",
+      "bytes": 53980,
+      "bounds": {
+        "left": 147,
+        "top": 409,
+        "right": 875,
+        "bottom": 763,
+        "widthRatio": 0.7119
+      }
+    },
+    {
+      "slug": "lune-oval-bezel-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/lune-oval-bezel-ring/yellow-front.webp",
+      "bytes": 11252,
+      "bounds": {
+        "left": 104,
+        "top": 496,
+        "right": 918,
+        "bottom": 567,
+        "widthRatio": 0.7959
+      }
+    },
+    {
+      "slug": "lune-oval-bezel-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/lune-oval-bezel-ring/yellow-rear.webp",
+      "bytes": 62206,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "lune-oval-bezel-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/lune-oval-bezel-ring/yellow-highlight.webp",
+      "bytes": 150032,
+      "bounds": {
+        "left": 51,
+        "top": 259,
+        "right": 971,
+        "bottom": 761,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "lune-oval-bezel-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/lune-oval-bezel-ring/white-setting.webp",
+      "bytes": 50952,
+      "bounds": {
+        "left": 147,
+        "top": 409,
+        "right": 875,
+        "bottom": 763,
+        "widthRatio": 0.7119
+      }
+    },
+    {
+      "slug": "lune-oval-bezel-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/lune-oval-bezel-ring/white-front.webp",
+      "bytes": 10592,
+      "bounds": {
+        "left": 104,
+        "top": 496,
+        "right": 918,
+        "bottom": 567,
+        "widthRatio": 0.7959
+      }
+    },
+    {
+      "slug": "lune-oval-bezel-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/lune-oval-bezel-ring/white-rear.webp",
+      "bytes": 59544,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "lune-oval-bezel-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/lune-oval-bezel-ring/white-highlight.webp",
+      "bytes": 153982,
+      "bounds": {
+        "left": 51,
+        "top": 259,
+        "right": 971,
+        "bottom": 761,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "coda-east-west-oval-wide-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/coda-east-west-oval-wide-ring/yellow-setting.webp",
+      "bytes": 57592,
+      "bounds": {
+        "left": 112,
+        "top": 209,
+        "right": 911,
+        "bottom": 518,
+        "widthRatio": 0.7813
+      }
+    },
+    {
+      "slug": "coda-east-west-oval-wide-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/coda-east-west-oval-wide-ring/yellow-front.webp",
+      "bytes": 25704,
+      "bounds": {
+        "left": 54,
+        "top": 292,
+        "right": 969,
+        "bottom": 546,
+        "widthRatio": 0.8945
+      }
+    },
+    {
+      "slug": "coda-east-west-oval-wide-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/coda-east-west-oval-wide-ring/yellow-rear.webp",
+      "bytes": 55020,
+      "bounds": {
+        "left": 84,
+        "top": 209,
+        "right": 939,
+        "bottom": 460,
+        "widthRatio": 0.8359
+      }
+    },
+    {
+      "slug": "coda-east-west-oval-wide-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/coda-east-west-oval-wide-ring/yellow-highlight.webp",
+      "bytes": 174898,
+      "bounds": {
+        "left": 51,
+        "top": 209,
+        "right": 972,
+        "bottom": 799,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "coda-east-west-oval-wide-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/coda-east-west-oval-wide-ring/white-setting.webp",
+      "bytes": 53678,
+      "bounds": {
+        "left": 112,
+        "top": 209,
+        "right": 911,
+        "bottom": 518,
+        "widthRatio": 0.7813
+      }
+    },
+    {
+      "slug": "coda-east-west-oval-wide-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/coda-east-west-oval-wide-ring/white-front.webp",
+      "bytes": 23774,
+      "bounds": {
+        "left": 54,
+        "top": 292,
+        "right": 969,
+        "bottom": 546,
+        "widthRatio": 0.8945
+      }
+    },
+    {
+      "slug": "coda-east-west-oval-wide-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/coda-east-west-oval-wide-ring/white-rear.webp",
+      "bytes": 51576,
+      "bounds": {
+        "left": 84,
+        "top": 209,
+        "right": 939,
+        "bottom": 460,
+        "widthRatio": 0.8359
+      }
+    },
+    {
+      "slug": "coda-east-west-oval-wide-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/coda-east-west-oval-wide-ring/white-highlight.webp",
+      "bytes": 183834,
+      "bounds": {
+        "left": 51,
+        "top": 209,
+        "right": 972,
+        "bottom": 800,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "fleur-pear-halo-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/fleur-pear-halo-ring/yellow-setting.webp",
+      "bytes": 97662,
+      "bounds": {
+        "left": 138,
+        "top": 204,
+        "right": 885,
+        "bottom": 614,
+        "widthRatio": 0.7305
+      }
+    },
+    {
+      "slug": "fleur-pear-halo-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/fleur-pear-halo-ring/yellow-front.webp",
+      "bytes": 28028,
+      "bounds": {
+        "left": 88,
+        "top": 291,
+        "right": 935,
+        "bottom": 547,
+        "widthRatio": 0.8281
+      }
+    },
+    {
+      "slug": "fleur-pear-halo-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/fleur-pear-halo-ring/yellow-rear.webp",
+      "bytes": 72614,
+      "bounds": {
+        "left": 166,
+        "top": 153,
+        "right": 854,
+        "bottom": 460,
+        "widthRatio": 0.6729
+      }
+    },
+    {
+      "slug": "fleur-pear-halo-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/fleur-pear-halo-ring/yellow-highlight.webp",
+      "bytes": 232954,
+      "bounds": {
+        "left": 51,
+        "top": 137,
+        "right": 972,
+        "bottom": 886,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "fleur-pear-halo-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/fleur-pear-halo-ring/white-setting.webp",
+      "bytes": 89554,
+      "bounds": {
+        "left": 138,
+        "top": 204,
+        "right": 885,
+        "bottom": 614,
+        "widthRatio": 0.7305
+      }
+    },
+    {
+      "slug": "fleur-pear-halo-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/fleur-pear-halo-ring/white-front.webp",
+      "bytes": 26284,
+      "bounds": {
+        "left": 88,
+        "top": 291,
+        "right": 935,
+        "bottom": 547,
+        "widthRatio": 0.8281
+      }
+    },
+    {
+      "slug": "fleur-pear-halo-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/fleur-pear-halo-ring/white-rear.webp",
+      "bytes": 66500,
+      "bounds": {
+        "left": 166,
+        "top": 153,
+        "right": 854,
+        "bottom": 460,
+        "widthRatio": 0.6729
+      }
+    },
+    {
+      "slug": "fleur-pear-halo-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/fleur-pear-halo-ring/white-highlight.webp",
+      "bytes": 240556,
+      "bounds": {
+        "left": 51,
+        "top": 137,
+        "right": 972,
+        "bottom": 886,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "amelie-cushion-halo-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/amelie-cushion-halo-ring/yellow-setting.webp",
+      "bytes": 83198,
+      "bounds": {
+        "left": 139,
+        "top": 204,
+        "right": 884,
+        "bottom": 605,
+        "widthRatio": 0.7285
+      }
+    },
+    {
+      "slug": "amelie-cushion-halo-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/amelie-cushion-halo-ring/yellow-front.webp",
+      "bytes": 17430,
+      "bounds": {
+        "left": 86,
+        "top": 427,
+        "right": 937,
+        "bottom": 547,
+        "widthRatio": 0.832
+      }
+    },
+    {
+      "slug": "amelie-cushion-halo-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/amelie-cushion-halo-ring/yellow-rear.webp",
+      "bytes": 53312,
+      "bounds": {
+        "left": 183,
+        "top": 183,
+        "right": 842,
+        "bottom": 460,
+        "widthRatio": 0.6445
+      }
+    },
+    {
+      "slug": "amelie-cushion-halo-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/amelie-cushion-halo-ring/yellow-highlight.webp",
+      "bytes": 197344,
+      "bounds": {
+        "left": 51,
+        "top": 183,
+        "right": 971,
+        "bottom": 839,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "amelie-cushion-halo-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/amelie-cushion-halo-ring/white-setting.webp",
+      "bytes": 77682,
+      "bounds": {
+        "left": 139,
+        "top": 204,
+        "right": 884,
+        "bottom": 605,
+        "widthRatio": 0.7285
+      }
+    },
+    {
+      "slug": "amelie-cushion-halo-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/amelie-cushion-halo-ring/white-front.webp",
+      "bytes": 16404,
+      "bounds": {
+        "left": 86,
+        "top": 427,
+        "right": 937,
+        "bottom": 547,
+        "widthRatio": 0.832
+      }
+    },
+    {
+      "slug": "amelie-cushion-halo-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/amelie-cushion-halo-ring/white-rear.webp",
+      "bytes": 50804,
+      "bounds": {
+        "left": 183,
+        "top": 183,
+        "right": 842,
+        "bottom": 460,
+        "widthRatio": 0.6445
+      }
+    },
+    {
+      "slug": "amelie-cushion-halo-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/amelie-cushion-halo-ring/white-highlight.webp",
+      "bytes": 202202,
+      "bounds": {
+        "left": 51,
+        "top": 183,
+        "right": 971,
+        "bottom": 839,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "forme-radiant-bezel-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/forme-radiant-bezel-ring/yellow-setting.webp",
+      "bytes": 49562,
+      "bounds": {
+        "left": 128,
+        "top": 240,
+        "right": 896,
+        "bottom": 579,
+        "widthRatio": 0.751
+      }
+    },
+    {
+      "slug": "forme-radiant-bezel-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/forme-radiant-bezel-ring/yellow-front.webp",
+      "bytes": 17792,
+      "bounds": {
+        "left": 71,
+        "top": 413,
+        "right": 952,
+        "bottom": 547,
+        "widthRatio": 0.8613
+      }
+    },
+    {
+      "slug": "forme-radiant-bezel-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/forme-radiant-bezel-ring/yellow-rear.webp",
+      "bytes": 29510,
+      "bounds": {
+        "left": 144,
+        "top": 240,
+        "right": 879,
+        "bottom": 460,
+        "widthRatio": 0.7188
+      }
+    },
+    {
+      "slug": "forme-radiant-bezel-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/forme-radiant-bezel-ring/yellow-highlight.webp",
+      "bytes": 148088,
+      "bounds": {
+        "left": 51,
+        "top": 240,
+        "right": 971,
+        "bottom": 782,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "forme-radiant-bezel-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/forme-radiant-bezel-ring/white-setting.webp",
+      "bytes": 46468,
+      "bounds": {
+        "left": 128,
+        "top": 240,
+        "right": 896,
+        "bottom": 579,
+        "widthRatio": 0.751
+      }
+    },
+    {
+      "slug": "forme-radiant-bezel-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/forme-radiant-bezel-ring/white-front.webp",
+      "bytes": 16330,
+      "bounds": {
+        "left": 71,
+        "top": 413,
+        "right": 952,
+        "bottom": 547,
+        "widthRatio": 0.8613
+      }
+    },
+    {
+      "slug": "forme-radiant-bezel-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/forme-radiant-bezel-ring/white-rear.webp",
+      "bytes": 28300,
+      "bounds": {
+        "left": 144,
+        "top": 240,
+        "right": 879,
+        "bottom": 460,
+        "widthRatio": 0.7188
+      }
+    },
+    {
+      "slug": "forme-radiant-bezel-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/forme-radiant-bezel-ring/white-highlight.webp",
+      "bytes": 159698,
+      "bounds": {
+        "left": 51,
+        "top": 240,
+        "right": 971,
+        "bottom": 782,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "riva-emerald-bezel-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/riva-emerald-bezel-ring/yellow-setting.webp",
+      "bytes": 37896,
+      "bounds": {
+        "left": 145,
+        "top": 409,
+        "right": 878,
+        "bottom": 744,
+        "widthRatio": 0.7168
+      }
+    },
+    {
+      "slug": "riva-emerald-bezel-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/riva-emerald-bezel-ring/yellow-front.webp",
+      "bytes": 10316,
+      "bounds": {
+        "left": 101,
+        "top": 496,
+        "right": 923,
+        "bottom": 573,
+        "widthRatio": 0.8037
+      }
+    },
+    {
+      "slug": "riva-emerald-bezel-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/riva-emerald-bezel-ring/yellow-rear.webp",
+      "bytes": 50426,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "riva-emerald-bezel-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/riva-emerald-bezel-ring/yellow-highlight.webp",
+      "bytes": 123260,
+      "bounds": {
+        "left": 51,
+        "top": 280,
+        "right": 972,
+        "bottom": 740,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "riva-emerald-bezel-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/riva-emerald-bezel-ring/white-setting.webp",
+      "bytes": 36636,
+      "bounds": {
+        "left": 145,
+        "top": 409,
+        "right": 878,
+        "bottom": 744,
+        "widthRatio": 0.7168
+      }
+    },
+    {
+      "slug": "riva-emerald-bezel-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/riva-emerald-bezel-ring/white-front.webp",
+      "bytes": 9654,
+      "bounds": {
+        "left": 101,
+        "top": 496,
+        "right": 923,
+        "bottom": 573,
+        "widthRatio": 0.8037
+      }
+    },
+    {
+      "slug": "riva-emerald-bezel-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/riva-emerald-bezel-ring/white-rear.webp",
+      "bytes": 47624,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "riva-emerald-bezel-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/riva-emerald-bezel-ring/white-highlight.webp",
+      "bytes": 132088,
+      "bounds": {
+        "left": 51,
+        "top": 280,
+        "right": 972,
+        "bottom": 741,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "talia-emerald-baguette-three-stone-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/talia-emerald-baguette-three-stone-ring/yellow-setting.webp",
+      "bytes": 58706,
+      "bounds": {
+        "left": 126,
+        "top": 229,
+        "right": 898,
+        "bottom": 570,
+        "widthRatio": 0.7549
+      }
+    },
+    {
+      "slug": "talia-emerald-baguette-three-stone-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/talia-emerald-baguette-three-stone-ring/yellow-front.webp",
+      "bytes": 24146,
+      "bounds": {
+        "left": 71,
+        "top": 382,
+        "right": 954,
+        "bottom": 547,
+        "widthRatio": 0.8633
+      }
+    },
+    {
+      "slug": "talia-emerald-baguette-three-stone-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/talia-emerald-baguette-three-stone-ring/yellow-rear.webp",
+      "bytes": 38146,
+      "bounds": {
+        "left": 138,
+        "top": 229,
+        "right": 888,
+        "bottom": 460,
+        "widthRatio": 0.7334
+      }
+    },
+    {
+      "slug": "talia-emerald-baguette-three-stone-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/talia-emerald-baguette-three-stone-ring/yellow-highlight.webp",
+      "bytes": 154606,
+      "bounds": {
+        "left": 51,
+        "top": 229,
+        "right": 972,
+        "bottom": 790,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "talia-emerald-baguette-three-stone-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/talia-emerald-baguette-three-stone-ring/white-setting.webp",
+      "bytes": 55708,
+      "bounds": {
+        "left": 126,
+        "top": 229,
+        "right": 898,
+        "bottom": 570,
+        "widthRatio": 0.7549
+      }
+    },
+    {
+      "slug": "talia-emerald-baguette-three-stone-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/talia-emerald-baguette-three-stone-ring/white-front.webp",
+      "bytes": 22596,
+      "bounds": {
+        "left": 71,
+        "top": 382,
+        "right": 954,
+        "bottom": 547,
+        "widthRatio": 0.8633
+      }
+    },
+    {
+      "slug": "talia-emerald-baguette-three-stone-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/talia-emerald-baguette-three-stone-ring/white-rear.webp",
+      "bytes": 37068,
+      "bounds": {
+        "left": 138,
+        "top": 229,
+        "right": 888,
+        "bottom": 460,
+        "widthRatio": 0.7334
+      }
+    },
+    {
+      "slug": "talia-emerald-baguette-three-stone-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/talia-emerald-baguette-three-stone-ring/white-highlight.webp",
+      "bytes": 165404,
+      "bounds": {
+        "left": 51,
+        "top": 229,
+        "right": 972,
+        "bottom": 791,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "nessa-oval-pear-three-stone-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/nessa-oval-pear-three-stone-ring/yellow-setting.webp",
+      "bytes": 70540,
+      "bounds": {
+        "left": 143,
+        "top": 409,
+        "right": 881,
+        "bottom": 740,
+        "widthRatio": 0.7217
+      }
+    },
+    {
+      "slug": "nessa-oval-pear-three-stone-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/nessa-oval-pear-three-stone-ring/yellow-front.webp",
+      "bytes": 19972,
+      "bounds": {
+        "left": 100,
+        "top": 496,
+        "right": 923,
+        "bottom": 612,
+        "widthRatio": 0.8047
+      }
+    },
+    {
+      "slug": "nessa-oval-pear-three-stone-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/nessa-oval-pear-three-stone-ring/yellow-rear.webp",
+      "bytes": 87962,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "nessa-oval-pear-three-stone-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/nessa-oval-pear-three-stone-ring/yellow-highlight.webp",
+      "bytes": 202092,
+      "bounds": {
+        "left": 51,
+        "top": 283,
+        "right": 972,
+        "bottom": 740,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "nessa-oval-pear-three-stone-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/nessa-oval-pear-three-stone-ring/white-setting.webp",
+      "bytes": 67568,
+      "bounds": {
+        "left": 143,
+        "top": 409,
+        "right": 881,
+        "bottom": 740,
+        "widthRatio": 0.7217
+      }
+    },
+    {
+      "slug": "nessa-oval-pear-three-stone-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/nessa-oval-pear-three-stone-ring/white-front.webp",
+      "bytes": 19552,
+      "bounds": {
+        "left": 100,
+        "top": 496,
+        "right": 923,
+        "bottom": 612,
+        "widthRatio": 0.8047
+      }
+    },
+    {
+      "slug": "nessa-oval-pear-three-stone-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/nessa-oval-pear-three-stone-ring/white-rear.webp",
+      "bytes": 84408,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "nessa-oval-pear-three-stone-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/nessa-oval-pear-three-stone-ring/white-highlight.webp",
+      "bytes": 205526,
+      "bounds": {
+        "left": 51,
+        "top": 283,
+        "right": 972,
+        "bottom": 740,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "calista-cushion-trapezoid-three-stone-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/calista-cushion-trapezoid-three-stone-ring/yellow-setting.webp",
+      "bytes": 67752,
+      "bounds": {
+        "left": 118,
+        "top": 204,
+        "right": 905,
+        "bottom": 521,
+        "widthRatio": 0.7695
+      }
+    },
+    {
+      "slug": "calista-cushion-trapezoid-three-stone-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/calista-cushion-trapezoid-three-stone-ring/yellow-front.webp",
+      "bytes": 29170,
+      "bounds": {
+        "left": 67,
+        "top": 291,
+        "right": 956,
+        "bottom": 547,
+        "widthRatio": 0.8691
+      }
+    },
+    {
+      "slug": "calista-cushion-trapezoid-three-stone-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/calista-cushion-trapezoid-three-stone-ring/yellow-rear.webp",
+      "bytes": 66220,
+      "bounds": {
+        "left": 115,
+        "top": 154,
+        "right": 908,
+        "bottom": 460,
+        "widthRatio": 0.7754
+      }
+    },
+    {
+      "slug": "calista-cushion-trapezoid-three-stone-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/calista-cushion-trapezoid-three-stone-ring/yellow-highlight.webp",
+      "bytes": 208550,
+      "bounds": {
+        "left": 51,
+        "top": 154,
+        "right": 972,
+        "bottom": 868,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "calista-cushion-trapezoid-three-stone-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/calista-cushion-trapezoid-three-stone-ring/white-setting.webp",
+      "bytes": 63320,
+      "bounds": {
+        "left": 118,
+        "top": 204,
+        "right": 905,
+        "bottom": 521,
+        "widthRatio": 0.7695
+      }
+    },
+    {
+      "slug": "calista-cushion-trapezoid-three-stone-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/calista-cushion-trapezoid-three-stone-ring/white-front.webp",
+      "bytes": 27602,
+      "bounds": {
+        "left": 67,
+        "top": 291,
+        "right": 956,
+        "bottom": 547,
+        "widthRatio": 0.8691
+      }
+    },
+    {
+      "slug": "calista-cushion-trapezoid-three-stone-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/calista-cushion-trapezoid-three-stone-ring/white-rear.webp",
+      "bytes": 62402,
+      "bounds": {
+        "left": 115,
+        "top": 154,
+        "right": 908,
+        "bottom": 460,
+        "widthRatio": 0.7754
+      }
+    },
+    {
+      "slug": "calista-cushion-trapezoid-three-stone-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/calista-cushion-trapezoid-three-stone-ring/white-highlight.webp",
+      "bytes": 205742,
+      "bounds": {
+        "left": 51,
+        "top": 154,
+        "right": 972,
+        "bottom": 869,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "odette-oval-ballerina-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/odette-oval-ballerina-ring/yellow-setting.webp",
+      "bytes": 92790,
+      "bounds": {
+        "left": 112,
+        "top": 409,
+        "right": 911,
+        "bottom": 803,
+        "widthRatio": 0.7813
+      }
+    },
+    {
+      "slug": "odette-oval-ballerina-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/odette-oval-ballerina-ring/yellow-front.webp",
+      "bytes": 31352,
+      "bounds": {
+        "left": 51,
+        "top": 498,
+        "right": 972,
+        "bottom": 715,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "odette-oval-ballerina-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/odette-oval-ballerina-ring/yellow-rear.webp",
+      "bytes": 82400,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 971,
+        "bottom": 665,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "odette-oval-ballerina-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/odette-oval-ballerina-ring/yellow-highlight.webp",
+      "bytes": 208032,
+      "bounds": {
+        "left": 51,
+        "top": 221,
+        "right": 971,
+        "bottom": 798,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "odette-oval-ballerina-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/odette-oval-ballerina-ring/white-setting.webp",
+      "bytes": 86226,
+      "bounds": {
+        "left": 112,
+        "top": 409,
+        "right": 911,
+        "bottom": 803,
+        "widthRatio": 0.7813
+      }
+    },
+    {
+      "slug": "odette-oval-ballerina-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/odette-oval-ballerina-ring/white-front.webp",
+      "bytes": 29864,
+      "bounds": {
+        "left": 51,
+        "top": 498,
+        "right": 972,
+        "bottom": 715,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "odette-oval-ballerina-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/odette-oval-ballerina-ring/white-rear.webp",
+      "bytes": 76418,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 971,
+        "bottom": 665,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "odette-oval-ballerina-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/odette-oval-ballerina-ring/white-highlight.webp",
+      "bytes": 213458,
+      "bounds": {
+        "left": 51,
+        "top": 221,
+        "right": 971,
+        "bottom": 798,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "amara-vintage-milgrain-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/amara-vintage-milgrain-ring/yellow-setting.webp",
+      "bytes": 99824,
+      "bounds": {
+        "left": 126,
+        "top": 204,
+        "right": 899,
+        "bottom": 614,
+        "widthRatio": 0.7559
+      }
+    },
+    {
+      "slug": "amara-vintage-milgrain-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/amara-vintage-milgrain-ring/yellow-front.webp",
+      "bytes": 34144,
+      "bounds": {
+        "left": 70,
+        "top": 384,
+        "right": 953,
+        "bottom": 547,
+        "widthRatio": 0.8633
+      }
+    },
+    {
+      "slug": "amara-vintage-milgrain-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/amara-vintage-milgrain-ring/yellow-rear.webp",
+      "bytes": 61266,
+      "bounds": {
+        "left": 136,
+        "top": 196,
+        "right": 890,
+        "bottom": 460,
+        "widthRatio": 0.7373
+      }
+    },
+    {
+      "slug": "amara-vintage-milgrain-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/amara-vintage-milgrain-ring/yellow-highlight.webp",
+      "bytes": 219430,
+      "bounds": {
+        "left": 51,
+        "top": 196,
+        "right": 971,
+        "bottom": 826,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "amara-vintage-milgrain-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/amara-vintage-milgrain-ring/white-setting.webp",
+      "bytes": 91250,
+      "bounds": {
+        "left": 126,
+        "top": 204,
+        "right": 899,
+        "bottom": 614,
+        "widthRatio": 0.7559
+      }
+    },
+    {
+      "slug": "amara-vintage-milgrain-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/amara-vintage-milgrain-ring/white-front.webp",
+      "bytes": 31034,
+      "bounds": {
+        "left": 70,
+        "top": 384,
+        "right": 953,
+        "bottom": 547,
+        "widthRatio": 0.8633
+      }
+    },
+    {
+      "slug": "amara-vintage-milgrain-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/amara-vintage-milgrain-ring/white-rear.webp",
+      "bytes": 56206,
+      "bounds": {
+        "left": 136,
+        "top": 196,
+        "right": 890,
+        "bottom": 460,
+        "widthRatio": 0.7373
+      }
+    },
+    {
+      "slug": "amara-vintage-milgrain-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/amara-vintage-milgrain-ring/white-highlight.webp",
+      "bytes": 225066,
+      "bounds": {
+        "left": 51,
+        "top": 196,
+        "right": 971,
+        "bottom": 826,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "mira-bezel-toi-et-moi-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/mira-bezel-toi-et-moi-ring/yellow-setting.webp",
+      "bytes": 68224,
+      "bounds": {
+        "left": 143,
+        "top": 204,
+        "right": 861,
+        "bottom": 614,
+        "widthRatio": 0.7021
+      }
+    },
+    {
+      "slug": "mira-bezel-toi-et-moi-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/mira-bezel-toi-et-moi-ring/yellow-front.webp",
+      "bytes": 15894,
+      "bounds": {
+        "left": 89,
+        "top": 414,
+        "right": 923,
+        "bottom": 547,
+        "widthRatio": 0.8154
+      }
+    },
+    {
+      "slug": "mira-bezel-toi-et-moi-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/mira-bezel-toi-et-moi-ring/yellow-rear.webp",
+      "bytes": 39418,
+      "bounds": {
+        "left": 194,
+        "top": 181,
+        "right": 741,
+        "bottom": 460,
+        "widthRatio": 0.5352
+      }
+    },
+    {
+      "slug": "mira-bezel-toi-et-moi-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/mira-bezel-toi-et-moi-ring/yellow-highlight.webp",
+      "bytes": 199770,
+      "bounds": {
+        "left": 51,
+        "top": 181,
+        "right": 972,
+        "bottom": 836,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "mira-bezel-toi-et-moi-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/mira-bezel-toi-et-moi-ring/white-setting.webp",
+      "bytes": 63710,
+      "bounds": {
+        "left": 143,
+        "top": 204,
+        "right": 861,
+        "bottom": 614,
+        "widthRatio": 0.7021
+      }
+    },
+    {
+      "slug": "mira-bezel-toi-et-moi-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/mira-bezel-toi-et-moi-ring/white-front.webp",
+      "bytes": 15114,
+      "bounds": {
+        "left": 89,
+        "top": 414,
+        "right": 923,
+        "bottom": 547,
+        "widthRatio": 0.8154
+      }
+    },
+    {
+      "slug": "mira-bezel-toi-et-moi-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/mira-bezel-toi-et-moi-ring/white-rear.webp",
+      "bytes": 37938,
+      "bounds": {
+        "left": 194,
+        "top": 181,
+        "right": 741,
+        "bottom": 460,
+        "widthRatio": 0.5352
+      }
+    },
+    {
+      "slug": "mira-bezel-toi-et-moi-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/mira-bezel-toi-et-moi-ring/white-highlight.webp",
+      "bytes": 203000,
+      "bounds": {
+        "left": 51,
+        "top": 181,
+        "right": 972,
+        "bottom": 838,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "ligne-east-west-emerald-half-bezel-ring",
+      "metal": "yellow",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/ligne-east-west-emerald-half-bezel-ring/yellow-setting.webp",
+      "bytes": 36788,
+      "bounds": {
+        "left": 123,
+        "top": 498,
+        "right": 900,
+        "bottom": 711,
+        "widthRatio": 0.7598
+      }
+    },
+    {
+      "slug": "ligne-east-west-emerald-half-bezel-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/ligne-east-west-emerald-half-bezel-ring/yellow-front.webp",
+      "bytes": 16780,
+      "bounds": {
+        "left": 69,
+        "top": 496,
+        "right": 953,
+        "bottom": 615,
+        "widthRatio": 0.8643
+      }
+    },
+    {
+      "slug": "ligne-east-west-emerald-half-bezel-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/ligne-east-west-emerald-half-bezel-ring/yellow-rear.webp",
+      "bytes": 52794,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "ligne-east-west-emerald-half-bezel-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/ligne-east-west-emerald-half-bezel-ring/yellow-highlight.webp",
+      "bytes": 107932,
+      "bounds": {
+        "left": 51,
+        "top": 312,
+        "right": 971,
+        "bottom": 708,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "ligne-east-west-emerald-half-bezel-ring",
+      "metal": "white",
+      "layer": "setting",
+      "file": "/try-on/v4/rings/ligne-east-west-emerald-half-bezel-ring/white-setting.webp",
+      "bytes": 34778,
+      "bounds": {
+        "left": 123,
+        "top": 498,
+        "right": 900,
+        "bottom": 711,
+        "widthRatio": 0.7598
+      }
+    },
+    {
+      "slug": "ligne-east-west-emerald-half-bezel-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/ligne-east-west-emerald-half-bezel-ring/white-front.webp",
+      "bytes": 15888,
+      "bounds": {
+        "left": 69,
+        "top": 496,
+        "right": 953,
+        "bottom": 615,
+        "widthRatio": 0.8643
+      }
+    },
+    {
+      "slug": "ligne-east-west-emerald-half-bezel-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/ligne-east-west-emerald-half-bezel-ring/white-rear.webp",
+      "bytes": 50044,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "ligne-east-west-emerald-half-bezel-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/ligne-east-west-emerald-half-bezel-ring/white-highlight.webp",
+      "bytes": 112938,
+      "bounds": {
+        "left": 51,
+        "top": 312,
+        "right": 971,
+        "bottom": 708,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "ellipse-oval-eternity-band",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/ellipse-oval-eternity-band/yellow-front.webp",
+      "bytes": 99748,
+      "bounds": {
+        "left": 53,
+        "top": 477,
+        "right": 970,
+        "bottom": 749,
+        "widthRatio": 0.8965
+      }
+    },
+    {
+      "slug": "ellipse-oval-eternity-band",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/ellipse-oval-eternity-band/yellow-rear.webp",
+      "bytes": 108048,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "ellipse-oval-eternity-band",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/ellipse-oval-eternity-band/yellow-highlight.webp",
+      "bytes": 261028,
+      "bounds": {
+        "left": 52,
+        "top": 273,
+        "right": 972,
+        "bottom": 749,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "ellipse-oval-eternity-band",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/ellipse-oval-eternity-band/white-front.webp",
+      "bytes": 92114,
+      "bounds": {
+        "left": 53,
+        "top": 477,
+        "right": 970,
+        "bottom": 749,
+        "widthRatio": 0.8965
+      }
+    },
+    {
+      "slug": "ellipse-oval-eternity-band",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/ellipse-oval-eternity-band/white-rear.webp",
+      "bytes": 97608,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "ellipse-oval-eternity-band",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/ellipse-oval-eternity-band/white-highlight.webp",
+      "bytes": 269322,
+      "bounds": {
+        "left": 52,
+        "top": 273,
+        "right": 972,
+        "bottom": 749,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "romy-emerald-half-eternity-band",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/romy-emerald-half-eternity-band/yellow-front.webp",
+      "bytes": 74490,
+      "bounds": {
+        "left": 56,
+        "top": 477,
+        "right": 967,
+        "bottom": 740,
+        "widthRatio": 0.8906
+      }
+    },
+    {
+      "slug": "romy-emerald-half-eternity-band",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/romy-emerald-half-eternity-band/yellow-rear.webp",
+      "bytes": 70796,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "romy-emerald-half-eternity-band",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/romy-emerald-half-eternity-band/yellow-highlight.webp",
+      "bytes": 184850,
+      "bounds": {
+        "left": 51,
+        "top": 283,
+        "right": 972,
+        "bottom": 740,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "romy-emerald-half-eternity-band",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/romy-emerald-half-eternity-band/white-front.webp",
+      "bytes": 70734,
+      "bounds": {
+        "left": 56,
+        "top": 477,
+        "right": 967,
+        "bottom": 740,
+        "widthRatio": 0.8906
+      }
+    },
+    {
+      "slug": "romy-emerald-half-eternity-band",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/romy-emerald-half-eternity-band/white-rear.webp",
+      "bytes": 65640,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "romy-emerald-half-eternity-band",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/romy-emerald-half-eternity-band/white-highlight.webp",
+      "bytes": 185024,
+      "bounds": {
+        "left": 51,
+        "top": 283,
+        "right": 972,
+        "bottom": 740,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "circa-round-bezel-eternity-band",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/circa-round-bezel-eternity-band/yellow-front.webp",
+      "bytes": 68808,
+      "bounds": {
+        "left": 53,
+        "top": 477,
+        "right": 969,
+        "bottom": 726,
+        "widthRatio": 0.8955
+      }
+    },
+    {
+      "slug": "circa-round-bezel-eternity-band",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/circa-round-bezel-eternity-band/yellow-rear.webp",
+      "bytes": 88220,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "circa-round-bezel-eternity-band",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/circa-round-bezel-eternity-band/yellow-highlight.webp",
+      "bytes": 170038,
+      "bounds": {
+        "left": 51,
+        "top": 297,
+        "right": 971,
+        "bottom": 719,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "circa-round-bezel-eternity-band",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/circa-round-bezel-eternity-band/white-front.webp",
+      "bytes": 64492,
+      "bounds": {
+        "left": 53,
+        "top": 477,
+        "right": 969,
+        "bottom": 726,
+        "widthRatio": 0.8955
+      }
+    },
+    {
+      "slug": "circa-round-bezel-eternity-band",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/circa-round-bezel-eternity-band/white-rear.webp",
+      "bytes": 81428,
+      "bounds": {
+        "left": 51,
+        "top": 358,
+        "right": 972,
+        "bottom": 665,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "circa-round-bezel-eternity-band",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/circa-round-bezel-eternity-band/white-highlight.webp",
+      "bytes": 176452,
+      "bounds": {
+        "left": 51,
+        "top": 297,
+        "right": 971,
+        "bottom": 723,
+        "widthRatio": 0.8994
+      }
+    },
+    {
+      "slug": "quint-five-stone-ring",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/quint-five-stone-ring/yellow-front.webp",
+      "bytes": 79390,
+      "bounds": {
+        "left": 54,
+        "top": 273,
+        "right": 968,
+        "bottom": 565,
+        "widthRatio": 0.8936
+      }
+    },
+    {
+      "slug": "quint-five-stone-ring",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/quint-five-stone-ring/yellow-rear.webp",
+      "bytes": 71498,
+      "bounds": {
+        "left": 103,
+        "top": 231,
+        "right": 920,
+        "bottom": 460,
+        "widthRatio": 0.7988
+      }
+    },
+    {
+      "slug": "quint-five-stone-ring",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/quint-five-stone-ring/yellow-highlight.webp",
+      "bytes": 185264,
+      "bounds": {
+        "left": 51,
+        "top": 231,
+        "right": 972,
+        "bottom": 785,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "quint-five-stone-ring",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/quint-five-stone-ring/white-front.webp",
+      "bytes": 73816,
+      "bounds": {
+        "left": 54,
+        "top": 273,
+        "right": 968,
+        "bottom": 565,
+        "widthRatio": 0.8936
+      }
+    },
+    {
+      "slug": "quint-five-stone-ring",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/quint-five-stone-ring/white-rear.webp",
+      "bytes": 65802,
+      "bounds": {
+        "left": 103,
+        "top": 231,
+        "right": 920,
+        "bottom": 460,
+        "widthRatio": 0.7988
+      }
+    },
+    {
+      "slug": "quint-five-stone-ring",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/quint-five-stone-ring/white-highlight.webp",
+      "bytes": 188966,
+      "bounds": {
+        "left": 51,
+        "top": 231,
+        "right": 972,
+        "bottom": 788,
+        "widthRatio": 0.9004
+      }
+    },
+    {
+      "slug": "cadre-channel-diamond-band",
+      "metal": "yellow",
+      "layer": "front",
+      "file": "/try-on/v4/rings/cadre-channel-diamond-band/yellow-front.webp",
+      "bytes": 28954,
+      "bounds": {
+        "left": 265,
+        "top": 477,
+        "right": 757,
+        "bottom": 774,
+        "widthRatio": 0.4814
+      }
+    },
+    {
+      "slug": "cadre-channel-diamond-band",
+      "metal": "yellow",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/cadre-channel-diamond-band/yellow-rear.webp",
+      "bytes": 28060,
+      "bounds": {
+        "left": 265,
+        "top": 358,
+        "right": 757,
+        "bottom": 665,
+        "widthRatio": 0.4814
+      }
+    },
+    {
+      "slug": "cadre-channel-diamond-band",
+      "metal": "yellow",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/cadre-channel-diamond-band/yellow-highlight.webp",
+      "bytes": 182310,
+      "bounds": {
+        "left": 265,
+        "top": 51,
+        "right": 757,
+        "bottom": 968,
+        "widthRatio": 0.4814
+      }
+    },
+    {
+      "slug": "cadre-channel-diamond-band",
+      "metal": "white",
+      "layer": "front",
+      "file": "/try-on/v4/rings/cadre-channel-diamond-band/white-front.webp",
+      "bytes": 27166,
+      "bounds": {
+        "left": 265,
+        "top": 477,
+        "right": 757,
+        "bottom": 774,
+        "widthRatio": 0.4814
+      }
+    },
+    {
+      "slug": "cadre-channel-diamond-band",
+      "metal": "white",
+      "layer": "rear",
+      "file": "/try-on/v4/rings/cadre-channel-diamond-band/white-rear.webp",
+      "bytes": 25978,
+      "bounds": {
+        "left": 265,
+        "top": 358,
+        "right": 757,
+        "bottom": 665,
+        "widthRatio": 0.4814
+      }
+    },
+    {
+      "slug": "cadre-channel-diamond-band",
+      "metal": "white",
+      "layer": "highlight",
+      "file": "/try-on/v4/rings/cadre-channel-diamond-band/white-highlight.webp",
+      "bytes": 177372,
+      "bounds": {
+        "left": 265,
+        "top": 51,
+        "right": 757,
+        "bottom": 968,
+        "widthRatio": 0.4814
+      }
+    }
+  ]
+}

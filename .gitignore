@@ -14,6 +14,7 @@ next-env.d.ts
 .codex-remote-attachments/
 .media-reports/
 .media-cache/
+artifacts/
 .spin-reports/
 public/images/products/catalog/.staging/
 __pycache__/

@@ -388,6 +388,32 @@ export function calculateManualWristPose(edgeA: HandPoint, edgeB: HandPoint): Ri
   };
 }
 
+/**
+ * Creates a stable ring pose from two user-selected finger edges. The line
+ * between the points is the ring band axis; the finger direction is its
+ * perpendicular. This keeps manual placement deterministic on any photo.
+ */
+export function calculateManualRingPose(edgeA: HandPoint, edgeB: HandPoint): RingPose | null {
+  const fingerWidth = distance(edgeA, edgeB);
+  if (!Number.isFinite(fingerWidth) || fingerWidth < 10) return null;
+
+  const edgeX = (edgeB.x - edgeA.x) / fingerWidth;
+  const edgeY = (edgeB.y - edgeA.y) / fingerWidth;
+  return {
+    x: (edgeA.x + edgeB.x) / 2,
+    y: (edgeA.y + edgeB.y) / 2,
+    width: fingerWidth,
+    fingerWidth,
+    axisLength: fingerWidth / 0.5,
+    axisX: -edgeY,
+    axisY: edgeX,
+    rotation: Math.atan2(edgeY, edgeX),
+    perspectiveScale: 1,
+    skew: 0,
+    depthTilt: 0,
+  };
+}
+
 interface PixelColor {
   r: number;
   g: number;
@@ -452,7 +478,7 @@ export function estimateLocalFingerSection(
   const normalX = -pose.axisY;
   const normalY = pose.axisX;
   const referenceSamples: PixelColor[] = [];
-  for (const axisOffset of [-0.1, 0, 0.1]) {
+  for (const axisOffset of [-0.18, -0.12, -0.06, 0, 0.06, 0.12, 0.18]) {
     for (const normalOffset of [-0.06, 0, 0.06]) {
       const color = sample(
         pose.x + pose.axisX * pose.axisLength * axisOffset + normalX * expectedWidth * normalOffset,
@@ -495,7 +521,7 @@ export function estimateLocalFingerSection(
   };
 
   const contour: FingerContourSample[] = [];
-  for (const axisOffset of [-0.16, 0, 0.16]) {
+  for (const axisOffset of [-0.24, -0.16, -0.08, 0, 0.08, 0.16, 0.24]) {
     const left = scanBoundary(axisOffset, -1);
     const right = scanBoundary(axisOffset, 1);
     if (left !== null && right !== null) contour.push({ axisOffset, left, right });
