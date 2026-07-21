@@ -15,6 +15,7 @@ FRONTEND_PORT="${FRONTEND_PORT:-3105}"
 ROOT_DOMAIN="libidiamonds.co.il"
 CANONICAL_DOMAIN="www.libidiamonds.co.il"
 PUBLIC_SITE_URL="https://$CANONICAL_DOMAIN"
+RING_TRY_ON_ENGINE="${NEXT_PUBLIC_RING_TRY_ON_ENGINE:-v4-pilot}"
 NGINX_CONF="/etc/nginx/sites-available/libidiamonds.co.il.conf"
 NGINX_ENABLED="/etc/nginx/sites-enabled/libidiamonds.co.il.conf"
 CERT_DIR="/etc/letsencrypt/live/libidiamonds.co.il"
@@ -49,6 +50,7 @@ fi
 log "Building the root-path, indexable site for $PUBLIC_SITE_URL..."
 NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
     NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=true \
+    NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" \
     npm run build
 
 STAGED_ACTIVATION=false
@@ -82,6 +84,7 @@ restore_previous_release() {
     cd "$APP_ROOT"
     PORT="$FRONTEND_PORT" NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
         NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=true \
+        NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" \
         pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start
     pm2 save > /dev/null
 }
@@ -90,6 +93,7 @@ log "Starting PM2 process $PROCESS_NAME on port $FRONTEND_PORT..."
 pm2 delete "$PROCESS_NAME" > /dev/null 2>&1 || true
 if ! PORT="$FRONTEND_PORT" NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
      NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=true \
+     NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" \
      pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start; then
     restore_previous_release
     exit 1
