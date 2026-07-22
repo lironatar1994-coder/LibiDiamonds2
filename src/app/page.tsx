@@ -4,6 +4,7 @@ import Image, { getImageProps } from "next/image";
 // import DiamondShapeSelector from "@/components/DiamondShapeSelector";
 import ProductCard from "@/components/ProductCard";
 import HomeTryOnFeature from "@/components/HomeTryOnFeature";
+import HeroCollectionLink from "@/components/HeroCollectionLink";
 import { WhatsAppIcon } from "@/components/icons";
 import {
   categories,
@@ -251,13 +252,9 @@ export default function HomePage() {
               <h1 id="home-hero-title" className="home-hero-title font-display">
                 היהלום במרכז.
               </h1>
+              <HeroCollectionLink />
             </div>
           </div>
-
-          <a href="#collection-title" className="home-hero-scroll scroll-hint">
-            <span className="home-hero-scroll-label">לצפייה בקולקציה</span>
-            <span className="home-hero-scroll-mark" aria-hidden="true" />
-          </a>
         </div>
       </section>
 

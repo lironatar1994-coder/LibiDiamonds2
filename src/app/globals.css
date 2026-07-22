@@ -45,6 +45,12 @@
   --font-body: var(--font-assistant), "Assistant", sans-serif;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   background-color: var(--color-ivory);
   color: var(--color-ink);
@@ -109,6 +115,9 @@ h3,
 }
 
 .home-hero-brand-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   animation: home-brand-arrive 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -129,40 +138,60 @@ h3,
   text-shadow: 0 1px 10px rgba(251, 250, 247, 0.74);
 }
 
-.home-hero-scroll {
-  position: absolute;
-  bottom: 1.1rem;
-  left: 50%;
-  z-index: 5;
-  display: flex;
-  min-width: 8.75rem;
+.home-hero-collection-link {
+  display: inline-flex;
   min-height: 2.75rem;
   align-items: center;
-  justify-content: center;
-  gap: 0.65rem;
-  color: var(--color-gilt-deep);
-  transform: translateX(-50%);
-  transition: color 180ms ease;
+  gap: 0.55rem;
+  margin-top: 0.9rem;
+  color: rgba(7, 26, 40, 0.72);
+  direction: rtl;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.045em;
+  text-shadow: 0 1px 8px rgba(251, 250, 247, 0.72);
+  transition: color 220ms ease;
 }
 
-.home-hero-scroll:hover {
+.home-hero-collection-link:hover,
+.home-hero-collection-link:focus-visible {
   color: var(--home-midnight);
 }
 
-.home-hero-scroll-label {
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 0.15rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.035em;
+.home-hero-collection-link:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 0.35rem;
 }
 
-.home-hero-scroll .home-hero-scroll-mark {
-  width: 0.62rem;
-  aspect-ratio: 1;
-  border-right: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  transform: rotate(45deg);
+.home-hero-collection-rule {
+  width: 2.4rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+  transform-origin: right center;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
+}
+
+.home-hero-collection-arrow {
+  width: 0.55rem;
+  height: 0.8rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-hero-collection-link:hover .home-hero-collection-rule,
+.home-hero-collection-link:focus-visible .home-hero-collection-rule {
+  opacity: 0.85;
+  transform: scaleX(1.16);
+}
+
+.home-hero-collection-link:hover .home-hero-collection-arrow,
+.home-hero-collection-link:focus-visible .home-hero-collection-arrow {
+  transform: translateY(2px);
 }
 
 @keyframes home-brand-arrive {
@@ -203,8 +232,8 @@ h3,
     font-size: clamp(1.65rem, 2vw, 2.1rem);
   }
 
-  .home-hero-scroll {
-    bottom: 1.4rem;
+  .home-hero-collection-link {
+    margin-top: 1.1rem;
   }
 }
 
@@ -1800,23 +1829,6 @@ h3,
   );
   filter: blur(1.4px);
   will-change: transform;
-}
-
-/* quiet scroll cue at the hero's base */
-@keyframes scroll-hint {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.65;
-  }
-  50% {
-    transform: translateY(9px);
-    opacity: 0.2;
-  }
-}
-
-.scroll-hint {
-  animation: scroll-hint 2.8s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
