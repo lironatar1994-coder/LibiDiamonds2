@@ -11,8 +11,8 @@ export const metadata: Metadata = pageMetadata({
   description:
     "כך נבחרים התכשיטים של LIBI DIAMONDS: בדיקת נתוני היהלום, התאמת הזהב והמידה ואישור ברור לפני תחילת העבודה.",
   path: "/about",
-  image: "/images/trust/v1/libi-packaging-mockup.webp",
-  imageAlt: "הדמיה של אריזת LIBI DIAMONDS",
+  image: "/images/editorial/craft/libi-hands-at-work.webp",
+  imageAlt: "ידיים בעבודת צורפות מדויקת לצד סקיצה וכלי מדידה",
 });
 
 const process = [
@@ -37,24 +37,24 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.86fr_1.14fr] lg:px-8 lg:py-20">
           <div className="max-w-xl">
             <h1 className="font-display text-4xl font-medium leading-[1.12] sm:text-5xl lg:text-6xl">
-              בחירה מדויקת,
+              כל פרט נבחן,
               <br />
-              מהאבן ועד השיבוץ.
+              לפני שהוא הופך לתכשיט.
             </h1>
             <BrandSignature className="mt-5" />
             <p className="mt-5 max-w-lg text-base leading-8 text-stone sm:text-lg">
-              LIBI DIAMONDS מתמקדת בתכשיטי יהלומי מעבדה בזהב 14K ו־18K. אנחנו בוחנים יחד את מראה האבן, מבנה התכשיט והתקציב, ומאשרים כל פרט לפני תחילת העבודה.
+              מהפרופורציה של האבן ועד גוון הזהב והמידה, אנחנו סוגרים איתכם כל החלטה מראש. כך העיצוב, התקציב ומועד האספקה ברורים לפני שמתחילה העבודה.
             </p>
           </div>
 
-          <div className="relative aspect-[4/3] overflow-hidden bg-ivory">
+          <div className="relative aspect-[4/5] overflow-hidden bg-ivory sm:aspect-[4/3] lg:aspect-[4/5]">
               <Image
-                src={assetPath("/images/trust/v1/libi-packaging-mockup.webp")}
-                alt="הדמיה של אריזת LIBI DIAMONDS בגוון שנהב"
+                src={assetPath("/images/editorial/craft/libi-hands-at-work.webp")}
+                alt="ידיים בעבודת צורפות מדויקת לצד סקיצת טבעת וכלי מדידה"
                 fill
                 priority
                 sizes="(min-width: 1024px) 56vw, 100vw"
-                className="object-cover"
+                className="object-cover object-center"
               />
           </div>
         </div>

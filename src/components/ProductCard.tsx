@@ -62,7 +62,7 @@ export default function ProductCard({
         }`}
       />
       <div className={`px-0.5 sm:px-1 ${catalog || editorial ? `${ringCatalog ? "catalog-ring-copy pt-2.5" : "pt-3"} text-right sm:pt-4` : `text-center ${compact ? "pt-3 sm:pt-4" : "pt-3 sm:pt-5"}`}`}>
-        <h3 className={`font-display leading-snug transition-colors group-hover:text-gold-deep ${ringCatalog ? "catalog-ring-name text-[0.96rem] sm:text-lg" : compact ? "text-[0.9rem] sm:text-base" : catalog ? "text-base sm:text-lg" : editorial ? "text-base lg:text-lg" : "text-[0.95rem] sm:text-lg"}`}>
+        <h3 className={`font-display leading-snug transition-colors group-hover:text-gold-deep ${ringCatalog ? "catalog-ring-name text-base sm:text-lg" : compact ? "text-[0.9rem] sm:text-base" : catalog ? "text-base sm:text-lg" : editorial ? "text-base lg:text-lg" : "text-[0.95rem] sm:text-lg"}`}>
           {product.name}
         </h3>
         <p className={`${ringCatalog ? "catalog-ring-price mt-1 text-[0.94rem] tabular-nums sm:mt-2 sm:text-base" : "font-display tracking-[0.02em]"} font-medium text-ink ${compact ? "mt-1 text-[0.95rem] sm:mt-2 sm:text-base" : ringCatalog ? "" : catalog ? "mt-2 text-[1.05rem] sm:text-lg" : editorial ? "mt-1.5 text-base" : "mt-1.5 text-base sm:mt-2.5 sm:text-[1.08rem]"}`}>

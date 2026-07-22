@@ -254,8 +254,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <a href="#collection-title" className="home-hero-scroll scroll-hint" aria-label="מעבר לקולקציות">
-            <span aria-hidden="true" />
+          <a href="#collection-title" className="home-hero-scroll scroll-hint">
+            <span className="home-hero-scroll-label">לצפייה בקולקציה</span>
+            <span className="home-hero-scroll-mark" aria-hidden="true" />
           </a>
         </div>
       </section>
@@ -272,7 +273,7 @@ export default function HomePage() {
 
       {/* ── Categories ───────────────────────────────────── */}
       <section className="section-gallery section-gallery-collection section-collection-atmosphere" aria-labelledby="collection-title">
-        <div className="mx-auto max-w-7xl px-4 pb-11 pt-9 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
           <div className="home-collection-heading text-center">
             <h2 id="collection-title" className="scroll-mt-24 font-display text-[2.15rem] font-medium leading-none text-ink sm:text-[2.8rem]">
               מצאו את התכשיט שלכם
@@ -292,7 +293,7 @@ export default function HomePage() {
       </section>
 
       {/* Four intentional bestsellers, not an endless storefront carousel. */}
-      <section className="section-most-loved py-11 sm:py-16 lg:py-20" aria-labelledby="most-loved-title">
+      <section className="section-most-loved py-14 sm:py-16 lg:py-20" aria-labelledby="most-loved-title">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div>
             <div>
@@ -348,28 +349,38 @@ export default function HomePage() {
 
           <div className="home-bespoke-copy">
             <div className="home-bespoke-heading">
+              <p className="home-bespoke-eyebrow">הבחירה של LIBI</p>
               <h2
                 id="bespoke-inspiration-title"
-                className="font-display text-[2.2rem] font-medium leading-tight text-ivory sm:text-5xl"
+                className="mt-3 font-display text-[2.2rem] font-medium leading-tight text-ivory sm:text-5xl"
               >
-                יש לכם השראה לתכשיט?
+                כל פרט נבחן לפני שהוא הופך לתכשיט.
               </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-footer-muted sm:text-base sm:leading-8">
+                מהפרופורציה של האבן ועד גוון הזהב והמידה, אנחנו סוגרים איתכם כל החלטה מראש — כדי שהתוצאה תרגיש מדויקת גם מקרוב.
+              </p>
             </div>
-            <a
-              href={waLink("היי, יש לי השראה לתכשיט ואשמח לשתף אתכם")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="home-bespoke-cta inline-flex min-h-[52px] items-center justify-center gap-2 px-7 text-sm font-semibold"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              שליחת השראה בוואטסאפ
-            </a>
+            <div className="home-bespoke-actions">
+              <Link href="/about" className="home-bespoke-story-link inline-flex min-h-11 items-center border-b border-gilt/65 text-sm font-semibold">
+                הסיפור של LIBI <span aria-hidden="true">←</span>
+              </Link>
+              <a
+                href={waLink("היי, יש לי השראה לתכשיט ואשמח לקבל כיוון ראשוני והערכת מחיר")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="home-bespoke-cta inline-flex min-h-[52px] items-center justify-center gap-2 px-7 text-sm font-semibold"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+                שלחו לנו השראה
+              </a>
+              <p className="max-w-xs text-xs leading-5 text-footer-subtle">שלחו תמונה ונחזור עם כיוון ראשוני והערכת מחיר.</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── LIBI Journal ───────────────────────────────── */}
-      <section className="section-gallery section-gallery-journal py-12 sm:py-16 lg:py-20">
+      <section className="section-gallery section-gallery-journal py-14 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-6">
             <h2 className="font-display text-[2rem] font-medium leading-none sm:text-4xl">לדעת מה בוחרים.</h2>
@@ -396,7 +407,7 @@ export default function HomePage() {
                     className="home-journal-image object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]"
                   />
                 </div>
-                <p className="mt-4 text-[0.68rem] font-semibold tracking-[0.08em] text-stone">
+                <p className="mt-4 text-xs font-semibold tracking-[0.08em] text-stone">
                   {featuredJournalGuide.readingMinutes} דקות קריאה
                 </p>
                 <h3 className="mt-2 max-w-3xl font-display text-2xl font-medium leading-snug transition-colors group-hover:text-gold-deep sm:text-3xl">
@@ -422,7 +433,7 @@ export default function HomePage() {
                       />
                     </div>
                     <div className="min-w-0 lg:mt-3">
-                      <p className="text-[0.6875rem] font-semibold tracking-[0.07em] text-stone">{guide.readingMinutes} דקות קריאה</p>
+                      <p className="text-xs font-semibold tracking-[0.07em] text-stone">{guide.readingMinutes} דקות קריאה</p>
                       <h3 className="mt-1.5 font-display text-lg font-medium leading-snug transition-colors group-hover:text-gold-deep sm:text-xl">
                         {guide.title}
                       </h3>

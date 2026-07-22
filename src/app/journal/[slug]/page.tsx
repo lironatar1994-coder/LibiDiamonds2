@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -59,6 +60,7 @@ export default async function GuidePage({ params }: Props) {
         new Date(`${guide.updated}T00:00:00`),
       )
     : null;
+  const tocSections = guide.sections.filter((section) => section.heading);
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -111,9 +113,31 @@ export default async function GuidePage({ params }: Props) {
           />
         </div>
 
+        {tocSections.length > 0 && (
+          <details className="group mt-8 border-y border-line bg-platinum-soft/45 px-4 sm:px-6">
+            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-3 text-sm font-semibold text-ink marker:content-none">
+              <span>במדריך הזה</span>
+              <span className="text-lg font-light text-gold-deep transition-transform group-open:rotate-45" aria-hidden>+</span>
+            </summary>
+            <nav className="border-t border-line/70 pb-5 pt-4" aria-label="תוכן המדריך">
+              <ol className="grid gap-x-8 gap-y-3 text-sm leading-6 text-ink-soft sm:grid-cols-2">
+                {tocSections.map((section, index) => (
+                  <li key={section.id} className="flex gap-3">
+                    <span className="shrink-0 font-display text-xs text-gold-deep" aria-hidden>{String(index + 1).padStart(2, "0")}</span>
+                    <a href={`#${section.id}`} className="border-b border-transparent transition-colors hover:border-gold/60 hover:text-ink">
+                      {section.heading}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          </details>
+        )}
+
         <div className="mt-10 space-y-8">
           {guide.sections.map((section, i) => (
-            <section key={i}>
+            <Fragment key={section.id}>
+            <section id={section.heading ? section.id : undefined} className={section.heading ? "scroll-mt-24" : undefined}>
               {i === (guide.comparisonAfterSection ?? 1) && guide.comparison && (
                 <div className="mb-10 border-y border-line py-6 sm:py-7">
                   <h2 className="font-display text-2xl font-medium">{guide.comparison.heading}</h2>
@@ -181,6 +205,15 @@ export default async function GuidePage({ params }: Props) {
                 </ol>
               )}
             </section>
+            {guide.commerceBridge && i === guide.commerceBridge.afterSection && (
+              <aside className="border-y border-line bg-platinum-soft/45 px-5 py-6 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:px-7" aria-label="המשך לקולקציה">
+                <p className="font-display text-xl font-medium leading-snug text-ink">{guide.commerceBridge.title}</p>
+                <Link href={guide.commerceBridge.href} className="mt-4 inline-flex min-h-11 shrink-0 items-center border-b border-gilt/65 text-sm font-semibold text-ink-soft transition-colors hover:border-gilt hover:text-ink sm:mt-0">
+                  {guide.commerceBridge.label} <span className="mr-2" aria-hidden>←</span>
+                </Link>
+              </aside>
+            )}
+            </Fragment>
           ))}
         </div>
       </article>

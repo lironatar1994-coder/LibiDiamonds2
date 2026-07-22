@@ -35,7 +35,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="אינסטגרם"
-              className="text-footer-muted transition-colors hover:text-ivory"
+              className="inline-flex h-11 w-11 items-center justify-center text-footer-muted transition-colors hover:text-ivory"
             >
               <InstagramIcon className="h-5 w-5" />
             </a>
@@ -45,10 +45,10 @@ export default function Footer() {
         <div className="mt-5 grid grid-cols-2 gap-x-8 border-t border-white/15 pt-5 sm:mt-9 sm:gap-x-16 sm:pt-7 lg:mx-auto lg:max-w-2xl">
           <nav aria-label="הקולקציה">
             <h3 className="text-sm font-semibold tracking-wider">הקולקציה</h3>
-            <ul className="mt-3 space-y-2 text-sm text-footer-muted sm:mt-4 sm:space-y-2.5">
+            <ul className="mt-2 text-sm text-footer-muted sm:mt-3">
               {collectionLinks.map((link) => (
                 <li key={link.href}>
-                  <Link className="transition-colors hover:text-ivory" href={link.href}>
+                  <Link className="inline-flex min-h-11 items-center transition-colors hover:text-ivory" href={link.href}>
                     {link.label}
                   </Link>
                 </li>
@@ -58,10 +58,10 @@ export default function Footer() {
 
           <nav aria-label="מידע">
             <h3 className="text-sm font-semibold tracking-wider">מידע</h3>
-            <ul className="mt-3 space-y-2 text-sm text-footer-muted sm:mt-4 sm:space-y-2.5">
+            <ul className="mt-2 text-sm text-footer-muted sm:mt-3">
               {informationLinks.map((link) => (
                 <li key={link.href}>
-                  <Link className="transition-colors hover:text-ivory" href={link.href}>
+                  <Link className="inline-flex min-h-11 items-center transition-colors hover:text-ivory" href={link.href}>
                     {link.label}
                   </Link>
                 </li>
@@ -71,19 +71,22 @@ export default function Footer() {
 
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t border-white/15 pt-5 text-sm text-footer-muted sm:mt-8 sm:pt-6">
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 border-t border-white/15 pt-5 text-sm text-footer-muted sm:mt-8 sm:pt-6">
           <a
-            className="inline-flex items-center gap-2 transition-colors hover:text-ivory"
+            className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-ivory"
             href={waLink(defaultWaMessage)}
             target="_blank"
             rel="noopener noreferrer"
           >
             <WhatsAppIcon className="h-4 w-4" />
             <span>ייעוץ בוואטסאפ</span>
-            <span dir="ltr" className="text-footer-subtle">{site.phoneDisplay}</span>
           </a>
           <span className="hidden h-1 w-1 rotate-45 bg-gold/60 sm:block" aria-hidden />
-          <a className="transition-colors hover:text-ivory" href={`mailto:${site.email}`}>
+          <a className="inline-flex min-h-11 items-center text-footer-subtle transition-colors hover:text-ivory" href="tel:+972508611888" dir="ltr">
+            {site.phoneDisplay}
+          </a>
+          <span className="hidden h-1 w-1 rotate-45 bg-gold/60 sm:block" aria-hidden />
+          <a className="inline-flex min-h-11 items-center transition-colors hover:text-ivory" href={`mailto:${site.email}`}>
             {site.email}
           </a>
         </div>

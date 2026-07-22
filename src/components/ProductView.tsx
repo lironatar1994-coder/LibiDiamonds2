@@ -326,7 +326,7 @@ export default function ProductView({ product }: { product: Product }) {
                     onClick={() => scrollTrackToSlide(galleryTrackRef, index)}
                     aria-label={`מעבר לתמונה ${index + 1} של ${product.name}`}
                     aria-pressed={selectedImage === index}
-                    className="flex h-8 w-7 items-center justify-center"
+                    className="flex h-11 w-11 items-center justify-center"
                   >
                     <span
                       className={`h-1.5 rounded-full transition-all duration-300 ${
@@ -523,7 +523,7 @@ export default function ProductView({ product }: { product: Product }) {
             <div className="pt-5">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-[0.78rem] font-semibold text-ink-soft">מידת טבעת</span>
-                <Link href={assetPath("/ring-size-guide")} className="border-b border-[#b5924b]/55 pb-0.5 text-xs text-ink-soft transition-colors hover:border-[#b5924b] hover:text-ink">
+                <Link href={assetPath("/ring-size-guide")} className="inline-flex min-h-11 items-center border-b border-[#b5924b]/55 text-xs text-ink-soft transition-colors hover:border-[#b5924b] hover:text-ink">
                   לא בטוחים? מדריך מידות
                 </Link>
               </div>
