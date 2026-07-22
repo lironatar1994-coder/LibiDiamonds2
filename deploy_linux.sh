@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
 
 # ==============================================================================
-# LIBI DIAMONDS Production Deployment Script (Server-Side)
+# LIBI DIAMONDS 2 Production Deployment Script (Server-Side)
 # ==============================================================================
 
 set -euo pipefail
 
 APP_ROOT="$(pwd)"
-REMOTE_REPO="https://github.com/lironatar1994-coder/LibiDiamonds.git"
-PROCESS_NAME="libi-diamonds"
-FRONTEND_PORT="${FRONTEND_PORT:-3102}"
-ROUTE_BASE="/LibiDiamonds"
-LOWER_ROUTE_BASE="/libidiamonds"
+REMOTE_REPO="https://github.com/lironatar1994-coder/LibiDiamonds2.git"
+PROCESS_NAME="libi-diamonds-2"
+FRONTEND_PORT="${FRONTEND_PORT:-3103}"
+ROUTE_BASE="/LibiDiamonds2"
+LOWER_ROUTE_BASE="/libidiamonds2"
 PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://vee-app.co.il$ROUTE_BASE}"
+RING_TRY_ON_ENGINE="${NEXT_PUBLIC_RING_TRY_ON_ENGINE:-v4-pilot}"
 NGINX_CONF="/etc/nginx/sites-available/vee-app.co.il.conf"
-NGINX_SNIPPET="/etc/nginx/snippets/libi-diamonds-locations.conf"
+NGINX_SNIPPET="/etc/nginx/snippets/libi-diamonds-2-locations.conf"
 
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -43,7 +44,7 @@ run_npm_install() {
     fi
 }
 
-log "Starting LIBI DIAMONDS deployment..."
+log "Starting LIBI DIAMONDS 2 deployment..."
 
 if [ "${SKIP_GIT_SYNC:-0}" != "1" ]; then
     log "Syncing repository from origin/main..."
@@ -60,12 +61,14 @@ run_npm_install
 
 log "Building Next.js app for $PUBLIC_SITE_URL..."
 NEXT_BASE_PATH="$ROUTE_BASE" NEXT_PUBLIC_BASE_PATH="$ROUTE_BASE" \
-    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" npm run build
+    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=false \
+    NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" npm run build
 
 log "Starting/restarting PM2 process $PROCESS_NAME on port $FRONTEND_PORT..."
 pm2 delete "$PROCESS_NAME" > /dev/null 2>&1 || true
 PORT="$FRONTEND_PORT" NEXT_BASE_PATH="$ROUTE_BASE" NEXT_PUBLIC_BASE_PATH="$ROUTE_BASE" \
-    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" \
+    NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=false \
+    NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" \
     pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start
 pm2 save > /dev/null
 
@@ -81,6 +84,10 @@ location = $ROUTE_BASE {
     proxy_set_header X-Real-IP \$remote_addr;
     proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto \$scheme;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+    add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'; script-src 'self' http: https: data: blob: 'unsafe-inline' 'wasm-unsafe-eval'" always;
 }
 
 location = $LOWER_ROUTE_BASE {
@@ -101,6 +108,10 @@ location ^~ $ROUTE_BASE/ {
     proxy_set_header X-Real-IP \$remote_addr;
     proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto \$scheme;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+    add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'; script-src 'self' http: https: data: blob: 'unsafe-inline' 'wasm-unsafe-eval'" always;
 }
 NGINX
 
@@ -142,5 +153,5 @@ done
 
 curl -kfsS --resolve vee-app.co.il:443:127.0.0.1 "https://vee-app.co.il$ROUTE_BASE" > /dev/null
 
-log "LIBI DIAMONDS deployment complete." "SUCCESS"
+log "LIBI DIAMONDS 2 deployment complete." "SUCCESS"
 log "Public: https://vee-app.co.il$ROUTE_BASE" "SUCCESS"

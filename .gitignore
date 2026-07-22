@@ -3,6 +3,7 @@ node_modules/
 out/
 build/
 *.log
+*.tsbuildinfo
 .env*
 !.env.example
 .DS_Store
@@ -11,3 +12,10 @@ next-env.d.ts
 .claude/
 .codex/
 .codex-remote-attachments/
+.media-reports/
+.media-cache/
+artifacts/
+.spin-reports/
+public/images/products/catalog/.staging/
+__pycache__/
+*.pyc

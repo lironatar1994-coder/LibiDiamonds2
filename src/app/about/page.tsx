@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/icons";
+import BrandSignature from "@/components/BrandSignature";
 import { assetPath, defaultWaMessage, waLink } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
@@ -10,54 +11,52 @@ export const metadata: Metadata = pageMetadata({
   description:
     "כך נבחרים התכשיטים של LIBI DIAMONDS: בדיקת נתוני היהלום, התאמת הזהב והמידה ואישור ברור לפני תחילת העבודה.",
   path: "/about",
-  image: "/images/trust/v1/libi-packaging-mockup.webp",
-  imageAlt: "הדמיה של אריזת LIBI DIAMONDS",
+  image: "/images/editorial/craft/libi-hands-at-work.webp",
+  imageAlt: "ידיים בעבודת צורפות מדויקת לצד סקיצה וכלי מדידה",
 });
 
 const process = [
   {
     title: "נתוני האבן",
-    text: "באבן המרכזית בודקים קראט, צבע, ניקיון וליטוש לצד הקוטר והמראה בפועל. הנתונים נמסרים מראש, והתכשיט מגיע עם תעודה גמולוגית לאבן המרכזית.",
+    text: "בוחנים קראט, צבע, ניקיון וליטוש לצד הקוטר והמראה של האבן בפועל.",
   },
   {
     title: "התאמה לתכשיט",
-    text: "משקל היהלום, גוון הזהב והמידה נבחנים יחד. המטרה היא לשמור על פרופורציה נכונה בין האבן, גובה השיבוץ ורוחב התכשיט — לא לבחור כל פרט בנפרד.",
+    text: "מתאימים יחד את האבן, גוון הזהב והמידה כדי לשמור על פרופורציה נכונה.",
   },
   {
     title: "אישור לפני עבודה",
-    text: "לפני תחילת העבודה מסכמים את האבן, סוג הזהב, המידה, המחיר הסופי, סוג התעודה ומועד האספקה המשוער. כך ההזמנה נסגרת בלי פרטים שנשארים פתוחים.",
+    text: "מאשרים אבן, זהב, מידה, מחיר ומועד אספקה לפני תחילת העבודה.",
   },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-[#f5f2ea]">
+      <section className="bg-white">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.86fr_1.14fr] lg:px-8 lg:py-20">
           <div className="max-w-xl">
             <h1 className="font-display text-4xl font-medium leading-[1.12] sm:text-5xl lg:text-6xl">
-              בחירה מדויקת,
+              כל פרט נבחן,
               <br />
-              מהאבן ועד השיבוץ.
+              לפני שהוא הופך לתכשיט.
             </h1>
-            <p className="mt-6 max-w-lg text-base leading-8 text-stone sm:text-lg">
-              LIBI DIAMONDS מתמקדת בתכשיטי יהלומי מעבדה בזהב 14K ו־18K. כל בחירה מתחילה במראה שרוצים להשיג על היד, באוזן או על הצוואר — ורק אחר כך נסגרת לפי נתוני האבן, מבנה התכשיט והתקציב.
+            <BrandSignature className="mt-5" />
+            <p className="mt-5 max-w-lg text-base leading-8 text-stone sm:text-lg">
+              מהפרופורציה של האבן ועד גוון הזהב והמידה, אנחנו סוגרים איתכם כל החלטה מראש. כך העיצוב, התקציב ומועד האספקה ברורים לפני שמתחילה העבודה.
             </p>
           </div>
 
-          <figure>
-            <div className="relative aspect-[4/3] overflow-hidden bg-[#f7f6f1]">
+          <div className="relative aspect-[4/5] overflow-hidden bg-ivory sm:aspect-[4/3] lg:aspect-[4/5]">
               <Image
-                src={assetPath("/images/trust/v1/libi-packaging-mockup.webp")}
-                alt="הדמיה של אריזת LIBI DIAMONDS בגוון שנהב"
+                src={assetPath("/images/editorial/craft/libi-hands-at-work.webp")}
+                alt="ידיים בעבודת צורפות מדויקת לצד סקיצת טבעת וכלי מדידה"
                 fill
                 priority
                 sizes="(min-width: 1024px) 56vw, 100vw"
-                className="object-cover"
+                className="object-cover object-center"
               />
-            </div>
-            <figcaption className="mt-3 text-xs text-stone">הדמיית אריזה — העיצוב הסופי עשוי להשתנות.</figcaption>
-          </figure>
+          </div>
         </div>
       </section>
 
@@ -74,14 +73,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-cta-signature px-4 py-10 text-center text-ivory sm:px-6 lg:py-14">
+      <section className="bg-platinum px-4 py-10 text-center text-ink sm:px-6 lg:py-14">
         <h2 className="font-display text-3xl font-medium sm:text-4xl">מתחילים מהתכשיט שאתם מחפשים.</h2>
         <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a href={waLink(defaultWaMessage)} target="_blank" rel="noopener noreferrer" className="btn-inverse">
+          <a href={waLink(defaultWaMessage)} target="_blank" rel="noopener noreferrer" className="btn-primary">
             <WhatsAppIcon className="h-4 w-4" />
             ייעוץ אישי בוואטסאפ
           </a>
-          <Link href="/jewelry/rings" className="btn-outline-inverse">לקולקציה</Link>
+          <Link href="/jewelry/rings" className="btn-outline">לקולקציה</Link>
         </div>
       </section>
     </>

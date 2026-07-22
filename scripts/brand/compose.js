@@ -9,11 +9,13 @@ const P = JSON.parse(fs.readFileSync(path.join(__dirname, "paths.json"), "utf8")
 const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, "public", "brand");
 
-const INK = "#211E18";
-const STONE = "#6E6758";
-const GOLD = "#A88D53";
-const IVORY = "#FAF8F3";
-const CHAMPAGNE = "#D8CAA6";
+// Mineral-gallery palette (matches @theme in src/app/globals.css)
+const INK = "#121313";
+const STONE = "#686B69";
+const GOLD = "#A88F60";
+const IVORY = "#F7F6F2";
+const CHAMPAGNE = "#A88F60"; // gold doubles as the accent on dark surfaces
+const SUBTLE = "#9EA29F"; // footer-subtle — DIAMONDS line on graphite
 
 // The mark: heart outline (Libi = "my heart" in Hebrew) with an inscribed
 // brilliant-cut stone — crown triangle over a tapering pavilion, girdle chord.
@@ -64,16 +66,29 @@ function primary(colName, colSub, colMarkOutline, colFacet) {
 
 const markOnly = (colOutline, colFacet) => svgDoc(100, 100, mark(colOutline, colFacet));
 
+// Footer lockup: like primary, but the mark is larger and its strokes are
+// boosted so the heart stays crisp at the footer's ~9rem display width.
+function footerLockup(colName, colSub, colMarkOutline, colFacet) {
+  return svgDoc(
+    360,
+    250,
+    `  <g transform="translate(145 4) scale(0.7)">${mark(colMarkOutline, colFacet, { outlineW: 4.4, facetW: 2.9 })}</g>
+  <g transform="translate(${cx(360, libi.width)} 172)"><path d="${libi.d}" fill="${colName}"/></g>
+  <g transform="translate(${cx(360, diamonds.width)} 206)"><path d="${diamonds.d}" fill="${colSub}"/></g>`
+  );
+}
+
 const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="#211e18"/>
+  <rect width="64" height="64" fill="${INK}"/>
   <g transform="translate(6.4 6.4) scale(0.512)">${mark(CHAMPAGNE, CHAMPAGNE, { outlineW: 4.2, facetW: 2.6 })}</g>
 </svg>`;
 
 fs.writeFileSync(path.join(OUT, "libi-diamonds-logo.svg"), wordmark(INK, STONE));
-fs.writeFileSync(path.join(OUT, "libi-diamonds-logo-inverse.svg"), wordmark(IVORY, CHAMPAGNE));
+fs.writeFileSync(path.join(OUT, "libi-diamonds-logo-inverse.svg"), wordmark(IVORY, SUBTLE));
 fs.writeFileSync(path.join(OUT, "libi-diamonds-logo-primary.svg"), primary(INK, STONE, INK, GOLD));
-fs.writeFileSync(path.join(OUT, "libi-diamonds-logo-primary-inverse.svg"), primary(IVORY, CHAMPAGNE, IVORY, CHAMPAGNE));
+fs.writeFileSync(path.join(OUT, "libi-diamonds-logo-primary-inverse.svg"), primary(IVORY, SUBTLE, IVORY, GOLD));
 fs.writeFileSync(path.join(OUT, "libi-diamonds-mark.svg"), markOnly(INK, GOLD));
-fs.writeFileSync(path.join(OUT, "libi-diamonds-mark-inverse.svg"), markOnly(IVORY, CHAMPAGNE));
+fs.writeFileSync(path.join(OUT, "libi-diamonds-mark-inverse.svg"), markOnly(IVORY, GOLD));
+fs.writeFileSync(path.join(OUT, "libi-diamonds-logo-footer.svg"), footerLockup(IVORY, SUBTLE, IVORY, GOLD));
 fs.writeFileSync(path.join(ROOT, "src", "app", "icon.svg"), favicon);
 console.log("logo kit written to public/brand + src/app/icon.svg");

@@ -44,6 +44,12 @@ export default async function ProductPage({ params }: Props) {
 
   const category = getCategory(product.category)!;
   const related = relatedProducts(product);
+  const relatedTitle = {
+    rings: "טבעות נוספות",
+    earrings: "עגילים נוספים",
+    necklaces: "שרשראות נוספות",
+    bracelets: "צמידים נוספים",
+  }[product.category];
   const images = productImages(product);
   const productUrl = absoluteUrl(`/product/${product.slug}`);
   const breadcrumb = breadcrumbJsonLd([
@@ -72,6 +78,24 @@ export default async function ProductPage({ params }: Props) {
       highPrice: product.carats[product.carats.length - 1].price,
       offerCount: product.carats.length,
       availability: "https://schema.org/InStock",
+      priceValidUntil: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: { "@type": "MonetaryAmount", value: 0, currency: site.currency },
+        shippingDestination: { "@type": "DefinedRegion", addressCountry: site.country },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: { "@type": "QuantitativeValue", minValue: 5, maxValue: 10, unitCode: "DAY" },
+          transitTime: { "@type": "QuantitativeValue", minValue: 2, maxValue: 4, unitCode: "DAY" },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: site.country,
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 14,
+        returnMethod: "https://schema.org/ReturnByMail",
+      },
     },
     additionalProperty: [
       { "@type": "PropertyValue", name: "צבע היהלום", value: product.specs.color },
@@ -83,31 +107,40 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
-      <div className="mx-auto max-w-[88rem] px-4 py-5 sm:px-6 lg:px-8 lg:py-9">
-      <nav className="mb-6 hidden text-xs tracking-[0.04em] text-stone md:block lg:mb-9" aria-label="פירורי לחם">
-        <Link href="/" className="hover:text-gold">
-          ראשי
-        </Link>
-        <span className="mx-2">/</span>
-        <Link href={`/jewelry/${category.slug}`} className="hover:text-gold">
-          {category.name}
-        </Link>
-        <span className="mx-2">/</span>
-        <span>{product.name}</span>
-      </nav>
+      <div className="pdp-page-shell">
+        <div className="mx-auto max-w-[88rem] px-4 pb-0 pt-0 sm:px-6 sm:pt-5 lg:px-8 lg:pt-9">
+          <nav className="mb-6 hidden text-xs tracking-[0.04em] text-stone md:block lg:mb-9" aria-label="פירורי לחם">
+            <Link href="/" className="hover:text-gold-deep">
+              ראשי
+            </Link>
+            <span className="mx-2">/</span>
+            <Link href={`/jewelry/${category.slug}`} className="hover:text-gold-deep">
+              {category.name}
+            </Link>
+            <span className="mx-2">/</span>
+            <span>{product.name}</span>
+          </nav>
 
-      <ProductView product={product} />
+          <ProductView product={product} />
+        </div>
       </div>
 
-      <section className="mt-16 bg-[#eef2f2] py-11 lg:mt-24 lg:py-16">
+      <section id="related-products" className="pdp-related scroll-mt-24 py-9 sm:py-11 lg:py-14">
         <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-5 sm:gap-7">
-            <h2 className="shrink-0 font-display text-3xl font-medium lg:text-4xl">עוד {category.name} מהקולקציה</h2>
-            <span className="h-px flex-1 bg-gradient-to-l from-gold/55 to-transparent" aria-hidden />
+          <div className="flex items-end justify-between gap-5">
+            <h2 className="font-display text-[1.8rem] font-medium leading-tight sm:text-3xl lg:text-[2rem]">{relatedTitle}</h2>
+            <Link
+              href={`/jewelry/${category.slug}`}
+              className="shrink-0 border-b border-[#b5924b]/55 pb-0.5 text-xs font-medium text-ink-soft transition-colors hover:border-[#b5924b] hover:text-ink sm:text-sm"
+            >
+              לכל ה{category.name}
+            </Link>
           </div>
-          <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 lg:mt-10 lg:grid-cols-4 lg:gap-x-6">
+          <div className="no-scrollbar -mx-4 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-5 sm:gap-y-9 sm:overflow-visible sm:px-0 lg:mt-8 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-10" dir="rtl">
             {related.map((p) => (
-              <ProductCard key={p.slug} product={p} />
+              <div key={p.slug} className="w-[78vw] max-w-[20rem] shrink-0 snap-start sm:w-auto sm:max-w-none">
+                <ProductCard product={p} />
+              </div>
             ))}
           </div>
         </div>

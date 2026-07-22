@@ -1,9 +1,9 @@
 # ==============================================================================
-# LIBI DIAMONDS Deployment Script (Local Windows)
+# LIBI DIAMONDS 2 Deployment Script (Local Windows)
 # ==============================================================================
 
 param (
-    [string]$CommitMessage = "Deploy LIBI DIAMONDS",
+    [string]$CommitMessage = "Deploy LIBI DIAMONDS 2",
     [switch]$SkipCheck,
     [switch]$NoDirectFallback
 )
@@ -12,11 +12,11 @@ $ErrorActionPreference = "Stop"
 
 $SSH_HOST = "root@vee-app.co.il"
 $SSH_DOMAIN = "vee-app.co.il"
-$REMOTE_REPO = "https://github.com/lironatar1994-coder/LibiDiamonds.git"
-$REMOTE_DIR = "/root/LibiDiamonds"
-$ARCHIVE_NAME = "libi-diamonds-deploy.tar.gz"
+$REMOTE_REPO = "https://github.com/lironatar1994-coder/LibiDiamonds2.git"
+$REMOTE_DIR = "/root/LibiDiamonds2"
+$ARCHIVE_NAME = "libi-diamonds-2-deploy.tar.gz"
 
-Write-Host "--- Starting LIBI DIAMONDS Deployment ---" -ForegroundColor Cyan
+Write-Host "--- Starting LIBI DIAMONDS 2 Deployment ---" -ForegroundColor Cyan
 
 if (-not $SkipCheck) {
     Write-Host "Checking server connectivity..." -ForegroundColor Gray
@@ -49,9 +49,6 @@ if (-not $currentRemote) {
 $branch = git branch --show-current
 if (-not $branch) {
     git checkout -b main
-} elseif ($branch -ne "main") {
-    Write-Host "Renaming deployment branch to main..." -ForegroundColor Yellow
-    git branch -M main
 }
 
 $status = git status --porcelain
@@ -80,14 +77,14 @@ $remoteExists = ($LASTEXITCODE -eq 0)
 
 if ($remoteExists) {
     Write-Host "Pushing to GitHub..." -ForegroundColor Gray
-    git push -u origin main
+    git push -u origin HEAD:main
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Error: Git push failed." -ForegroundColor Red
         exit $LASTEXITCODE
     }
 
     Write-Host "Connecting to server and triggering git-based remote deploy..." -ForegroundColor Blue
-    $REMOTE_CMD = "if [ ! -d $REMOTE_DIR/.git ]; then git clone $REMOTE_REPO $REMOTE_DIR; fi && cd $REMOTE_DIR && git remote set-url origin $REMOTE_REPO && git fetch origin main && git reset --hard origin/main && sed -i 's/\r$//' deploy_linux.sh && chmod +x deploy_linux.sh && bash deploy_linux.sh"
+    $REMOTE_CMD = "mkdir -p $REMOTE_DIR && cd $REMOTE_DIR && if [ ! -d .git ]; then git init && git remote add origin $REMOTE_REPO; else git remote set-url origin $REMOTE_REPO; fi && git fetch origin main && git reset --hard origin/main && sed -i 's/\r$//' deploy_linux.sh && chmod +x deploy_linux.sh && bash deploy_linux.sh"
     ssh $SSH_HOST $REMOTE_CMD
 } else {
     if ($NoDirectFallback) {
@@ -124,7 +121,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "`n================================================" -ForegroundColor Green
-Write-Host "      LIBI DIAMONDS DEPLOYED SUCCESSFULLY" -ForegroundColor Green
+Write-Host "      LIBI DIAMONDS 2 DEPLOYED SUCCESSFULLY" -ForegroundColor Green
 Write-Host "================================================" -ForegroundColor Green
-Write-Host "Public: https://vee-app.co.il/LibiDiamonds" -ForegroundColor Cyan
+Write-Host "Public: https://vee-app.co.il/LibiDiamonds2" -ForegroundColor Cyan
 Write-Host "GitHub target: $REMOTE_REPO" -ForegroundColor Cyan

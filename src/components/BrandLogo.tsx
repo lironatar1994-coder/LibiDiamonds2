@@ -5,13 +5,19 @@ type BrandLogoProps = {
   className?: string;
   onClick?: () => void;
   size?: "header" | "footer";
+  tone?: "ink" | "inverse";
 };
 
 export default function BrandLogo({
   className = "",
   onClick,
   size = "header",
+  // The footer sits on graphite, so it takes the inverse wordmark by default.
+  tone = size === "footer" ? "inverse" : "ink",
 }: BrandLogoProps) {
+  const asset = tone === "inverse"
+    ? "/brand/libi-diamonds-logo-inverse.svg"
+    : "/brand/libi-diamonds-logo.svg";
   return (
     <Link
       href="/"
@@ -20,11 +26,11 @@ export default function BrandLogo({
       aria-label="LIBI DIAMONDS"
     >
       <img
-        src={assetPath("/brand/libi-diamonds-logo.svg")}
+        src={assetPath(asset)}
         alt=""
         className="brand-logo-asset"
-        width="360"
-        height="150"
+        width="184"
+        height="92"
         aria-hidden="true"
       />
     </Link>

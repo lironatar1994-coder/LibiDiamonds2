@@ -1,0 +1,888 @@
+{
+  "version": 2,
+  "generatedAt": "2026-07-19T06:45:33.302Z",
+  "assets": [
+    {
+      "slug": "aura-solitaire-ring",
+      "metal": "yellow",
+      "renderMode": "generated-band",
+      "file": "/try-on/v2/rings/aura-solitaire-ring/yellow-head.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 44886
+    },
+    {
+      "slug": "aura-solitaire-ring",
+      "metal": "white",
+      "renderMode": "generated-band",
+      "file": "/try-on/v2/rings/aura-solitaire-ring/white-head.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 43190
+    },
+    {
+      "slug": "nova-halo-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/nova-halo-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 60032
+    },
+    {
+      "slug": "nova-halo-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/nova-halo-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 53810
+    },
+    {
+      "slug": "trio-three-stone-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/trio-three-stone-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 49736
+    },
+    {
+      "slug": "trio-three-stone-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/trio-three-stone-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 45666
+    },
+    {
+      "slug": "lumiere-pave-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/lumiere-pave-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 40536
+    },
+    {
+      "slug": "lumiere-pave-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/lumiere-pave-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 38358
+    },
+    {
+      "slug": "elara-oval-hidden-halo-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/elara-oval-hidden-halo-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 44260
+    },
+    {
+      "slug": "elara-oval-hidden-halo-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/elara-oval-hidden-halo-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 42018
+    },
+    {
+      "slug": "atelier-emerald-cathedral-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/atelier-emerald-cathedral-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 49182
+    },
+    {
+      "slug": "atelier-emerald-cathedral-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/atelier-emerald-cathedral-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 46530
+    },
+    {
+      "slug": "marais-marquise-solitaire-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/marais-marquise-solitaire-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 38958
+    },
+    {
+      "slug": "marais-marquise-solitaire-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/marais-marquise-solitaire-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 36690
+    },
+    {
+      "slug": "celeste-radiant-pave-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/celeste-radiant-pave-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 49872
+    },
+    {
+      "slug": "celeste-radiant-pave-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/celeste-radiant-pave-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 46718
+    },
+    {
+      "slug": "velour-cushion-solitaire-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/velour-cushion-solitaire-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 38860
+    },
+    {
+      "slug": "velour-cushion-solitaire-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/velour-cushion-solitaire-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 37418
+    },
+    {
+      "slug": "seren-pear-solitaire-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/seren-pear-solitaire-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 43508
+    },
+    {
+      "slug": "seren-pear-solitaire-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/seren-pear-solitaire-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 39968
+    },
+    {
+      "slug": "axis-princess-solitaire-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/axis-princess-solitaire-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 39318
+    },
+    {
+      "slug": "axis-princess-solitaire-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/axis-princess-solitaire-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 38276
+    },
+    {
+      "slug": "deco-asscher-bezel-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/deco-asscher-bezel-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 37386
+    },
+    {
+      "slug": "deco-asscher-bezel-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/deco-asscher-bezel-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 35524
+    },
+    {
+      "slug": "heritage-six-prong-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/heritage-six-prong-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 36862
+    },
+    {
+      "slug": "heritage-six-prong-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/heritage-six-prong-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 34520
+    },
+    {
+      "slug": "ribbon-twist-pave-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/ribbon-twist-pave-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 44716
+    },
+    {
+      "slug": "ribbon-twist-pave-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/ribbon-twist-pave-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 41642
+    },
+    {
+      "slug": "contour-diamond-band",
+      "metal": "yellow",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/contour-diamond-band/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 29598
+    },
+    {
+      "slug": "contour-diamond-band",
+      "metal": "white",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/contour-diamond-band/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 27540
+    },
+    {
+      "slug": "mosaic-baguette-band",
+      "metal": "yellow",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/mosaic-baguette-band/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 31894
+    },
+    {
+      "slug": "mosaic-baguette-band",
+      "metal": "white",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/mosaic-baguette-band/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 29188
+    },
+    {
+      "slug": "sienna-oval-pave-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/sienna-oval-pave-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 50714
+    },
+    {
+      "slug": "sienna-oval-pave-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/sienna-oval-pave-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 48248
+    },
+    {
+      "slug": "verona-round-bezel-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/verona-round-bezel-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 37732
+    },
+    {
+      "slug": "verona-round-bezel-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/verona-round-bezel-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 35744
+    },
+    {
+      "slug": "duet-toi-et-moi-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/duet-toi-et-moi-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 51868
+    },
+    {
+      "slug": "duet-toi-et-moi-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/duet-toi-et-moi-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 49354
+    },
+    {
+      "slug": "lumi-emerald-halo-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/lumi-emerald-halo-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 47278
+    },
+    {
+      "slug": "lumi-emerald-halo-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/lumi-emerald-halo-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 44006
+    },
+    {
+      "slug": "noa-radiant-solitaire-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/noa-radiant-solitaire-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 48064
+    },
+    {
+      "slug": "noa-radiant-solitaire-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/noa-radiant-solitaire-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 46568
+    },
+    {
+      "slug": "elan-east-west-marquise-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/elan-east-west-marquise-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 44626
+    },
+    {
+      "slug": "elan-east-west-marquise-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/elan-east-west-marquise-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 41958
+    },
+    {
+      "slug": "vela-oval-three-stone-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/vela-oval-three-stone-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 60814
+    },
+    {
+      "slug": "vela-oval-three-stone-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/vela-oval-three-stone-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 58798
+    },
+    {
+      "slug": "etoile-shared-prong-eternity-ring",
+      "metal": "yellow",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/etoile-shared-prong-eternity-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 39278
+    },
+    {
+      "slug": "etoile-shared-prong-eternity-ring",
+      "metal": "white",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/etoile-shared-prong-eternity-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 37208
+    },
+    {
+      "slug": "solis-round-hidden-halo-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/solis-round-hidden-halo-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 50068
+    },
+    {
+      "slug": "solis-round-hidden-halo-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/solis-round-hidden-halo-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 45948
+    },
+    {
+      "slug": "elise-french-pave-cathedral-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/elise-french-pave-cathedral-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 58558
+    },
+    {
+      "slug": "elise-french-pave-cathedral-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/elise-french-pave-cathedral-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 54860
+    },
+    {
+      "slug": "vesper-knife-edge-solitaire-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/vesper-knife-edge-solitaire-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 34584
+    },
+    {
+      "slug": "vesper-knife-edge-solitaire-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/vesper-knife-edge-solitaire-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 33078
+    },
+    {
+      "slug": "aveline-scalloped-pave-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/aveline-scalloped-pave-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 47150
+    },
+    {
+      "slug": "aveline-scalloped-pave-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/aveline-scalloped-pave-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 44346
+    },
+    {
+      "slug": "arco-split-shank-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/arco-split-shank-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 58022
+    },
+    {
+      "slug": "arco-split-shank-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/arco-split-shank-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 54808
+    },
+    {
+      "slug": "delphine-double-halo-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/delphine-double-halo-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 71426
+    },
+    {
+      "slug": "delphine-double-halo-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/delphine-double-halo-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 66054
+    },
+    {
+      "slug": "orelia-oval-halo-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/orelia-oval-halo-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 74072
+    },
+    {
+      "slug": "orelia-oval-halo-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/orelia-oval-halo-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 69646
+    },
+    {
+      "slug": "lune-oval-bezel-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/lune-oval-bezel-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 42726
+    },
+    {
+      "slug": "lune-oval-bezel-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/lune-oval-bezel-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 40430
+    },
+    {
+      "slug": "coda-east-west-oval-wide-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/coda-east-west-oval-wide-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 40972
+    },
+    {
+      "slug": "coda-east-west-oval-wide-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/coda-east-west-oval-wide-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 38946
+    },
+    {
+      "slug": "fleur-pear-halo-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/fleur-pear-halo-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 73988
+    },
+    {
+      "slug": "fleur-pear-halo-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/fleur-pear-halo-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 68538
+    },
+    {
+      "slug": "amelie-cushion-halo-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/amelie-cushion-halo-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 59204
+    },
+    {
+      "slug": "amelie-cushion-halo-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/amelie-cushion-halo-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 54920
+    },
+    {
+      "slug": "forme-radiant-bezel-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/forme-radiant-bezel-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 36768
+    },
+    {
+      "slug": "forme-radiant-bezel-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/forme-radiant-bezel-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 34506
+    },
+    {
+      "slug": "riva-emerald-bezel-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/riva-emerald-bezel-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 32270
+    },
+    {
+      "slug": "riva-emerald-bezel-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/riva-emerald-bezel-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 30536
+    },
+    {
+      "slug": "talia-emerald-baguette-three-stone-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/talia-emerald-baguette-three-stone-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 41844
+    },
+    {
+      "slug": "talia-emerald-baguette-three-stone-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/talia-emerald-baguette-three-stone-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 39754
+    },
+    {
+      "slug": "nessa-oval-pear-three-stone-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/nessa-oval-pear-three-stone-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 54604
+    },
+    {
+      "slug": "nessa-oval-pear-three-stone-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/nessa-oval-pear-three-stone-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 52522
+    },
+    {
+      "slug": "calista-cushion-trapezoid-three-stone-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/calista-cushion-trapezoid-three-stone-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 51128
+    },
+    {
+      "slug": "calista-cushion-trapezoid-three-stone-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/calista-cushion-trapezoid-three-stone-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 48250
+    },
+    {
+      "slug": "odette-oval-ballerina-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/odette-oval-ballerina-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 60250
+    },
+    {
+      "slug": "odette-oval-ballerina-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/odette-oval-ballerina-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 56638
+    },
+    {
+      "slug": "amara-vintage-milgrain-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/amara-vintage-milgrain-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 66652
+    },
+    {
+      "slug": "amara-vintage-milgrain-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/amara-vintage-milgrain-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 61890
+    },
+    {
+      "slug": "mira-bezel-toi-et-moi-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/mira-bezel-toi-et-moi-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 54474
+    },
+    {
+      "slug": "mira-bezel-toi-et-moi-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/mira-bezel-toi-et-moi-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 51222
+    },
+    {
+      "slug": "ligne-east-west-emerald-half-bezel-ring",
+      "metal": "yellow",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/ligne-east-west-emerald-half-bezel-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 27662
+    },
+    {
+      "slug": "ligne-east-west-emerald-half-bezel-ring",
+      "metal": "white",
+      "renderMode": "setting-overlay",
+      "file": "/try-on/v2/rings/ligne-east-west-emerald-half-bezel-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 26182
+    },
+    {
+      "slug": "ellipse-oval-eternity-band",
+      "metal": "yellow",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/ellipse-oval-eternity-band/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 42852
+    },
+    {
+      "slug": "ellipse-oval-eternity-band",
+      "metal": "white",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/ellipse-oval-eternity-band/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 39756
+    },
+    {
+      "slug": "romy-emerald-half-eternity-band",
+      "metal": "yellow",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/romy-emerald-half-eternity-band/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 35768
+    },
+    {
+      "slug": "romy-emerald-half-eternity-band",
+      "metal": "white",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/romy-emerald-half-eternity-band/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 34338
+    },
+    {
+      "slug": "circa-round-bezel-eternity-band",
+      "metal": "yellow",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/circa-round-bezel-eternity-band/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 36604
+    },
+    {
+      "slug": "circa-round-bezel-eternity-band",
+      "metal": "white",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/circa-round-bezel-eternity-band/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 34176
+    },
+    {
+      "slug": "quint-five-stone-ring",
+      "metal": "yellow",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/quint-five-stone-ring/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 50928
+    },
+    {
+      "slug": "quint-five-stone-ring",
+      "metal": "white",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/quint-five-stone-ring/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 47400
+    },
+    {
+      "slug": "cadre-channel-diamond-band",
+      "metal": "yellow",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/cadre-channel-diamond-band/yellow-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 40376
+    },
+    {
+      "slug": "cadre-channel-diamond-band",
+      "metal": "white",
+      "renderMode": "band-overlay",
+      "file": "/try-on/v2/rings/cadre-channel-diamond-band/white-overlay.webp",
+      "width": 768,
+      "height": 768,
+      "bytes": 38048
+    }
+  ]
+}

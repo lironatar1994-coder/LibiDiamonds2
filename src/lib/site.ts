@@ -1,5 +1,7 @@
 const configuredDomain = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 
+export const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+
 export const site = {
   name: "LIBI DIAMONDS",
   nameHe: "ליבי דיאמונדס",
@@ -11,11 +13,10 @@ export const site = {
   currency: "ILS",
   serviceArea: "ישראל",
   logo: "/icon.svg",
-  socialImage: "/images/hero/v2/home-hero-desktop.webp",
-  // TODO: replace with the real business WhatsApp number (international format, no +)
-  whatsapp: "972500000000",
-  phoneDisplay: "050-000-0000",
-  email: "hello@libidiamonds.co.il",
+  socialImage: "/images/hero/mineral/hero-desktop.webp",
+  whatsapp: "972508611888",
+  phoneDisplay: "050-8611888",
+  email: "Libidiamonds@gmail.com",
   instagram: "https://www.instagram.com/libidiamonds",
 };
 
