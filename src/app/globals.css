@@ -1868,3 +1868,535 @@ details.faq-item summary .faq-icon {
 details.faq-item[open] summary .faq-icon {
   transform: rotate(45deg);
 }
+
+/*
+ * Desktop editorial system
+ * ------------------------
+ * Everything in this block starts at the desktop breakpoint. Mobile keeps its
+ * existing composition, spacing, imagery and interaction model unchanged.
+ */
+@media (min-width: 1024px) {
+  .home-section-eyebrow {
+    margin-bottom: 1rem;
+    color: var(--color-gilt-deep);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    direction: ltr;
+  }
+
+  /* Homepage hero: a quiet editorial title panel beside the stronger portrait crop. */
+  .hero-editorial {
+    padding: clamp(1.5rem, 2.5vw, 2.75rem);
+    background:
+      linear-gradient(90deg, #f7f3eb 0 42%, #ece4d8 42% 100%);
+  }
+
+  .home-hero-frame {
+    height: min(88svh, 880px);
+    min-height: 720px;
+    max-height: 880px;
+    overflow: visible;
+    border: 1px solid rgba(181, 146, 75, 0.2);
+    background:
+      radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.95), transparent 18rem),
+      linear-gradient(145deg, #fbfaf7, #f3ede2);
+    box-shadow: 0 30px 90px rgba(64, 48, 27, 0.13);
+  }
+
+  .home-hero-frame > picture {
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    width: 58%;
+    overflow: hidden;
+    background: #ebe4d9;
+  }
+
+  .home-hero-frame .ivory-hero-image {
+    object-position: center 47%;
+    transform: scale(1.005);
+  }
+
+  .hero-editorial:hover .ivory-hero-image {
+    transform: scale(1.025);
+  }
+
+  .home-hero-brand-veil {
+    background:
+      linear-gradient(90deg, transparent 0 55%, rgba(247, 243, 235, 0.16) 58%, rgba(247, 243, 235, 0.96) 74%, #f7f3eb 100%);
+  }
+
+  .home-hero-brand {
+    top: 50%;
+    right: 0;
+    left: auto;
+    width: 42%;
+    padding: 3rem clamp(3rem, 5vw, 6.25rem);
+    text-align: right;
+    transform: translateY(-50%);
+  }
+
+  .home-hero-brand-lockup {
+    width: 100%;
+    max-width: 31rem;
+    align-items: flex-start;
+    margin-inline: auto;
+  }
+
+  .home-hero-brand-logo {
+    width: clamp(12rem, 14vw, 14.5rem);
+    margin: 0;
+  }
+
+  .home-hero-desktop-kicker {
+    margin-top: 2.4rem;
+    color: rgba(7, 26, 40, 0.57);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    direction: ltr;
+  }
+
+  .home-hero-title {
+    max-width: 8ch;
+    margin-top: 1.15rem;
+    font-size: clamp(3.6rem, 5vw, 5.75rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    text-shadow: none;
+  }
+
+  .home-hero-desktop-copy {
+    max-width: 25rem;
+    margin-top: 1.55rem;
+    color: rgba(11, 23, 34, 0.7);
+    font-size: 1rem;
+    line-height: 1.9;
+  }
+
+  .home-hero-collection-link {
+    min-height: 3rem;
+    margin-top: 2.1rem;
+    font-size: 0.8rem;
+    text-shadow: none;
+  }
+
+  .home-hero-frame::after {
+    position: absolute;
+    right: 1.4rem;
+    bottom: 1.25rem;
+    color: rgba(7, 26, 40, 0.38);
+    content: "LIBI  /  2026";
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    direction: ltr;
+    writing-mode: vertical-rl;
+  }
+
+  /* Collection: four tall campaign frames using the stronger mobile art direction. */
+  .section-gallery-collection > .mx-auto {
+    max-width: 94rem;
+    padding: 9rem clamp(3rem, 5vw, 6rem) 12rem;
+  }
+
+  .home-collection-heading {
+    display: grid;
+    grid-template-columns: minmax(18rem, 0.7fr) minmax(20rem, 1.3fr);
+    align-items: end;
+    text-align: right;
+  }
+
+  .home-collection-heading::after {
+    max-width: 42rem;
+    padding-bottom: 0.35rem;
+    color: rgba(37, 55, 68, 0.66);
+    content: "ארבעה עולמות, שפה אחת. בחרו את נקודת הפתיחה שלכם.";
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .home-collection-heading h2 {
+    font-size: clamp(3rem, 4vw, 4.35rem);
+    letter-spacing: -0.025em;
+  }
+
+  .home-collection-ornament {
+    width: 11rem;
+    margin: 1.5rem 0 0;
+  }
+
+  .home-collection-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-template-rows: none !important;
+    gap: clamp(1rem, 1.6vw, 1.75rem) !important;
+    margin-top: 4.5rem !important;
+  }
+
+  .home-collection-grid > .home-collection-link {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    transform: translateY(0);
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1), filter 320ms ease;
+  }
+
+  .home-collection-grid > .home-collection-link:nth-child(even) {
+    transform: translateY(3rem);
+  }
+
+  .home-collection-grid > .home-collection-link:hover {
+    transform: translateY(-0.5rem);
+  }
+
+  .home-collection-grid > .home-collection-link:nth-child(even):hover {
+    transform: translateY(2.5rem);
+  }
+
+  .home-collection-tile {
+    width: 100%;
+    height: clamp(31rem, 42vw, 41rem) !important;
+    aspect-ratio: auto !important;
+    border-color: rgba(181, 146, 75, 0.28);
+    box-shadow: 0 24px 60px rgba(73, 53, 25, 0.13);
+  }
+
+  .home-collection-image {
+    object-position: center center;
+  }
+
+  .home-collection-scrim {
+    height: 42%;
+    background: linear-gradient(to top, rgba(251, 250, 247, 0.9) 0%, rgba(251, 250, 247, 0.24) 55%, transparent 100%);
+  }
+
+  .home-collection-label {
+    right: 2rem !important;
+    bottom: 2rem !important;
+    font-size: clamp(1.65rem, 2vw, 2.15rem) !important;
+  }
+
+  /* Best sellers: an editorial rail with a dedicated title column. */
+  .section-most-loved {
+    padding-block: 9rem 10rem !important;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.7), transparent 28%),
+      #edf1f2;
+  }
+
+  .section-most-loved > .mx-auto {
+    display: grid;
+    max-width: 94rem;
+    grid-template-columns: minmax(13rem, 0.24fr) minmax(0, 1fr);
+    column-gap: clamp(2.5rem, 5vw, 6rem);
+    padding-inline: clamp(3rem, 5vw, 6rem);
+  }
+
+  .section-most-loved > .mx-auto > :first-child {
+    grid-column: 1;
+    align-self: start;
+    padding-top: 1rem;
+  }
+
+  .section-most-loved #most-loved-title {
+    max-width: 5ch;
+    font-size: clamp(3.35rem, 4vw, 4.75rem);
+    line-height: 0.98;
+  }
+
+  .section-most-loved > .mx-auto > .grid {
+    grid-column: 2;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1rem, 1.7vw, 1.75rem);
+    margin-top: 0;
+  }
+
+  .section-most-loved > .mx-auto > .text-center {
+    grid-column: 2;
+    margin-top: 2.5rem;
+    text-align: right;
+  }
+
+  .section-most-loved .product-card-frame {
+    aspect-ratio: 4 / 5;
+    box-shadow:
+      0 18px 40px rgba(38, 55, 67, 0.075),
+      inset 0 0 0 1px rgba(119, 137, 149, 0.14);
+  }
+
+  .section-most-loved .group:nth-child(even) {
+    margin-top: 2.5rem;
+  }
+
+  /* Try-on: a desktop gallery panel using the portrait image selected for mobile. */
+  .home-try-on {
+    padding: 4.5rem clamp(2rem, 4vw, 5rem);
+    background:
+      radial-gradient(circle at 12% 12%, rgba(61, 94, 116, 0.25), transparent 32rem),
+      #071827;
+  }
+
+  .home-try-on-layout {
+    min-height: 45rem;
+    max-width: 94rem;
+    aspect-ratio: auto;
+    border: 1px solid rgba(181, 146, 75, 0.34);
+    background: #0b2232;
+    box-shadow: 0 32px 90px rgba(0, 7, 12, 0.34);
+  }
+
+  .home-try-on-media {
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+  }
+
+  .home-try-on-media img {
+    object-position: center 55%;
+  }
+
+  .home-try-on-media-shade {
+    background:
+      linear-gradient(90deg, transparent 0 68%, rgba(7, 24, 39, 0.34) 82%, #071827 100%),
+      linear-gradient(180deg, transparent 65%, rgba(7, 24, 39, 0.2));
+  }
+
+  .home-try-on-focus {
+    display: none;
+  }
+
+  .home-try-on-copy {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: 42%;
+    padding: 5rem clamp(3rem, 4vw, 5rem);
+    background:
+      radial-gradient(circle at 80% 20%, rgba(65, 98, 119, 0.2), transparent 18rem),
+      #071827;
+  }
+
+  .home-try-on-copy h2 {
+    font-size: clamp(3.5rem, 4vw, 5rem) !important;
+    line-height: 0.98 !important;
+    text-align: right;
+    text-shadow: none;
+  }
+
+  .home-try-on-cta {
+    margin-right: 0;
+    margin-left: auto;
+    min-width: 13.5rem;
+    background: transparent;
+    color: #fcfdfe;
+  }
+
+  /* Bespoke and journal receive the same wide editorial rhythm. */
+  .section-bespoke {
+    padding: 8rem clamp(2rem, 4vw, 5rem);
+  }
+
+  .home-bespoke-stage {
+    max-width: 94rem;
+    grid-template-columns: minmax(0, 1.32fr) minmax(24rem, 0.68fr);
+    box-shadow: 0 38px 100px rgba(48, 36, 18, 0.21);
+  }
+
+  .home-bespoke-images {
+    height: clamp(42rem, 49vw, 51rem);
+  }
+
+  .home-bespoke-copy {
+    padding: 5rem clamp(3rem, 4vw, 5rem);
+  }
+
+  .home-bespoke-copy h2 {
+    font-size: clamp(3.2rem, 4vw, 4.9rem) !important;
+    line-height: 1.02;
+  }
+
+  .section-gallery-journal {
+    padding-block: 9rem 10rem !important;
+  }
+
+  .section-gallery-journal > .mx-auto {
+    max-width: 94rem;
+    padding-inline: clamp(3rem, 5vw, 6rem);
+  }
+
+  .section-gallery-journal h2 {
+    font-size: clamp(3.4rem, 4vw, 4.8rem) !important;
+  }
+
+  .section-gallery-journal > .mx-auto > .mt-6.grid {
+    grid-template-columns: minmax(0, 1.7fr) minmax(20rem, 0.55fr);
+    gap: clamp(2.5rem, 4vw, 5rem);
+  }
+
+  /* Collection pages: wider shell, real desktop intro and a four-column catalog. */
+  .catalog-page {
+    background:
+      radial-gradient(circle at 10% 3%, rgba(255, 255, 255, 0.98), transparent 30rem),
+      #f9f8f4;
+  }
+
+  .catalog-shell {
+    max-width: 94rem;
+    padding-right: clamp(3rem, 5vw, 6rem) !important;
+    padding-left: clamp(3rem, 5vw, 6rem) !important;
+    padding-top: 3rem !important;
+  }
+
+  .catalog-breadcrumb {
+    letter-spacing: 0.035em;
+  }
+
+  .catalog-page-header {
+    display: grid;
+    max-width: none !important;
+    grid-template-columns: minmax(14rem, 0.7fr) minmax(28rem, 1.3fr);
+    grid-template-rows: auto auto;
+    align-items: end;
+    gap: 0.8rem clamp(4rem, 8vw, 10rem);
+    margin-top: 3rem !important;
+    padding-bottom: 3.25rem;
+    border-bottom: 1px solid rgba(181, 146, 75, 0.36);
+    text-align: right;
+  }
+
+  .catalog-page-header h1 {
+    grid-row: 1;
+    grid-column: 1;
+    font-size: clamp(3.8rem, 5vw, 5.5rem) !important;
+    line-height: 0.95;
+  }
+
+  .catalog-page-header .brand-signature {
+    grid-row: 2;
+    grid-column: 1;
+    margin-top: 0;
+    margin-right: 0;
+  }
+
+  .catalog-page-intro {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    max-width: 42rem;
+    align-self: center;
+    color: rgba(37, 55, 68, 0.7);
+    font-size: 1.05rem;
+    line-height: 1.9;
+  }
+
+  .catalog-style-showcase {
+    margin-top: 3.5rem !important;
+    padding-block: 2.5rem !important;
+    border-color: rgba(181, 146, 75, 0.24) !important;
+    background:
+      radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.94), transparent 24rem),
+      linear-gradient(135deg, rgba(232, 237, 239, 0.92), rgba(244, 241, 234, 0.88)) !important;
+  }
+
+  .catalog-style-showcase #catalog-style-heading {
+    font-size: 2rem !important;
+  }
+
+  .catalog-ring-style-rail > div {
+    gap: clamp(2rem, 4vw, 4.5rem) !important;
+  }
+
+  .catalog-ring-style-button {
+    width: 10rem !important;
+  }
+
+  .catalog-results-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 4.5rem clamp(1.25rem, 2vw, 2rem) !important;
+    margin-top: 3rem !important;
+  }
+
+  .catalog-results-grid .catalog-card-media {
+    box-shadow:
+      0 18px 40px rgba(38, 55, 67, 0.07),
+      inset 0 0 0 1px rgba(112, 133, 146, 0.12);
+  }
+
+  .catalog-results-grid .group:hover .catalog-card-media {
+    box-shadow:
+      0 26px 58px rgba(38, 55, 67, 0.13),
+      inset 0 0 0 1px rgba(181, 146, 75, 0.3);
+  }
+
+  .catalog-editorial-desktop {
+    position: relative;
+    display: grid !important;
+    height: clamp(38rem, 48vw, 48rem);
+    grid-column: 1 / -1 !important;
+    grid-template-columns: minmax(0, 1.18fr) minmax(24rem, 0.82fr);
+    margin-block: 3rem 4rem !important;
+    overflow: hidden;
+    border: 1px solid rgba(181, 146, 75, 0.3);
+    background: var(--home-midnight);
+    box-shadow: 0 30px 80px rgba(30, 27, 22, 0.16);
+  }
+
+  .catalog-editorial-desktop > img {
+    grid-row: 1;
+    grid-column: 1;
+    min-width: 0;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 46%;
+  }
+
+  .catalog-editorial-desktop-copy {
+    z-index: 2;
+    display: flex;
+    grid-row: 1;
+    grid-column: 2;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(3rem, 5vw, 6rem);
+    border-right: 1px solid rgba(181, 146, 75, 0.45);
+    color: var(--home-pearl-white);
+    background:
+      radial-gradient(circle at 82% 16%, rgba(75, 111, 135, 0.26), transparent 19rem),
+      #071a28;
+  }
+
+  .catalog-editorial-desktop-eyebrow {
+    color: var(--color-gilt);
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+  }
+
+  .catalog-editorial-desktop-copy h2 {
+    max-width: 8ch;
+    margin-top: 1.4rem;
+    font-size: clamp(3.2rem, 4.2vw, 5rem);
+    font-weight: 400;
+    line-height: 0.98;
+  }
+
+  .catalog-editorial-desktop-copy p {
+    max-width: 28rem;
+    margin-top: 1.75rem;
+    color: var(--color-footer-muted);
+    font-size: 1rem;
+    line-height: 1.9;
+  }
+
+  .catalog-editorial-desktop-rule {
+    width: 7rem;
+    height: 1px;
+    margin-top: 2.3rem;
+    background: linear-gradient(to left, var(--color-gilt), transparent);
+  }
+}

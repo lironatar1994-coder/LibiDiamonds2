@@ -218,11 +218,11 @@ export default function HomeTryOnFeature() {
               src={assetPath("/images/editorial/try-on/v4-story/aura-try-on-mobile.webp")}
               alt="טבעת סוליטר אורה מזהב צהוב על שכבות אבן כחולה"
               fill
-              sizes="100vw"
+              sizes="(min-width: 1024px) 58vw, 100vw"
               loading="eager"
               fetchPriority="low"
               unoptimized
-              className="object-cover md:hidden"
+              className="object-cover md:hidden lg:block"
             />
             <Image
               src={assetPath("/images/editorial/try-on/v3-no-hands/aura-focus-desktop.webp")}
@@ -232,7 +232,7 @@ export default function HomeTryOnFeature() {
               loading="eager"
               fetchPriority="low"
               unoptimized
-              className="hidden object-cover md:block"
+              className="hidden object-cover md:block lg:hidden"
             />
             <span className="home-try-on-media-shade" aria-hidden="true" />
             <span className="home-try-on-focus" aria-hidden="true" />

@@ -38,6 +38,29 @@ const categoryEditorial: Record<CategorySlug, { desktop: string; mobile: string;
   },
 };
 
+const categoryEditorialCopy: Record<CategorySlug, { eyebrow: string; title: string; body: string }> = {
+  rings: {
+    eyebrow: "THE RING EDIT",
+    title: "הפרופורציה הנכונה משנה הכול.",
+    body: "גובה השיבוץ, רוחב הטבעת והיחס בין האבן ליד נבחרים יחד — כדי שהטבעת תרגיש מדויקת מכל זווית.",
+  },
+  earrings: {
+    eyebrow: "EVERYDAY LIGHT",
+    title: "אור שנשאר קרוב.",
+    body: "עגילים שנבנו סביב איזון בין נוכחות, נוחות וברק. מהזוג הראשון של הבוקר ועד הערב.",
+  },
+  necklaces: {
+    eyebrow: "THE NECKLINE",
+    title: "הקו שמחבר את כל המראה.",
+    body: "שרשראות יהלום בקנה מידה מדויק, עם תנועה עדינה וגימור שנשאר נקי על הגוף.",
+  },
+  bracelets: {
+    eyebrow: "WRIST STUDIES",
+    title: "ברק בתנועה.",
+    body: "צמידים שנבחנים על היד — בגמישות, בסגירה ובמרווח בין כל אבן — לפני שהם מגיעים אליכם.",
+  },
+};
+
 const shapeOrder: DiamondShape[] = [
   "round",
   "oval",
@@ -177,8 +200,8 @@ export default function CategoryCatalog({
       {styleShowcase.length > 1 && (
         <section
           className={category === "rings"
-            ? "-mx-4 mt-4 border-y border-[#d7e1e6] bg-[radial-gradient(circle_at_12%_16%,rgba(145,169,183,0.16),transparent_33%),radial-gradient(circle_at_88%_82%,rgba(178,195,204,0.12),transparent_36%),linear-gradient(118deg,rgba(255,255,255,0.9)_0%,rgba(243,246,247,0.76)_42%,rgba(232,239,242,0.58)_100%),#f3f6f7] pb-3 pt-4 sm:mx-0 sm:mt-9 sm:py-7"
-            : "mt-5 sm:mt-8"
+            ? "catalog-style-showcase -mx-4 mt-4 border-y border-[#d7e1e6] bg-[radial-gradient(circle_at_12%_16%,rgba(145,169,183,0.16),transparent_33%),radial-gradient(circle_at_88%_82%,rgba(178,195,204,0.12),transparent_36%),linear-gradient(118deg,rgba(255,255,255,0.9)_0%,rgba(243,246,247,0.76)_42%,rgba(232,239,242,0.58)_100%),#f3f6f7] pb-3 pt-4 sm:mx-0 sm:mt-9 sm:py-7"
+            : "catalog-style-showcase mt-5 sm:mt-8"
           }
           aria-labelledby="catalog-style-heading"
         >
@@ -500,15 +523,16 @@ function CategoryEditorial({
 }) {
   const editorial = categoryEditorial[category];
   const mobile = viewport === "mobile";
+  const copy = categoryEditorialCopy[category];
 
   return (
     <div
       className={mobile
         ? "relative col-span-2 -mx-4 my-10 aspect-[3/4] overflow-hidden sm:-mx-6 lg:hidden"
-        : "hidden lg:col-span-3 lg:my-3 lg:block lg:aspect-[15/8] lg:overflow-hidden"}
+        : "catalog-editorial-desktop hidden lg:col-span-3 lg:my-3 lg:block lg:overflow-hidden"}
     >
       <Image
-        src={assetPath(mobile ? editorial.mobile : editorial.desktop)}
+        src={assetPath(editorial.mobile)}
         alt={editorial.alt}
         width={mobile ? 1200 : 1800}
         height={mobile ? 1600 : 960}
@@ -522,6 +546,14 @@ function CategoryEditorial({
         >
           AURA · 18K YELLOW GOLD
         </span>
+      )}
+      {!mobile && (
+        <div className="catalog-editorial-desktop-copy">
+          <span className="catalog-editorial-desktop-eyebrow" dir="ltr">{copy.eyebrow}</span>
+          <h2 className="font-display">{copy.title}</h2>
+          <p>{copy.body}</p>
+          <span className="catalog-editorial-desktop-rule" aria-hidden="true" />
+        </div>
       )}
     </div>
   );

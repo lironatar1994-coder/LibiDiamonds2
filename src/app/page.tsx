@@ -20,11 +20,11 @@ import { onlineStoreJsonLd, pageMetadata } from "@/lib/seo";
 
 const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום אובלי על שכבות אבן שיש בגוני לבן ושמנת עם עורק זהב עדין";
 const { props: heroDesktopImage } = getImageProps({
-  src: assetPath("/images/hero/ivory-gold-v2/hero-desktop.webp"),
+  src: assetPath("/images/hero/ivory-gold-v2/hero-mobile.webp"),
   alt: heroAlt,
   fill: true,
   priority: true,
-  sizes: "100vw",
+  sizes: "(min-width: 1024px) 58vw, 100vw",
 });
 const {
   props: { srcSet: heroMobileSrcSet },
@@ -100,21 +100,25 @@ function SectionHeading({
 }
 const collectionOrder: CategorySlug[] = ["rings", "earrings", "bracelets", "necklaces"];
 
-const collectionEditorialImages: Record<CategorySlug, { src: string; alt: string }> = {
+const collectionEditorialImages: Record<CategorySlug, { src: string; desktopSrc: string; alt: string }> = {
   rings: {
     src: assetPath("/images/editorial/categories/v6-ivory-depth/rings-yellow-gold.webp"),
+    desktopSrc: assetPath("/images/editorial/categories/rings-mobile-viewing-tray.webp"),
     alt: "טבעת סוליטר מזהב צהוב ויהלום עגול על שכבות אבן שיש בגוני לבן ושמנת",
   },
   earrings: {
     src: assetPath("/images/editorial/categories/v6-ivory-depth/earrings-yellow-gold.webp"),
+    desktopSrc: assetPath("/images/editorial/categories/earrings-mobile.webp"),
     alt: "זוג עגילי יהלום צמודים מזהב צהוב על אבן שיש לבנה עם עורק זהב עדין",
   },
   bracelets: {
     src: assetPath("/images/editorial/categories/v6-ivory-depth/bracelets-yellow-gold.webp"),
+    desktopSrc: assetPath("/images/editorial/categories/bracelets-mobile.webp"),
     alt: "צמיד טניס מזהב צהוב ויהלומים על שכבות אבן שיש לבנה",
   },
   necklaces: {
     src: assetPath("/images/editorial/categories/v6-ivory-depth/necklaces-yellow-gold.webp"),
+    desktopSrc: assetPath("/images/editorial/categories/necklaces-mobile.webp"),
     alt: "שרשרת טניס מדורגת מזהב צהוב ויהלומים על שכבות אבן שיש בגוון אייבורי",
   },
 };
@@ -158,11 +162,21 @@ function CollectionTile({ category }: { category: CategorySlug }) {
           src={images.src}
           alt={images.alt}
           fill
-          sizes={tall || wide ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
+          sizes="(max-width: 1023px) 100vw, 1px"
           loading="eager"
           fetchPriority="low"
           unoptimized
-          className="home-collection-image object-cover transition-transform duration-1000 ease-out motion-safe:lg:group-hover:scale-[1.025]"
+          className="home-collection-image object-cover lg:hidden"
+        />
+        <Image
+          src={images.desktopSrc}
+          alt={images.alt}
+          fill
+          sizes="(min-width: 1440px) 22vw, (min-width: 1024px) 24vw, 1px"
+          loading="eager"
+          fetchPriority="low"
+          unoptimized
+          className="home-collection-image hidden object-cover transition-transform duration-1000 ease-out lg:block motion-safe:lg:group-hover:scale-[1.025]"
         />
         <div
           aria-hidden="true"
@@ -249,9 +263,13 @@ export default function HomePage() {
                 height="92"
                 className="home-hero-brand-logo"
               />
+              <p className="home-hero-desktop-kicker hidden lg:block">LAB-GROWN DIAMONDS · 14K / 18K GOLD</p>
               <h1 id="home-hero-title" className="home-hero-title font-display">
                 היהלום במרכז.
               </h1>
+              <p className="home-hero-desktop-copy hidden lg:block">
+                תכשיטים שנבחרים לאט, נבנים בדיוק ונשארים הרבה אחרי הרגע.
+              </p>
               <HeroCollectionLink />
             </div>
           </div>
@@ -294,6 +312,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div>
             <div>
+              <p className="home-section-eyebrow hidden lg:block">THE LIBI EDIT</p>
               <h2 id="most-loved-title" className="font-display text-[2rem] font-medium leading-none sm:text-4xl">
                 הטבעות הנבחרות
               </h2>
@@ -380,7 +399,10 @@ export default function HomePage() {
       <section className="section-gallery section-gallery-journal py-14 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-6">
-            <h2 className="font-display text-[2rem] font-medium leading-none sm:text-4xl">לדעת מה בוחרים.</h2>
+            <div>
+              <p className="home-section-eyebrow hidden lg:block">LIBI JOURNAL</p>
+              <h2 className="font-display text-[2rem] font-medium leading-none sm:text-4xl">לדעת מה בוחרים.</h2>
+            </div>
             <Link
               href="/journal"
               className="shrink-0 border-b border-gilt/55 pb-1 text-xs font-semibold tracking-[0.05em] text-ink-soft hover:border-gilt hover:text-ink sm:text-sm"
