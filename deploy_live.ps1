@@ -44,20 +44,28 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
-Write-Host "Uploading the approved release archive..." -ForegroundColor Gray
-scp $archivePath "${SSH_HOST}:/tmp/$ARCHIVE_NAME"
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "Error: Failed to upload the live deployment archive." -ForegroundColor Red
-    exit $LASTEXITCODE
+$deployExitCode = 1
+try {
+    Write-Host "Uploading the approved release archive..." -ForegroundColor Gray
+    scp $archivePath "${SSH_HOST}:/tmp/$ARCHIVE_NAME"
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to upload the live deployment archive."
+    }
+
+    Write-Host "Building and activating www.libidiamonds.co.il..." -ForegroundColor Blue
+    $REMOTE_CMD = "set -e && trap 'rm -f -- /tmp/$ARCHIVE_NAME' EXIT && if [ '$REMOTE_STAGE_DIR' != '/root/LibiDiamonds-live.next' ]; then exit 64; fi && rm -rf -- '$REMOTE_STAGE_DIR' && mkdir -p '$REMOTE_STAGE_DIR' && tar -xzf '/tmp/$ARCHIVE_NAME' -C '$REMOTE_STAGE_DIR' && cd '$REMOTE_STAGE_DIR' && sed -i 's/\r$//' deploy_live_linux.sh && chmod +x deploy_live_linux.sh && LIVE_APP_ROOT='$REMOTE_DIR' ROLLBACK_APP_ROOT='$REMOTE_ROLLBACK_DIR' bash deploy_live_linux.sh"
+    ssh $SSH_HOST $REMOTE_CMD
+    $deployExitCode = $LASTEXITCODE
+}
+finally {
+    if (Test-Path -LiteralPath $archivePath) {
+        Remove-Item -LiteralPath $archivePath -Force
+    }
 }
 
-Write-Host "Building and activating www.libidiamonds.co.il..." -ForegroundColor Blue
-$REMOTE_CMD = "set -e && if [ '$REMOTE_STAGE_DIR' != '/root/LibiDiamonds-live.next' ]; then exit 64; fi && rm -rf -- '$REMOTE_STAGE_DIR' && mkdir -p '$REMOTE_STAGE_DIR' && tar -xzf '/tmp/$ARCHIVE_NAME' -C '$REMOTE_STAGE_DIR' && cd '$REMOTE_STAGE_DIR' && sed -i 's/\r$//' deploy_live_linux.sh && chmod +x deploy_live_linux.sh && LIVE_APP_ROOT='$REMOTE_DIR' ROLLBACK_APP_ROOT='$REMOTE_ROLLBACK_DIR' bash deploy_live_linux.sh"
-ssh $SSH_HOST $REMOTE_CMD
-
-if ($LASTEXITCODE -ne 0) {
+if ($deployExitCode -ne 0) {
     Write-Host "`n[!] LIVE DEPLOYMENT FAILED" -ForegroundColor Red
-    exit $LASTEXITCODE
+    exit $deployExitCode
 }
 
 Write-Host "`n================================================" -ForegroundColor Green

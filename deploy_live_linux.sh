@@ -204,5 +204,11 @@ log "Running canonical-domain HTTPS checks..."
 curl --noproxy '*' -fsS --resolve "$CANONICAL_DOMAIN:443:127.0.0.1" "$PUBLIC_SITE_URL/" > /dev/null
 curl --noproxy '*' -fsSI --resolve "$ROOT_DOMAIN:443:127.0.0.1" "https://$ROOT_DOMAIN/" | grep -qi "location: $PUBLIC_SITE_URL/"
 
+log "Removing disposable build cache and the superseded release..."
+rm -rf -- "$APP_ROOT/.next/cache"
+if [ "$STAGED_ACTIVATION" = true ]; then
+    rm -rf -- "$ROLLBACK_ROOT" "$FAILED_ROOT"
+fi
+
 log "LIBI DIAMONDS canonical-domain deployment complete." "SUCCESS"
 log "Public: $PUBLIC_SITE_URL" "SUCCESS"
