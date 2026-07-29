@@ -26,6 +26,7 @@ export interface GuideSource {
 export interface Guide {
   slug: string;
   title: string;
+  seoTitle?: string;
   excerpt: string;
   cover: {
     src: string;
@@ -46,6 +47,7 @@ export const guides: Guide[] = [
   {
     slug: "why-choose-a-lab-diamond",
     title: "למה לבחור יהלום מעבדה? היתרונות, הפשרות ומה חשוב לבדוק",
+    seoTitle: "יהלום מעבדה: יתרונות ומה חשוב לבדוק",
     excerpt:
       "יהלום מעבדה מאפשר להפנות יותר מהתקציב אל האבן והעיצוב — אבל זו לא הבחירה הנכונה לכל אחד. מדריך ישיר, בלי הבטחות ירוקות ובלי סיסמאות.",
     cover: {

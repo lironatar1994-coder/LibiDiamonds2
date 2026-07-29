@@ -73,6 +73,8 @@ export const metadata: Metadata = pageMetadata({
   path: "/",
   image: site.socialImage,
   imageAlt: "טבעת סוליטר עם יהלום מעבדה בזהב צהוב מבית LIBI DIAMONDS",
+  imageWidth: site.socialImageWidth,
+  imageHeight: site.socialImageHeight,
 });
 
 function SectionHeading({

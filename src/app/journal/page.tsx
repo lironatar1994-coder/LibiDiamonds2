@@ -13,6 +13,8 @@ export const metadata: Metadata = pageMetadata({
   path: "/journal",
   image: guides[0].cover.src,
   imageAlt: guides[0].cover.alt,
+  imageWidth: 1536,
+  imageHeight: 1024,
 });
 
 export default function JournalPage() {

@@ -34,6 +34,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: `/product/${product.slug}`,
     image: image.src,
     imageAlt: image.alt,
+    imageWidth: 1600,
+    imageHeight: 1600,
   });
 }
 
@@ -68,6 +70,7 @@ export default async function ProductPage({ params }: Props) {
     sku: product.slug,
     image: images.map((image) => absoluteUrl(image.src)),
     category: category.title,
+    inLanguage: site.language,
     material: product.metals.map((metal) => metalNames[metal]).join(", "),
     brand: { "@type": "Brand", name: site.name },
     offers: {
@@ -78,6 +81,13 @@ export default async function ProductPage({ params }: Props) {
       highPrice: product.carats[product.carats.length - 1].price,
       offerCount: product.carats.length,
       availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: {
+        "@type": "Organization",
+        "@id": `${site.domain}/#organization`,
+        name: site.name,
+        url: site.domain,
+      },
       priceValidUntil: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
       shippingDetails: {
         "@type": "OfferShippingDetails",

@@ -4,7 +4,9 @@ import { guides } from "@/data/guides";
 import { absoluteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUpdated = new Date("2026-07-12T00:00:00+03:00");
+  // Keep this tied to the latest meaningful storefront/content release. Google
+  // only trusts lastmod when it reflects a real page change.
+  const siteUpdated = new Date("2026-07-29T00:00:00+03:00");
   const staticPages = ["", "/about", "/contact", "/service", "/journal", "/ring-size-guide"].map(
     (path) => ({
       url: absoluteUrl(path),

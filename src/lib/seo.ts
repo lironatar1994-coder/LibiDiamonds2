@@ -7,6 +7,8 @@ interface PageMetadataInput {
   path: string;
   image?: string;
   imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   type?: "website" | "article";
 }
 
@@ -16,10 +18,23 @@ export function pageMetadata({
   path,
   image = site.socialImage,
   imageAlt = site.tagline,
+  imageWidth,
+  imageHeight,
   type = "website",
 }: PageMetadataInput): Metadata {
   const canonical = absoluteUrl(path);
   const socialImage = absoluteUrl(image);
+  const usesDefaultSocialImage = image === site.socialImage;
+  const socialImageMetadata = {
+    url: socialImage,
+    alt: imageAlt,
+    type: "image/webp",
+    ...(imageWidth && imageHeight
+      ? { width: imageWidth, height: imageHeight }
+      : usesDefaultSocialImage
+        ? { width: site.socialImageWidth, height: site.socialImageHeight }
+        : {}),
+  };
 
   return {
     title,
@@ -38,7 +53,7 @@ export function pageMetadata({
       siteName: site.name,
       locale: site.locale,
       type,
-      images: [{ url: socialImage, alt: imageAlt, width: 1536, height: 1024 }],
+      images: [socialImageMetadata],
     },
     twitter: {
       card: "summary_large_image",
@@ -79,6 +94,8 @@ export function onlineStoreJsonLd() {
     image: absoluteUrl(site.socialImage),
     description: site.tagline,
     email: site.email,
+    telephone: site.phone,
+    currenciesAccepted: site.currency,
     areaServed: {
       "@type": "Country",
       name: site.serviceArea,
@@ -88,8 +105,16 @@ export function onlineStoreJsonLd() {
       "@type": "ContactPoint",
       contactType: "customer service",
       email: site.email,
+      telephone: site.phone,
       availableLanguage: ["Hebrew"],
       areaServed: site.country,
+    },
+    hasMerchantReturnPolicy: {
+      "@type": "MerchantReturnPolicy",
+      applicableCountry: site.country,
+      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+      merchantReturnDays: 14,
+      refundType: "https://schema.org/FullRefund",
     },
   };
 }

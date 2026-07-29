@@ -52,8 +52,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: absoluteUrl(site.socialImage),
-        width: 1536,
-        height: 1024,
+        width: site.socialImageWidth,
+        height: site.socialImageHeight,
+        type: "image/webp",
         alt: site.tagline,
       },
     ],

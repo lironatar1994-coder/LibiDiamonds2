@@ -11,6 +11,7 @@ import {
   productsByCategory,
   type CategorySlug,
 } from "@/data/products";
+import { categorySeoContent } from "@/data/category-seo";
 import { absoluteUrl, assetPath, site } from "@/lib/site";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { sortProductsByPopularity } from "@/lib/product-sorting";
@@ -51,6 +52,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: `/jewelry/${cat.slug}`,
     image: image?.src,
     imageAlt: image?.alt,
+    imageWidth: image ? 1600 : undefined,
+    imageHeight: image ? 1600 : undefined,
   });
 }
 
@@ -60,6 +63,7 @@ export default async function CategoryPage({ params }: Props) {
   if (!cat) notFound();
 
   const items = sortProductsByPopularity(productsByCategory(cat.slug));
+  const seoContent = categorySeoContent[cat.slug];
   const others = categories.filter((c) => c.slug !== cat.slug);
   const breadcrumb = breadcrumbJsonLd([
     { name: "ראשי", path: "/" },
@@ -82,6 +86,18 @@ export default async function CategoryPage({ params }: Props) {
       })),
     },
   };
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: seoContent.faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
   return (
     <div className="section-gallery">
       <div className={`mx-auto max-w-7xl px-4 sm:px-6 sm:pt-11 lg:px-8 ${cat.slug === "rings" ? "pb-0 pt-4" : "pb-14 pt-6 sm:pb-20"}`}>
@@ -96,9 +112,43 @@ export default async function CategoryPage({ params }: Props) {
         <header className="text-center sm:mt-6 sm:max-w-2xl sm:text-right">
           <h1 className="font-display text-[2.15rem] font-medium leading-tight sm:text-4xl">{cat.name}</h1>
           <BrandSignature className={cat.slug === "rings" ? "mt-3" : "mt-4"} />
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-stone sm:mx-0 sm:text-base sm:leading-8">
+            {cat.description}
+          </p>
         </header>
 
         <CategoryCatalog items={items} category={cat.slug} />
+
+        <section className="mt-16 border-t border-line pt-10 sm:mt-20 sm:pt-14" aria-labelledby="category-guide-title">
+          <div className="grid gap-9 lg:grid-cols-[minmax(16rem,0.72fr)_minmax(0,1.28fr)] lg:gap-16">
+            <div>
+              <p className="eyebrow">מדריך קצר לבחירה</p>
+              <h2 id="category-guide-title" className="mt-3 max-w-lg font-display text-3xl font-medium leading-tight text-ink sm:text-4xl">
+                {seoContent.heading}
+              </h2>
+              <nav className="mt-7 flex flex-col items-start gap-3 text-sm" aria-label={`מדריכים קשורים ל${cat.name}`}>
+                {seoContent.links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="border-b border-gold/45 pb-1 text-ink-soft transition-colors hover:border-gold-deep hover:text-ink"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            <dl className="divide-y divide-line border-y border-line">
+              {seoContent.faqs.map((faq) => (
+                <div key={faq.question} className="py-6 first:pt-5 last:pb-5 sm:py-7">
+                  <dt className="font-display text-xl font-medium leading-snug text-ink sm:text-2xl">{faq.question}</dt>
+                  <dd className="mt-3 max-w-2xl text-sm leading-7 text-stone sm:text-base sm:leading-8">{faq.answer}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
 
         {cat.slug !== "rings" && <aside className="mt-16 border-t border-line pt-8 sm:mt-20 sm:pt-10" aria-label="קטגוריות נוספות">
           <div className="flex flex-nowrap justify-center divide-x divide-gold/35" dir="rtl">
@@ -116,6 +166,7 @@ export default async function CategoryPage({ params }: Props) {
 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       </div>
 
       {cat.slug === "rings" && (

@@ -21,11 +21,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const guide = getGuide(slug);
   if (!guide) return {};
   const baseMetadata = pageMetadata({
-    title: guide.title,
+    title: guide.seoTitle ?? guide.title,
     description: guide.excerpt,
     path: `/journal/${guide.slug}`,
     image: guide.cover.src,
     imageAlt: guide.cover.alt,
+    imageWidth: 1536,
+    imageHeight: 1024,
     type: "article",
   });
 

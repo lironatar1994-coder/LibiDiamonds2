@@ -13,6 +13,8 @@ export const metadata: Metadata = pageMetadata({
   path: "/about",
   image: "/images/editorial/craft/libi-hands-at-work.webp",
   imageAlt: "ידיים בעבודת צורפות מדויקת לצד סקיצה וכלי מדידה",
+  imageWidth: 1600,
+  imageHeight: 2000,
 });
 
 const process = [
