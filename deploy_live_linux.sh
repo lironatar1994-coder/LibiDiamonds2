@@ -20,6 +20,8 @@ NGINX_CONF="/etc/nginx/sites-available/libidiamonds.co.il.conf"
 NGINX_ENABLED="/etc/nginx/sites-enabled/libidiamonds.co.il.conf"
 CERT_DIR="/etc/letsencrypt/live/libidiamonds.co.il"
 CERT_EMAIL="Libidiamonds@gmail.com"
+MONITOR_LOG_CONFIG="/etc/nginx/conf.d/server-monitor-host-log.conf"
+MONITOR_ACCESS_LOG_LINE=""
 
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -39,6 +41,12 @@ log() {
     esac
     echo -e "${color}[$(date +'%Y-%m-%d %H:%M:%S')] [$level] $message${NC}"
 }
+
+if [ -f "$MONITOR_LOG_CONFIG" ]; then
+    MONITOR_ACCESS_LOG_LINE="    access_log /var/log/nginx/monitor_host_access.log monitor_host_combined;"
+else
+    log "ServerMonitor host-aware Nginx log config was not found; continuing without the secondary monitor log." "WARN"
+fi
 
 log "Installing dependencies for the canonical-domain build..."
 if [ -f package-lock.json ]; then
@@ -175,6 +183,7 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     access_log /var/log/nginx/libidiamonds.access.log;
+$MONITOR_ACCESS_LOG_LINE
     error_log /var/log/nginx/libidiamonds.error.log;
 
     location / {
