@@ -36,14 +36,22 @@ export default function BrandLogo({
         aria-hidden="true"
       />
       {mobilePrimary && tone === "ink" && (
-        <img
-          src={assetPath("/brand/libi-diamonds-logo-primary.svg")}
-          alt=""
-          className="brand-logo-asset brand-logo-asset-primary"
-          width="360"
-          height="240"
-          aria-hidden="true"
-        />
+        <span className="brand-logo-mobile-lockup" aria-hidden="true">
+          <img
+            src={assetPath("/brand/libi-diamonds-mark.svg")}
+            alt=""
+            className="brand-logo-mobile-mark"
+            width="100"
+            height="100"
+          />
+          <img
+            src={assetPath("/brand/libi-diamonds-logo.svg")}
+            alt=""
+            className="brand-logo-mobile-wordmark"
+            width="184"
+            height="92"
+          />
+        </span>
       )}
     </Link>
   );

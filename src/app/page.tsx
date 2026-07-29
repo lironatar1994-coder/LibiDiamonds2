@@ -29,7 +29,7 @@ const { props: heroDesktopImage } = getImageProps({
 const {
   props: { srcSet: heroMobileSrcSet },
 } = getImageProps({
-  src: assetPath("/images/hero/editorial-solitaire-v1/hero-mobile.webp"),
+  src: assetPath("/images/hero/editorial-solitaire-v2/hero-mobile.webp"),
   alt: heroAlt,
   fill: true,
   sizes: "100vw",
@@ -252,10 +252,10 @@ export default function HomePage() {
                 className="home-hero-brand-logo"
               />
               <h1 id="home-hero-title" className="home-hero-title font-display">
-                <span className="home-hero-title-mobile">
-                  יופי על־זמני.
+                <span className="home-hero-title-mobile" lang="en" dir="ltr">
+                  Timeless Beauty.
                   <br />
-                  איכות שנשארת.
+                  Trusted Forever.
                 </span>
                 <span className="home-hero-title-desktop">היהלום במרכז.</span>
               </h1>
