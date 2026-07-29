@@ -348,32 +348,22 @@ export default function HomePage() {
 
           <div className="home-bespoke-copy">
             <div className="home-bespoke-heading">
-              <p className="home-bespoke-eyebrow">הבחירה של LIBI</p>
               <h2
                 id="bespoke-inspiration-title"
-                className="mt-3 font-display text-[2.2rem] font-medium leading-tight text-ivory sm:text-5xl"
+                className="font-display text-[2.2rem] font-medium leading-tight text-ivory sm:text-5xl"
               >
-                כל פרט נבחן לפני שהוא הופך לתכשיט.
+                יש לכם השראה לתכשיט?
               </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-footer-muted sm:text-base sm:leading-8">
-                מהפרופורציה של האבן ועד גוון הזהב והמידה, אנחנו סוגרים איתכם כל החלטה מראש — כדי שהתוצאה תרגיש מדויקת גם מקרוב.
-              </p>
             </div>
-            <div className="home-bespoke-actions">
-              <Link href="/about" className="home-bespoke-story-link inline-flex min-h-11 items-center border-b border-gilt/65 text-sm font-semibold">
-                הסיפור של LIBI <span aria-hidden="true">←</span>
-              </Link>
-              <a
-                href={waLink("היי, יש לי השראה לתכשיט ואשמח לקבל כיוון ראשוני והערכת מחיר")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="home-bespoke-cta inline-flex min-h-[52px] items-center justify-center gap-2 px-7 text-sm font-semibold"
-              >
-                <WhatsAppIcon className="h-4 w-4" />
-                שלחו לנו השראה
-              </a>
-              <p className="max-w-xs text-xs leading-5 text-footer-subtle">שלחו תמונה ונחזור עם כיוון ראשוני והערכת מחיר.</p>
-            </div>
+            <a
+              href={waLink("היי, יש לי השראה לתכשיט ואשמח לשתף אתכם")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="home-bespoke-cta inline-flex min-h-[52px] items-center justify-center gap-2 px-7 text-sm font-semibold"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              שליחת השראה בוואטסאפ
+            </a>
           </div>
         </div>
       </section>
