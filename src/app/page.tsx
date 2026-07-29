@@ -18,7 +18,7 @@ import { guides } from "@/data/guides";
 import { site, waLink, assetPath } from "@/lib/site";
 import { onlineStoreJsonLd, pageMetadata } from "@/lib/seo";
 
-const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום אובלי על שכבות אבן שיש בגוני לבן ושמנת עם עורק זהב עדין";
+const heroAlt = "טבעת סוליטר עם יהלום מרכזי על משטחי אבן ובד בגוני שנהב";
 const { props: heroDesktopImage } = getImageProps({
   src: assetPath("/images/hero/ivory-gold-v2/hero-desktop.webp"),
   alt: heroAlt,
@@ -29,7 +29,7 @@ const { props: heroDesktopImage } = getImageProps({
 const {
   props: { srcSet: heroMobileSrcSet },
 } = getImageProps({
-  src: assetPath("/images/hero/ivory-gold-v2/hero-mobile.webp"),
+  src: assetPath("/images/hero/editorial-solitaire-v1/hero-mobile.webp"),
   alt: heroAlt,
   fill: true,
   sizes: "100vw",
@@ -252,8 +252,14 @@ export default function HomePage() {
                 className="home-hero-brand-logo"
               />
               <h1 id="home-hero-title" className="home-hero-title font-display">
-                היהלום במרכז.
+                <span className="home-hero-title-mobile">
+                  יופי על־זמני.
+                  <br />
+                  איכות שנשארת.
+                </span>
+                <span className="home-hero-title-desktop">היהלום במרכז.</span>
               </h1>
+              <p className="home-hero-subtitle">יהלומי מעבדה עם תעודה גמולוגית</p>
               <HeroCollectionLink />
             </div>
           </div>

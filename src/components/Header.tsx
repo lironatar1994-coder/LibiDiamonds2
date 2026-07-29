@@ -73,7 +73,6 @@ export default function Header() {
     <>
       {/* single-row maison header */}
       <header
-        aria-hidden={isHome && !headerVisible ? true : undefined}
         className={`site-header-ivory ${isProduct ? "site-header-product" : ""} z-50 border-b backdrop-blur-sm ${
           isHome
             ? `site-header-home fixed inset-x-0 top-0 ${headerVisible ? "site-header-home-visible" : "site-header-home-hidden"}`
@@ -107,7 +106,7 @@ export default function Header() {
             </nav>
           </div>
 
-          <BrandLogo />
+          <BrandLogo mobilePrimary />
 
           {/* end (left in RTL): brand nav + whatsapp */}
           <div className="flex items-center justify-end gap-8">
@@ -150,7 +149,7 @@ export default function Header() {
                 <path d="M4 4l14 14M18 4L4 18" />
               </svg>
             </button>
-            <BrandLogo onClick={close} />
+            <BrandLogo mobilePrimary onClick={close} />
             <span className="h-11 w-11" aria-hidden />
           </div>
 

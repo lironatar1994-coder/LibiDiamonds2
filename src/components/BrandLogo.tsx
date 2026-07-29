@@ -3,6 +3,7 @@ import { assetPath } from "@/lib/site";
 
 type BrandLogoProps = {
   className?: string;
+  mobilePrimary?: boolean;
   onClick?: () => void;
   size?: "header" | "footer";
   tone?: "ink" | "inverse";
@@ -10,6 +11,7 @@ type BrandLogoProps = {
 
 export default function BrandLogo({
   className = "",
+  mobilePrimary = false,
   onClick,
   size = "header",
   // The footer sits on graphite, so it takes the inverse wordmark by default.
@@ -22,17 +24,27 @@ export default function BrandLogo({
     <Link
       href="/"
       onClick={onClick}
-      className={`brand-logo brand-logo-${size} ${className}`}
+      className={`brand-logo brand-logo-${size} ${mobilePrimary ? "brand-logo-mobile-primary" : ""} ${className}`}
       aria-label="LIBI DIAMONDS"
     >
       <img
         src={assetPath(asset)}
         alt=""
-        className="brand-logo-asset"
+        className="brand-logo-asset brand-logo-asset-wordmark"
         width="184"
         height="92"
         aria-hidden="true"
       />
+      {mobilePrimary && tone === "ink" && (
+        <img
+          src={assetPath("/brand/libi-diamonds-logo-primary.svg")}
+          alt=""
+          className="brand-logo-asset brand-logo-asset-primary"
+          width="360"
+          height="240"
+          aria-hidden="true"
+        />
+      )}
     </Link>
   );
 }
