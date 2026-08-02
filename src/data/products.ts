@@ -250,21 +250,45 @@ const extendedStudioMetalBySlug: Partial<Record<string, Metal>> = {
   "icon-tennis-bracelet": "white",
 };
 
+const editorialRingHeroSlugs = new Set([
+  "aura-solitaire-ring",
+  "elara-oval-hidden-halo-ring",
+  "heritage-six-prong-ring",
+  "sienna-oval-pave-ring",
+  "verona-round-bezel-ring",
+  "etoile-shared-prong-eternity-ring",
+  "solis-round-hidden-halo-ring",
+  "elise-french-pave-cathedral-ring",
+  "vesper-knife-edge-solitaire-ring",
+  "lune-oval-bezel-ring",
+]);
+
 function productMetalGallery(product: CatalogProduct, metal: Extract<Metal, "yellow" | "white">) {
   const base = metalGallery(product.slug, product.name, metal);
-  if (extendedStudioMetalBySlug[product.slug] !== metal) return base;
+  const gallery = extendedStudioMetalBySlug[product.slug] === metal
+    ? [
+        base[0],
+        {
+          src: `/images/products/v2/${product.slug}-detail.webp`,
+          alt: `${product.name} - מבט פרופיל בסטודיו`,
+          view: "profile" as const,
+        },
+        base[1],
+        {
+          src: `/images/products/v2/${product.slug}-primary.webp`,
+          alt: `${product.name} - מבט חזיתי בסטודיו`,
+          view: "angle" as const,
+        },
+      ]
+    : base;
+
+  if (metal !== "yellow" || !editorialRingHeroSlugs.has(product.slug)) return gallery;
 
   return [
-    base[0],
+    ...gallery,
     {
-      src: `/images/products/v2/${product.slug}-detail.webp`,
-      alt: `${product.name} - מבט פרופיל בסטודיו`,
-      view: "profile" as const,
-    },
-    base[1],
-    {
-      src: `/images/products/v2/${product.slug}-primary.webp`,
-      alt: `${product.name} - מבט חזיתי בסטודיו`,
+      src: `/images/editorial/ring-heroes-v1/${product.slug}-yellow-4k.webp`,
+      alt: `${product.name} בזהב צהוב - צילום עריכתי מזווית נמוכה`,
       view: "angle" as const,
     },
   ];
