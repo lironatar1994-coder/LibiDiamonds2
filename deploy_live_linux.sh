@@ -61,6 +61,10 @@ NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
     NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" \
     npm run build
 
+# The production server uses .next/server and .next/static; the compiler cache is
+# disposable and otherwise doubles across the active and rollback releases.
+rm -rf -- "$BUILD_ROOT/.next/cache"
+
 STAGED_ACTIVATION=false
 if [ "$BUILD_ROOT" != "$APP_ROOT" ]; then
     if [ "$APP_ROOT" != "/root/LibiDiamonds-live" ] || \
