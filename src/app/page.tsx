@@ -29,9 +29,10 @@ const { props: heroDesktopImage } = getImageProps({
 const {
   props: { srcSet: heroMobileSrcSet },
 } = getImageProps({
-  src: assetPath("/images/hero/editorial-solitaire-v2/hero-mobile.webp"),
+  src: assetPath("/images/hero/editorial-solitaire-v3/hero-mobile.webp"),
   alt: heroAlt,
   fill: true,
+  quality: 90,
   sizes: "100vw",
 });
 
