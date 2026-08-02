@@ -264,6 +264,26 @@ const editorialRingHeroSlugs = new Set([
 ]);
 
 function productMetalGallery(product: CatalogProduct, metal: Extract<Metal, "yellow" | "white">) {
+  if (product.slug === "aura-solitaire-ring" && metal === "white") {
+    return [
+      {
+        src: "/images/editorial/aura-platinum-campaign-v2/aura-platinum-top-transparent-8k.webp",
+        alt: `${product.name} במתכת לבנה עם ארבע שיניים - מבט עליון`,
+        view: "primary" as const,
+      },
+      {
+        src: "/images/editorial/aura-platinum-campaign-v2/aura-platinum-profile-transparent-framed-8k.webp",
+        alt: `${product.name} במתכת לבנה עם ארבע שיניים - מבט פרופיל`,
+        view: "profile" as const,
+      },
+      {
+        src: "/images/editorial/aura-platinum-campaign-v2/aura-platinum-hero-transparent-framed-8k.webp",
+        alt: `${product.name} במתכת לבנה עם ארבע שיניים - מבט גיבור בשלושה רבעים`,
+        view: "angle" as const,
+      },
+    ];
+  }
+
   const base = metalGallery(product.slug, product.name, metal);
   const gallery = extendedStudioMetalBySlug[product.slug] === metal
     ? [
