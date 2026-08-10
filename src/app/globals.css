@@ -1,33 +1,42 @@
 @import "tailwindcss";
 
+/*
+ * Surface grade
+ * -------------
+ * One warm-neutral grade for every lit surface — page, product tray, PDP media —
+ * per docs/PRODUCT_PHOTOGRAPHY_STANDARD.md. Midnight (#071a28) is the single
+ * deliberate cool counterpoint; nothing else in the light half of the palette
+ * carries a blue cast. Tray values keep their previous lightness so products
+ * still sit on something, only the hue moved.
+ */
 :root {
-  --catalog-background: #e8edf0;
-  --home-diamond-mist: #e6ecef;
+  --catalog-background: #eeebe4;
+  --home-diamond-mist: #ece9e2;
   --home-porcelain: #fbfaf7;
   --home-pearl-white: #f8f7f3;
-  --home-diamond-field: #e9eef0;
+  --home-diamond-field: #efece5;
   --home-ivory-stone: #f2eee6;
   --home-mineral-beige: #ded6c9;
   --home-midnight: #071a28;
   --home-platinum-ice: var(--home-pearl-white);
   --home-gallery-white: #fbfaf7;
   --pdp-porcelain: #fbfaf7;
-  --pdp-pearl: #fcfdfe;
-  --pdp-ice: #e8edf0;
-  --pdp-ice-deep: #dfe7ea;
+  --pdp-pearl: #fdfbf7;
+  --pdp-ice: #eeebe4;
+  --pdp-ice-deep: #e5e1d8;
   --pdp-midnight: #071a28;
   --pdp-champagne: #b5924b;
 }
 
 @theme {
-  --color-ivory: #fcfdfe;
-  --color-cream: #d5dade;
-  --color-platinum: #d5dade;
-  --color-platinum-soft: #f0f2f3;
-  --color-warm-stone: #e7ebee;
-  --color-selection: #e8edf1;
-  --color-sand: #dfe5e9;
-  --color-line: #cfd5d9;
+  --color-ivory: #fdfbf7;
+  --color-cream: #dbd6cd;
+  --color-platinum: #dbd6cd;
+  --color-platinum-soft: #f3f1ec;
+  --color-warm-stone: #ede9e2;
+  --color-selection: #eeebe5;
+  --color-sand: #e6e1d8;
+  --color-line: #d6d1c7;
   --color-ink: #0b1722;
   --color-ink-soft: #253744;
   --color-stone: #5b6871;
@@ -37,7 +46,7 @@
   --color-gilt: #b5924b;
   --color-gilt-deep: #7c5d28;
   --color-espresso: #06111c;
-  --color-champagne: #aab6bf;
+  --color-champagne: #bdb3a2;
   --color-footer-muted: #aab9c4;
   --color-footer-subtle: #8297a6;
 
@@ -346,7 +355,7 @@ h3,
 }
 
 .section-most-loved {
-  background: #f3f5f5;
+  background: #f5f3ee;
 }
 
 .home-try-on {
@@ -354,7 +363,7 @@ h3,
   border-top: 1px solid #29465d;
   border-bottom: 1px solid #29465d;
   background: #071827;
-  color: #fcfdfe;
+  color: #fdfbf7;
 }
 
 .home-try-on-layout {
@@ -427,7 +436,7 @@ h3,
 
 .home-try-on-cta {
   border: 1px solid var(--color-gilt);
-  background: #fcfdfe;
+  background: #fdfbf7;
   color: #071827;
   transition: background-color 180ms ease, color 180ms ease;
 }
@@ -509,7 +518,7 @@ h3,
 }
 
 .try-on-choice-close:hover {
-  background: #eef2f4;
+  background: #f0ede6;
   color: #071827;
 }
 
@@ -518,8 +527,8 @@ h3,
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1px;
-  border-top: 1px solid #d7dddf;
-  background: #d7dddf;
+  border-top: 1px solid #ddd8cf;
+  background: #ddd8cf;
 }
 
 .try-on-choice-item {
@@ -534,8 +543,8 @@ h3,
   padding: 0.55rem 0.6rem 1.15rem;
   border: 0;
   background:
-    radial-gradient(circle at 50% 34%, rgba(255, 255, 255, 0.98) 0, rgba(246, 247, 246, 0.92) 45%, rgba(238, 242, 244, 0.84) 100%),
-    #eef2f4;
+    radial-gradient(circle at 50% 34%, rgba(255, 255, 255, 0.98) 0, rgba(248, 246, 241, 0.92) 45%, rgba(240, 237, 230, 0.84) 100%),
+    #f0ede6;
   color: #071827;
   text-align: center;
   transition: background-color 180ms ease, box-shadow 180ms ease;
@@ -547,8 +556,8 @@ h3,
 
 .try-on-choice-item:not(:disabled):hover {
   background:
-    radial-gradient(circle at 50% 31%, #ffffff 0, rgba(249, 249, 247, 0.97) 48%, rgba(232, 238, 241, 0.94) 100%),
-    #eef2f4;
+    radial-gradient(circle at 50% 31%, #ffffff 0, rgba(250, 249, 245, 0.97) 48%, rgba(236, 232, 224, 0.94) 100%),
+    #f0ede6;
   box-shadow: inset 0 -2px 0 rgba(196, 161, 90, 0.78);
 }
 
@@ -769,7 +778,7 @@ h3,
 }
 
 .section-ivory {
-  background: #f6f8f9;
+  background: #f8f6f1;
 }
 
 .section-bespoke {
@@ -840,7 +849,7 @@ h3,
 .home-bespoke-cta {
   border: 1px solid rgba(181, 146, 75, 0.9);
   background: transparent;
-  color: #fcfdfe;
+  color: #fdfbf7;
   transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
 }
 
@@ -890,7 +899,7 @@ h3,
 .section-proof {
   background: #06111c;
   border-color: #254157;
-  color: #fcfdfe;
+  color: #fdfbf7;
 }
 
 .section-proof span {
@@ -899,7 +908,7 @@ h3,
 
 .footer-graphite {
   background: var(--home-midnight);
-  color: #fcfdfe;
+  color: #fdfbf7;
 }
 
 .catalog-collection-prefooter {
@@ -959,7 +968,7 @@ h3,
 }
 
 .section-faq {
-  background: #f6f8f9;
+  background: #f8f6f1;
 }
 
 .pdp-page-shell {
@@ -974,7 +983,7 @@ h3,
 .pdp-media-cutout {
   background:
     radial-gradient(ellipse at 50% 67%, rgba(67, 89, 103, 0.12) 0 7%, transparent 42%),
-    linear-gradient(145deg, #edf1f3 0%, var(--pdp-ice) 54%, var(--pdp-ice-deep) 100%);
+    linear-gradient(145deg, #f3f0e9 0%, var(--pdp-ice) 54%, var(--pdp-ice-deep) 100%);
 }
 
 .pdp-media-editorial {
@@ -1152,7 +1161,7 @@ h3,
 
 .product-packaging-surface {
   border: 1px solid rgba(181, 146, 75, 0.22);
-  background: #dfe7eb;
+  background: #e5e1d8;
 }
 
 .product-certificate-surface {
@@ -1186,7 +1195,7 @@ h3,
 }
 
 .pdp-related {
-  background: #f3f5f5;
+  background: #f5f3ee;
 }
 
 .pdp-related .product-card-frame,
@@ -1249,9 +1258,12 @@ h3,
     inset 0 0 0 1px rgba(119, 137, 149, 0.16);
 }
 
+/* One optical scale for every signature card, matching the catalog tray
+   (--catalog-optical-scale). Per-product overrides made the shank crop land in a
+   different place on each of the four cards, which read as a bug rather than a crop. */
 .home-signature-product-image {
-  --home-signature-scale: 1.16;
-  --home-signature-hover-scale: 1.185;
+  --home-signature-scale: 1.12;
+  --home-signature-hover-scale: 1.145;
   filter:
     saturate(1.025)
     contrast(1.055)
@@ -1264,8 +1276,8 @@ h3,
 .catalog-ring-media {
   background:
     radial-gradient(ellipse at 50% 64%, rgba(75, 96, 109, 0.13) 0 8%, transparent 40%),
-    radial-gradient(circle at 50% 41%, rgba(252, 253, 254, 0.98) 0 25%, transparent 63%),
-    linear-gradient(145deg, #e9eef0 0%, #e2e9ec 100%);
+    radial-gradient(circle at 50% 41%, rgba(253, 251, 246, 0.98) 0 25%, transparent 63%),
+    linear-gradient(145deg, #efece5 0%, #e8e4db 100%);
   box-shadow: inset 0 0 0 1px rgba(112, 133, 146, 0.14);
 }
 
@@ -1300,8 +1312,8 @@ h3,
 [data-display-metal="white"] .catalog-ring-media {
   background:
     radial-gradient(ellipse at 50% 64%, rgba(45, 68, 83, 0.16) 0 8%, transparent 41%),
-    radial-gradient(circle at 50% 40%, rgba(251, 253, 254, 0.99) 0 22%, transparent 62%),
-    linear-gradient(145deg, #e7edef 0%, #dce5e9 100%);
+    radial-gradient(circle at 50% 40%, rgba(252, 250, 245, 0.99) 0 22%, transparent 62%),
+    linear-gradient(145deg, #edeae2 0%, #e3ded4 100%);
 }
 
 [data-display-metal="white"] .catalog-ring-media .catalog-product-image {
@@ -1386,8 +1398,8 @@ h3,
 .section-most-loved [data-display-metal="white"] .product-media-surface {
   background:
     radial-gradient(ellipse at 50% 67%, rgba(61, 82, 96, 0.14) 0 8%, transparent 43%),
-    radial-gradient(circle at 50% 38%, rgba(249, 251, 252, 0.98) 0 22%, transparent 58%),
-    linear-gradient(145deg, #e8eef0 0%, #dfe7ea 100%);
+    radial-gradient(circle at 50% 38%, rgba(251, 249, 244, 0.98) 0 22%, transparent 58%),
+    linear-gradient(145deg, #eeebe3 0%, #e5e1d8 100%);
 }
 
 .section-most-loved [data-display-metal="white"] .home-signature-product-image {
@@ -1397,27 +1409,6 @@ h3,
     brightness(0.988)
     drop-shadow(0 14px 12px rgba(18, 35, 47, 0.27))
     drop-shadow(0 2px 3px rgba(18, 35, 47, 0.12));
-}
-
-[data-product-slug="aura-solitaire-ring"] .home-signature-product-image {
-  --home-signature-scale: 1.14;
-  --home-signature-hover-scale: 1.165;
-}
-
-[data-product-slug="elara-oval-hidden-halo-ring"] .home-signature-product-image,
-[data-product-slug="seren-pear-solitaire-ring"] .home-signature-product-image {
-  --home-signature-scale: 1.18;
-  --home-signature-hover-scale: 1.205;
-}
-
-[data-product-slug="atelier-emerald-cathedral-ring"] .home-signature-product-image {
-  --home-signature-scale: 1.18;
-  --home-signature-hover-scale: 1.205;
-}
-
-[data-product-slug="seren-pear-solitaire-ring"] .home-signature-product-image {
-  --home-signature-scale: 1.2;
-  --home-signature-hover-scale: 1.225;
 }
 
 .group:hover .home-signature-product-image,
@@ -1441,7 +1432,7 @@ h3,
 }
 
 .shape-stone-field {
-  background: radial-gradient(circle at 50% 42%, rgba(248, 251, 252, 0.92), rgba(216, 226, 232, 0.28) 58%, transparent 74%);
+  background: radial-gradient(circle at 50% 42%, rgba(250, 248, 243, 0.92), rgba(226, 220, 208, 0.28) 58%, transparent 74%);
   isolation: isolate;
 }
 
@@ -1876,6 +1867,19 @@ details.faq-item[open] summary .faq-icon {
  * existing composition, spacing, imagery and interaction model unchanged.
  */
 @media (min-width: 1024px) {
+  /*
+   * One shell, one pair of edges. Every full-bleed panel sits on the 94rem
+   * outer edge and every text column sits on the inner edge that the shell's
+   * padding produces, so the page reads as a single grid instead of three.
+   * .site-shell puts the header, footer, PDP and secondary pages on that
+   * inner edge; the framed panels (hero, try-on, bespoke) use the outer one.
+   */
+  .site-shell {
+    max-width: 94rem;
+    padding-right: clamp(3rem, 5vw, 6rem);
+    padding-left: clamp(3rem, 5vw, 6rem);
+  }
+
   .home-section-eyebrow {
     margin-bottom: 1rem;
     color: var(--color-gilt-deep);
@@ -1885,11 +1889,12 @@ details.faq-item[open] summary .faq-icon {
     direction: ltr;
   }
 
-  /* Homepage hero: a quiet editorial title panel beside the stronger portrait crop. */
+  /* Homepage hero: a quiet editorial title panel beside the stronger portrait crop.
+     The mat around the frame stays a single flat tone — a second vertical split
+     here never lined up with the frame's own image/copy seam and read as a bug. */
   .hero-editorial {
     padding: clamp(1.5rem, 2.5vw, 2.75rem);
-    background:
-      linear-gradient(90deg, #f7f3eb 0 42%, #ece4d8 42% 100%);
+    background: var(--home-ivory-stone);
   }
 
   .home-hero-frame {
@@ -1914,8 +1919,10 @@ details.faq-item[open] summary .faq-icon {
     background: #ebe4d9;
   }
 
+  /* Landscape master: the empty stone runs down its left side, so the crop is
+     taken from that end and the ring lands just inside the panel's centre. */
   .home-hero-frame .ivory-hero-image {
-    object-position: center 47%;
+    object-position: 96% center;
     transform: scale(1.005);
   }
 
@@ -1952,7 +1959,8 @@ details.faq-item[open] summary .faq-icon {
 
   .home-hero-desktop-kicker {
     margin-top: 2.4rem;
-    color: rgba(7, 26, 40, 0.57);
+    /* 10px tracked caps — needs the full 4.5:1, which 0.57 alpha did not reach. */
+    color: rgba(7, 26, 40, 0.72);
     font-size: 0.64rem;
     font-weight: 700;
     letter-spacing: 0.22em;
@@ -2083,7 +2091,7 @@ details.faq-item[open] summary .faq-icon {
     padding-block: 9rem 10rem !important;
     background:
       linear-gradient(90deg, rgba(255, 255, 255, 0.7), transparent 28%),
-      #edf1f2;
+      #efece5;
   }
 
   .section-most-loved > .mx-auto {
@@ -2169,6 +2177,9 @@ details.faq-item[open] summary .faq-icon {
     display: none;
   }
 
+  /* The CTA is inline-flex, so this column's text-align — not the button's
+     margins — decides where it lands. The container kept the mobile
+     `text-center`, parking the button 131px short of the headline's right edge. */
   .home-try-on-copy {
     top: 0;
     right: 0;
@@ -2176,6 +2187,7 @@ details.faq-item[open] summary .faq-icon {
     left: auto;
     width: 42%;
     padding: 5rem clamp(3rem, 4vw, 5rem);
+    text-align: right;
     background:
       radial-gradient(circle at 80% 20%, rgba(65, 98, 119, 0.2), transparent 18rem),
       #071827;
@@ -2184,16 +2196,15 @@ details.faq-item[open] summary .faq-icon {
   .home-try-on-copy h2 {
     font-size: clamp(3.5rem, 4vw, 5rem) !important;
     line-height: 0.98 !important;
-    text-align: right;
     text-shadow: none;
   }
 
   .home-try-on-cta {
     margin-right: 0;
-    margin-left: auto;
+    margin-left: 0;
     min-width: 13.5rem;
     background: transparent;
-    color: #fcfdfe;
+    color: #fdfbf7;
   }
 
   /* Bespoke and journal receive the same wide editorial rhythm. */
@@ -2299,7 +2310,7 @@ details.faq-item[open] summary .faq-icon {
     border-color: rgba(181, 146, 75, 0.24) !important;
     background:
       radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.94), transparent 24rem),
-      linear-gradient(135deg, rgba(232, 237, 239, 0.92), rgba(244, 241, 234, 0.88)) !important;
+      linear-gradient(135deg, rgba(238, 235, 228, 0.92), rgba(248, 245, 238, 0.88)) !important;
   }
 
   .catalog-style-showcase #catalog-style-heading {
@@ -2398,5 +2409,92 @@ details.faq-item[open] summary .faq-icon {
     height: 1px;
     margin-top: 2.3rem;
     background: linear-gradient(to left, var(--color-gilt), transparent);
+  }
+
+  /* Catalog toolbar: filter and sort each hug their own end of the shell. The
+     two-up centred grid stranded the select's chevron ~270px from its label. */
+  .catalog-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.75rem;
+    padding-inline: 0;
+  }
+
+  .catalog-toolbar > * {
+    height: 100%;
+    border: 0;
+  }
+
+  .catalog-toolbar-sort {
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .catalog-toolbar-sort select {
+    width: auto;
+    min-width: 0;
+    padding-inline: 0.25rem;
+    text-align: start;
+  }
+
+  /*
+   * Footer: the same shell as everything above it. It previously collapsed to a
+   * 672px centred stack, so the page ended on a mobile width and carried two
+   * horizontal rules of different lengths. Brand lockup on the start edge,
+   * navigation on the end edge, every rule spanning the full shell.
+   */
+  .site-footer-body {
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1.25fr);
+    align-items: start;
+    column-gap: clamp(3rem, 7vw, 8rem);
+  }
+
+  .site-footer-lockup {
+    max-width: 26rem;
+    align-items: flex-start;
+    margin-inline: 0;
+    text-align: right;
+  }
+
+  .site-footer-lockup .brand-logo,
+  .site-footer-lockup .brand-signature {
+    margin-inline: 0;
+  }
+
+  .footer-graphite .site-footer-lockup .footer-logo-centered {
+    align-items: flex-start;
+  }
+
+  .site-footer-lockup p {
+    max-width: 21rem;
+    margin-inline: 0;
+  }
+
+  .site-footer-lockup > div:last-child {
+    justify-content: flex-start;
+  }
+
+  .site-footer-nav {
+    max-width: none;
+    grid-template-columns: repeat(2, minmax(9rem, 1fr));
+    column-gap: clamp(2rem, 4vw, 4rem);
+    margin: 0;
+    padding-top: 0.35rem;
+    border-top: 0;
+  }
+
+  .site-footer-contact {
+    justify-content: flex-start;
+    gap: 0 clamp(1.5rem, 2.5vw, 2.5rem);
+    margin-top: 3.5rem;
+    padding-top: 1.75rem;
+  }
+
+  .site-footer-legal {
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    text-align: right;
   }
 }

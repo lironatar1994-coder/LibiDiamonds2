@@ -240,7 +240,8 @@ export default async function GuidePage({ params }: Props) {
 
       <aside className="mt-14 bg-cream p-8 text-center">
         <h2 className="font-display text-2xl">נשארו שאלות?</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-stone">
+        {/* ink-soft, not stone: muted grey on the cream panel is 3.96:1. */}
+        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
           נשמח להסביר, להשוות אבנים אמיתיות עם תעודות, ולעזור לכם לבחור נכון —
           בלי לחץ.
         </p>

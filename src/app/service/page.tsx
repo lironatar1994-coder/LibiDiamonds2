@@ -75,7 +75,8 @@ export default function ServicePage() {
           ["החזרות", `תוך ${servicePromises.returnsWindow}`],
         ].map(([label, value]) => (
           <div key={label} className="border-b border-line p-4 even:border-r sm:border-b-0 sm:border-r sm:first:border-r-0">
-            <dt className="text-[0.68rem] font-semibold text-stone">{label}</dt>
+            {/* ink-soft, not stone: 11px muted grey on the platinum panel is 3.96:1. */}
+            <dt className="text-[0.68rem] font-semibold text-ink-soft">{label}</dt>
             <dd className="mt-1 text-sm font-medium leading-5 text-ink">{value}</dd>
           </div>
         ))}

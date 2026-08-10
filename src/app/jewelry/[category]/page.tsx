@@ -121,7 +121,7 @@ export default async function CategoryPage({ params }: Props) {
 
       {cat.slug === "rings" && (
         <aside className="catalog-collection-prefooter mt-8 sm:mt-10" aria-label="קטגוריות נוספות">
-          <div className="mx-auto max-w-7xl px-4 pb-6 pt-7 sm:px-6 sm:pb-8 sm:pt-9 lg:px-8">
+          <div className="site-shell mx-auto max-w-7xl px-4 pb-6 pt-7 sm:px-6 sm:pb-8 sm:pt-9 lg:px-8">
             <h2 className="font-display text-[1.1rem] font-medium sm:text-[1.25rem]">
               עוד ב־<span dir="ltr">LIBI</span>
             </h2>

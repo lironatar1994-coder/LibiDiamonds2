@@ -481,7 +481,9 @@ export default function ProductView({ product }: { product: Product }) {
 
           <fieldset className="pt-5">
             <legend className="sr-only">{caratCopy.legend}</legend>
-            <div className="flex items-center justify-between gap-3 text-[0.78rem] font-semibold text-ink-soft">
+            {/* The info glyph belongs to the label, so it sits next to it — not
+                pushed to the far edge of the buy column by justify-between. */}
+            <div className="flex items-center gap-1 text-[0.78rem] font-semibold text-ink-soft">
               <span>{caratChoiceLabel}</span>
               <button
                 type="button"

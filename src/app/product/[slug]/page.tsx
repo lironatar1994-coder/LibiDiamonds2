@@ -108,7 +108,7 @@ export default async function ProductPage({ params }: Props) {
   return (
     <>
       <div className="pdp-page-shell">
-        <div className="mx-auto max-w-[88rem] px-4 pb-0 pt-0 sm:px-6 sm:pt-5 lg:px-8 lg:pt-9">
+        <div className="site-shell mx-auto max-w-[88rem] px-4 pb-0 pt-0 sm:px-6 sm:pt-5 lg:px-8 lg:pt-9">
           <nav className="mb-6 hidden text-xs tracking-[0.04em] text-stone md:block lg:mb-9" aria-label="פירורי לחם">
             <Link href="/" className="hover:text-gold-deep">
               ראשי
@@ -126,7 +126,7 @@ export default async function ProductPage({ params }: Props) {
       </div>
 
       <section id="related-products" className="pdp-related scroll-mt-24 py-9 sm:py-11 lg:py-14">
-        <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
+        <div className="site-shell mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-5">
             <h2 className="font-display text-[1.8rem] font-medium leading-tight sm:text-3xl lg:text-[2rem]">{relatedTitle}</h2>
             <Link

@@ -200,7 +200,7 @@ export default function CategoryCatalog({
       {styleShowcase.length > 1 && (
         <section
           className={category === "rings"
-            ? "catalog-style-showcase -mx-4 mt-4 border-y border-[#d7e1e6] bg-[radial-gradient(circle_at_12%_16%,rgba(145,169,183,0.16),transparent_33%),radial-gradient(circle_at_88%_82%,rgba(178,195,204,0.12),transparent_36%),linear-gradient(118deg,rgba(255,255,255,0.9)_0%,rgba(243,246,247,0.76)_42%,rgba(232,239,242,0.58)_100%),#f3f6f7] pb-3 pt-4 sm:mx-0 sm:mt-9 sm:py-7"
+            ? "catalog-style-showcase -mx-4 mt-4 border-y border-[#e2ddd2] bg-[radial-gradient(circle_at_12%_16%,rgba(176,166,148,0.16),transparent_33%),radial-gradient(circle_at_88%_82%,rgba(199,190,173,0.12),transparent_36%),linear-gradient(118deg,rgba(255,255,255,0.9)_0%,rgba(247,244,237,0.76)_42%,rgba(239,235,226,0.58)_100%),#f5f2ec] pb-3 pt-4 sm:mx-0 sm:mt-9 sm:py-7"
             : "catalog-style-showcase mt-5 sm:mt-8"
           }
           aria-labelledby="catalog-style-heading"
@@ -317,7 +317,7 @@ export default function CategoryCatalog({
       </div>}
 
       <div className={`${category === "rings" ? "mt-7 hidden sm:block" : "mt-5 block sm:mt-7"} border-y border-line/70`}>
-        <div className="grid h-14 min-w-0 grid-cols-2 items-center divide-x divide-x-reverse divide-line/70">
+        <div className="catalog-toolbar grid h-14 min-w-0 grid-cols-2 items-center divide-x divide-x-reverse divide-line/70">
           <button
             type="button"
             onClick={() => setFiltersOpen((open) => !open)}
@@ -327,7 +327,7 @@ export default function CategoryCatalog({
           >
             סינון{activeFilterCount ? ` · ${activeFilterCount}` : ""}
           </button>
-          <label className="flex h-full min-w-0 items-center justify-center gap-1.5 overflow-hidden text-xs text-stone">
+          <label className="catalog-toolbar-sort flex h-full min-w-0 items-center justify-center gap-1.5 overflow-hidden text-xs text-stone">
             <span className="sr-only">מיון</span>
             <select
               value={sort}

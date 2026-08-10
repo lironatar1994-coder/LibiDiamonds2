@@ -14,7 +14,7 @@ export const metadata: Metadata = pageMetadata({
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <div className="site-shell mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <header className="max-w-2xl">
         <h1 className="font-display text-4xl font-medium">נשמח לדבר</h1>
         <BrandSignature className="mt-4" />
@@ -26,7 +26,9 @@ export default function ContactPage() {
         </div>
 
         <div className="space-y-8">
-          <div className="bg-platinum p-8">
+          {/* platinum-soft, not platinum: the heavier stone tone put the gilt
+              contact glyphs at 4.2:1 and read muddy against the cream page. */}
+          <div className="border border-line bg-platinum-soft p-8">
             <h2 className="font-display text-xl">פרטי קשר</h2>
             <ul className="mt-5 space-y-4 text-sm">
               <li>
@@ -34,7 +36,7 @@ export default function ContactPage() {
                   href={`tel:+${site.whatsapp}`}
                   className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gold-deep"
                 >
-                  <span className="text-gold">טל׳</span>
+                  <span className="text-gilt-deep">טל׳</span>
                   <span dir="ltr">{site.phoneDisplay}</span>
                 </a>
               </li>
@@ -43,7 +45,7 @@ export default function ContactPage() {
                   href={`mailto:${site.email}`}
                   className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gold-deep"
                 >
-                  <span className="text-gold">@</span>
+                  <span className="text-gilt-deep">@</span>
                   {site.email}
                 </a>
               </li>
@@ -54,7 +56,7 @@ export default function ContactPage() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gold-deep"
                 >
-                  <InstagramIcon className="h-5 w-5 text-gold" />
+                  <InstagramIcon className="h-5 w-5 text-gilt-deep" />
                   libidiamonds@
                 </a>
               </li>

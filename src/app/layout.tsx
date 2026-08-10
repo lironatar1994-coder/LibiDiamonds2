@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Frank_Ruhl_Libre, Assistant } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import VisitorSignal from "@/components/VisitorSignal";
 import { absoluteUrl, allowIndexing, site } from "@/lib/site";
 import "./globals.css";
 
@@ -75,6 +76,7 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${frank.variable} ${assistant.variable}`}>
       <body>
+        <VisitorSignal />
         <Header />
         <main>{children}</main>
         <Footer />

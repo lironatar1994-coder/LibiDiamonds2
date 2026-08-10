@@ -34,7 +34,7 @@ export default function AboutPage() {
   return (
     <>
       <section className="bg-white">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.86fr_1.14fr] lg:px-8 lg:py-20">
+        <div className="site-shell mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.86fr_1.14fr] lg:px-8 lg:py-20">
           <div className="max-w-xl">
             <h1 className="font-display text-4xl font-medium leading-[1.12] sm:text-5xl lg:text-6xl">
               כל פרט נבחן,
@@ -60,7 +60,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18 lg:px-8 lg:py-20">
+      <section className="site-shell mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18 lg:px-8 lg:py-20">
         <h2 className="font-display text-3xl font-medium sm:text-4xl">כך הבחירה נסגרת.</h2>
         <div className="mt-8 grid border-t border-line sm:grid-cols-3 lg:mt-10">
           {process.map((item, index) => (

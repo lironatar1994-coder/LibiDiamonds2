@@ -19,12 +19,18 @@ import { site, waLink, assetPath } from "@/lib/site";
 import { onlineStoreJsonLd, pageMetadata } from "@/lib/seo";
 
 const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום אובלי על שכבות אבן שיש בגוני לבן ושמנת עם עורק זהב עדין";
+// Desktop renders the landscape master the hero pipeline produces for it. The
+// portrait crop is 941px on its long-to-short axis and was being upscaled 1.12x
+// into the 58%-wide desktop panel, so the largest image on the site was soft.
+// The panel is narrower than the master's 16:9, so object-fit: cover is driven by
+// height, not width. `58vw` would describe the box and still land ~1.2x short of
+// the pixels the crop actually needs, so the desktop hint asks for the full master.
 const { props: heroDesktopImage } = getImageProps({
-  src: assetPath("/images/hero/ivory-gold-v2/hero-mobile.webp"),
+  src: assetPath("/images/hero/ivory-gold-v2/hero-desktop.webp"),
   alt: heroAlt,
   fill: true,
   priority: true,
-  sizes: "(min-width: 1024px) 58vw, 100vw",
+  sizes: "(min-width: 1024px) 1600px, 100vw",
 });
 const {
   props: { srcSet: heroMobileSrcSet },

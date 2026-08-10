@@ -54,7 +54,7 @@ export function FingerCircumferenceVisual() {
     >
       <title id="finger-title">מדידת היקף האצבע באמצעות פס נייר</title>
       <desc id="finger-desc">פס נייר דק מקיף אצבע ומסומן בנקודת החפיפה לפני מדידה בסרגל</desc>
-      <rect width="720" height="560" fill="#eef0ed" />
+      <rect width="720" height="560" fill="#f5f2ec" />
 
       <path
         d="M292 510c-14-79-20-170-18-274 2-99 38-151 86-151s84 52 86 151c2 104-4 195-18 274z"

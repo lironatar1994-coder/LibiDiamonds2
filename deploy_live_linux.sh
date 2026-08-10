@@ -20,6 +20,8 @@ NGINX_CONF="/etc/nginx/sites-available/libidiamonds.co.il.conf"
 NGINX_ENABLED="/etc/nginx/sites-enabled/libidiamonds.co.il.conf"
 CERT_DIR="/etc/letsencrypt/live/libidiamonds.co.il"
 CERT_EMAIL="Libidiamonds@gmail.com"
+VISITOR_SIGNAL_KEY_FILE="${VISITOR_SIGNAL_KEY_FILE:-/root/.visitor-signal-key}"
+SERVER_MONITOR_SIGNAL_URL="${SERVER_MONITOR_SIGNAL_URL:-http://127.0.0.1:4010/serve-monitor/api/browser-signals/site}"
 
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -40,6 +42,13 @@ log() {
     echo -e "${color}[$(date +'%Y-%m-%d %H:%M:%S')] [$level] $message${NC}"
 }
 
+if [ ! -s "$VISITOR_SIGNAL_KEY_FILE" ]; then
+    log "Creating the first-party browser signal service key..."
+    umask 077
+    openssl rand -hex 32 > "$VISITOR_SIGNAL_KEY_FILE"
+fi
+chmod 600 "$VISITOR_SIGNAL_KEY_FILE"
+
 log "Installing dependencies for the canonical-domain build..."
 if [ -f package-lock.json ]; then
     npm ci --silent
@@ -51,6 +60,7 @@ log "Building the root-path, indexable site for $PUBLIC_SITE_URL..."
 NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
     NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=true \
     NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" \
+    VISITOR_SIGNAL_KEY_FILE="$VISITOR_SIGNAL_KEY_FILE" SERVER_MONITOR_SIGNAL_URL="$SERVER_MONITOR_SIGNAL_URL" \
     npm run build
 
 STAGED_ACTIVATION=false
@@ -85,6 +95,7 @@ restore_previous_release() {
     PORT="$FRONTEND_PORT" NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
         NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=true \
         NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" \
+        VISITOR_SIGNAL_KEY_FILE="$VISITOR_SIGNAL_KEY_FILE" SERVER_MONITOR_SIGNAL_URL="$SERVER_MONITOR_SIGNAL_URL" \
         pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start
     pm2 save > /dev/null
 }
@@ -94,6 +105,7 @@ pm2 delete "$PROCESS_NAME" > /dev/null 2>&1 || true
 if ! PORT="$FRONTEND_PORT" NEXT_BASE_PATH="" NEXT_PUBLIC_BASE_PATH="" \
      NEXT_PUBLIC_SITE_URL="$PUBLIC_SITE_URL" NEXT_PUBLIC_ALLOW_INDEXING=true \
      NEXT_PUBLIC_RING_TRY_ON_ENGINE="$RING_TRY_ON_ENGINE" \
+     VISITOR_SIGNAL_KEY_FILE="$VISITOR_SIGNAL_KEY_FILE" SERVER_MONITOR_SIGNAL_URL="$SERVER_MONITOR_SIGNAL_URL" \
      pm2 start npm --name "$PROCESS_NAME" --cwd "$APP_ROOT" -- start; then
     restore_previous_release
     exit 1
