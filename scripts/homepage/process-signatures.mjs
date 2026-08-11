@@ -23,22 +23,34 @@ for (const [slug, metal] of signatures) {
     const source = path.join(sourceDirectory, filename);
     const output = path.join(outputDirectory, filename);
 
-    const pipeline = sharp(source).ensureAlpha();
+    const alpha = await sharp(source)
+      .ensureAlpha()
+      .extractChannel(3)
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    const pipeline = sharp(source).removeAlpha();
 
     if (metal === "white") {
       pipeline
         .modulate({ brightness: 1.004, saturation: 0.99 })
-        .linear(1.085, -7)
-        .sharpen({ sigma: 0.78, m1: 1, m2: 1.9 });
+        .linear(1.085, -7);
     } else {
       pipeline
         .modulate({ brightness: 1.012, saturation: 1.035 })
-        .linear(1.035, -3)
-        .sharpen({ sigma: 0.72, m1: 0.85, m2: 1.65 });
+        .linear(1.035, -3);
     }
 
     await pipeline
-      .webp({ quality: 92, alphaQuality: 100, smartSubsample: false })
+      // Catalog sources already carry the approved jewelry detail pass. Keeping
+      // alpha outside the grade preserves clean cutout edges on the dark home mix.
+      .joinChannel(alpha.data, {
+        raw: {
+          width: alpha.info.width,
+          height: alpha.info.height,
+          channels: 1,
+        },
+      })
+      .webp({ quality: 96, alphaQuality: 100, smartSubsample: false })
       .toFile(output);
 
     console.log(`Generated ${path.relative(projectRoot, output)}`);
