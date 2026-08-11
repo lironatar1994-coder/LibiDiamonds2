@@ -1152,16 +1152,14 @@ h3,
 }
 
 .product-packaging-section {
-  border-top: 1px solid rgba(181, 146, 75, 0.55);
-  border-bottom: 1px solid rgba(181, 146, 75, 0.45);
-  background:
-    radial-gradient(circle at 14% 10%, rgba(65, 96, 116, 0.16), transparent 28rem),
-    var(--pdp-midnight);
+  border-top: 1px solid rgba(181, 146, 75, 0.35);
+  border-bottom: 1px solid rgba(181, 146, 75, 0.3);
+  background: var(--pdp-pearl);
 }
 
 .product-packaging-surface {
-  border: 1px solid rgba(181, 146, 75, 0.22);
-  background: #e5e1d8;
+  border: 1px solid rgba(181, 146, 75, 0.2);
+  background: var(--pdp-porcelain);
 }
 
 .product-certificate-surface {
@@ -1172,14 +1170,14 @@ h3,
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgba(104, 137, 158, 0.11);
+  background: rgba(255, 255, 255, 0.04);
   content: "";
   mix-blend-mode: color;
   pointer-events: none;
 }
 
 .product-certificate-image {
-  filter: saturate(0.42) contrast(1.045) brightness(1.035) hue-rotate(178deg);
+  filter: saturate(0.72) contrast(1.025) brightness(1.02);
 }
 
 .pdp-service-list {

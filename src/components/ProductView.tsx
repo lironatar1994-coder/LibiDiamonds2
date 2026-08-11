@@ -118,20 +118,20 @@ const serviceItems = [
 
 const packagingByCategory: Record<Product["category"], { src: string; alt: string }> = {
   rings: {
-    src: "/images/trust/v4-midnight/libi-packaging-ring-midnight.webp",
-    alt: "אריזת טבעת LIBI DIAMONDS בכחול חצות עם פנים בגוון פלטינה",
+    src: "/images/trust/v1/libi-packaging-mockup.webp",
+    alt: "אריזת טבעת לבנה של LIBI DIAMONDS עם פנים בגוון פנינה",
   },
   earrings: {
-    src: "/images/trust/v4-midnight/libi-packaging-earrings-midnight.webp",
-    alt: "אריזת עגילים LIBI DIAMONDS בכחול חצות עם מגש זוגי בגוון פלטינה",
+    src: "/images/trust/v2/libi-packaging-earrings-mockup.webp",
+    alt: "אריזת עגילים לבנה של LIBI DIAMONDS עם פנים בגוון פנינה",
   },
   necklaces: {
-    src: "/images/trust/v4-midnight/libi-packaging-necklaces-midnight.webp",
-    alt: "אריזת שרשרת LIBI DIAMONDS בכחול חצות עם מגש בגוון פלטינה",
+    src: "/images/trust/v2/libi-packaging-necklaces-mockup.webp",
+    alt: "אריזת שרשרת לבנה של LIBI DIAMONDS עם פנים בגוון פנינה",
   },
   bracelets: {
-    src: "/images/trust/v4-midnight/libi-packaging-bracelets-midnight.webp",
-    alt: "אריזת צמיד LIBI DIAMONDS בכחול חצות עם מגש מאורך בגוון פלטינה",
+    src: "/images/trust/v2/libi-packaging-bracelets-mockup.webp",
+    alt: "אריזת צמיד לבנה של LIBI DIAMONDS עם פנים בגוון פנינה",
   },
 };
 
@@ -598,13 +598,13 @@ export default function ProductView({ product }: { product: Product }) {
         </div>
       </section>
 
-      <section className="product-packaging-section -mx-4 mt-12 px-4 py-10 text-ivory sm:-mx-6 sm:mt-16 sm:px-6 sm:py-12 lg:-mx-8 lg:mt-20 lg:px-8 lg:py-16" aria-labelledby="order-includes-title">
+      <section className="product-packaging-section -mx-4 mt-12 px-4 py-10 text-ink sm:-mx-6 sm:mt-16 sm:px-6 sm:py-12 lg:-mx-8 lg:mt-20 lg:px-8 lg:py-16" aria-labelledby="order-includes-title">
         <div className="mx-auto max-w-[88rem]">
         <div className="flex items-center gap-3">
           <span aria-hidden="true" className="h-px w-9 bg-[#b5924b]" />
           <h2 id="order-includes-title" className="font-display text-[1.85rem] font-medium leading-tight sm:text-4xl">כך התכשיט מגיע אליכם</h2>
         </div>
-        <p className="mt-2 text-xs leading-6 text-[#aab9c4] sm:text-sm">אריזת LIBI <span aria-hidden>·</span> תעודה גמולוגית <span aria-hidden>·</span> משלוח מבוטח</p>
+        <p className="mt-2 text-xs leading-6 text-stone sm:text-sm">אריזת LIBI <span aria-hidden>·</span> תעודה גמולוגית <span aria-hidden>·</span> משלוח מבוטח</p>
         <div className="mt-5 grid grid-cols-2 gap-3 sm:gap-4 lg:mt-7 lg:grid-cols-[minmax(0,1.55fr)_minmax(16rem,0.65fr)] lg:grid-rows-[15rem_15rem] lg:gap-5 xl:grid-rows-[18rem_18rem]">
           <figure className="col-span-2 lg:col-span-1 lg:row-span-2">
             <div className="product-packaging-surface relative aspect-[4/3] overflow-hidden lg:h-full lg:aspect-auto">
@@ -621,8 +621,8 @@ export default function ProductView({ product }: { product: Product }) {
           <figure>
             <div className="product-packaging-surface relative aspect-square overflow-hidden lg:h-full lg:aspect-auto">
               <Image
-                src={assetPath("/images/trust/v4-midnight/libi-shopping-bag-midnight.webp")}
-                alt="שקית קנייה של LIBI DIAMONDS בכחול חצות עם ידיות סרט כסופות"
+                src={assetPath("/images/trust/v3/libi-shopping-bag-mockup.webp")}
+                alt="שקית קנייה לבנה של LIBI DIAMONDS עם ידיות סרט לבנות"
                 fill
                 sizes="(min-width: 1024px) 27vw, 50vw"
                 className="object-cover"
@@ -640,7 +640,7 @@ export default function ProductView({ product }: { product: Product }) {
                 className="product-certificate-image object-cover"
               />
             </div>
-            <figcaption className="mt-2 text-xs leading-5 text-[#aab9c4]">תעודה גמולוגית מותאמת ליהלום.</figcaption>
+            <figcaption className="mt-2 text-xs leading-5 text-stone">תעודה גמולוגית מותאמת ליהלום.</figcaption>
           </figure>
         </div>
         </div>
