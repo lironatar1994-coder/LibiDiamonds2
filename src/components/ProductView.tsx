@@ -598,7 +598,7 @@ export default function ProductView({ product }: { product: Product }) {
         </div>
       </section>
 
-      <section className="product-packaging-section -mx-4 mt-12 px-4 py-10 text-ink sm:-mx-6 sm:mt-16 sm:px-6 sm:py-12 lg:-mx-8 lg:mt-20 lg:px-8 lg:py-16" aria-labelledby="order-includes-title">
+      <section className="product-packaging-section -mx-4 mt-12 px-4 py-10 text-ivory sm:-mx-6 sm:mt-16 sm:px-6 sm:py-12 lg:-mx-8 lg:mt-20 lg:px-8 lg:py-16" aria-labelledby="order-includes-title">
         <div className="mx-auto max-w-[88rem]">
         <div className="product-packaging-heading relative z-[1] grid gap-4 pb-6 sm:pb-8 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.42fr)] lg:items-end">
           <div>
@@ -606,9 +606,9 @@ export default function ProductView({ product }: { product: Product }) {
               <span aria-hidden="true" className="h-px w-10 bg-[#b5924b]" />
               <h2 id="order-includes-title" className="font-display text-[2.15rem] font-medium leading-[1.05] sm:text-5xl">כך התכשיט מגיע אליכם</h2>
             </div>
-            <p className="mt-3 text-sm leading-6 text-stone">אריזת LIBI <span aria-hidden>·</span> תעודה גמולוגית <span aria-hidden>·</span> משלוח מבוטח</p>
+            <p className="product-packaging-meta mt-3 text-sm leading-6">אריזת LIBI <span aria-hidden>·</span> תעודה גמולוגית <span aria-hidden>·</span> משלוח מבוטח</p>
           </div>
-          <p className="max-w-md text-sm leading-7 text-ink-soft lg:justify-self-end">אריזה לבנה בגימור פנינה, מותאמת לסוג התכשיט ושומרת עליו עד לרגע הפתיחה.</p>
+          <p className="product-packaging-note max-w-md text-sm leading-7 lg:justify-self-end">אריזה לבנה בגימור פנינה, מותאמת לסוג התכשיט ושומרת עליו עד לרגע הפתיחה.</p>
         </div>
         <div className="product-packaging-gallery relative z-[1] mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-4 lg:grid-cols-[minmax(0,1.62fr)_minmax(17rem,0.72fr)] lg:grid-rows-[15rem_15rem] lg:gap-5 xl:grid-rows-[18rem_18rem]">
           <figure className="col-span-2 lg:col-span-1 lg:row-span-2">
@@ -645,7 +645,7 @@ export default function ProductView({ product }: { product: Product }) {
                 className="product-certificate-image object-cover"
               />
             </div>
-            <figcaption className="mt-2 text-xs leading-5 text-stone">תעודה גמולוגית מותאמת ליהלום.</figcaption>
+            <figcaption className="product-packaging-caption mt-2 text-xs leading-5">תעודה גמולוגית מותאמת ליהלום.</figcaption>
           </figure>
         </div>
         </div>
