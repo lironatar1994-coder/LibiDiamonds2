@@ -1152,14 +1152,45 @@ h3,
 }
 
 .product-packaging-section {
-  border-top: 1px solid rgba(181, 146, 75, 0.35);
-  border-bottom: 1px solid rgba(181, 146, 75, 0.3);
-  background: var(--pdp-pearl);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-top: 1px solid rgba(181, 146, 75, 0.42);
+  border-bottom: 1px solid rgba(181, 146, 75, 0.34);
+  background: #faf7f0;
+}
+
+.product-packaging-section::before {
+  position: absolute;
+  top: -0.24em;
+  left: -0.035em;
+  z-index: 0;
+  color: rgba(181, 146, 75, 0.065);
+  content: "LIBI";
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(7rem, 17vw, 16rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.product-packaging-heading {
+  border-bottom: 1px solid rgba(181, 146, 75, 0.28);
 }
 
 .product-packaging-surface {
-  border: 1px solid rgba(181, 146, 75, 0.2);
+  box-shadow: 0 24px 64px rgba(35, 32, 26, 0.1);
   background: var(--pdp-porcelain);
+}
+
+.product-packaging-surface::after {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border: 1px solid rgba(181, 146, 75, 0.2);
+  content: "";
+  pointer-events: none;
 }
 
 .product-certificate-surface {
@@ -1167,17 +1198,11 @@ h3,
 }
 
 .product-certificate-surface::after {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.04);
-  content: "";
-  mix-blend-mode: color;
-  pointer-events: none;
+  border-color: rgba(181, 146, 75, 0.16);
 }
 
 .product-certificate-image {
-  filter: saturate(0.72) contrast(1.025) brightness(1.02);
+  filter: none;
 }
 
 .pdp-service-list {
