@@ -316,15 +316,12 @@ export default function HomePage() {
       {/* Four intentional bestsellers, not an endless storefront carousel. */}
       <section className="section-most-loved py-14 sm:py-16 lg:py-20" aria-labelledby="most-loved-title">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div>
-            <div>
-              <p className="home-section-eyebrow hidden lg:block">THE LIBI EDIT</p>
-              <h2 id="most-loved-title" className="font-display text-[2rem] font-medium leading-none sm:text-4xl">
-                הטבעות הנבחרות
-              </h2>
-            </div>
+          <div className="home-most-loved-heading">
+            <h2 id="most-loved-title" className="scroll-mt-24 font-display text-[2rem] font-medium leading-none sm:text-4xl">
+              הטבעות הנבחרות
+            </h2>
           </div>
-          <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 lg:mt-11 lg:grid-cols-4 lg:gap-6">
+          <div className="home-most-loved-grid mt-8">
             {mostLovedRings.map(({ slug, metal }) => {
               const product = products.find((candidate) => candidate.slug === slug)!;
               const gallery = productImages(product, metal);
@@ -339,12 +336,15 @@ export default function HomePage() {
               );
             })}
           </div>
-          <div className="mt-7 text-center sm:mt-9">
+          <div className="home-most-loved-action mt-7 text-center sm:mt-9">
             <Link
               href="/jewelry/rings"
               className="home-most-loved-link inline-flex min-h-11 items-center justify-center gap-3 border-b border-gilt/55 px-1 text-sm font-semibold tracking-[0.035em] text-ink-soft transition-colors hover:border-gilt hover:text-ink"
             >
-              לכל קולקציית הטבעות <span aria-hidden="true">←</span>
+              לכל קולקציית הטבעות
+              <svg aria-hidden="true" viewBox="0 0 16 16" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth="1.25">
+                <path d="M13 8H3m0 0 3.5-3.5M3 8l3.5 3.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </Link>
           </div>
         </div>

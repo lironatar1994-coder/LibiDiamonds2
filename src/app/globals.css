@@ -355,7 +355,73 @@ h3,
 }
 
 .section-most-loved {
+  border-block: 1px solid rgba(181, 146, 75, 0.16);
   background: #f5f3ee;
+}
+
+.home-most-loved-heading {
+  max-width: 18rem;
+  margin-inline-start: auto;
+}
+
+.home-most-loved-grid {
+  display: grid;
+}
+
+.home-most-loved-grid > .group {
+  min-width: 0;
+}
+
+.home-most-loved-grid > .group:first-child {
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid rgba(124, 93, 40, 0.2);
+}
+
+.home-most-loved-grid > .group:first-child .product-card-frame {
+  aspect-ratio: 4 / 3;
+}
+
+.home-most-loved-grid > .group:first-child > :last-child {
+  padding: 1rem 0.25rem 0;
+  text-align: right;
+}
+
+.home-most-loved-grid > .group:first-child h3 {
+  font-size: 1.35rem;
+  line-height: 1.35;
+}
+
+.home-most-loved-grid > .group:not(:first-child) {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  padding-block: 0.9rem;
+  border-bottom: 1px solid rgba(124, 93, 40, 0.16);
+}
+
+.home-most-loved-grid > .group:not(:first-child) .product-card-frame {
+  aspect-ratio: 1;
+}
+
+.home-most-loved-grid > .group:not(:first-child) > :last-child {
+  min-width: 0;
+  padding: 0;
+  text-align: right;
+}
+
+.home-most-loved-grid > .group:not(:first-child) h3 {
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.home-most-loved-grid > .group:not(:first-child) p {
+  margin-top: 0.3rem;
+  font-size: 0.92rem;
+}
+
+.home-most-loved-action {
+  text-align: right;
 }
 
 .home-try-on {
@@ -1290,9 +1356,7 @@ h3,
 
 .section-most-loved .product-card-frame {
   background: var(--home-diamond-field);
-  box-shadow:
-    0 14px 30px rgba(38, 55, 67, 0.055),
-    inset 0 0 0 1px rgba(119, 137, 149, 0.16);
+  box-shadow: 0 16px 34px rgba(38, 55, 67, 0.075);
 }
 
 /* One optical scale for every signature card, matching the catalog tray
@@ -2125,7 +2189,7 @@ details.faq-item[open] summary .faq-icon {
 
   /* Best sellers: an editorial rail with a dedicated title column. */
   .section-most-loved {
-    padding-block: 9rem 10rem !important;
+    padding-block: 8rem 7rem !important;
     background:
       linear-gradient(90deg, rgba(255, 255, 255, 0.7), transparent 28%),
       #efece5;
@@ -2139,9 +2203,11 @@ details.faq-item[open] summary .faq-icon {
     padding-inline: clamp(3rem, 5vw, 6rem);
   }
 
-  .section-most-loved > .mx-auto > :first-child {
+  .section-most-loved .home-most-loved-heading {
     grid-column: 1;
     align-self: start;
+    max-width: none;
+    margin-inline-start: 0;
     padding-top: 1rem;
   }
 
@@ -2151,27 +2217,50 @@ details.faq-item[open] summary .faq-icon {
     line-height: 0.98;
   }
 
-  .section-most-loved > .mx-auto > .grid {
+  .section-most-loved .home-most-loved-grid {
     grid-column: 2;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1.45fr) repeat(3, minmax(0, 1fr));
     gap: clamp(1rem, 1.7vw, 1.75rem);
     margin-top: 0;
   }
 
-  .section-most-loved > .mx-auto > .text-center {
+  .section-most-loved .home-most-loved-action {
     grid-column: 2;
     margin-top: 2.5rem;
     text-align: right;
   }
 
-  .section-most-loved .product-card-frame {
-    aspect-ratio: 4 / 5;
-    box-shadow:
-      0 18px 40px rgba(38, 55, 67, 0.075),
-      inset 0 0 0 1px rgba(119, 137, 149, 0.14);
+  .section-most-loved .home-most-loved-grid > .group {
+    display: block;
+    padding: 0;
+    border: 0;
   }
 
-  .section-most-loved .group:nth-child(even) {
+  .section-most-loved .home-most-loved-grid > .group > :last-child {
+    padding: 1rem 0.25rem 0;
+    text-align: center;
+  }
+
+  .section-most-loved .home-most-loved-grid > .group h3 {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .section-most-loved .home-most-loved-grid > .group:first-child h3 {
+    font-size: 1.2rem;
+  }
+
+  .section-most-loved .home-most-loved-grid > .group:not(:first-child) p {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .section-most-loved .product-card-frame {
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 18px 40px rgba(38, 55, 67, 0.085);
+  }
+
+  .section-most-loved .home-most-loved-grid > .group:nth-child(even) {
     margin-top: 2.5rem;
   }
 
