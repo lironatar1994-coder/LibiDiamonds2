@@ -102,7 +102,7 @@ interface PointerGesture {
   originMidpoint: { x: number; y: number };
 }
 
-function ToolIcon({ name, className = "h-5 w-5" }: { name: "camera" | "switch" | "freeze" | "reset" | "upload" | "close" | "calibrate"; className?: string }) {
+function ToolIcon({ name, className = "h-5 w-5" }: { name: "camera" | "switch" | "freeze" | "reset" | "upload" | "close" | "calibrate" | "rotate" | "move"; className?: string }) {
   if (name === "close") {
     return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className={className} aria-hidden><path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" /></svg>;
   }
@@ -120,6 +120,12 @@ function ToolIcon({ name, className = "h-5 w-5" }: { name: "camera" | "switch" |
   }
   if (name === "calibrate") {
     return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} aria-hidden><rect x="3.5" y="6" width="17" height="12" rx="1" /><path d="M7 15v3M10 13v5M13 15v3M16 13v5" /></svg>;
+  }
+  if (name === "rotate") {
+    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className={className} aria-hidden><path d="M5.5 9A7 7 0 1 1 6.8 17" strokeLinecap="round" /><path d="M5.5 4v5h5" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+  }
+  if (name === "move") {
+    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} aria-hidden><path d="M12 3v18M3 12h18M12 3 9.5 5.5M12 3l2.5 2.5M21 12l-2.5-2.5M21 12l-2.5 2.5M12 21l-2.5-2.5M12 21l2.5-2.5M3 12l2.5-2.5M3 12l2.5 2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>;
   }
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className={className} aria-hidden><path d="M4 8.5h3l1.4-2h7.2l1.4 2h3v10H4z" strokeLinejoin="round" /><circle cx="12" cy="13.5" r="3.2" /></svg>;
 }
@@ -603,6 +609,7 @@ export default function TryOnDialog({
   caratOptions = [],
   onCaratChange,
 }: TryOnDialogProps) {
+  const defaultManualScale = config.target === "finger" ? 1.18 : 1;
   const [mode, setMode] = useState<Mode>("photo");
   const [modelState, setModelState] = useState<ModelState>("loading");
   const [cameraState, setCameraState] = useState<CameraState>("idle");
@@ -615,7 +622,7 @@ export default function TryOnDialog({
   const [trackingNotice, setTrackingNotice] = useState<"far" | "uncertain" | null>(null);
   const [previewCaratValue, setPreviewCaratValue] = useState(caratValue);
   const [previewCaratSelected, setPreviewCaratSelected] = useState(caratSelected);
-  const [manualScale, setManualScale] = useState(1);
+  const [manualScale, setManualScale] = useState(defaultManualScale);
   const [manualRotation, setManualRotation] = useState(0);
   const [manualOffset, setManualOffset] = useState({ x: 0, y: 0 });
   const [calibrationActive, setCalibrationActive] = useState(false);
@@ -686,17 +693,22 @@ export default function TryOnDialog({
       ) / 85.6
     : null;
   const resetAdjustment = useCallback(() => {
-    setManualScale(1);
+    setManualScale(isBracelet ? 1 : 1.18);
     setManualRotation(0);
     setManualOffset({ x: 0, y: 0 });
     smoothedPoseRef.current = null;
     activePointersRef.current.clear();
     pointerGestureRef.current = null;
-  }, []);
+  }, [isBracelet]);
 
   const triggerGlint = useCallback(() => {
     glintUntilRef.current = performance.now() + 720;
   }, []);
+
+  const stepManualScale = useCallback((direction: -1 | 1) => {
+    setManualScale((value) => clamp(value + direction * 0.1, isBracelet ? 0.6 : 0.7, 2));
+    triggerGlint();
+  }, [isBracelet, triggerGlint]);
 
   const stepPreviewCarat = useCallback((direction: -1 | 1) => {
     if (!caratOptions.length) return;
@@ -814,9 +826,9 @@ export default function TryOnDialog({
           },
           runningMode: "VIDEO" as const,
           numHands: 2,
-          minHandDetectionConfidence: 0.55,
-          minHandPresenceConfidence: 0.5,
-          minTrackingConfidence: 0.5,
+          minHandDetectionConfidence: 0.45,
+          minHandPresenceConfidence: 0.42,
+          minTrackingConfidence: 0.42,
         };
 
         let landmarker: HandLandmarker;
@@ -962,7 +974,8 @@ export default function TryOnDialog({
         : source.naturalHeight;
       if (!sourceWidth || !sourceHeight) return;
 
-      const resizeScale = Math.min(1, 720 / Math.max(sourceWidth, sourceHeight));
+      const analysisMaxDimension = source instanceof HTMLImageElement ? 960 : 720;
+      const resizeScale = Math.min(1, analysisMaxDimension / Math.max(sourceWidth, sourceHeight));
       const analysisCanvas = analysisCanvasRef.current ?? document.createElement("canvas");
       analysisCanvasRef.current = analysisCanvas;
       const analysisWidth = Math.max(1, Math.round(sourceWidth * resizeScale));
@@ -1089,11 +1102,12 @@ export default function TryOnDialog({
           }
         }
         latestFingerSectionRef.current = sectionMeasurement;
+        const sectionConfidence = sectionMeasurement?.confidence ?? 0;
         const confidentPlacement = Boolean(analysisPose) && (
           !v4Enabled || isBracelet || (
             !scaleAssessment.tooFar
-            && scaleAssessment.geometryConfidence >= 0.44
-            && (sectionMeasurement?.confidence ?? 0) >= 0.48
+            && scaleAssessment.geometryConfidence >= 0.34
+            && (sectionConfidence >= 0.3 || scaleAssessment.geometryConfidence >= 0.62)
           )
         );
         if (confidentPlacement) {
@@ -1415,6 +1429,7 @@ export default function TryOnDialog({
   const switchMode = (nextMode: Mode) => {
     if (nextMode === mode) return;
     if (nextMode === "photo") stopCamera();
+    if (nextMode === "live") clearPhoto();
     setMode(nextMode);
     setCameraError("");
     latestHandRef.current = null;
@@ -1498,6 +1513,10 @@ export default function TryOnDialog({
 
   const startRingPlacement = useCallback(() => {
     if (isBracelet || !v4Enabled) return;
+    if (mode === "live" && cameraState === "active" && !frozen && videoRef.current) {
+      videoRef.current.pause();
+      setFrozen(true);
+    }
     resetCalibration();
     resetAdjustment();
     latestHandRef.current = null;
@@ -1509,7 +1528,7 @@ export default function TryOnDialog({
     setRingPlacementActive(true);
     activePointersRef.current.clear();
     pointerGestureRef.current = null;
-  }, [isBracelet, resetAdjustment, resetCalibration, v4Enabled]);
+  }, [cameraState, frozen, isBracelet, mode, resetAdjustment, resetCalibration, v4Enabled]);
 
   const beginPointerGesture = useCallback(() => {
     const points = [...activePointersRef.current.values()];
@@ -1645,10 +1664,10 @@ export default function TryOnDialog({
 
   if (!open || typeof document === "undefined") return null;
 
-  const hasMedia = photoReady;
+  const hasMedia = photoReady || (mode === "live" && (cameraState === "starting" || cameraState === "active"));
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] bg-black/70 sm:grid sm:place-items-center sm:p-5" role="presentation">
+    <div className="fixed inset-0 z-[1000] bg-black/70 sm:grid sm:place-items-center sm:p-5" role="presentation">
       <div
         ref={dialogRef}
         role="dialog"
@@ -1688,47 +1707,71 @@ export default function TryOnDialog({
           />
 
           {!hasMedia && (
-            <div className="absolute inset-0 grid place-items-center px-7 text-center text-ivory">
-              <div className="max-w-sm">
-                <ToolIcon name="camera" className="mx-auto h-9 w-9 text-[#c9b78e]" />
-                <h3 className="mt-5 font-display text-2xl font-medium sm:text-3xl">
-                  {isBracelet ? "בחרו צילום ברור של פרק היד" : "בחרו צילום ברור של גב היד"}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-white/65">
-                  {isBracelet
-                    ? "צלמו את כף היד, פרק היד וחלק מהאמה בתאורה טבעית, ללא צמידים נוספים."
-                    : "האצבעות מעט פתוחות, בתאורה טבעית וללא תכשיטים נוספים."}
-                </p>
-                <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                  <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 bg-ivory px-5 text-sm font-semibold text-ink">
-                    <ToolIcon name="camera" className="h-4 w-4" /> צילום חדש
-                    <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={handlePhoto} />
-                  </label>
-                  <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-ivory">
-                    <ToolIcon name="upload" className="h-4 w-4" /> בחירת תמונה
-                    <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
-                  </label>
+            <div className="absolute inset-0 grid place-items-center overflow-y-auto px-5 py-7 text-ivory sm:px-8">
+              <div className="w-full max-w-md text-center">
+                <div className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-[#c9b78e]/60 bg-white/5 text-[#eadab5]">
+                  <ToolIcon name="camera" className="h-7 w-7" />
                 </div>
+                <h3 className="mt-4 text-balance font-display text-2xl font-medium sm:text-3xl">
+                  {isBracelet ? "כך מזהים את פרק היד בקלות" : "כך מזהים את היד בקלות"}
+                </h3>
+                <ol className="mx-auto mt-5 grid max-w-sm gap-2.5 text-start text-sm leading-5 text-white/85">
+                  <li className="flex items-center gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#c9b78e] font-semibold text-[#171817]">1</span><span>{isBracelet ? "הראו את כף היד, פרק היד וחלק מהאמה" : "הניחו את גב היד על משטח בהיר"}</span></li>
+                  <li className="flex items-center gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#c9b78e] font-semibold text-[#171817]">2</span><span>{isBracelet ? "קרבו עד שפרק היד ממלא את רוב המסך" : "קרבו עד שהיד ממלאת את רוב המסך"}</span></li>
+                  <li className="flex items-center gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#c9b78e] font-semibold text-[#171817]">3</span><span>{isBracelet ? "הסירו צמידים ושמרו על תאורה טובה" : "פתחו מעט את האצבעות והסירו טבעות"}</span></li>
+                </ol>
+                <button
+                  type="button"
+                  onClick={() => { switchMode("live"); void startCamera(); }}
+                  className="mt-6 inline-flex min-h-14 w-full items-center justify-center gap-2 bg-ivory px-6 text-base font-semibold text-ink outline-offset-4 focus-visible:outline-2 focus-visible:outline-white"
+                >
+                  <ToolIcon name="camera" className="h-5 w-5" /> הפעלת מצלמה
+                </button>
+                <label
+                  onClick={() => switchMode("photo")}
+                  className="mt-3 inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-ivory outline-offset-4 focus-within:outline-2 focus-within:outline-white"
+                >
+                  <ToolIcon name="upload" className="h-4 w-4" /> בחירת תמונה מהמכשיר
+                  <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
+                </label>
+                {!isBracelet && v4Enabled ? <p className="mt-4 text-xs leading-5 text-white/65">אם הזיהוי לא מצליח, אפשר למקם את הטבעת ידנית בשתי נגיעות.</p> : null}
               </div>
             </div>
           )}
 
-          {hasMedia && modelState === "loading" && !calibrationActive && (
-            <div className="absolute inset-x-4 top-4 mx-auto w-fit bg-black/70 px-4 py-2 text-xs text-white backdrop-blur">מכינים את זיהוי היד...</div>
+          {hasMedia && (modelState === "loading" || cameraState === "starting") && !calibrationActive && (
+            <div role="status" aria-live="polite" className="absolute inset-x-4 top-4 mx-auto w-fit bg-black/75 px-4 py-2.5 text-sm text-white backdrop-blur">
+              {cameraState === "starting" ? "פותחים את המצלמה..." : "מכינים את זיהוי היד..."}
+            </div>
           )}
           {hasMedia && modelState === "ready" && !trackingVisible && !calibrationActive && !wristPlacementActive && !ringPlacementActive && (
-            <div className="absolute inset-x-4 top-4 mx-auto flex w-fit max-w-[calc(100%-2rem)] items-center gap-3 bg-black/72 px-4 py-2 text-xs text-white backdrop-blur">
-              <span>{isBracelet
-                ? "ודאו שפרק היד וחלק מהאמה נראים בתמונה"
-                : v4Enabled && trackingNotice === "far"
-                  ? "היד רחוקה מדי — קרבו אותה מעט למצלמה וצלמו שוב"
-                  : v4Enabled
-                    ? "הזיהוי האוטומטי לא בטוח מספיק"
-                    : "מקמו את גב היד במרכז התמונה"}</span>
+            <div role="status" aria-live="polite" className="absolute inset-x-4 top-4 mx-auto max-w-md bg-black/80 px-4 py-3.5 text-center text-white shadow-lg backdrop-blur">
+              <strong className="block text-sm font-semibold">
+                {isBracelet
+                  ? "הציגו את כל פרק היד"
+                  : trackingNotice === "far"
+                    ? "קרבו את היד למצלמה"
+                    : "לא הצלחנו למקם את הטבעת אוטומטית"}
+              </strong>
+              <span className="mt-1 block text-xs leading-5 text-white/75">
+                {isBracelet
+                  ? "ודאו שכף היד, פרק היד וחלק מהאמה נראים בתמונה."
+                  : trackingNotice === "far"
+                    ? "היד צריכה למלא את רוב המסך, עם מעט רווח בין האצבעות."
+                    : "אפשר לנסות שוב, או למקם את הטבעת בשתי נגיעות על האצבע."}
+              </span>
               {v4Enabled && !isBracelet ? (
-                <button type="button" onClick={startRingPlacement} className="shrink-0 border border-[#c9b78e] px-3 py-1.5 font-semibold text-[#eadab5]">
-                  מיקום ידני
-                </button>
+                <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+                  <button type="button" onClick={startRingPlacement} className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#c9b78e] px-4 text-sm font-semibold text-[#171817] outline-offset-2 focus-visible:outline-2 focus-visible:outline-white">
+                    <ToolIcon name="move" className="h-4 w-4" /> מיקום ידני בשתי נגיעות
+                  </button>
+                  {mode === "photo" ? (
+                    <label className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 border border-white/40 px-4 text-sm font-semibold outline-offset-2 focus-within:outline-2 focus-within:outline-white">
+                      <ToolIcon name="upload" className="h-4 w-4" /> תמונה אחרת
+                      <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
+                    </label>
+                  ) : null}
+                </div>
               ) : null}
             </div>
           )}
@@ -1740,10 +1783,11 @@ export default function TryOnDialog({
             </div>
           )}
           {hasMedia && !isBracelet && ringPlacementActive && !calibrationActive && (
-            <div className="absolute inset-x-4 top-4 mx-auto max-w-sm bg-black/78 px-4 py-3 text-center text-xs leading-5 text-white backdrop-blur">
-              {ringPlacementPoints.length === 0
-                ? "סמנו קצה אחד של האצבע במקום שבו הטבעת צריכה לשבת"
-                : "כעת סמנו את הקצה השני של האצבע"}
+            <div role="status" aria-live="polite" className="absolute inset-x-4 top-4 mx-auto max-w-sm bg-black/82 px-4 py-3 text-center text-sm leading-5 text-white shadow-lg backdrop-blur">
+              <strong className="block">{ringPlacementPoints.length === 0 ? "נגיעה 1 מתוך 2" : "נגיעה 2 מתוך 2"}</strong>
+              <span className="mt-1 block text-xs text-white/75">{ringPlacementPoints.length === 0
+                ? "נגעו בצד אחד של האצבע, במקום שבו הטבעת צריכה לשבת."
+                : "עכשיו נגעו בצד השני של אותה האצבע."}</span>
             </div>
           )}
           {cameraError && (
@@ -1762,73 +1806,78 @@ export default function TryOnDialog({
             </div>
           )}
           {hasMedia && v4Enabled && trackingVisible && !calibrationActive && !ringPlacementActive && (
-            <div className="absolute right-3 top-3 border border-white/20 bg-black/58 px-2.5 py-1.5 text-[0.62rem] text-white/85 backdrop-blur">
-              {manualRingPoseRef.current ? "מיקום ידני · ניתן לגרור ולצבוט" : segmentationState === "ready" ? "התאמה חכמה לאצבע" : "התאמת קווי מתאר"}
+            <div role="status" aria-live="polite" className="absolute inset-x-3 top-3 mx-auto w-fit max-w-[calc(100%-1.5rem)] bg-black/70 px-3 py-2 text-center text-xs text-white/90 backdrop-blur">
+              <strong className="font-semibold text-[#eadab5]">הטבעת מוכנה.</strong>{" "}
+              {manualRingPoseRef.current ? "אפשר לגרור, לצבוט ולסובב." : "אפשר לגרור אותה, או לשנות את הגדלים למטה."}
             </div>
           )}
 
-          {hasMedia && v4Enabled && !isBracelet && trackingVisible && caratOptions.length > 1 && !ringPlacementActive && (
-            <div dir="rtl" className="absolute bottom-[4.9rem] left-1/2 flex -translate-x-1/2 items-stretch overflow-hidden border border-[#d6c39a]/75 bg-[#111]/82 text-white shadow-xl backdrop-blur-md">
-              <button
-                type="button"
-                onClick={() => stepPreviewCarat(-1)}
-                disabled={Number(effectiveCaratValue) <= Number(caratOptions[0].value)}
-                className="grid min-h-12 w-11 place-items-center text-xl disabled:opacity-30"
-                aria-label="הקטנת היהלום בקראט"
-              >−</button>
-              <div className="min-w-[7.8rem] border-x border-white/15 px-3 py-1.5 text-center">
-                <span className="block text-[0.58rem] tracking-[0.12em] text-[#d8c9a6]">גודל היהלום בלבד</span>
-                <strong className="mt-0.5 block font-display text-base font-medium tabular-nums">{effectiveCaratValue} ct</strong>
+          {hasMedia && trackingVisible && !calibrationActive && !ringPlacementActive && !wristPlacementActive && (
+            <div dir="rtl" className="absolute inset-x-0 bottom-0 border-t border-white/15 bg-black/82 text-white shadow-[0_-10px_30px_rgba(0,0,0,0.2)] backdrop-blur-md">
+              <div className={`mx-auto grid w-full max-w-2xl divide-x divide-x-reverse divide-white/15 ${v4Enabled && !isBracelet && caratOptions.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
+                <div className="px-3 py-2.5 text-center">
+                  <span className="block text-xs font-semibold text-[#eadab5]">{isBracelet ? "גודל הצמיד" : "גודל הטבעת"}</span>
+                  <div className="mt-1.5 grid grid-cols-[3rem_1fr_3rem] items-center">
+                    <button type="button" onClick={() => stepManualScale(-1)} className="grid h-12 place-items-center border border-white/25 bg-white/5 text-2xl outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label={isBracelet ? "הקטנת הצמיד" : "הקטנת הטבעת"}>−</button>
+                    <strong className="font-display text-base font-medium tabular-nums">{Math.round(manualScale * 100)}%</strong>
+                    <button type="button" onClick={() => stepManualScale(1)} className="grid h-12 place-items-center border border-white/25 bg-white/5 text-2xl outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label={isBracelet ? "הגדלת הצמיד" : "הגדלת הטבעת"}>+</button>
+                  </div>
+                </div>
+
+                {v4Enabled && !isBracelet && caratOptions.length > 1 ? (
+                  <div className="px-3 py-2.5 text-center">
+                    <span className="block text-xs font-semibold text-[#eadab5]">גודל היהלום</span>
+                    <div className="mt-1.5 grid grid-cols-[3rem_1fr_3rem] items-center">
+                      <button
+                        type="button"
+                        onClick={() => stepPreviewCarat(-1)}
+                        disabled={Number(effectiveCaratValue) <= Number(caratOptions[0].value)}
+                        className="grid h-12 place-items-center border border-white/25 bg-white/5 text-2xl outline-offset-2 disabled:opacity-30 focus-visible:outline-2 focus-visible:outline-white"
+                        aria-label="הקטנת היהלום"
+                      >−</button>
+                      <strong className="font-display text-base font-medium tabular-nums"><bdi>{effectiveCaratValue}</bdi> קראט</strong>
+                      <button
+                        type="button"
+                        onClick={() => stepPreviewCarat(1)}
+                        disabled={Number(effectiveCaratValue) >= Number(caratOptions[caratOptions.length - 1].value)}
+                        className="grid h-12 place-items-center border border-white/25 bg-white/5 text-2xl outline-offset-2 disabled:opacity-30 focus-visible:outline-2 focus-visible:outline-white"
+                        aria-label="הגדלת היהלום"
+                      >+</button>
+                    </div>
+                  </div>
+                ) : null}
               </div>
-              <button
-                type="button"
-                onClick={() => stepPreviewCarat(1)}
-                disabled={Number(effectiveCaratValue) >= Number(caratOptions[caratOptions.length - 1].value)}
-                className="grid min-h-12 w-11 place-items-center text-xl disabled:opacity-30"
-                aria-label="הגדלת היהלום בקראט"
-              >+</button>
-            </div>
-          )}
 
-          {hasMedia && (
-            <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 border-t border-white/15 bg-black/65 px-3 pb-[max(0.9rem,env(safe-area-inset-bottom))] pt-3 text-white backdrop-blur-sm">
-              {v4Enabled && !isBracelet ? (
-                <button type="button" onClick={startRingPlacement} className={`min-h-11 border px-3 text-xs font-semibold ${ringPlacementActive ? "border-[#c9b78e] bg-[#c9b78e] text-ink" : "border-white/35 bg-black/35"}`} aria-label="מיקום ידני של הטבעת">מיקום ידני</button>
+              <div className="mx-auto flex w-full max-w-3xl items-stretch justify-center gap-1.5 border-t border-white/15 px-2.5 pb-[max(0.65rem,env(safe-area-inset-bottom))] pt-2">
+                {v4Enabled && !isBracelet ? (
+                  <button type="button" onClick={startRingPlacement} className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 border border-[#c9b78e]/70 px-2 text-xs font-semibold text-[#f0dfb7] outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label="מיקום ידני של הטבעת בשתי נגיעות"><ToolIcon name="move" className="h-4 w-4" /> מיקום</button>
+                ) : null}
+                <button type="button" onClick={() => { setManualRotation((value) => value - Math.PI / 24); triggerGlint(); }} className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 border border-white/25 px-2 text-xs font-semibold outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label={isBracelet ? "סיבוב הצמיד" : "סיבוב הטבעת"}><ToolIcon name="rotate" className="h-4 w-4" /> סיבוב</button>
+                {isBracelet ? (
+                  <button type="button" onClick={startWristPlacement} className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 border border-white/25 px-2 text-xs font-semibold outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label="מיקום הצמיד מחדש"><ToolIcon name="move" className="h-4 w-4" /> מיקום מחדש</button>
+                ) : mode === "photo" ? (
+                  <label className="inline-flex min-h-12 flex-1 cursor-pointer items-center justify-center gap-1.5 border border-white/25 px-2 text-xs font-semibold outline-offset-2 focus-within:outline-2 focus-within:outline-white">
+                    <ToolIcon name="upload" className="h-4 w-4" /> תמונה אחרת
+                    <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
+                  </label>
+                ) : (
+                  <button type="button" onClick={() => void startCamera(facingMode === "environment" ? "user" : "environment")} className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 border border-white/25 px-2 text-xs font-semibold outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label="החלפת מצלמה"><ToolIcon name="switch" className="h-4 w-4" /> החלפת מצלמה</button>
+                )}
+                <button type="button" onClick={() => { resetAdjustment(); resetCalibration(); }} className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 border border-white/25 px-2 text-xs font-semibold outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label={isBracelet ? "איפוס הצמיד" : "איפוס הטבעת"}><ToolIcon name="reset" className="h-4 w-4" /> איפוס</button>
+              </div>
+              {!isBracelet ? (
+                <button type="button" onClick={() => void startCalibration()} className="block w-full border-t border-white/10 py-1.5 text-center text-[0.7rem] text-white/70 underline decoration-white/30 underline-offset-4 outline-offset-[-3px] focus-visible:outline-2 focus-visible:outline-white">
+                  רוצים גודל מדויק יותר? כיול עם כרטיס בנק
+                </button>
               ) : null}
-              <button
-                type="button"
-                onClick={() => isBracelet ? startWristPlacement() : void startCalibration()}
-                className={`grid h-11 w-11 place-items-center border ${(isBracelet ? wristPlacementActive : calibrationActive || calibratedPixelsPerMm !== null) ? "border-[#c9b78e] bg-[#c9b78e] text-ink" : "border-white/35 bg-black/35"}`}
-                aria-label={isBracelet ? "מיקום הצמיד מחדש" : "כיול גודל באמצעות כרטיס בנק"}
-                title={isBracelet ? "מיקום הצמיד מחדש" : "כיול גודל"}
-              >
-                <ToolIcon name="calibrate" />
-              </button>
-              <button type="button" onClick={() => { setManualScale((value) => Math.max(0.55, value - 0.08)); triggerGlint(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label={isBracelet ? "הקטנת הצמיד" : "הקטנת הטבעת"}>−</button>
-              <button type="button" onClick={() => { setManualScale((value) => Math.min(1.8, value + 0.08)); triggerGlint(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-xl" aria-label={isBracelet ? "הגדלת הצמיד" : "הגדלת הטבעת"}>+</button>
-              <button type="button" onClick={() => { setManualRotation((value) => value - Math.PI / 24); triggerGlint(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-lg" aria-label={isBracelet ? "סיבוב הצמיד שמאלה" : "סיבוב הטבעת שמאלה"}>↶</button>
-              <button type="button" onClick={() => { resetAdjustment(); resetCalibration(); }} className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35" aria-label={isBracelet ? "איפוס מיקום וגודל הצמיד" : "איפוס מיקום וגודל הטבעת"}><ToolIcon name="reset" /></button>
             </div>
           )}
         </div>
 
-        <footer className="border-t border-line bg-white px-4 py-3 text-center sm:px-6">
-          <p className="text-[0.7rem] leading-5 text-stone">
-            הצילום נשאר במכשיר ואינו נשלח ל־LIBI. {isBracelet
-              ? manualWristPoseRef.current
-                ? "מיקום וגודל הצמיד נקבעים לפי שני צדי פרק היד שסומנו."
-                : "גודל הצמיד מותאם אוטומטית לפרופורציות פרק היד."
-              : v4Enabled
-                ? manualRingPoseRef.current
-                  ? "מיקום הטבעת נקבע לפי שני צדי האצבע שסומנו; ניתן לגרור, לצבוט ולסובב."
-                  : `מיקום הטבעת מותאם לקווי המתאר של האצבע. שינוי הקראט בהדמיה מגדיל או מקטין את היהלום בלבד (${effectiveCaratValue} קראט); החישוק נשאר במידותיו.`
-              : caratSelected || ringSize !== "unsure"
-              ? `הגודל מתעדכן לפי ${caratSelected ? `${caratValue} קראט` : "פרופורציית האבן האוטומטית"} ו${ringSize === "unsure" ? "מידת היד האוטומטית" : `מידה ${ringSize}`}.`
-              : "גודל הטבעת מותאם אוטומטית לפרופורציות היד; בחירת קראט או מידה בעמוד המוצר תעדכן את ההדמיה."}
-            {calibratedPixelsPerMm !== null ? " כיול הכרטיס פעיל." : " ללא כיול, התוצאה היא הערכה חזותית."}
-            {photoName ? <span className="sr-only"> קובץ נבחר: {photoName}</span> : null}
-          </p>
-          <a href={assetPath("/service#camera-privacy")} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block border-b border-gold/50 text-[0.68rem] text-ink-soft">פרטיות בשימוש במצלמה</a>
+        <footer className="flex min-h-12 items-center justify-center gap-2 border-t border-line bg-white px-4 py-2 text-center text-xs text-stone sm:px-6">
+          <span>הצילום נשאר במכשיר. ההדמיה היא להמחשה.</span>
+          <a href={assetPath("/service#camera-privacy")} target="_blank" rel="noopener noreferrer" className="shrink-0 border-b border-gold/50 font-semibold text-ink-soft">פרטיות</a>
+          {photoName ? <span className="sr-only">קובץ נבחר: {photoName}</span> : null}
         </footer>
       </div>
     </div>,
