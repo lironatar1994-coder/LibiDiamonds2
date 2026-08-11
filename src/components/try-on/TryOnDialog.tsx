@@ -1429,7 +1429,6 @@ export default function TryOnDialog({
   const switchMode = (nextMode: Mode) => {
     if (nextMode === mode) return;
     if (nextMode === "photo") stopCamera();
-    if (nextMode === "live") clearPhoto();
     setMode(nextMode);
     setCameraError("");
     latestHandRef.current = null;
@@ -1513,10 +1512,6 @@ export default function TryOnDialog({
 
   const startRingPlacement = useCallback(() => {
     if (isBracelet || !v4Enabled) return;
-    if (mode === "live" && cameraState === "active" && !frozen && videoRef.current) {
-      videoRef.current.pause();
-      setFrozen(true);
-    }
     resetCalibration();
     resetAdjustment();
     latestHandRef.current = null;
@@ -1528,7 +1523,7 @@ export default function TryOnDialog({
     setRingPlacementActive(true);
     activePointersRef.current.clear();
     pointerGestureRef.current = null;
-  }, [cameraState, frozen, isBracelet, mode, resetAdjustment, resetCalibration, v4Enabled]);
+  }, [isBracelet, resetAdjustment, resetCalibration, v4Enabled]);
 
   const beginPointerGesture = useCallback(() => {
     const points = [...activePointersRef.current.values()];
@@ -1664,7 +1659,7 @@ export default function TryOnDialog({
 
   if (!open || typeof document === "undefined") return null;
 
-  const hasMedia = photoReady || (mode === "live" && (cameraState === "starting" || cameraState === "active"));
+  const hasMedia = photoReady;
 
   return createPortal(
     <div className="fixed inset-0 z-[1000] bg-black/70 sm:grid sm:place-items-center sm:p-5" role="presentation">
@@ -1720,15 +1715,11 @@ export default function TryOnDialog({
                   <li className="flex items-center gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#c9b78e] font-semibold text-[#171817]">2</span><span>{isBracelet ? "קרבו עד שפרק היד ממלא את רוב המסך" : "קרבו עד שהיד ממלאת את רוב המסך"}</span></li>
                   <li className="flex items-center gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#c9b78e] font-semibold text-[#171817]">3</span><span>{isBracelet ? "הסירו צמידים ושמרו על תאורה טובה" : "פתחו מעט את האצבעות והסירו טבעות"}</span></li>
                 </ol>
-                <button
-                  type="button"
-                  onClick={() => { switchMode("live"); void startCamera(); }}
-                  className="mt-6 inline-flex min-h-14 w-full items-center justify-center gap-2 bg-ivory px-6 text-base font-semibold text-ink outline-offset-4 focus-visible:outline-2 focus-visible:outline-white"
-                >
-                  <ToolIcon name="camera" className="h-5 w-5" /> הפעלת מצלמה
-                </button>
+                <label className="mt-6 inline-flex min-h-14 w-full cursor-pointer items-center justify-center gap-2 bg-ivory px-6 text-base font-semibold text-ink outline-offset-4 focus-within:outline-2 focus-within:outline-white">
+                  <ToolIcon name="camera" className="h-5 w-5" /> צילום חדש
+                  <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={handlePhoto} />
+                </label>
                 <label
-                  onClick={() => switchMode("photo")}
                   className="mt-3 inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-ivory outline-offset-4 focus-within:outline-2 focus-within:outline-white"
                 >
                   <ToolIcon name="upload" className="h-4 w-4" /> בחירת תמונה מהמכשיר
@@ -1739,9 +1730,9 @@ export default function TryOnDialog({
             </div>
           )}
 
-          {hasMedia && (modelState === "loading" || cameraState === "starting") && !calibrationActive && (
+          {hasMedia && modelState === "loading" && !calibrationActive && (
             <div role="status" aria-live="polite" className="absolute inset-x-4 top-4 mx-auto w-fit bg-black/75 px-4 py-2.5 text-sm text-white backdrop-blur">
-              {cameraState === "starting" ? "פותחים את המצלמה..." : "מכינים את זיהוי היד..."}
+              מכינים את זיהוי היד...
             </div>
           )}
           {hasMedia && modelState === "ready" && !trackingVisible && !calibrationActive && !wristPlacementActive && !ringPlacementActive && (
@@ -1750,14 +1741,14 @@ export default function TryOnDialog({
                 {isBracelet
                   ? "הציגו את כל פרק היד"
                   : trackingNotice === "far"
-                    ? "קרבו את היד למצלמה"
+                    ? "היד רחוקה מדי בתמונה"
                     : "לא הצלחנו למקם את הטבעת אוטומטית"}
               </strong>
               <span className="mt-1 block text-xs leading-5 text-white/75">
                 {isBracelet
                   ? "ודאו שכף היד, פרק היד וחלק מהאמה נראים בתמונה."
                   : trackingNotice === "far"
-                    ? "היד צריכה למלא את רוב המסך, עם מעט רווח בין האצבעות."
+                    ? "צלמו שוב מקרוב יותר, כך שהיד תמלא את רוב המסך."
                     : "אפשר לנסות שוב, או למקם את הטבעת בשתי נגיעות על האצבע."}
               </span>
               {v4Enabled && !isBracelet ? (
@@ -1765,12 +1756,10 @@ export default function TryOnDialog({
                   <button type="button" onClick={startRingPlacement} className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#c9b78e] px-4 text-sm font-semibold text-[#171817] outline-offset-2 focus-visible:outline-2 focus-visible:outline-white">
                     <ToolIcon name="move" className="h-4 w-4" /> מיקום ידני בשתי נגיעות
                   </button>
-                  {mode === "photo" ? (
-                    <label className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 border border-white/40 px-4 text-sm font-semibold outline-offset-2 focus-within:outline-2 focus-within:outline-white">
-                      <ToolIcon name="upload" className="h-4 w-4" /> תמונה אחרת
-                      <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
-                    </label>
-                  ) : null}
+                  <label className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 border border-white/40 px-4 text-sm font-semibold outline-offset-2 focus-within:outline-2 focus-within:outline-white">
+                    <ToolIcon name="upload" className="h-4 w-4" /> תמונה אחרת
+                    <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
+                  </label>
                 </div>
               ) : null}
             </div>
@@ -1855,13 +1844,11 @@ export default function TryOnDialog({
                 <button type="button" onClick={() => { setManualRotation((value) => value - Math.PI / 24); triggerGlint(); }} className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 border border-white/25 px-2 text-xs font-semibold outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label={isBracelet ? "סיבוב הצמיד" : "סיבוב הטבעת"}><ToolIcon name="rotate" className="h-4 w-4" /> סיבוב</button>
                 {isBracelet ? (
                   <button type="button" onClick={startWristPlacement} className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 border border-white/25 px-2 text-xs font-semibold outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label="מיקום הצמיד מחדש"><ToolIcon name="move" className="h-4 w-4" /> מיקום מחדש</button>
-                ) : mode === "photo" ? (
+                ) : (
                   <label className="inline-flex min-h-12 flex-1 cursor-pointer items-center justify-center gap-1.5 border border-white/25 px-2 text-xs font-semibold outline-offset-2 focus-within:outline-2 focus-within:outline-white">
                     <ToolIcon name="upload" className="h-4 w-4" /> תמונה אחרת
                     <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
                   </label>
-                ) : (
-                  <button type="button" onClick={() => void startCamera(facingMode === "environment" ? "user" : "environment")} className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 border border-white/25 px-2 text-xs font-semibold outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label="החלפת מצלמה"><ToolIcon name="switch" className="h-4 w-4" /> החלפת מצלמה</button>
                 )}
                 <button type="button" onClick={() => { resetAdjustment(); resetCalibration(); }} className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 border border-white/25 px-2 text-xs font-semibold outline-offset-2 focus-visible:outline-2 focus-visible:outline-white" aria-label={isBracelet ? "איפוס הצמיד" : "איפוס הטבעת"}><ToolIcon name="reset" className="h-4 w-4" /> איפוס</button>
               </div>
