@@ -10,6 +10,7 @@ export default function ProductCard({
   variant = "standard",
   metal,
   mediaOverride,
+  transparentMedia = false,
 }: {
   product: Product;
   variant?: "standard" | "compact" | "catalog" | "editorial-landscape";
@@ -18,6 +19,7 @@ export default function ProductCard({
     primary: ProductGalleryImage;
     secondary?: ProductGalleryImage;
   };
+  transparentMedia?: boolean;
 }) {
   const productGallery = productImages(product, metal);
   const images = mediaOverride
@@ -51,6 +53,7 @@ export default function ProductCard({
         fetchPriority={compact ? "low" : undefined}
         unoptimized={compact}
         variant={ringCatalog ? "catalog" : "default"}
+        transparent={transparentMedia}
         className={`product-card-frame ${ringCatalog ? "catalog-card-media catalog-ring-media aspect-square sm:aspect-[4/5]" : catalog ? "catalog-card-media aspect-[4/5]" : editorial ? "catalog-card-media aspect-[16/9]" : "aspect-square"}`}
         imageClassName={`${ringCatalog ? "object-contain" : "object-cover"} transition-all duration-700 ease-out ${compact ? "home-signature-product-image" : ""} ${catalog && !ringCatalog || editorial ? "scale-[1.07]" : ""} ${
           detailImage

@@ -139,7 +139,7 @@ export default async function ProductPage({ params }: Props) {
           <div className="no-scrollbar -mx-4 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-5 sm:gap-y-9 sm:overflow-visible sm:px-0 lg:mt-8 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-10" dir="rtl">
             {related.map((p) => (
               <div key={p.slug} className="w-[78vw] max-w-[20rem] shrink-0 snap-start sm:w-auto sm:max-w-none">
-                <ProductCard product={p} />
+                <ProductCard product={p} transparentMedia={category.slug === "rings"} />
               </div>
             ))}
           </div>

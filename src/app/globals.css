@@ -2535,3 +2535,15 @@ details.faq-item[open] summary .faq-icon {
     text-align: right;
   }
 }
+
+/* Ring cutouts sit directly on the page outside the homepage presentation. */
+.ring-media-transparent.product-media-surface,
+.group:hover .ring-media-transparent.product-media-surface,
+.group:focus-visible .ring-media-transparent.product-media-surface {
+  background: transparent;
+  box-shadow: none;
+}
+
+.ring-media-transparent.product-media-surface::before {
+  content: none;
+}

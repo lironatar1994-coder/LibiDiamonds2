@@ -15,6 +15,7 @@ interface ProductMediaProps {
   unoptimized?: boolean;
   decorative?: boolean;
   variant?: "default" | "pdp" | "catalog";
+  transparent?: boolean;
 }
 
 export default function ProductMedia({
@@ -30,6 +31,7 @@ export default function ProductMedia({
   unoptimized = false,
   decorative = false,
   variant = "default",
+  transparent = false,
 }: ProductMediaProps) {
   const inferredPresentation = image.src.includes("/catalog/") ? "cutout" : "editorial";
   const presentation = image.presentation ?? inferredPresentation;
@@ -53,7 +55,7 @@ export default function ProductMedia({
 
   return (
     <div
-      className={`product-media-surface relative overflow-hidden ${variant === "pdp" ? `pdp-media-surface pdp-media-${presentation}` : ""} ${variant === "catalog" ? `catalog-media-surface catalog-media-${presentation}` : ""} ${className}`}
+      className={`product-media-surface relative overflow-hidden ${transparent ? "ring-media-transparent" : ""} ${variant === "pdp" ? `pdp-media-surface pdp-media-${presentation}` : ""} ${variant === "catalog" ? `catalog-media-surface catalog-media-${presentation}` : ""} ${className}`}
       data-media-presentation={variant !== "default" ? presentation : undefined}
     >
       <Image

@@ -411,7 +411,12 @@ export default function CategoryCatalog({
         >
           {displayedItems.map((product, index) => (
             <Fragment key={product.slug}>
-              <ProductCard product={product} metal={displayMetal} variant="catalog" />
+              <ProductCard
+                product={product}
+                metal={displayMetal}
+                variant="catalog"
+                transparentMedia={category === "rings"}
+              />
               {visibleItems.length > 10 && index === 7 && (
                 <CategoryEditorial category={category} viewport="mobile" />
               )}
