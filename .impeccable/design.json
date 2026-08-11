@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-12T00:20:48.0881100+03:00",
+  "title": "Design System: LIBI DIAMONDS",
+  "extensions": {
+    "colorMeta": {
+      "diamond-white": {
+        "role": "neutral",
+        "displayName": "Diamond White",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#242424", "#454545", "#696969", "#8f8f8f", "#b5b5b5", "#d7d7d7", "#eeeeee", "#ffffff"]
+      },
+      "pearl-field": {
+        "role": "neutral",
+        "displayName": "Pearl Field",
+        "canonical": "#f7f7f3",
+        "tonalRamp": ["#23231f", "#45453f", "#686861", "#8d8d85", "#b2b2aa", "#d3d3cc", "#e9e9e3", "#f7f7f3"]
+      },
+      "midnight-ink": {
+        "role": "primary",
+        "displayName": "Midnight Ink",
+        "canonical": "#071a28",
+        "tonalRamp": ["#031019", "#071a28", "#12354b", "#31556b", "#5e7a8d", "#91a5b1", "#c7d1d6", "#eef2f3"]
+      },
+      "gilt": {
+        "role": "secondary",
+        "displayName": "Hairline Gilt",
+        "canonical": "#b5924b",
+        "tonalRamp": ["#211a0b", "#41351a", "#665228", "#8e7138", "#b5924b", "#d0b47a", "#e5d3ae", "#f5eddd"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Hebrew Display",
+        "purpose": "Heroes and major editorial statements."
+      },
+      "body": {
+        "displayName": "Commerce Body",
+        "purpose": "Product information, guidance and service content."
+      },
+      "label": {
+        "displayName": "Utility Label",
+        "purpose": "Navigation, actions, configuration and prices."
+      }
+    },
+    "shadows": [
+      {
+        "name": "interactive-lift",
+        "value": "0 18px 45px rgba(7, 26, 40, 0.055)",
+        "purpose": "Hover response on an interactive product tray only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "atelier-ease",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Image crops, hairlines and restrained arrival motion."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Decisive midnight action on a light field.",
+      "html": "<button class=\"ds-btn-primary\">בדיקת זמינות</button>",
+      "css": ".ds-btn-primary{background:#071a28;color:#fff;border:1px solid #071a28;border-radius:0;padding:14px 35px;font:600 15px Assistant,sans-serif;transition:background-color .25s ease}.ds-btn-primary:hover,.ds-btn-primary:focus-visible{background:#12354b;border-color:#12354b;outline:2px solid #b5924b;outline-offset:3px}"
+    },
+    {
+      "name": "Text Action",
+      "kind": "button",
+      "description": "Secondary navigation without a container.",
+      "html": "<a class=\"ds-text-action\" href=\"#\">לכל קולקציית הטבעות ←</a>",
+      "css": ".ds-text-action{display:inline-flex;min-height:44px;align-items:center;color:#253744;border-bottom:1px solid rgba(181,146,75,.55);font:600 14px Assistant,sans-serif;text-decoration:none}.ds-text-action:hover,.ds-text-action:focus-visible{color:#071a28;border-color:#b5924b;outline:none}"
+    },
+    {
+      "name": "Product Tray",
+      "kind": "card",
+      "refersTo": "product-tray",
+      "description": "High-key optical field for a catalog product.",
+      "html": "<article class=\"ds-product-tray\"><div class=\"ds-product-art\"></div><h3>טבעת סוליטר</h3><p>החל מ־4,900 ₪</p></article>",
+      "css": ".ds-product-tray{width:280px;color:#071a28;font-family:Assistant,sans-serif}.ds-product-art{aspect-ratio:1;background:radial-gradient(circle at 50% 42%,#fff 0 28%,transparent 66%),#f7f7f3;box-shadow:inset 0 0 0 1px rgba(7,26,40,.07)}.ds-product-tray h3{margin:16px 0 0;font:500 20px 'Frank Ruhl Libre',serif}.ds-product-tray p{margin:6px 0 0;color:#253744}"
+    },
+    {
+      "name": "Maison Navigation",
+      "kind": "nav",
+      "refersTo": "header",
+      "description": "Flat white navigation with centered brand and hairline states.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">טבעות</a><strong>LIBI</strong><a href=\"#\">צור קשר</a></nav>",
+      "css": ".ds-nav{height:64px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 24px;border-bottom:1px solid rgba(7,26,40,.11);background:#fff;color:#071a28;font:500 13px Assistant,sans-serif}.ds-nav strong{font:400 24px 'Frank Ruhl Libre',serif;letter-spacing:.18em}.ds-nav a{color:inherit;text-decoration:none}.ds-nav a:last-child{text-align:left}.ds-nav a:hover,.ds-nav a:focus-visible{text-decoration:underline;text-underline-offset:6px}"
+    },
+    {
+      "name": "Brand Signature",
+      "kind": "custom",
+      "description": "Two gilt hairlines around one small diamond geometry.",
+      "html": "<span class=\"ds-signature\"><i></i><b></b><i></i></span>",
+      "css": ".ds-signature{display:inline-flex;width:76px;height:12px;align-items:center;justify-content:center;gap:8px}.ds-signature i{display:block;width:25px;height:1px;background:#b5924b}.ds-signature b{display:block;width:5px;height:5px;border:1px solid #b5924b;transform:rotate(45deg)}"
+    },
+    {
+      "name": "Try-On Passage",
+      "kind": "custom",
+      "description": "The single midnight experiential field in the light commerce journey.",
+      "html": "<section class=\"ds-try-on\"><h2>לפני שבוחרים, רואים.</h2><button>מדדו תכשיט</button></section>",
+      "css": ".ds-try-on{min-height:360px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:48px;background:#071827;color:#fff}.ds-try-on h2{max-width:7ch;margin:0;font:400 56px/1 'Frank Ruhl Libre',serif}.ds-try-on button{margin-top:28px;padding:14px 30px;border:1px solid #b5924b;border-radius:0;background:transparent;color:#fff;font:600 14px Assistant,sans-serif}.ds-try-on button:hover,.ds-try-on button:focus-visible{background:#fff;color:#071827;outline:none}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Luminous Atelier Folio",
+    "overview": "LIBI presents jewelry as if it were being examined on a jeweler's light table: bright, calm, exact and free of decorative chrome. Real photography carries the material richness. Midnight ink appears primarily in text, controls and one immersive virtual try-on passage.",
+    "keyCharacteristics": [
+      "Diamond-white page fields with pearl-toned product trays.",
+      "Large Hebrew display typography paired with quiet utility text.",
+      "Flat, square-edged compositions with hairline separation.",
+      "One dark experiential counterpoint per long commerce surface.",
+      "Real jewelry and atelier photography, never simulated decorative material."
+    ],
+    "rules": [
+      { "name": "The Light Majority Rule", "body": "Near-white surfaces occupy the clear majority of every commerce page; midnight is rare enough to remain meaningful.", "section": "colors" },
+      { "name": "The Hairline Gilt Rule", "body": "Gold marks selection and craft at small scale. It never becomes a decorative background.", "section": "colors" },
+      { "name": "The One Display Voice Rule", "body": "Frank Ruhl Libre owns expressive hierarchy; utility copy stays in Assistant.", "section": "typography" },
+      { "name": "The Flat Light-Table Rule", "body": "A surface does not receive both a visible border and a resting shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do give jewelry photography more area than interface chrome.",
+      "Do use white space, scale and reading order before adding containers.",
+      "Do reserve gilt for hairlines, selection and signature geometry.",
+      "Do verify the 390px mobile composition and desktop composition independently."
+    ],
+    "donts": [
+      "Don't rebuild the storefront from equal beige cards with layered shadows.",
+      "Don't place consecutive full-width dark sections on a commerce page.",
+      "Don't add decorative kickers above headings or invented luxury copy.",
+      "Don't use gradients or texture to imitate jewelry, paper, stone or metal when a real image should carry the material."
+    ]
+  }
+}

@@ -4,11 +4,20 @@
   "outputDirectory": "public/images/products/catalog",
   "defaultMasterRoot": "../LibiDiamondsAssets/masters",
   "outputSize": 1600,
-  "maxOutputBytes": 275000,
+  "maxOutputBytes": 340000,
   "minimumMasterSize": 2400,
   "alphaThreshold": 3,
   "edgePadding": 24,
   "occupancyTolerance": 0.045,
+  "renderProfile": {
+    "version": 3,
+    "webpQualities": [96, 94, 92, 90, 88],
+    "smartSubsample": false,
+    "sharpen": {
+      "primary": { "sigma": 0.62, "m1": 0.72, "m2": 1.35, "x1": 2, "y2": 9, "y3": 18 },
+      "detail": { "sigma": 0.72, "m1": 0.82, "m2": 1.55, "x1": 2, "y2": 9, "y3": 18 }
+    }
+  },
   "occupancy": {
     "rings": 0.68,
     "earrings": 0.58,

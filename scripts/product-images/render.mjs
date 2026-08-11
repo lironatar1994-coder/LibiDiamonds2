@@ -46,10 +46,11 @@ for (const product of selectedProducts()) {
       const fingerprint = createHash("sha256")
       .update(inputBytes)
       .update(JSON.stringify({
-        renderer: 2,
+        renderer: config.renderProfile.version,
         size: config.outputSize,
         maxOutputBytes: config.maxOutputBytes,
         occupancy: targetOccupancy(product, view),
+        renderProfile: config.renderProfile,
       }))
       .digest("hex");
       if (cache[cacheKey] === fingerprint && (await exists(destination))) {
@@ -79,7 +80,7 @@ for (const product of selectedProducts()) {
       const left = Math.round((config.outputSize - width) / 2);
       const top = Math.round((config.outputSize - height) / 2);
 
-      const subject = await sharp(input)
+      const resizedSubject = await sharp(input)
       .extract({
         left: bounds.left,
         top: bounds.top,
@@ -87,6 +88,24 @@ for (const product of selectedProducts()) {
         height: bounds.height,
       })
       .resize(width, height, { fit: "fill", kernel: sharp.kernel.lanczos3 })
+      .png()
+      .toBuffer();
+
+      // Keep the cutout matte untouched while recovering restrained macro
+      // detail in diamond facets, pavé, prongs, clasps, links, and metal edges.
+      // Sharpening RGB only avoids bright or dark halos along the alpha edge.
+      const subjectAlpha = await sharp(resizedSubject)
+      .ensureAlpha()
+      .extractChannel(3)
+      .png()
+      .toBuffer();
+      const sharpenedRgb = await sharp(resizedSubject)
+      .removeAlpha()
+      .sharpen(config.renderProfile.sharpen[view])
+      .toColourspace("srgb")
+      .toBuffer();
+      const subject = await sharp(sharpenedRgb)
+      .joinChannel(subjectAlpha)
       .png()
       .toBuffer();
 
@@ -112,7 +131,7 @@ for (const product of selectedProducts()) {
       .toBuffer();
 
       const staging = resolve(stagingDirectory, `${product.slug}-${metal}-${view}.webp`);
-      const qualities = [92, 90, 88, 86, 84];
+      const qualities = config.renderProfile.webpQualities;
       let finalBytes = Number.POSITIVE_INFINITY;
 
       for (const quality of qualities) {
@@ -132,7 +151,12 @@ for (const product of selectedProducts()) {
           },
           { input: subject, left, top },
         ])
-        .webp({ quality, alphaQuality: 100, effort: 6, smartSubsample: true })
+        .webp({
+          quality,
+          alphaQuality: 100,
+          effort: 6,
+          smartSubsample: config.renderProfile.smartSubsample,
+        })
         .toFile(staging);
 
         finalBytes = (await stat(staging)).size;

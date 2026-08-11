@@ -20,6 +20,15 @@ const assistant = Assistant({
   display: "swap",
 });
 
+const designContract = `<!--
+THESIS: LIBI is a luminous diamond atelier; it refuses the heavy beige luxury grid.
+OWN-WORLD: Diamond white, pearl, midnight ink and hairline gilt; flat folio surfaces, no ornamental card chrome.
+STORY: See the jewelry clearly, understand the collection, try it on, then ask for personal guidance.
+FIRST VIEWPORT: A high-key split composition gives the ring most of the frame and keeps one clear collection action beside it.
+FORM: Luminous Atelier Folio, grounded direction 3, seed 02d54efe.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+-->`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.domain),
   applicationName: site.name,
@@ -76,6 +85,7 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${frank.variable} ${assistant.variable}`}>
       <body>
+        <div hidden aria-hidden="true" dangerouslySetInnerHTML={{ __html: designContract }} />
         <VisitorSignal />
         <Header />
         <main>{children}</main>
