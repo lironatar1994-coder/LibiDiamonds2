@@ -109,6 +109,11 @@ export function calculateRingVisualDimensions(
   const calibratedShankWidth = calibrated && options.ringSizeSelected
     ? options.ringInnerDiameterMm * calibrated
     : fingerWidth * 1.08 * sizeScale;
+  const scaledShankWidth = clamp(
+    calibratedShankWidth,
+    fingerWidth * 0.94,
+    fingerWidth * 1.22,
+  ) * manualScale;
 
   const settingBounds = options.scaleModel === "band-width"
     ? [0.98, 1.3]
@@ -122,11 +127,9 @@ export function calculateRingVisualDimensions(
       fingerWidth * settingBounds[0],
       fingerWidth * settingBounds[1],
     ) * manualScale,
-    shankWidth: clamp(
-      calibratedShankWidth,
-      fingerWidth * 0.94,
-      fingerWidth * 1.22,
-    ) * manualScale,
+    // The shank must keep wrapping the finger even when the user shrinks the
+    // setting. Otherwise the pristine finger layer occludes both side rails.
+    shankWidth: Math.max(scaledShankWidth, fingerWidth * 1.08),
   };
 }
 

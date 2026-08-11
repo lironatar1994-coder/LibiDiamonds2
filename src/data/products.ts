@@ -2,7 +2,7 @@ import { assetPath } from "@/lib/site";
 import { expansionProducts } from "@/data/catalog/expansion";
 import { ringExpansionProducts } from "@/data/catalog/ring-expansion";
 import { diamondDimensions } from "@/data/diamond-dimensions";
-import { tryOnEntryForSlug, type TryOnRenderMode } from "@/data/try-on-manifest";
+import { tryOnEntryForSlug, tryOnManifest, type TryOnRenderMode } from "@/data/try-on-manifest";
 import {
   braceletTryOnEntryForSlug,
   type BraceletTryOnRenderMode,
@@ -1108,12 +1108,10 @@ function productCaratScope(slug: string): CaratScope {
   return scope;
 }
 
-const v4PilotSlugs = new Set([
-  "aura-solitaire-ring",
-  "nova-halo-ring",
-  "trio-three-stone-ring",
-  "etoile-shared-prong-eternity-ring",
-]);
+// Every ring in the manifest has a complete, validated V4 layer set. Keep the
+// pilot flag aligned with that reviewed catalog instead of limiting V4 to the
+// original four launch products.
+const v4PilotSlugs = new Set(tryOnManifest.map(({ slug }) => slug));
 
 function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOnConfig | undefined {
   if (product.category === "earrings") {

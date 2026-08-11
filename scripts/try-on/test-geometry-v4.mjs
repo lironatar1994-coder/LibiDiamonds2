@@ -46,6 +46,18 @@ const dimensions = geometry.calculateRingVisualDimensions({
 });
 assert(dimensions.shankWidth > 130 && dimensions.settingWidth > 90, "V4 manual scale was not applied to both shank and setting");
 
+const compactDimensions = geometry.calculateRingVisualDimensions({
+  fingerWidth: 80,
+  referenceWidthMm: 10.5,
+  ringInnerDiameterMm: (14 + 40) / Math.PI,
+  caratScale: 1,
+  scaleModel: "center-stone",
+  ringSizeSelected: false,
+  manualScale: 0.55,
+});
+assert(compactDimensions.shankWidth >= 80 * 1.08, "shrinking allowed the finger mask to swallow the ring shank");
+assert(compactDimensions.settingWidth < dimensions.settingWidth, "shrinking no longer reduces the ring setting");
+
 const makeHand = (scale) => {
   const center = { x: 0.5, y: 0.55 };
   const base = Array.from({ length: 21 }, () => ({ ...center }));
