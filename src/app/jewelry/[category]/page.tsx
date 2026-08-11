@@ -45,13 +45,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const firstProduct = productsByCategory(cat.slug)[0];
   const image = firstProduct ? productImages(firstProduct)[0] : undefined;
 
-  const description = cat.slug === "rings"
-    ? `${cat.title} עם יהלומי מעבדה בזהב לבן 14K ו־18K. בחרו סגנון, קראט ומידה עם תעודה גמולוגית, משלוח מבוטח וליווי אישי של LIBI DIAMONDS.`
-    : `${cat.title} עם יהלומי מעבדה בזהב 14K ו־18K. בחרו סגנון, קראט וגוון זהב עם תעודה גמולוגית, משלוח מבוטח וליווי אישי של LIBI DIAMONDS.`;
-
   return pageMetadata({
     title: `${cat.title} עם יהלומי מעבדה`,
-    description,
+    description: `${cat.title} עם יהלומי מעבדה בזהב 14K ו־18K. בחרו סגנון, קראט וגוון זהב עם תעודה גמולוגית, משלוח מבוטח וליווי אישי של LIBI DIAMONDS.`,
     path: `/jewelry/${cat.slug}`,
     image: image?.src,
     imageAlt: image?.alt,

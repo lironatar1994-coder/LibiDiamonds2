@@ -27,13 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = getProduct(slug);
   if (!product) return {};
   const image = productImages(product)[0];
-  const configurationCopy = product.category === "rings"
-    ? "בחירת קראט ומידה בזהב לבן"
-    : "בחירת קראט וגוון זהב";
 
   return pageMetadata({
     title: `${product.name} עם יהלום מעבדה`,
-    description: `${product.name} מבית LIBI DIAMONDS. ${product.subtitle}. ${configurationCopy}, תעודה גמולוגית וליווי אישי. החל מ־${new Intl.NumberFormat("he-IL").format(product.carats[0].price)} ₪.`,
+    description: `${product.name} מבית LIBI DIAMONDS. ${product.subtitle}. בחירת קראט וגוון זהב, תעודה גמולוגית וליווי אישי. החל מ־${new Intl.NumberFormat("he-IL").format(product.carats[0].price)} ₪.`,
     path: `/product/${product.slug}`,
     image: image.src,
     imageAlt: image.alt,

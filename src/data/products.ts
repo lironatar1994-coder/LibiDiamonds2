@@ -199,12 +199,7 @@ export function productImages(
   product: Pick<Product, "slug" | "name" | "gallery" | "galleryByMetal" | "defaultMetal" | "metals">,
   metal?: Metal,
 ): ProductGalleryImage[] {
-  const requestedMetal = metal ?? product.defaultMetal ?? product.metals[0];
-  const selectedMetal = requestedMetal && product.metals.includes(requestedMetal)
-    ? requestedMetal
-    : product.defaultMetal && product.metals.includes(product.defaultMetal)
-      ? product.defaultMetal
-      : product.metals[0];
+  const selectedMetal = metal ?? product.defaultMetal ?? product.metals[0];
   const metalGallery = selectedMetal ? product.galleryByMetal?.[selectedMetal] : undefined;
   const images = metalGallery?.length
     ? metalGallery
@@ -342,7 +337,7 @@ export const categories: Category[] = [
     name: "טבעות",
     title: "טבעות אירוסין ויהלום",
     description:
-      "טבעות יהלומי מעבדה בשיבוץ יד, בזהב לבן 14K או 18K. מסוליטר נקי ועד היילו ופאווה, כל דגם נבנה סביב האבן המרכזית ובחירה מדויקת של קראט ומידה. לכל אבן מרכזית מצורפת תעודה גמולוגית.",
+      "טבעות יהלומי מעבדה בשיבוץ יד, מזהב 14K או 18K. מסוליטר נקי ועד היילו ופאווה, כל דגם נבנה סביב האבן המרכזית ובחירה מדויקת של קראט, גוון זהב ומידה. לכל אבן מרכזית מצורפת תעודה גמולוגית.",
     art: "solitaire",
   },
   {
@@ -374,14 +369,13 @@ export const categories: Category[] = [
 export type CatalogProduct = Omit<Product, "caratScope"> & { caratScope?: CaratScope };
 
 type NewCatalogProduct = Omit<CatalogProduct, "metals" | "specs"> & {
-  metals?: CatalogProduct["metals"];
   specs?: Product["specs"];
 };
 
 function newCatalogProduct(product: NewCatalogProduct): CatalogProduct {
   return {
     ...product,
-    metals: product.metals ?? (product.category === "rings" ? ["white"] : ["yellow", "white"]),
+    metals: ["yellow", "white"],
     specs: product.specs ?? {
       color: "E–F",
       clarity: "VS1–VS2",
@@ -728,9 +722,8 @@ const catalogProducts: CatalogProduct[] = [
   }),
   newCatalogProduct({
     slug: "celeste-radiant-pave-ring",
-    metals: ["white"],
     name: "טבעת רדיאנט ״סלסט״",
-    subtitle: "רדיאנט מלבני · אבני צד מדורגות",
+    subtitle: "רדיאנט מלבני · פאווה והיילו נסתר",
     category: "rings",
     diamondShape: "radiant",
     art: "pave",
@@ -741,7 +734,7 @@ const catalogProducts: CatalogProduct[] = [
       { value: "2.00", price: 13600 },
     ],
     description:
-      "יהלום רדיאנט מלבני בסל ארבע שיניים, עם חמש אבני צד עגולות ומדורגות בכל כתף. השיבוץ מתכנס בהדרגה אל חישוק חלק ושומר על חזית סימטרית ונקייה.",
+      "יהלום רדיאנט מלבני בסל ארבע שיניים, עם היילו נסתר ושורת פאווה לאורך הכתפיים. פינות האבן נשארות מוגנות והחישוק מתכנס בעדינות אל המרכז.",
     featured: true,
   }),
   newCatalogProduct({
@@ -762,9 +755,8 @@ const catalogProducts: CatalogProduct[] = [
   }),
   newCatalogProduct({
     slug: "seren-pear-solitaire-ring",
-    metals: ["white"],
     name: "טבעת טיפה ״סרן״",
-    subtitle: "חיתוך טיפה · מסגרת בזל מלאה",
+    subtitle: "חיתוך טיפה · קצה מוגן",
     category: "rings",
     diamondShape: "pear",
     art: "solitaire",
@@ -775,7 +767,7 @@ const catalogProducts: CatalogProduct[] = [
       { value: "2.00", price: 12300 },
     ],
     description:
-      "יהלום טיפה מוצב לאורך האצבע בתוך מסגרת בזל מלאה ודקה שעוקבת אחר קווי האבן ומגינה על הקצה. הבית הנמוך מתחבר לחישוק חלק ושומר על פרופיל מאוזן.",
+      "יהלום טיפה מוצב לאורך האצבע, עם שן V שמגינה על הקצה ושתי שיניים תומכות בצד הרחב. הסל נמוך יחסית כדי לשמור על פרופיל מאוזן.",
   }),
   newCatalogProduct({
     slug: "axis-princess-solitaire-ring",
@@ -1240,9 +1232,11 @@ function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOn
     defaultRingSize: 14,
     assetStoneRatio: entry.renderMode === "generated-band" ? 0.68 : undefined,
     assetsByMetal: {
+      yellow: asset("yellow"),
       white: asset("white"),
     },
     layeredAssetsByMetal: {
+      yellow: layeredAsset("yellow"),
       white: layeredAsset("white"),
     },
     v4: {
@@ -1253,6 +1247,7 @@ function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOn
       settingContentWidthRatio: isBand ? 0.9 : 0.78,
       pilot: v4PilotSlugs.has(product.slug),
       assetsByMetal: {
+        yellow: v4Asset("yellow"),
         white: v4Asset("white"),
       },
     },
@@ -1260,8 +1255,7 @@ function productTryOnConfig(product: CatalogProduct, style: CatalogStyle): TryOn
 }
 
 export const products: Product[] = catalogProducts.map((product) => {
-  const availableMetals: Metal[] = product.category === "rings" ? ["white"] : product.metals;
-  const defaultMetal: Metal = availableMetals[0] ?? "white";
+  const defaultMetal: Metal = product.category === "rings" ? "yellow" : "white";
   const styleByArt: Record<ArtType, CatalogStyle> = {
     solitaire: "solitaire",
     halo: "halo",
@@ -1281,14 +1275,12 @@ export const products: Product[] = catalogProducts.map((product) => {
     caratScope: product.caratScope ?? productCaratScope(product.slug),
     style: resolvedStyle,
     highlights: product.highlights ?? highlightsByArt[product.art],
-    metals: availableMetals,
+    metals: ["yellow", "white"],
     defaultMetal,
-    galleryByMetal: product.category === "rings"
-      ? { white: productMetalGallery(product, "white") }
-      : {
-          yellow: productMetalGallery(product, "yellow"),
-          white: productMetalGallery(product, "white"),
-        },
+    galleryByMetal: {
+      yellow: productMetalGallery(product, "yellow"),
+      white: productMetalGallery(product, "white"),
+    },
     tryOn: productTryOnConfig(product, resolvedStyle),
   };
 });

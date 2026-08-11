@@ -3,14 +3,11 @@ import type { CatalogProduct } from "@/data/products";
 const specs = { color: "E–F", clarity: "VS1–VS2", cut: "Excellent", cert: "IGI" } as const;
 
 function product(
-  item: Omit<CatalogProduct, "metals" | "specs"> & {
-    metals?: CatalogProduct["metals"];
-    specs?: CatalogProduct["specs"];
-  },
+  item: Omit<CatalogProduct, "metals" | "specs"> & { specs?: CatalogProduct["specs"] },
 ): CatalogProduct {
   return {
     ...item,
-    metals: item.metals ?? (item.category === "rings" ? ["white"] : ["yellow", "white"]),
+    metals: ["yellow", "white"],
     specs: item.specs ?? specs,
   };
 }
@@ -18,7 +15,6 @@ function product(
 export const expansionProducts: CatalogProduct[] = [
   product({
     slug: "sienna-oval-pave-ring",
-    metals: ["white"],
     name: "טבעת אובל פאווה ״סיינה״",
     subtitle: "אובל מוארך · פאווה עדין לאורך הכתפיים",
     category: "rings",
