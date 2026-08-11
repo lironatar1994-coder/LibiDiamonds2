@@ -17,9 +17,9 @@ const PRODUCT_COUNT_STEP = 12;
 
 const categoryEditorial: Record<CategorySlug, { desktop: string; mobile: string; alt: string }> = {
   rings: {
-    desktop: "/images/editorial/categories/rings-desktop.webp",
-    mobile: "/images/editorial/categories/rings-mobile-viewing-tray.webp",
-    alt: "טבעת סוליטר מזהב צהוב עם יהלום עגול על אבן מינרלית בהירה",
+    desktop: "/images/editorial/categories/v3-cool/rings-white-gold.webp",
+    mobile: "/images/editorial/v3-cool/bespoke-white-gold.webp",
+    alt: "טבעת סוליטר מזהב לבן עם יהלום עגול על אבן מינרלית בהירה",
   },
   earrings: {
     desktop: "/images/editorial/categories/earrings-desktop.webp",
@@ -108,7 +108,7 @@ export default function CategoryCatalog({
 }) {
   const [shape, setShape] = useState<DiamondShape | "all">("all");
   const [style, setStyle] = useState<CatalogStyle | "all">("all");
-  const defaultMetal: Extract<Metal, "yellow" | "white"> = category === "rings" ? "yellow" : "white";
+  const defaultMetal: Extract<Metal, "yellow" | "white"> = "white";
   const [sort, setSort] = useState<SortMode>("popular");
   const [displayMetal, setDisplayMetal] = useState<Extract<Metal, "yellow" | "white">>(defaultMetal);
   const [draftShape, setDraftShape] = useState<DiamondShape | "all">("all");
@@ -372,13 +372,15 @@ export default function CategoryCatalog({
               </fieldset>
             )}
 
-            <fieldset className="mt-6 border-t border-line/60 pt-5">
-              <legend className="mb-3 text-xs text-stone">תצוגת מתכת</legend>
-              <div className="grid max-w-sm grid-cols-2 border border-line bg-white">
-                <MetalChoice metal="yellow" active={displayMetal === "yellow"} onClick={() => setDisplayMetal("yellow")}>זהב צהוב</MetalChoice>
-                <MetalChoice metal="white" active={displayMetal === "white"} onClick={() => setDisplayMetal("white")}>זהב לבן</MetalChoice>
-              </div>
-            </fieldset>
+            {category !== "rings" && (
+              <fieldset className="mt-6 border-t border-line/60 pt-5">
+                <legend className="mb-3 text-xs text-stone">תצוגת מתכת</legend>
+                <div className="grid max-w-sm grid-cols-2 border border-line bg-white">
+                  <MetalChoice metal="yellow" active={displayMetal === "yellow"} onClick={() => setDisplayMetal("yellow")}>זהב צהוב</MetalChoice>
+                  <MetalChoice metal="white" active={displayMetal === "white"} onClick={() => setDisplayMetal("white")}>זהב לבן</MetalChoice>
+                </div>
+              </fieldset>
+            )}
 
             {activeFilterCount > 0 && (
               <button type="button" onClick={clearFilters} className="mt-5 min-h-11 border-b border-stone/50 px-2 text-xs text-stone transition-colors hover:text-ink">
@@ -489,13 +491,15 @@ export default function CategoryCatalog({
             </div>
           </fieldset>
         )}
-        <fieldset className={showShapeFilter ? "mt-7 border-t border-line pt-6" : ""}>
-          <legend className="mb-3 text-xs font-semibold text-stone">תצוגת מתכת</legend>
-          <div className="grid grid-cols-2 border border-line bg-white">
-            <MetalChoice metal="yellow" active={draftMetal === "yellow"} onClick={() => setDraftMetal("yellow")}>זהב צהוב</MetalChoice>
-            <MetalChoice metal="white" active={draftMetal === "white"} onClick={() => setDraftMetal("white")}>זהב לבן</MetalChoice>
-          </div>
-        </fieldset>
+        {category !== "rings" && (
+          <fieldset className={showShapeFilter ? "mt-7 border-t border-line pt-6" : ""}>
+            <legend className="mb-3 text-xs font-semibold text-stone">תצוגת מתכת</legend>
+            <div className="grid grid-cols-2 border border-line bg-white">
+              <MetalChoice metal="yellow" active={draftMetal === "yellow"} onClick={() => setDraftMetal("yellow")}>זהב צהוב</MetalChoice>
+              <MetalChoice metal="white" active={draftMetal === "white"} onClick={() => setDraftMetal("white")}>זהב לבן</MetalChoice>
+            </div>
+          </fieldset>
+        )}
       </CatalogControlSheet>}
 
       {category === "rings" && <CatalogControlSheet

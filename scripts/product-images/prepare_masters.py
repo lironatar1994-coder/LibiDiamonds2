@@ -136,23 +136,42 @@ def save(image: Image.Image, destination: Path) -> None:
 
 
 def prepare_generated(product: dict, source_root: Path, master_root: Path, session) -> bool:
-    product_source = source_root / product["slug"] / "yellow"
+    source_metal = product.get("sourceMetal", "yellow")
+    if source_metal not in {"yellow", "white", "rose"}:
+        raise ValueError(
+            f"Unsupported source metal for {product['slug']}: {source_metal}"
+        )
+    source_variant = product.get("sourceVariant")
+    target_metals = product.get("metals", ["yellow", "white"])
+    unsupported_targets = set(target_metals) - {"yellow", "white"}
+    if unsupported_targets:
+        raise ValueError(
+            f"Unsupported catalog metal(s) for {product['slug']}: "
+            f"{', '.join(sorted(unsupported_targets))}"
+        )
+    product_source = source_root / product["slug"] / source_metal
     if not product_source.exists():
         return False
 
     for view in product["views"]:
-        source = product_source / f"{view}.png"
+        source_name = f"{view}-{source_variant}.png" if source_variant else f"{view}.png"
+        source = product_source / source_name
         if not source.exists():
             raise FileNotFoundError(f"Missing generated source: {source}")
-        yellow = extract_generated(source, session)
-        legacy = master_root / product["slug"] / f"{view}.png"
-        if EXISTING_METALS.get(product["slug"]) == "white" and legacy.exists():
-            with Image.open(legacy) as image:
-                white = normalized_master(image)
-        else:
+        extracted = extract_generated(source, session)
+        if source_metal == "white":
+            white = extracted
+            yellow = recolor_metal(white, "yellow", "white")
+        elif source_metal == "rose":
+            yellow = recolor_metal(extracted, "yellow", "rose")
             white = recolor_metal(yellow, "white", "yellow")
-        save(yellow, master_root / product["slug"] / "yellow" / f"{view}.png")
-        save(white, master_root / product["slug"] / "white" / f"{view}.png")
+        else:
+            yellow = extracted
+            white = recolor_metal(yellow, "white", "yellow")
+        if "yellow" in target_metals:
+            save(yellow, master_root / product["slug"] / "yellow" / f"{view}.png")
+        if "white" in target_metals:
+            save(white, master_root / product["slug"] / "white" / f"{view}.png")
     return True
 
 

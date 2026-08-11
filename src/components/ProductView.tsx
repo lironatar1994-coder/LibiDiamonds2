@@ -452,32 +452,46 @@ export default function ProductView({ product }: { product: Product }) {
             תעודת <span dir="ltr">{product.specs.cert}</span> · צבע <span dir="ltr">{product.specs.color}</span> · ניקיון <span dir="ltr">{product.specs.clarity}</span> · ליטוש <span dir="ltr">{product.specs.cut}</span>
           </p>
 
-          <fieldset className="pt-5">
-            <legend className="text-[0.78rem] font-semibold text-ink-soft">בחרו גוון זהב</legend>
-            <div className={`pdp-metal-options mt-2 grid ${product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
-              {product.metals.map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => setMetal(option)}
-                  aria-label={metalNames[option]}
-                  aria-pressed={metal === option}
-                  className={`pdp-metal-option relative flex min-h-[52px] items-center justify-center gap-2 px-2 text-sm transition-colors ${
-                    metal === option
-                      ? "pdp-metal-option-selected text-ink"
-                      : "bg-transparent text-ink hover:bg-white/65"
-                  }`}
-                >
-                  <span
-                    className={`h-4 w-4 shrink-0 rounded-full border shadow-inner ${metal === option ? "border-ink/25" : "border-black/10"}`}
-                    style={{ backgroundColor: METAL_SWATCH[option] }}
-                    aria-hidden
-                  />
-                  <span className="whitespace-nowrap">{metalNames[option]}</span>
-                </button>
-              ))}
+          {product.metals.length > 1 ? (
+            <fieldset className="pt-5">
+              <legend className="text-[0.78rem] font-semibold text-ink-soft">בחרו גוון זהב</legend>
+              <div className={`pdp-metal-options mt-2 grid ${product.metals.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
+                {product.metals.map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => setMetal(option)}
+                    aria-label={metalNames[option]}
+                    aria-pressed={metal === option}
+                    className={`pdp-metal-option relative flex min-h-[52px] items-center justify-center gap-2 px-2 text-sm transition-colors ${
+                      metal === option
+                        ? "pdp-metal-option-selected text-ink"
+                        : "bg-transparent text-ink hover:bg-white/65"
+                    }`}
+                  >
+                    <span
+                      className={`h-4 w-4 shrink-0 rounded-full border shadow-inner ${metal === option ? "border-ink/25" : "border-black/10"}`}
+                      style={{ backgroundColor: METAL_SWATCH[option] }}
+                      aria-hidden
+                    />
+                    <span className="whitespace-nowrap">{metalNames[option]}</span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          ) : (
+            <div className="pt-5">
+              <p className="text-[0.78rem] font-semibold text-ink-soft">מתכת</p>
+              <div className="mt-2 flex min-h-[52px] items-center justify-center gap-2 border border-line bg-white/55 px-3 text-sm text-ink">
+                <span
+                  className="h-4 w-4 shrink-0 rounded-full border border-ink/20 shadow-inner"
+                  style={{ backgroundColor: METAL_SWATCH[metal] }}
+                  aria-hidden
+                />
+                <span>{metalNames[metal]}</span>
+              </div>
             </div>
-          </fieldset>
+          )}
 
           <fieldset className="pt-5">
             <legend className="sr-only">{caratCopy.legend}</legend>

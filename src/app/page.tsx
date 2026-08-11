@@ -18,7 +18,7 @@ import { guides } from "@/data/guides";
 import { site, waLink, assetPath } from "@/lib/site";
 import { onlineStoreJsonLd, pageMetadata } from "@/lib/seo";
 
-const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום אובלי על שכבות אבן שיש בגוני לבן ושמנת עם עורק זהב עדין";
+const heroAlt = "טבעת סוליטר מזהב לבן עם יהלום עגול על משטח מינרלי בגוני פלטינה";
 // Desktop renders the landscape master the hero pipeline produces for it. The
 // portrait crop is 941px on its long-to-short axis and was being upscaled 1.12x
 // into the 58%-wide desktop panel, so the largest image on the site was soft.
@@ -26,7 +26,7 @@ const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום אוב�
 // height, not width. `58vw` would describe the box and still land ~1.2x short of
 // the pixels the crop actually needs, so the desktop hint asks for the full master.
 const { props: heroDesktopImage } = getImageProps({
-  src: assetPath("/images/hero/ivory-gold-v2/hero-desktop.webp"),
+  src: assetPath("/images/hero/midnight-diamond/hero-desktop.png"),
   alt: heroAlt,
   fill: true,
   priority: true,
@@ -35,7 +35,7 @@ const { props: heroDesktopImage } = getImageProps({
 const {
   props: { srcSet: heroMobileSrcSet },
 } = getImageProps({
-  src: assetPath("/images/hero/ivory-gold-v2/hero-mobile.webp"),
+  src: assetPath("/images/hero/midnight-diamond/hero-mobile.png"),
   alt: heroAlt,
   fill: true,
   sizes: "100vw",
@@ -51,24 +51,17 @@ const secondaryJournalGuides = ["what-is-a-lab-diamond", "the-four-cs"].map(
 );
 
 const mostLovedRings: Array<{ slug: string; metal: Metal }> = [
-  { slug: "aura-solitaire-ring", metal: "yellow" },
-  { slug: "elara-oval-hidden-halo-ring", metal: "yellow" },
+  { slug: "aura-solitaire-ring", metal: "white" },
+  { slug: "elara-oval-hidden-halo-ring", metal: "white" },
   { slug: "atelier-emerald-cathedral-ring", metal: "white" },
   { slug: "seren-pear-solitaire-ring", metal: "white" },
 ];
 
-function homeSignatureMedia(
-  slug: string,
-  metal: Metal,
-  gallery: ProductGalleryImage[],
-) {
+function homeSignatureMedia(gallery: ProductGalleryImage[]) {
   const [primary, secondary] = gallery;
-  const homeAsset = (view: "primary" | "detail") =>
-    assetPath(`/images/editorial/home-signatures/${slug}-${metal}-${view}.webp`);
-
   return {
-    primary: { ...primary, src: homeAsset("primary") },
-    secondary: secondary ? { ...secondary, src: homeAsset("detail") } : undefined,
+    primary,
+    secondary,
   };
 }
 
@@ -78,7 +71,7 @@ export const metadata: Metadata = pageMetadata({
     "טבעות אירוסין ותכשיטי יהלומי מעבדה בזהב 14K ו־18K, עם תעודה גמולוגית, משלוח מבוטח וליווי אישי בבחירת האבן והמידה.",
   path: "/",
   image: site.socialImage,
-  imageAlt: "טבעת סוליטר עם יהלום מעבדה בזהב צהוב מבית LIBI DIAMONDS",
+  imageAlt: "טבעת סוליטר עם יהלום מעבדה בזהב לבן מבית LIBI DIAMONDS",
 });
 
 function SectionHeading({
@@ -108,9 +101,9 @@ const collectionOrder: CategorySlug[] = ["rings", "earrings", "bracelets", "neck
 
 const collectionEditorialImages: Record<CategorySlug, { src: string; desktopSrc: string; alt: string }> = {
   rings: {
-    src: assetPath("/images/editorial/categories/v6-ivory-depth/rings-yellow-gold.webp"),
-    desktopSrc: assetPath("/images/editorial/categories/rings-mobile-viewing-tray.webp"),
-    alt: "טבעת סוליטר מזהב צהוב ויהלום עגול על שכבות אבן שיש בגוני לבן ושמנת",
+    src: assetPath("/images/editorial/categories/v3-cool/rings-white-gold.webp"),
+    desktopSrc: assetPath("/images/editorial/v3-cool/bespoke-white-gold.webp"),
+    alt: "טבעת סוליטר מזהב לבן ויהלום עגול על אבן מינרלית בהירה",
   },
   earrings: {
     src: assetPath("/images/editorial/categories/v6-ivory-depth/earrings-yellow-gold.webp"),
@@ -334,7 +327,7 @@ export default function HomePage() {
                   product={product}
                   variant="compact"
                   metal={metal}
-                  mediaOverride={homeSignatureMedia(slug, metal, gallery)}
+                  mediaOverride={homeSignatureMedia(gallery)}
                 />
               );
             })}
@@ -357,8 +350,8 @@ export default function HomePage() {
           <div className="home-bespoke-images">
             <div className="home-bespoke-media home-bespoke-media-ring relative overflow-hidden">
               <Image
-                src={assetPath("/images/editorial/v6-bespoke/bespoke-combined-contrast.webp")}
-                alt="טבעת סוליטר מזהב צהוב עם יהלום בוהק לצד סקיצה ועיפרון על משטח שיש בגוון אייבורי"
+                src={assetPath("/images/editorial/v3-cool/bespoke-white-gold.webp")}
+                alt="טבעת סוליטר מזהב לבן עם יהלום בוהק לצד סקיצה ועיפרון על משטח מינרלי בהיר"
                 fill
                 sizes="(min-width: 1024px) 1024px, 100vw"
                 loading="eager"

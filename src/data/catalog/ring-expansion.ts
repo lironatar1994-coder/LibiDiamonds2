@@ -5,13 +5,14 @@ const bandSpecs = { color: "E–F", clarity: "VS1–VS2", cut: "Excellent", cert
 
 function ring(
   item: Omit<CatalogProduct, "category" | "metals" | "specs"> & {
+    metals?: CatalogProduct["metals"];
     specs?: CatalogProduct["specs"];
   },
 ): CatalogProduct {
   return {
     ...item,
     category: "rings",
-    metals: ["yellow", "white"],
+    metals: item.metals ?? ["white"],
     specs: item.specs ?? engagementSpecs,
   };
 }
@@ -156,6 +157,7 @@ export const ringExpansionProducts: CatalogProduct[] = [
   }),
   ring({
     slug: "talia-emerald-baguette-three-stone-ring",
+    metals: ["white"],
     name: "טבעת שלוש אבנים ״טליה״",
     subtitle: "אמרלד מרכזי · בגטים מדורגים בצדדים",
     diamondShape: "emerald", art: "three-stone", style: "multi-stone", caratScope: "total",
@@ -230,13 +232,14 @@ export const ringExpansionProducts: CatalogProduct[] = [
   }),
   ring({
     slug: "ellipse-oval-eternity-band",
-    name: "טבעת איטרניטי אובל ״אליפס״",
-    subtitle: "יהלומי אובל · שיניים משותפות",
+    metals: ["white"],
+    name: "טבעת חצי איטרניטי אובל ״אליפס״",
+    subtitle: "שבעה יהלומי אובל · שיניים משותפות",
     diamondShape: "oval", art: "pave", style: "band", caratScope: "total",
     priceFrom: 5900,
     carats: [{ value: "0.75", price: 5900 }, { value: "1.50", price: 8800 }, { value: "2.50", price: 12900 }],
-    description: "יהלומי אובל מוצבים לאורך ההיקף בשיניים משותפות שמצמצמות את כמות המתכת הגלויה. המידה מאושרת לפני הייצור כדי לשמור על רצף האבן.",
-    dimensions: [{ label: "שיבוץ", value: "היקפי" }, { label: "צורת האבן", value: "אובל" }],
+    description: "שבעה יהלומי אובל מוצבים לרוחב החצי הקדמי של החישוק בשיניים משותפות שמצמצמות את כמות המתכת הגלויה. החלק האחורי נשאר חלק כדי לאפשר נוחות והתאמת מידה.",
+    dimensions: [{ label: "שיבוץ", value: "חצי היקף" }, { label: "צורת האבן", value: "אובל" }],
     specs: bandSpecs,
     bestseller: true,
   }),

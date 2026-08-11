@@ -30,7 +30,6 @@ for (const product of products) {
   slugs.add(product.slug);
   if (!product.name || !product.subtitle || !product.description) failures.push(`${product.slug}: missing Hebrew copy`);
   if (!product.style || !product.caratScope) failures.push(`${product.slug}: missing style or caratScope`);
-  if (product.metals?.join(",") !== "yellow,white") failures.push(`${product.slug}: expected yellow and white metals`);
   if (!Array.isArray(product.carats) || product.carats.length < 3) failures.push(`${product.slug}: expected at least three carat options`);
   const prices = product.carats?.map((option) => option.price) ?? [];
   if (product.priceFrom !== Math.min(...prices)) failures.push(`${product.slug}: priceFrom does not match lowest carat price`);
@@ -40,9 +39,15 @@ for (const product of products) {
   const manifestMatches = manifest.products.filter((entry) => entry.slug === product.slug);
   if (manifestMatches.length !== 1) failures.push(`${product.slug}: expected exactly one manifest entry`);
   if (manifestMatches[0]?.category !== product.category) failures.push(`${product.slug}: category differs from manifest`);
+  const expectedMetals = manifestMatches[0]?.metals
+    ?? manifest.categoryMetals?.[product.category]
+    ?? ["yellow", "white"];
+  if (product.metals?.join(",") !== expectedMetals.join(",")) {
+    failures.push(`${product.slug}: metals differ from manifest`);
+  }
 
   if (process.argv.includes("--images")) {
-    for (const metal of ["yellow", "white"]) {
+    for (const metal of product.metals) {
       for (const view of ["primary", "detail"]) {
         const master = path.join(mediaRoot, product.slug, metal, `${view}.png`);
         const output = path.join(root, "public/images/products/catalog", `${product.slug}-${metal}-${view}.webp`);

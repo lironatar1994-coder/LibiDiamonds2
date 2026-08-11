@@ -33,8 +33,8 @@ const choiceItems: Array<{
     choice: "ring",
     category: "טבעת",
     productName: "אורה",
-    image: "/images/products/catalog/aura-solitaire-ring-yellow-primary.webp",
-    imageAlt: "טבעת סוליטר אורה מזהב צהוב",
+    image: "/images/products/catalog/aura-solitaire-ring-white-primary.webp",
+    imageAlt: "טבעת סוליטר אורה מזהב לבן",
     available: true,
   },
   {
@@ -215,8 +215,8 @@ export default function HomeTryOnFeature() {
         <div className="home-try-on-layout mx-auto max-w-7xl">
           <div className="home-try-on-media">
             <Image
-              src={assetPath("/images/editorial/try-on/v4-story/aura-try-on-mobile.webp")}
-              alt="טבעת סוליטר אורה מזהב צהוב על שכבות אבן כחולה"
+              src={assetPath("/images/editorial/categories/v3-cool/rings-white-gold.webp")}
+              alt="טבעת סוליטר אורה מזהב לבן על אבן מינרלית בהירה"
               fill
               sizes="(min-width: 1024px) 58vw, 100vw"
               loading="eager"
@@ -225,8 +225,8 @@ export default function HomeTryOnFeature() {
               className="object-cover md:hidden lg:block"
             />
             <Image
-              src={assetPath("/images/editorial/try-on/v3-no-hands/aura-focus-desktop.webp")}
-              alt="טבעת סוליטר אורה מזהב צהוב על שכבות אבן כחולה"
+              src={assetPath("/images/editorial/v3-cool/bespoke-white-gold.webp")}
+              alt="טבעת סוליטר אורה מזהב לבן לצד סקיצת עיצוב"
               fill
               sizes="(min-width: 1280px) 810px, 65vw"
               loading="eager"
@@ -263,7 +263,7 @@ export default function HomeTryOnFeature() {
         open={activeTryOn === "ring"}
         onClose={closeTryOn}
         productName={auraProduct.name}
-        metal="yellow"
+        metal="white"
         caratValue={auraCarat.value}
         caratSelected={false}
         ringSize="unsure"

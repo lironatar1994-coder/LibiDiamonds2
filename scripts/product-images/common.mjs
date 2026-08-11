@@ -38,7 +38,9 @@ export function selectedProducts() {
 }
 
 export function productMetals(product) {
-  return product.metals?.length ? product.metals : ["yellow", "white"];
+  return product.metals?.length
+    ? product.metals
+    : manifest.categoryMetals?.[product.category] ?? ["yellow", "white"];
 }
 
 export function masterPath(product, metal, view) {

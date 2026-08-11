@@ -13,7 +13,7 @@ export const site = {
   currency: "ILS",
   serviceArea: "ישראל",
   logo: "/icon.svg",
-  socialImage: "/images/hero/mineral/hero-desktop.webp",
+  socialImage: "/images/hero/midnight-diamond/hero-desktop.png",
   whatsapp: "972508611888",
   phoneDisplay: "050-8611888",
   email: "Libidiamonds@gmail.com",
