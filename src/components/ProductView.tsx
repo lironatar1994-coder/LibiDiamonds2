@@ -157,7 +157,9 @@ export default function ProductView({ product }: { product: Product }) {
   const selectedImageRef = useRef(0);
 
   const carat = product.carats[caratIdx];
-  const images = productImages(product, metal);
+  const productGallery = productImages(product, metal);
+  const transparentGallery = productGallery.filter((image) => image.src.includes("/images/products/catalog/"));
+  const images = transparentGallery.length > 0 ? transparentGallery : productGallery;
   const spinAsset = productSpin(product, metal);
   const packaging = packagingByCategory[product.category];
   const caratCopy = CARAT_SCOPE_COPY[product.caratScope];
@@ -307,7 +309,7 @@ export default function ProductView({ product }: { product: Product }) {
                     className="aspect-square"
                     imageClassName="pdp-gallery-image"
                     variant="pdp"
-                    transparent={product.category === "rings"}
+                    transparent
                   />
                 </button>
               ))}
@@ -358,7 +360,7 @@ export default function ProductView({ product }: { product: Product }) {
                 className="aspect-square"
                 imageClassName="pdp-gallery-image animate-fade-up transition-transform duration-700"
                 variant="pdp"
-                transparent={product.category === "rings"}
+                transparent
               />
               <span className="absolute bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/68 text-ink backdrop-blur-sm transition-colors group-hover:bg-white/90" aria-hidden>
                 <ZoomGlyph className="h-[1.1rem] w-[1.1rem]" />
@@ -402,7 +404,7 @@ export default function ProductView({ product }: { product: Product }) {
                       : "border-transparent opacity-58 hover:opacity-100"
                   }`}
                 >
-                  <ProductMedia image={image} decorative sizes="96px" className="h-full w-full" imageClassName="pdp-gallery-image" variant="pdp" transparent={product.category === "rings"} />
+                  <ProductMedia image={image} decorative sizes="96px" className="h-full w-full" imageClassName="pdp-gallery-image" variant="pdp" transparent />
                 </button>
               ))}
             </div>
@@ -427,7 +429,7 @@ export default function ProductView({ product }: { product: Product }) {
                       className="h-full w-full"
                       imageClassName="pdp-gallery-image transition-transform duration-700"
                       variant="pdp"
-                      transparent={product.category === "rings"}
+                      transparent
                     />
                   </button>
                 );
@@ -580,7 +582,7 @@ export default function ProductView({ product }: { product: Product }) {
             className="aspect-[4/3]"
             imageClassName="pdp-story-image"
             variant="pdp"
-            transparent={product.category === "rings"}
+            transparent
           />
         </div>
         <div className="pdp-story-copy relative z-10 -mt-8 mx-4 border-t px-5 pb-6 pt-5 sm:mx-8 sm:px-7 lg:mx-0 lg:mt-0 lg:px-8 lg:py-10">

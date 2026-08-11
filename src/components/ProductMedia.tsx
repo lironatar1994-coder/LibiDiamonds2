@@ -55,7 +55,7 @@ export default function ProductMedia({
 
   return (
     <div
-      className={`product-media-surface relative overflow-hidden ${transparent ? "ring-media-transparent" : ""} ${variant === "pdp" ? `pdp-media-surface pdp-media-${presentation}` : ""} ${variant === "catalog" ? `catalog-media-surface catalog-media-${presentation}` : ""} ${className}`}
+      className={`product-media-surface relative overflow-hidden ${transparent ? "product-media-transparent" : ""} ${variant === "pdp" ? `pdp-media-surface pdp-media-${presentation}` : ""} ${variant === "catalog" ? `catalog-media-surface catalog-media-${presentation}` : ""} ${className}`}
       data-media-presentation={variant !== "default" ? presentation : undefined}
     >
       <Image

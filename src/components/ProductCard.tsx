@@ -22,9 +22,12 @@ export default function ProductCard({
   transparentMedia?: boolean;
 }) {
   const productGallery = productImages(product, metal);
+  const transparentGallery = productGallery.filter((image) => image.src.includes("/images/products/catalog/"));
   const images = mediaOverride
     ? [mediaOverride.primary, ...(mediaOverride.secondary ? [mediaOverride.secondary] : [])]
-    : productGallery;
+    : transparentMedia && transparentGallery.length > 0
+      ? transparentGallery
+      : productGallery;
   const detailImage = images[1];
   const compact = variant === "compact";
   const catalog = variant === "catalog";

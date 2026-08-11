@@ -2625,14 +2625,14 @@ details.faq-item[open] summary .faq-icon {
   }
 }
 
-/* Ring cutouts sit directly on the page outside the homepage presentation. */
-.ring-media-transparent.product-media-surface,
-.group:hover .ring-media-transparent.product-media-surface,
-.group:focus-visible .ring-media-transparent.product-media-surface {
+/* Product cutouts sit directly on the page outside the homepage presentation. */
+.product-media-transparent.product-media-surface,
+.group:hover .product-media-transparent.product-media-surface,
+.group:focus-visible .product-media-transparent.product-media-surface {
   background: transparent;
   box-shadow: none;
 }
 
-.ring-media-transparent.product-media-surface::before {
+.product-media-transparent.product-media-surface::before {
   content: none;
 }

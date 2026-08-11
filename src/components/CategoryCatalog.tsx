@@ -231,7 +231,8 @@ export default function CategoryCatalog({
             }>
               {styleShowcase.map(({ style: option, product }) => {
                 const images = productImages(product, displayMetal);
-                const image = images[1] ?? images[0];
+                const transparentImages = images.filter((image) => image.src.includes("/images/products/catalog/"));
+                const image = transparentImages.find((image) => image.view === "detail") ?? transparentImages[1] ?? transparentImages[0] ?? images[0];
                 const active = style === option;
                 const isRingAtelierStyle = category === "rings" && ["solitaire", "halo", "multi-stone", "band"].includes(option);
                 return (
@@ -267,6 +268,7 @@ export default function CategoryCatalog({
                           image={image}
                           sizes="(min-width: 640px) 25vw, 148px"
                           decorative
+                          transparent
                           className={`catalog-style-media aspect-[4/3] border transition-colors ${
                             active ? "border-ink" : "border-transparent group-hover:border-line"
                           }`}
@@ -415,7 +417,7 @@ export default function CategoryCatalog({
                 product={product}
                 metal={displayMetal}
                 variant="catalog"
-                transparentMedia={category === "rings"}
+                transparentMedia
               />
               {visibleItems.length > 10 && index === 7 && (
                 <CategoryEditorial category={category} viewport="mobile" />
