@@ -18,7 +18,7 @@ import { guides } from "@/data/guides";
 import { site, waLink, assetPath } from "@/lib/site";
 import { onlineStoreJsonLd, pageMetadata } from "@/lib/seo";
 
-const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום אובלי על שכבות אבן שיש בגוני לבן ושמנת עם עורק זהב עדין";
+const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום עגול על שכבות אבן שיש בגוני לבן ושמנת עם עורק זהב עדין";
 // Desktop renders the landscape master the hero pipeline produces for it. The
 // portrait crop is 941px on its long-to-short axis and was being upscaled 1.12x
 // into the 58%-wide desktop panel, so the largest image on the site was soft.
@@ -62,13 +62,13 @@ function homeSignatureMedia(
   metal: Metal,
   gallery: ProductGalleryImage[],
 ) {
-  const [primary, secondary] = gallery;
-  const homeAsset = (view: "primary" | "detail") =>
-    assetPath(`/images/editorial/home-signatures/${slug}-${metal}-${view}.webp`);
+  const [primary] = gallery;
 
   return {
-    primary: { ...primary, src: homeAsset("primary") },
-    secondary: secondary ? { ...secondary, src: homeAsset("detail") } : undefined,
+    primary: {
+      ...primary,
+      src: assetPath(`/images/editorial/home-signatures/${slug}-${metal}-homepage-v3.webp`),
+    },
   };
 }
 

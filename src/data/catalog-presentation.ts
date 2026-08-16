@@ -55,3 +55,16 @@ export function ringCatalogOpticalScale(slug: string): number {
   if (scale === undefined) throw new Error(`Missing catalog presentation for ring: ${slug}`);
   return scale;
 }
+
+const nonRingCatalogOpticalScale = {
+  earrings: 1.06,
+  necklaces: 1,
+  bracelets: 1.02,
+} as const;
+
+export function catalogOpticalScale(
+  slug: string,
+  category: keyof typeof nonRingCatalogOpticalScale | "rings",
+): number {
+  return category === "rings" ? ringCatalogOpticalScale(slug) : nonRingCatalogOpticalScale[category];
+}

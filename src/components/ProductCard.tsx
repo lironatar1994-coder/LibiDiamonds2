@@ -3,7 +3,7 @@ import type { Metal, Product, ProductGalleryImage } from "@/data/products";
 import { productImages } from "@/data/products";
 import { formatPrice } from "@/lib/site";
 import ProductMedia from "@/components/ProductMedia";
-import { ringCatalogOpticalScale } from "@/data/catalog-presentation";
+import { catalogOpticalScale } from "@/data/catalog-presentation";
 
 export default function ProductCard({
   product,
@@ -33,11 +33,11 @@ export default function ProductCard({
   const catalog = variant === "catalog";
   const editorial = variant === "editorial-landscape";
   const ringCatalog = catalog && product.category === "rings";
-  const catalogScale = ringCatalog ? ringCatalogOpticalScale(product.slug) : undefined;
-  const primaryImage = ringCatalog
+  const catalogScale = catalog ? catalogOpticalScale(product.slug, product.category) : undefined;
+  const primaryImage = catalog
     ? { ...images[0], fit: "contain" as const, presentation: "cutout" as const, opticalScale: catalogScale }
     : images[0];
-  const secondaryImage = ringCatalog && detailImage
+  const secondaryImage = catalog && detailImage
     ? { ...detailImage, fit: "contain" as const, presentation: "cutout" as const, opticalScale: catalogScale }
     : detailImage;
 
@@ -55,16 +55,16 @@ export default function ProductCard({
         loading={compact ? "eager" : undefined}
         fetchPriority={compact ? "low" : undefined}
         unoptimized={compact}
-        variant={ringCatalog ? "catalog" : "default"}
+        variant={catalog ? "catalog" : "default"}
         transparent={transparentMedia}
-        className={`product-card-frame ${ringCatalog ? "catalog-card-media catalog-ring-media aspect-square sm:aspect-[4/5]" : catalog ? "catalog-card-media aspect-[4/5]" : editorial ? "catalog-card-media aspect-[16/9]" : "aspect-square"}`}
-        imageClassName={`${ringCatalog ? "object-contain" : "object-cover"} transition-all duration-700 ease-out ${compact ? "home-signature-product-image" : ""} ${catalog && !ringCatalog || editorial ? "scale-[1.07]" : ""} ${
+        className={`product-card-frame ${catalog ? `catalog-card-media catalog-cutout-media ${ringCatalog ? "catalog-ring-media aspect-square sm:aspect-[4/5]" : "aspect-[4/5]"}` : editorial ? "catalog-card-media aspect-[16/9]" : "aspect-square"}`}
+        imageClassName={`${catalog ? "object-contain" : "object-cover"} transition-all duration-700 ease-out ${compact ? "home-signature-product-image" : ""} ${editorial ? "scale-[1.07]" : ""} ${
           detailImage
-              ? `${catalog && !ringCatalog || editorial ? "group-hover:scale-[1.11]" : compact || ringCatalog ? "" : "group-hover:scale-[1.015]"} group-hover:opacity-0 group-focus-visible:opacity-0`
-              : catalog && !ringCatalog || editorial ? "group-hover:scale-[1.11]" : compact || ringCatalog ? "" : "group-hover:scale-[1.025]"
+              ? `${editorial ? "group-hover:scale-[1.11]" : compact || catalog ? "" : "group-hover:scale-[1.015]"} group-hover:opacity-0 group-focus-visible:opacity-0`
+              : editorial ? "group-hover:scale-[1.11]" : compact || catalog ? "" : "group-hover:scale-[1.025]"
           }`}
-        secondaryImageClassName={`pointer-events-none ${ringCatalog ? "object-contain catalog-product-image catalog-product-image-cutout" : "object-cover"} opacity-0 transition-all duration-700 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 ${compact ? "home-signature-product-image" : ""} ${
-          catalog && !ringCatalog || editorial ? "scale-[1.07] group-hover:scale-[1.11]" : compact || ringCatalog ? "" : "group-hover:scale-[1.015]"
+        secondaryImageClassName={`pointer-events-none ${catalog ? "object-contain catalog-product-image catalog-product-image-cutout" : "object-cover"} opacity-0 transition-all duration-700 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 ${compact ? "home-signature-product-image" : ""} ${
+          editorial ? "scale-[1.07] group-hover:scale-[1.11]" : compact || catalog ? "" : "group-hover:scale-[1.015]"
         }`}
       />
       <div className={`px-0.5 sm:px-1 ${catalog || editorial ? `${ringCatalog ? "catalog-ring-copy pt-2.5" : "pt-3"} text-right sm:pt-4` : `text-center ${compact ? "pt-3 sm:pt-4" : "pt-3 sm:pt-5"}`}`}>

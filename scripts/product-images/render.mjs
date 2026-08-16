@@ -43,15 +43,20 @@ for (const product of selectedProducts()) {
       const destination = outputPath(product, metal, view);
       const cacheKey = `${product.slug}-${metal}-${view}`;
       const inputBytes = await readFile(input);
-      const fingerprint = createHash("sha256")
-      .update(inputBytes)
-      .update(JSON.stringify({
+      const fingerprintProfile = {
         renderer: config.renderProfile.version,
         size: config.outputSize,
         maxOutputBytes: config.maxOutputBytes,
         occupancy: targetOccupancy(product, view),
         renderProfile: config.renderProfile,
-      }))
+      };
+      const catalogShadow = config.catalogShadows?.[product.category]?.[view];
+      if (catalogShadow) {
+        fingerprintProfile[product.category === "rings" ? "ringShadow" : "catalogShadow"] = catalogShadow;
+      }
+      const fingerprint = createHash("sha256")
+      .update(inputBytes)
+      .update(JSON.stringify(fingerprintProfile))
       .digest("hex");
       if (cache[cacheKey] === fingerprint && (await exists(destination))) {
         skipped += 1;
@@ -109,26 +114,59 @@ for (const product of selectedProducts()) {
       .png()
       .toBuffer();
 
-      const { data: alphaData, info: alphaInfo } = await sharp(subject)
-      .ensureAlpha()
-      .extractChannel(3)
-      .blur(view === "detail" ? 13 : 18)
-      .raw()
-      .toBuffer({ resolveWithObject: true });
+      const shadowProfile = config.catalogShadows?.[product.category]?.[view];
+      let alphaData;
+      let alphaInfo;
+      if (shadowProfile) {
+        const shadowSource = await sharp({
+            create: {
+              width: config.outputSize,
+              height: config.outputSize,
+              channels: 4,
+              background: { r: 0, g: 0, b: 0, alpha: 0 },
+            },
+          })
+            .composite([
+              {
+                input: subject,
+                left,
+                top: Math.min(config.outputSize - height, top + shadowProfile.offsetY),
+              },
+            ])
+            .raw()
+            .toBuffer({ resolveWithObject: true });
+        ({ data: alphaData, info: alphaInfo } = await sharp(shadowSource.data, {
+          raw: shadowSource.info,
+        })
+          .extractChannel(3)
+          .blur(shadowProfile.blur)
+          .raw()
+          .toBuffer({ resolveWithObject: true }));
+      } else {
+        ({ data: alphaData, info: alphaInfo } = await sharp(subject)
+          .ensureAlpha()
+          .extractChannel(3)
+          .blur(view === "detail" ? 13 : 18)
+          .raw()
+          .toBuffer({ resolveWithObject: true }));
+      }
       const shadowPixels = Buffer.alloc(alphaInfo.width * alphaInfo.height * 4);
-      const shadowOpacity = view === "detail" ? 0.07 : 0.09;
+      const shadowOpacity = shadowProfile?.opacity ?? (view === "detail" ? 0.07 : 0.09);
+      const shadowRgb = shadowProfile?.rgb ?? [18, 19, 19];
       for (let pixel = 0; pixel < alphaData.length; pixel += 1) {
         const offset = pixel * 4;
-        shadowPixels[offset] = 18;
-        shadowPixels[offset + 1] = 19;
-        shadowPixels[offset + 2] = 19;
+        shadowPixels[offset] = shadowRgb[0];
+        shadowPixels[offset + 1] = shadowRgb[1];
+        shadowPixels[offset + 2] = shadowRgb[2];
         shadowPixels[offset + 3] = Math.round(alphaData[pixel] * shadowOpacity);
       }
-      const shadow = await sharp(shadowPixels, {
-      raw: { width: alphaInfo.width, height: alphaInfo.height, channels: 4 },
-    })
-      .png()
-      .toBuffer();
+      const shadow = shadowProfile
+        ? shadowPixels
+        : await sharp(shadowPixels, {
+            raw: { width: alphaInfo.width, height: alphaInfo.height, channels: 4 },
+          })
+            .png()
+            .toBuffer();
 
       const staging = resolve(stagingDirectory, `${product.slug}-${metal}-${view}.webp`);
       const qualities = config.renderProfile.webpQualities;
@@ -144,11 +182,18 @@ for (const product of selectedProducts()) {
         },
       })
         .composite([
-          {
-            input: shadow,
-            left,
-            top: Math.min(config.outputSize - height, top + (view === "detail" ? 8 : 14)),
-          },
+          shadowProfile
+            ? {
+                input: shadow,
+                raw: { width: alphaInfo.width, height: alphaInfo.height, channels: 4 },
+                left: 0,
+                top: 0,
+              }
+            : {
+                input: shadow,
+                left,
+                top: Math.min(config.outputSize - height, top + (view === "detail" ? 8 : 14)),
+              },
           { input: subject, left, top },
         ])
         .webp({

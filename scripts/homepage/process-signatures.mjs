@@ -5,7 +5,10 @@ import sharp from "sharp";
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, "../..");
-const sourceDirectory = path.join(projectRoot, "public/images/products/catalog");
+const assetLibraryRoot = process.env.LIBI_MEDIA_ROOT
+  ? path.resolve(process.env.LIBI_MEDIA_ROOT)
+  : path.resolve(projectRoot, "../LibiDiamondsAssets");
+const sourceDirectory = path.join(assetLibraryRoot, "generated/catalog-rings");
 const outputDirectory = path.join(projectRoot, "public/images/editorial/home-signatures");
 
 const signatures = [
@@ -18,41 +21,18 @@ const signatures = [
 await mkdir(outputDirectory, { recursive: true });
 
 for (const [slug, metal] of signatures) {
-  for (const view of ["primary", "detail"]) {
-    const filename = `${slug}-${metal}-${view}.webp`;
-    const source = path.join(sourceDirectory, filename);
-    const output = path.join(outputDirectory, filename);
+  const source = path.join(
+    sourceDirectory,
+    `${slug}-${metal}-homepage-v3-native.png`,
+  );
+  const output = path.join(
+    outputDirectory,
+    `${slug}-${metal}-homepage-v3.webp`,
+  );
 
-    const alpha = await sharp(source)
-      .ensureAlpha()
-      .extractChannel(3)
-      .raw()
-      .toBuffer({ resolveWithObject: true });
-    const pipeline = sharp(source).removeAlpha();
+  await sharp(source)
+    .webp({ quality: 94, smartSubsample: false })
+    .toFile(output);
 
-    if (metal === "white") {
-      pipeline
-        .modulate({ brightness: 1.004, saturation: 0.99 })
-        .linear(1.085, -7);
-    } else {
-      pipeline
-        .modulate({ brightness: 1.012, saturation: 1.035 })
-        .linear(1.035, -3);
-    }
-
-    await pipeline
-      // Catalog sources already carry the approved jewelry detail pass. Keeping
-      // alpha outside the grade preserves clean cutout edges on the dark home mix.
-      .joinChannel(alpha.data, {
-        raw: {
-          width: alpha.info.width,
-          height: alpha.info.height,
-          channels: 1,
-        },
-      })
-      .webp({ quality: 96, alphaQuality: 100, smartSubsample: false })
-      .toFile(output);
-
-    console.log(`Generated ${path.relative(projectRoot, output)}`);
-  }
+  console.log(`Generated ${path.relative(projectRoot, output)}`);
 }

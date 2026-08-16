@@ -16,6 +16,8 @@
     "images:white-point": "node scripts/product-images/regrade-white-point.mjs",
     "images:white-point:check": "node scripts/product-images/regrade-white-point.mjs --check",
     "images:contact-sheet": "node scripts/product-images/contact-sheet.mjs",
+    "images:contact-sheet:rings": "node scripts/product-images/contact-sheet-catalog-review.mjs --scope rings",
+    "images:contact-sheet:non-rings": "node scripts/product-images/contact-sheet-catalog-review.mjs --scope non-rings",
     "images:check": "npm run images:render && npm run images:validate && npm run images:contact-sheet",
     "try-on:assets": "node scripts/try-on/prepare-assets.mjs",
     "try-on:validate": "node scripts/try-on/validate-assets.mjs",

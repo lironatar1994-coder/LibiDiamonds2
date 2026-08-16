@@ -25,5 +25,23 @@
     "bracelets": 0.82,
     "detail": 0.84
   },
-  "previewSurfaces": ["#f5f2ec", "#f7f6f2", "#ffffff"]
+  "previewSurfaces": ["#f5f2ec", "#f7f6f2", "#ffffff"],
+  "catalogShadows": {
+    "rings": {
+      "primary": { "blur": 20, "opacity": 0.14, "offsetY": 14, "rgb": [24, 27, 28] },
+      "detail": { "blur": 16, "opacity": 0.11, "offsetY": 10, "rgb": [24, 27, 28] }
+    },
+    "earrings": {
+      "primary": { "blur": 19, "opacity": 0.12, "offsetY": 12, "rgb": [24, 27, 28] },
+      "detail": { "blur": 15, "opacity": 0.10, "offsetY": 9, "rgb": [24, 27, 28] }
+    },
+    "necklaces": {
+      "primary": { "blur": 22, "opacity": 0.08, "offsetY": 11, "rgb": [24, 27, 28] },
+      "detail": { "blur": 18, "opacity": 0.075, "offsetY": 8, "rgb": [24, 27, 28] }
+    },
+    "bracelets": {
+      "primary": { "blur": 20, "opacity": 0.11, "offsetY": 12, "rgb": [24, 27, 28] },
+      "detail": { "blur": 17, "opacity": 0.09, "offsetY": 9, "rgb": [24, 27, 28] }
+    }
+  }
 }

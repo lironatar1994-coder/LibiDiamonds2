@@ -11,7 +11,7 @@
 
 ## Art direction
 
-- Catalog surfaces use `--catalog-background: #f7f6f2`.
+- Editorial catalog surfaces may use `--catalog-background: #f7f6f2`. Product collection cards use a seamless `#ffffff` field and a category-tuned baked contact shadow.
 - Light comes from the upper left. A restrained, semi-transparent shadow is added during rendering.
 - White diamonds stay neutral. Avoid blue cast, warm haze, clipped highlights, or heavy rainbow dispersion.
 - "Neutral" means the stone body's mean RGB sits within 1.2/255 of its own average. Verify with `npm run images:white-point:check`; `npm run images:white-point` applies the correcting per-channel gain and is idempotent. Yellow-gold pieces are excluded — their warmth is the metal.
