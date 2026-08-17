@@ -3426,18 +3426,22 @@ body {
    which reads as a distinct band at arm's length in daylight without ever
    leaving the light majority. Every boundary now carries either a tonal step
    or a hairline, and no two adjacent sections share a ground. */
-.section-most-loved,
-.home-direct-section,
-.section-gallery-journal {
-  background: var(--color-fog);
-}
-
+/* Which sections may take a tinted ground is decided by what sits on them.
+   A mid-grey behind photography amplifies whatever colour cast the photograph
+   carries — the journal row has one cool cover at R-B -14 beside two warm ones
+   at +15 and +17, and on fog that disagreement was the ugliest thing on the
+   page. Paper is far more forgiving of mixed photography, so sections carrying
+   editorial photographs stay on paper and earn their separation from hairlines
+   instead. Fog is reserved for sections whose content is type, or product
+   cut-outs that bring their own white card. */
 .section-most-loved,
 .home-direct-section {
+  background: var(--color-fog);
   border-block: 1px solid var(--color-line);
 }
 
 .section-gallery-journal {
+  background: var(--color-paper);
   border-block: 1px solid var(--color-line);
 }
 
