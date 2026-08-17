@@ -86,7 +86,7 @@ export default async function CategoryPage({ params }: Props) {
     <div className="catalog-page section-gallery">
       <div className={`catalog-shell mx-auto max-w-7xl px-4 sm:px-6 sm:pt-11 lg:px-8 ${cat.slug === "rings" ? "pb-0 pt-4" : "pb-14 pt-6 sm:pb-20"}`}>
         <nav className="catalog-breadcrumb hidden text-xs text-stone sm:block" aria-label="פירורי לחם">
-        <Link href="/" className="hover:text-gold-deep">
+        <Link href="/" className="hover:text-gilt-deep">
           ראשי
         </Link>
         <span className="mx-2">/</span>
@@ -102,12 +102,12 @@ export default async function CategoryPage({ params }: Props) {
         <CategoryCatalog items={items} category={cat.slug} />
 
         {cat.slug !== "rings" && <aside className="mt-16 border-t border-line pt-8 sm:mt-20 sm:pt-10" aria-label="קטגוריות נוספות">
-          <div className="flex flex-nowrap justify-center divide-x divide-gold/35" dir="rtl">
+          <div className="flex flex-nowrap justify-center divide-x divide-gilt/35" dir="rtl">
             {others.map((c) => (
               <Link
                 key={c.slug}
                 href={`/jewelry/${c.slug}`}
-                className="px-5 py-1 text-sm text-ink-soft transition-colors hover:text-gold-deep focus-visible:text-gold-deep sm:px-7"
+                className="px-5 py-1 text-sm text-ink-soft transition-colors hover:text-gilt-deep focus-visible:text-gilt-deep sm:px-7"
               >
                 <span>{c.name}</span>
               </Link>

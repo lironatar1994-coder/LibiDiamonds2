@@ -86,9 +86,9 @@ export default async function GuidePage({ params }: Props) {
   return (
     <div className="site-shell mx-auto max-w-3xl px-4 py-14 sm:px-6">
       <nav className="text-xs text-stone" aria-label="פירורי לחם">
-        <Link href="/" className="hover:text-gold-deep">ראשי</Link>
+        <Link href="/" className="hover:text-gilt-deep">ראשי</Link>
         <span className="mx-2">/</span>
-        <Link href="/journal" className="hover:text-gold-deep">LIBI Journal</Link>
+        <Link href="/journal" className="hover:text-gilt-deep">LIBI Journal</Link>
       </nav>
 
       <article>
@@ -102,7 +102,7 @@ export default async function GuidePage({ params }: Props) {
           </h1>
         </header>
 
-        <div className="relative mt-8 aspect-[3/2] overflow-hidden bg-warm-stone sm:mt-10">
+        <div className="relative mt-8 aspect-[3/2] overflow-hidden bg-mist sm:mt-10">
           <Image
             src={assetPath(guide.cover.src)}
             alt={guide.cover.alt}
@@ -114,17 +114,17 @@ export default async function GuidePage({ params }: Props) {
         </div>
 
         {tocSections.length > 0 && (
-          <details className="group mt-8 border-y border-line bg-platinum-soft/45 px-4 sm:px-6">
+          <details className="group mt-8 border-y border-line bg-mist/45 px-4 sm:px-6">
             <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-3 text-sm font-semibold text-ink marker:content-none">
               <span>במדריך הזה</span>
-              <span className="text-lg font-light text-gold-deep transition-transform group-open:rotate-45" aria-hidden>+</span>
+              <span className="text-lg font-light text-gilt-deep transition-transform group-open:rotate-45" aria-hidden>+</span>
             </summary>
             <nav className="border-t border-line/70 pb-5 pt-4" aria-label="תוכן המדריך">
               <ol className="grid gap-x-8 gap-y-3 text-sm leading-6 text-ink-soft sm:grid-cols-2">
                 {tocSections.map((section, index) => (
                   <li key={section.id} className="flex gap-3">
-                    <span className="shrink-0 font-display text-xs text-gold-deep" aria-hidden>{String(index + 1).padStart(2, "0")}</span>
-                    <a href={`#${section.id}`} className="border-b border-transparent transition-colors hover:border-gold/60 hover:text-ink">
+                    <span className="shrink-0 font-display text-xs text-gilt-deep" aria-hidden>{String(index + 1).padStart(2, "0")}</span>
+                    <a href={`#${section.id}`} className="border-b border-transparent transition-colors hover:border-gilt/60 hover:text-ink">
                       {section.heading}
                     </a>
                   </li>
@@ -196,7 +196,7 @@ export default async function GuidePage({ params }: Props) {
                 <ol className="mt-5 divide-y divide-line border-y border-line">
                   {section.steps.map((step, index) => (
                     <li key={step} className="grid grid-cols-[2rem_minmax(0,1fr)] gap-3 py-4 sm:grid-cols-[2.5rem_minmax(0,1fr)] sm:py-5">
-                      <span className="pt-0.5 font-display text-sm text-gold-deep" aria-hidden>
+                      <span className="pt-0.5 font-display text-sm text-gilt-deep" aria-hidden>
                         {String(index + 1).padStart(2, "0")}
                       </span>
                       <span className="leading-7 text-ink-soft">{step}</span>
@@ -206,7 +206,7 @@ export default async function GuidePage({ params }: Props) {
               )}
             </section>
             {guide.commerceBridge && i === guide.commerceBridge.afterSection && (
-              <aside className="border-y border-line bg-platinum-soft/45 px-5 py-6 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:px-7" aria-label="המשך לקולקציה">
+              <aside className="border-y border-line bg-mist/45 px-5 py-6 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:px-7" aria-label="המשך לקולקציה">
                 <p className="font-display text-xl font-medium leading-snug text-ink">{guide.commerceBridge.title}</p>
                 <Link href={guide.commerceBridge.href} className="mt-4 inline-flex min-h-11 shrink-0 items-center border-b border-gilt/55 text-sm font-semibold text-ink-soft transition-colors hover:border-gilt hover:text-ink sm:mt-0">
                   {guide.commerceBridge.label} <span className="mr-2" aria-hidden>←</span>
@@ -228,7 +228,7 @@ export default async function GuidePage({ params }: Props) {
                   href={source.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-b border-gold/55 pb-0.5 text-ink-soft hover:border-gold hover:text-ink"
+                  className="border-b border-gilt/55 pb-0.5 text-ink-soft hover:border-gilt hover:text-ink"
                 >
                   {source.label}
                 </a>
@@ -238,7 +238,7 @@ export default async function GuidePage({ params }: Props) {
         </section>
       )}
 
-      <aside className="mt-14 bg-cream p-8 text-center">
+      <aside className="mt-14 bg-fog p-8 text-center">
         <h2 className="font-display text-2xl font-medium">נשארו שאלות?</h2>
         {/* ink-soft, not stone: muted grey on the cream panel is 3.96:1. */}
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
@@ -262,7 +262,7 @@ export default async function GuidePage({ params }: Props) {
           <div className="mt-6 grid gap-8 sm:grid-cols-2">
             {more.map((g) => (
               <Link key={g.slug} href={`/journal/${g.slug}`} className="group block">
-                <div className="relative mb-4 aspect-[3/2] overflow-hidden bg-warm-stone">
+                <div className="relative mb-4 aspect-[3/2] overflow-hidden bg-mist">
                   <Image
                     src={assetPath(g.cover.src)}
                     alt={g.cover.alt}
@@ -271,7 +271,7 @@ export default async function GuidePage({ params }: Props) {
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                   />
                 </div>
-                <h3 className="font-display text-lg leading-snug transition-colors group-hover:text-gold-deep">
+                <h3 className="font-display text-lg leading-snug transition-colors group-hover:text-gilt-deep">
                   {g.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-stone">{g.excerpt}</p>

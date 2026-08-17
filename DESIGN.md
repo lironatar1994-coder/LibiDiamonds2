@@ -1,15 +1,23 @@
 ---
 name: LIBI DIAMONDS
-description: Luminous diamond atelier with high-key surfaces and one midnight counterpoint
+description: Pearl-white light table with a garnet velvet counterpoint — the inside of the box
 colors:
-  diamond-white: "#ffffff"
-  pearl-field: "#f7f7f3"
-  porcelain: "#fdfdfb"
-  midnight-ink: "#071a28"
-  body-ink: "#253744"
-  hairline: "#deded9"
+  paper: "#ffffff"
+  pearl: "#fdfdfb"
+  mist: "#f7f6f2"
+  fog: "#f0eee8"
+  hairline: "#e3e0d8"
+  ink: "#1c2126"
+  ink-soft: "#41454a"
+  stone: "#6b6c66"
+  velvet: "#41151f"
+  velvet-2: "#54202c"
+  velvet-press: "#2f0e16"
+  on-velvet: "#f7f0e6"
   gilt: "#b5924b"
   gilt-deep: "#7c5d28"
+  clay: "#8a4b3b"
+  selection: "#efe3cf"
 typography:
   display:
     fontFamily: "Frank Ruhl Libre, serif"
@@ -24,10 +32,10 @@ typography:
     lineHeight: 1.8
   label:
     fontFamily: "Assistant, sans-serif"
-    fontSize: "0.8rem"
+    fontSize: "0.6875rem"
     fontWeight: 600
     lineHeight: 1.4
-    letterSpacing: "0.045em"
+    letterSpacing: "0.12em"
 rounded:
   square: "0px"
 spacing:
@@ -38,17 +46,17 @@ spacing:
   xl: "128px"
 components:
   button-primary:
-    backgroundColor: "{colors.midnight-ink}"
-    textColor: "{colors.diamond-white}"
+    backgroundColor: "{colors.velvet}"
+    textColor: "{colors.on-velvet}"
     rounded: "{rounded.square}"
     padding: "14px 35px"
   product-tray:
-    backgroundColor: "{colors.pearl-field}"
-    textColor: "{colors.midnight-ink}"
+    backgroundColor: "{colors.mist}"
+    textColor: "{colors.ink}"
     rounded: "{rounded.square}"
   header:
-    backgroundColor: "{colors.diamond-white}"
-    textColor: "{colors.midnight-ink}"
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
     rounded: "{rounded.square}"
     height: "64px"
 ---
@@ -57,41 +65,43 @@ components:
 
 ## Overview
 
-**Creative North Star: "The Luminous Atelier Folio"**
+**Creative North Star: "The LIBI Box"**
 
-LIBI presents jewelry as if it were being examined on a jeweler's light table: bright, calm, exact and free of decorative chrome. Real photography carries the material richness. The interface contributes white space, fine ink lines and decisive typography, then steps back.
+The brand mark is a jewelry box: pearl-white outside, garnet velvet inside. The site is built from the same two materials.
 
-Midnight ink appears primarily in text, controls and one immersive virtual try-on passage. This single inversion gives the scroll drama without making the whole storefront feel dark.
+The light half is a jeweler''s light table — bright, calm, exact, free of decorative chrome — and it carries the clear majority of every page. Real photography supplies the material richness; the interface contributes white space, fine gilt hairlines and decisive typography, then steps back.
+
+Garnet velvet is the single dark counterpoint: the box interior. It appears in the virtual try-on passage, the packaging story and decisive controls, and nowhere else. Where a competitor reaches for another navy, LIBI reaches for the colour of the lining — warm, close to the skin, and unmistakably ours.
 
 **Key Characteristics:**
 
-- Diamond-white page fields with pearl-toned product trays.
+- Paper-white page fields with mist-toned product trays.
 - Large Hebrew display typography paired with quiet utility text.
 - Flat, square-edged compositions with hairline separation.
-- One dark experiential counterpoint per long commerce surface.
-- Real jewelry and atelier photography, never simulated decorative material.
+- One velvet counterpoint per long commerce surface, never two.
+- Real jewelry, packaging and atelier photography. No people, ever.
 
 ## Colors
 
-The palette is restrained: near-whites carry most of every screen, midnight provides authority, and gilt is used only as a small optical accent.
+Every colour in the build resolves through the token block at the top of `src/app/globals.css`. There are no raw hexes in rules — add or reuse a token instead.
 
 ### Primary
 
-- **Midnight Ink:** Primary text, decisive controls and the virtual try-on field.
+- **Velvet (#41151f):** The box interior. Dark sections, primary buttons, the try-on passage. **Velvet-2** raises panels inside it; **velvet-press** is the pressed state.
+- **On-Velvet (#f7f0e6):** The one warm white used for text on velvet.
 
 ### Secondary
 
-- **Hairline Gilt:** Focused dividers, selected details and small signature geometry; never a large fill.
+- **Gilt / Gilt-Deep:** Hairlines, selection, the 45° signature diamond and the focus ring on light grounds. Three hairline weights only — faint, mid, strong.
+- **Clay (#8a4b3b):** The single corrective tone, for form errors. A muted terracotta in velvet''s family; never signal red.
 
 ### Neutral
 
-- **Diamond White:** Main page and navigation surface.
-- **Pearl Field:** Product trays and quiet content separation.
-- **Porcelain:** Secondary light panels where a warmer boundary is useful.
-- **Body Ink:** Explanatory copy and supporting labels.
-- **Hairline:** Rules, tray boundaries and structural dividers.
+- **Paper → Pearl → Mist → Fog:** Four light surfaces, lightest to deepest. Paper is the page, pearl is a card, mist is a tray or quiet panel, fog is the deepest light tone and the hover fill.
+- **Ink / Ink-Soft / Stone:** Warm near-black, secondary and tertiary text. All three sit warm; nothing in the palette leans blue.
+- **Hairline (#e3e0d8):** Rules, tray boundaries and structural dividers.
 
-**The Light Majority Rule.** Near-white surfaces occupy the clear majority of every commerce page; midnight is rare enough to remain meaningful.
+**The Light Majority Rule.** Light surfaces occupy the clear majority of every commerce page; velvet is rare enough to remain meaningful.
 
 **The Hairline Gilt Rule.** Gold marks selection and craft at small scale. It never becomes a decorative background.
 
@@ -109,7 +119,7 @@ The palette is restrained: near-whites carry most of every screen, midnight prov
 - **Headline** (400–500, 2–4.8rem, about 1): Collection and editorial headings.
 - **Title** (400–500, 1–1.5rem): Product names and supporting stories.
 - **Body** (400, 1rem, 1.8): Explanatory content; keep readable measures around 65–75 characters.
-- **Label** (600, 0.8rem, tracked): Navigation, actions, prices and configuration labels.
+- **Label** (600, 0.6875rem, 0.12em): Navigation, actions and configuration labels. Hebrew has no ascender rhythm to carry wide tracking, so labels sit far tighter than an all-caps Latin equivalent. Prices and measurements always carry `tabular-nums`.
 
 **The One Display Voice Rule.** Frank Ruhl Libre owns expressive hierarchy; utility copy stays in Assistant instead of introducing additional decorative faces.
 
@@ -136,14 +146,14 @@ Major surfaces, image frames, buttons and controls use square corners. The recur
 ### Buttons
 
 - **Shape:** Square and architectural.
-- **Primary:** Midnight background, diamond-white text and generous horizontal padding.
-- **Hover / Focus:** Shift to a slightly lighter ink blue; keyboard focus remains clearly visible.
+- **Primary:** Velvet background, on-velvet text and generous horizontal padding.
+- **Hover / Press:** Fill shifts to velvet-press and the control drops 1px; keyboard focus is a 2px gilt-deep ring that inverts to warm white inside velvet.
 - **Text action:** A quiet underline or hairline rule replaces a secondary button container.
 
 ### Cards / Containers
 
 - **Corner Style:** Square.
-- **Background:** White or pearl field.
+- **Background:** Paper or mist field.
 - **Shadow Strategy:** None at rest; soft ambient lift only as an interactive response.
 - **Border:** One translucent ink hairline when separation is required.
 - **Internal Padding:** Kept outside the image whenever possible so jewelry photography remains uninterrupted.
@@ -158,7 +168,7 @@ Products sit on a nearly white optical field with a restrained central light blo
 
 ### Virtual Try-On Passage
 
-This is the single immersive midnight section. It pairs a large real product image with one short promise and a bordered action, then returns immediately to the light page world.
+This is the single immersive velvet section. It pairs a large real product image with one short promise and a bordered action, then returns immediately to the light page world.
 
 ## Do's and Don'ts
 
@@ -173,7 +183,7 @@ This is the single immersive midnight section. It pairs a large real product ima
 ### Don't:
 
 - **Don't** rebuild the storefront from equal beige cards with layered shadows.
-- **Don't** place consecutive full-width dark sections on a commerce page.
+- **Don't** place consecutive full-width velvet sections on a commerce page.
 - **Don't** add decorative kickers above headings or invented luxury copy.
 - **Don't** use gradients or texture to imitate jewelry, paper, stone or metal when a real image should carry the material.
 - **Don't** let gold become a large background or dominant text color.

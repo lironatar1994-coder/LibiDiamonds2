@@ -110,11 +110,11 @@ export default async function ProductPage({ params }: Props) {
       <div className="pdp-page-shell">
         <div className="site-shell mx-auto max-w-[88rem] px-4 pb-0 pt-0 sm:px-6 sm:pt-5 lg:px-8 lg:pt-9">
           <nav className="mb-6 hidden text-xs tracking-[0.04em] text-stone md:block lg:mb-9" aria-label="פירורי לחם">
-            <Link href="/" className="hover:text-gold-deep">
+            <Link href="/" className="hover:text-gilt-deep">
               ראשי
             </Link>
             <span className="mx-2">/</span>
-            <Link href={`/jewelry/${category.slug}`} className="hover:text-gold-deep">
+            <Link href={`/jewelry/${category.slug}`} className="hover:text-gilt-deep">
               {category.name}
             </Link>
             <span className="mx-2">/</span>
