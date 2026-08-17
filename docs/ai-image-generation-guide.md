@@ -41,11 +41,16 @@ perfume advert. No romance staging, no lifestyle narrative, no drama.
 
 ## 1. Absolute rules
 
-**No people. Ever.** No models, no hands, no fingers, no ears, no necks, no
-skin, no silhouettes, no reflections of a person. Jewelry, packaging, tools and
-surfaces only. This is a standing instruction from the site owner and there is
-no exception for any image on this list. If a prompt seems to want a hand to
-show scale, use a ring stand, a tray, or the jewelry alone instead.
+**No people. Ever. This includes hands.** No models, no hands, no fingers, no
+ears, no necks, no skin, no silhouettes, no reflections of a person — and no
+drawn, outlined, wireframe or illustrated body parts either. A line-art finger
+is still a finger. Jewelry, packaging, tools and surfaces only.
+
+This is a standing instruction from the site owner, confirmed explicitly when
+asked whether a cropped hand with no face would be acceptable for showing
+scale. The answer was no. There is no exception anywhere in this document, and
+if a prompt seems to need a hand, the answer is one of the scale techniques in
+section 6 — never a hand.
 
 **Neutral grounds only.** White, cream, grey, charcoal or black. Never a
 coloured backdrop — no blue, teal, wine, burgundy, navy, green or purple, and no
@@ -137,16 +142,20 @@ The site currently masks this with `filter: saturate(0.5)`, marked `INTERIM` on
 neutral charcoal and the gold survives. **If you regenerate these, delete that
 filter. If you don't, the filter is a perfectly acceptable permanent answer.**
 
-### A note on the existing composition
+### Two changes from the existing composition
 
-The current frame is good: a gold solitaire on gold-veined slate, a phone
-standing upright showing a white line-drawing of a finger with the ring in
-place and AR framing brackets, a light beam linking the two. It communicates the
-virtual try-on feature clearly.
+The current frame is otherwise good — a gold solitaire on gold-veined slate, a
+phone standing upright, a thread of light linking the two. Keep that concept.
+Two things change:
 
-**Keep this concept.** The only change needed is the grading — charcoal instead
-of blue-black. The line-drawn finger is a wireframe diagram, not model
-photography, and the owner should confirm whether it stays before you generate.
+1. **The grading**, charcoal instead of blue-black. That is the actual fix.
+2. **The line-drawn finger on the phone screen comes out.** The owner's rule
+   covers illustrated body parts, not only photographed ones.
+
+Removing the finger means the phone screen has to say "augmented reality" on its
+own. It can: AR corner brackets, a faint horizontal placement guide where a
+finger would sit, and the ring rendered floating in that space with a soft glow
+beneath it. Viewfinder furniture reads as AR without anything to wear it.
 
 ### 1. `public/images/editorial/try-on/v7-onyx/aura-try-on-mobile.webp`
 **Portrait 4:5** · onyx world · replaces `v4-story/aura-try-on-mobile.webp`
@@ -154,15 +163,17 @@ photography, and the owner should confirm whether it stays before you generate.
 > Product photograph, no people. A yellow gold solitaire engagement ring with a
 > round brilliant diamond stands upright on a slab of dark charcoal grey slate
 > with fine gold veining. Behind and above it, a modern smartphone stands
-> upright, its dark glossy screen showing a thin white outline drawing of a
-> finger with a ring positioned on it and small gold corner brackets, like an
-> augmented-reality viewfinder. A fine thread of warm gold light connects the
-> phone to the real ring below. Background is deep neutral charcoal falling into
-> shadow. One warm key light from upper left fires white sparkle in the diamond.
-> Neutral greys throughout, no colour cast.
+> upright. Its dark glossy screen shows the same ring rendered floating in the
+> centre, framed by four small gold augmented-reality corner brackets, with a
+> faint thin horizontal guide line beneath the ring and a soft glow under it —
+> an AR viewfinder with nothing in it yet. A fine thread of warm gold light runs
+> from the phone down to the real ring below. Background is deep neutral
+> charcoal falling into shadow. One warm key light from upper left fires white
+> sparkle in the diamond. Neutral greys throughout, no colour cast.
 
-Negative: *people, photographic hands, skin, blue, teal, navy, purple tint,
-coloured gel lighting, text, logos, watermark, CGI plastic look.*
+Negative: *people, hands, fingers, drawn or outlined hands, line-art body parts,
+skin, blue, teal, navy, purple tint, coloured gel lighting, text, logos,
+watermark, CGI plastic look.*
 
 ### 2. `public/images/editorial/try-on/v7-onyx/aura-focus-desktop.webp`
 **Landscape 16:9** · onyx world · replaces `v3-no-hands/aura-focus-desktop.webp`
@@ -296,23 +307,42 @@ now neutral white + `#1c1c1c` + gold, with no cream anywhere in it.
 | **Gradient** | Quietly effective — "enhances lighting effects, making sparkle more pronounced." |
 | **Water, sand, mirror** | Not hero conventions for diamonds. |
 
-### The scale problem, stated honestly
+### The scale problem, and why it matters less here than it looks
 
-With no person in frame, nothing tells the viewer how big the ring is. The
-sources are unanimous and blunt: "a ruler beside a ring says it's 6mm wide; a
-ring on a finger says what 6mm actually feels like." Props offered as
-substitutes — coins, rulers, flowers — are described as inferior and will read
-cheap on a luxury site.
+With no person in frame, no photograph can tell the viewer how big the ring is.
+The industry sources are unanimous and blunt about this: "a ruler beside a ring
+says it's 6mm wide; a ring on a finger says what 6mm actually feels like." Props
+offered as substitutes — coins, rulers, flowers — are called inferior, and on a
+luxury site they read cheap.
 
-Best available substitutes, in order:
+**The site already solves this better than a photograph could.** LIBI has a live
+virtual try-on that renders the selected ring, at the selected carat, on the
+customer's own hand through their camera — plus a 360° viewer and a ring-size
+guide with a millimetre calculator. A stock hand in a hero shows a stranger's
+finger; the AR tool shows the customer their own. Scale is a *product* problem
+here and the product handles it, which is precisely why the photography does not
+need to.
 
-1. **A real contact shadow.** An object with a grounded shadow reads as a real
-   object at a real size; a floating object reads as a graphic.
+So the photography's job is not to convey millimetres. It is to make the piece
+look real, present and honestly graded, and then hand the scale question to the
+tool. Techniques, in order of how much they actually contribute:
+
+1. **A real contact shadow.** The single most important one. An object with a
+   grounded shadow reads as a real object at a real size; a floating object
+   reads as a graphic, and graphics have no size.
 2. **Don't over-crop.** Frame at roughly natural hand-viewing distance so band
-   thickness, prong height and shank taper are all legible — those proportions
-   are what the eye actually reads size from.
-3. **Shallow depth of field with visible falloff** implies a small object shot close.
-4. **Put the millimetres in the layout,** not in the photograph.
+   thickness, prong height and shank taper are all legible together — those
+   internal proportions are what the eye actually reads size from, and they work
+   without any external reference.
+3. **Shallow depth of field with a visible falloff** implies a small object
+   photographed close.
+4. **Brand-native objects, never generic props.** If something must sit in
+   frame, it should be a LIBI box, a loupe or tweezers — objects that belong to
+   the world and happen to carry known dimensions. Never a coin or a ruler.
+5. **Relative scale across a set.** The same setting photographed at 0.70, 1.00
+   and 2.00 carat, framed identically, communicates size better than any single
+   image — and it maps directly onto the carat selector on the product page.
+6. **Put the millimetres in the layout,** not in the photograph.
 
 ### Composition requirement (do not skip)
 
