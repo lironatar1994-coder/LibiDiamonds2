@@ -313,7 +313,7 @@ export default function CategoryCatalog({
           tabIndex={mobileUtilityVisible ? 0 : -1}
         >
           <span className="text-[0.76rem] font-semibold">סינון</span>
-          <span className="text-[0.66rem] text-gilt" aria-hidden="true">·</span>
+          <span className="text-[0.66rem] text-gilt-deep" aria-hidden="true">·</span>
           <span className="text-[0.7rem] text-stone">{visibleItems.length}</span>
         </button>
         <button

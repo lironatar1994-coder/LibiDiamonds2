@@ -136,7 +136,7 @@ export default async function CategoryPage({ params }: Props) {
                   >
                     <span className="relative z-10 flex min-w-0 basis-3/5 items-center justify-between gap-4 pe-4 sm:basis-[64%] sm:pe-6">
                       <span className="font-display text-[1.5rem] font-normal sm:text-[1.75rem]">{c.name}</span>
-                      <span className="text-lg text-gilt transition-transform duration-300 group-hover:-translate-x-1.5 group-focus-visible:-translate-x-1.5 motion-reduce:transition-none" aria-hidden="true">←</span>
+                      <span className="text-lg text-gilt-deep transition-transform duration-300 group-hover:-translate-x-1.5 group-focus-visible:-translate-x-1.5 motion-reduce:transition-none" aria-hidden="true">←</span>
                     </span>
                     {editorial && (
                       <span className="catalog-continuation-media relative min-h-[6.5rem] basis-2/5 overflow-hidden sm:min-h-[7.75rem] sm:basis-[36%]" aria-hidden="true">

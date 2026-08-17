@@ -176,11 +176,11 @@ export default function RingSizeGuidePage() {
         </div>
       </section>
 
-      <section className="bg-ink py-12 text-on-onyx sm:py-16">
+      <section className="on-onyx bg-onyx py-12 text-on-onyx sm:py-16">
         <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-7 px-4 sm:px-6 lg:flex-row lg:items-center">
           <div>
             <h2 className="font-display text-3xl font-medium sm:text-4xl">עדיין לא בטוחים?</h2>
-            <p className="mt-2 text-sm leading-7 text-ink-soft">שלחו לנו צילום של הטבעת על הסרגל או של פס הנייר, ונבדוק יחד לפני ההזמנה.</p>
+            <p className="mt-2 text-sm leading-7 text-on-onyx-soft">שלחו לנו צילום של הטבעת על הסרגל או של פס הנייר, ונבדוק יחד לפני ההזמנה.</p>
           </div>
           <a
             href={waLink("היי, מדדתי מידה לטבעת ואשמח לעזרה בבדיקת המדידה")}

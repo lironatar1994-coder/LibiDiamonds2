@@ -686,6 +686,17 @@ p {
   background: var(--color-onyx-2);
 }
 
+/* INTERIM — remove when the onyx photography lands.
+   The current try-on frame was shot on blue stone: its dark pixels average
+   R19 G25 B31, so it reads teal inside a neutral #1c1c1c band and the seam
+   between image and section is visible. Halving saturation neutralises the
+   cast while leaving enough warmth in the gold. The real fix is the
+   replacement frame in docs/ai-image-generation-guide.md; delete this rule
+   when that ships. */
+.home-try-on-media img {
+  filter: saturate(0.5);
+}
+
 .home-try-on-media-shade {
   position: absolute;
   inset: 0;

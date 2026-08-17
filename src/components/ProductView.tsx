@@ -513,7 +513,7 @@ export default function ProductView({ product }: { product: Product }) {
                     }`}
                   >
                     <span className={`block font-display text-[1.35rem] leading-none ${selected ? "text-on-onyx" : "text-ink"}`} dir="ltr">{option.value}</span>
-                    <span className={`mt-1.5 block whitespace-nowrap text-[0.7rem] font-medium ${selected ? "text-ink-soft" : "text-stone"}`}>
+                    <span className={`mt-1.5 block whitespace-nowrap text-[0.7rem] font-medium ${selected ? "text-on-onyx-soft" : "text-stone"}`}>
                       {formatPrice(option.price)}
                     </span>
                   </button>
@@ -698,7 +698,7 @@ export default function ProductView({ product }: { product: Product }) {
         <div className="pdp-sticky-cta fixed inset-x-0 bottom-0 z-40 border-t border-white/10 px-4 pt-3 text-on-onyx lg:hidden" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
           <div className="mx-auto flex max-w-lg items-center gap-3">
             <div className="min-w-[5.25rem] shrink-0 leading-tight">
-              <span className="block text-[0.68rem] tracking-[0.04em] text-stone">מחיר</span>
+              <span className="block text-[0.68rem] tracking-[0.04em] text-on-onyx-soft">מחיר</span>
               <span className="font-display text-lg font-light">{formatPrice(carat.price)}</span>
             </div>
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center gap-2 bg-paper px-2.5 text-sm font-semibold text-ink">
