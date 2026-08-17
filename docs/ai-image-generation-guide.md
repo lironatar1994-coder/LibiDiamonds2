@@ -1,8 +1,41 @@
 # AI image generation guide — LIBI DIAMONDS
 
 Everything an image model needs to produce photography that matches the site.
-Read the two rule sections first; they apply to every prompt in this file and
-are the difference between an image that drops in and one that has to be redone.
+Read sections 0–2 before any prompt: section 0 is the context that lets you make
+good judgement calls on the details a prompt cannot spell out, and sections 1–2
+are the rules that decide whether an image drops straight in or has to be redone.
+
+---
+
+## 0. What you are shooting for
+
+**The brand.** LIBI DIAMONDS sells lab-grown diamond jewelry in Israel — mostly
+engagement rings, plus earrings, necklaces and bracelets in 14K/18K gold. The
+site is Hebrew, right-to-left.
+
+**Why the imagery carries unusual weight.** There is no physical store. A
+customer cannot come in and hold the ring, and there is no cart — every sale
+starts as a WhatsApp conversation. So the photography *is* the showroom. It is
+the entire basis on which someone decides to spend five figures with a brand
+they have not met. That is the job each frame has to do: make the piece feel
+real, present, and honestly represented.
+
+**Why "honestly represented" is not a platitude here.** These are diamonds
+graded E–F, meaning graded for the *absence* of colour. Photograph one on a
+warm or coloured surface and it picks up that cast and reads as a lower colour
+grade than the certificate says. Getting this wrong is not just an aesthetic
+miss — it misrepresents the product. This is the reason behind the neutral rule
+in section 1, and it is why "make it feel warm and romantic" is the wrong
+instinct for this brand even though it is the right instinct for most jewelry.
+
+**The look the site is built around.** White surfaces, one neutral near-black,
+and metal as the only colour. This is where every serious jeweler lands —
+measured on the reference set: Malka `#1c1c1c`, Jared `#000`, Kay `#000`, none of
+them putting a chromatic ground behind a stone. Restraint reads as confidence;
+decoration reads as compensating.
+
+**Tone.** Quiet, exact, adult. A jeweler's bench photographed well, not a
+perfume advert. No romance staging, no lifestyle narrative, no drama.
 
 ---
 
@@ -71,44 +104,84 @@ where a prompt explicitly asks for the seam.
 
 ---
 
-## 3. Priority 1 — the try-on frames
+## 3. What actually needs regenerating
 
-**This is the only image currently causing a visible problem.** The existing
-frame was shot on blue stone: its dark pixels average R19 G25 B31, so it reads
-teal inside the neutral `#1c1c1c` band and the seam between photo and section is
-visible. The site is currently masking this with a `saturate(0.5)` CSS filter as
-a stopgap. **When these two land, delete that filter** — it is marked `INTERIM`
-in `src/app/globals.css` on `.home-try-on-media img`.
+**Almost nothing is broken.** Every image on the site was measured for colour
+cast against the section it sits in. The result:
+
+| Where | Status |
+|---|---|
+| Hero, category tiles, catalog, journal, bespoke | **Fine.** Light images on white. Their warmth (R−B +17 to +87) is warm gold on warm stone, which is correct on a white ground. |
+| Packaging, shopping bag, certificate (PDP + homepage) | **Fine.** Light images with light grounds sitting on the dark band — they read as deliberately lit tiles, not a clash. Ground warmth only R−B +8 to +15. |
+| **Try-on frames (homepage)** | **The one real mismatch.** |
+
+So the product pages need nothing. The list below is **one genuine fix and a set
+of optional improvements** — not a backlog of defects.
+
+### The one real problem
+
+All three try-on crops are graded blue-black:
+
+| File | Dark pixels | Cast |
+|---|---|---|
+| `v4-story/aura-try-on-mobile.webp` | rgb(19,24,31) | **R−B = −12** |
+| `v3-no-hands/aura-focus-desktop.webp` | rgb(41,48,60) | **R−B = −19** |
+| `v3-no-hands/aura-focus-mobile.webp` | rgb(36,44,53) | **R−B = −17** |
+
+These are the only images whose *own dark ground* meets the section's dark
+ground edge to edge, so the seam between photo and page is visible. Everything
+else on the site is a light image on white, where the two never touch.
+
+The site currently masks this with `filter: saturate(0.5)`, marked `INTERIM` on
+`.home-try-on-media img` in `src/app/globals.css`. It works — the slate reads
+neutral charcoal and the gold survives. **If you regenerate these, delete that
+filter. If you don't, the filter is a perfectly acceptable permanent answer.**
+
+### A note on the existing composition
+
+The current frame is good: a gold solitaire on gold-veined slate, a phone
+standing upright showing a white line-drawing of a finger with the ring in
+place and AR framing brackets, a light beam linking the two. It communicates the
+virtual try-on feature clearly.
+
+**Keep this concept.** The only change needed is the grading — charcoal instead
+of blue-black. The line-drawn finger is a wireframe diagram, not model
+photography, and the owner should confirm whether it stays before you generate.
 
 ### 1. `public/images/editorial/try-on/v7-onyx/aura-try-on-mobile.webp`
 **Portrait 4:5** · onyx world · replaces `v4-story/aura-try-on-mobile.webp`
 
 > Product photograph, no people. A yellow gold solitaire engagement ring with a
-> round brilliant diamond stands upright on a slab of charcoal grey stone. Behind
-> it, a modern smartphone lies face up, screen dark and glossy, reflecting a thin
-> warm highlight. The background is soft black fabric falling out of focus. A
-> single warm key light rakes from upper left, catching the gold band and firing
-> white sparkle in the diamond. Deep neutral shadows, no colour cast. Macro
-> product photography, generous empty space above the ring.
+> round brilliant diamond stands upright on a slab of dark charcoal grey slate
+> with fine gold veining. Behind and above it, a modern smartphone stands
+> upright, its dark glossy screen showing a thin white outline drawing of a
+> finger with a ring positioned on it and small gold corner brackets, like an
+> augmented-reality viewfinder. A fine thread of warm gold light connects the
+> phone to the real ring below. Background is deep neutral charcoal falling into
+> shadow. One warm key light from upper left fires white sparkle in the diamond.
+> Neutral greys throughout, no colour cast.
 
-Negative: *people, hands, fingers, skin, blue, teal, navy, purple tint, coloured
-gel lighting, text, logos, watermark, glow overlay, CGI plastic look.*
+Negative: *people, photographic hands, skin, blue, teal, navy, purple tint,
+coloured gel lighting, text, logos, watermark, CGI plastic look.*
 
 ### 2. `public/images/editorial/try-on/v7-onyx/aura-focus-desktop.webp`
 **Landscape 16:9** · onyx world · replaces `v3-no-hands/aura-focus-desktop.webp`
 
-Same scene and lighting as above, recomposed wide: ring and phone grouped to the
-right third, wide empty charcoal to the left — **the left half is where the
-Hebrew headline and button sit, so keep it clean and evenly lit,** no busy
-texture or bright highlight there.
+Same scene and lighting, recomposed wide: ring and phone grouped to the right
+third, wide empty charcoal to the left — **the left half is where the Hebrew
+headline and button sit, so keep it clean and evenly lit,** no busy texture or
+bright highlight there.
 
 ---
 
-## 4. Priority 2 — the packaging suite
+## 4. Optional — the packaging suite
 
-These sit inside the PDP's dark band. The current versions are shot on cream,
-so they read as light tiles on dark rather than as one continuous scene. The
-white box must stay the brightest thing in every frame.
+**Nothing here is broken.** The current pearl versions sit on the PDP's dark
+band as light tiles and that reads as a deliberate choice, not a mistake. Their
+grounds are only mildly warm (R−B +8 to +15) against the neutral section.
+
+Regenerate these only if you want the dark band to read as one continuous scene
+rather than as lit tiles on a dark surface. It is a taste call, not a fix.
 
 Consumed by `packagingByCategory` in `src/components/ProductView.tsx` and by the
 homepage experience section in `src/app/page.tsx`.
@@ -158,7 +231,7 @@ generating specific-looking values would misstate a real gemological report.
 
 ---
 
-## 5. Priority 3 — editorial
+## 5. Optional — editorial
 
 ### 9. `public/images/editorial/v7-onyx/bespoke-two-worlds.webp`
 **3:2** · both worlds, deliberately
@@ -181,7 +254,142 @@ the light world. Only regenerate it if you want a higher-resolution version.
 
 ---
 
-## 6. After the images land
+## 6. The hero image
+
+The hero is not on the defect list — it is sharp, well-shot and reads fine. But
+it is the one image worth reconsidering on the merits, because two things are
+working against it and both are documented rather than matters of taste.
+
+### Why the current hero is the weakest strong image on the site
+
+It is a yellow-gold solitaire on warm ivory travertine, high-key.
+
+**1. Veined stone is technically hostile to diamonds and polished metal.** Two
+separate problems, both documented by product-photography specialists. Colour:
+"every slab hides a unique undertone — anything from bluish to green or even
+yellow," so white marble and travertine are *not* neutral grounds. Reflection:
+"shiny products like metals or glass reflect their entire environment —
+including veined marble," which puts the veining and its colour cast *inside*
+the gold and inside the stone. For a brand selling E–F colour grades, the ground
+is casting into the exact property the customer is paying for.
+([Replica Surfaces](https://www.replicasurfaces.com/blogs/updates/unlocking-the-science-of-marble-in-product-photography-what-nobody-talks-about))
+
+**2. Travertine is a 2025 interior-design trend, now sold as a stock backdrop.**
+It is described as "the most seductive trend of 2025" and is retailed as a
+photography backdrop SKU to content creators. A trend-cycle surface dates a hero
+within about eighteen months. The industry test for this is direct: "Does this
+strengthen our brand, or is it simply following the current conversation?"
+([Porcelanosa](https://www.porcelanosa.com/trendbook/en/interior-design-natural-travertine-stone/),
+[Timothy Hogan Studio](https://www.timothy-hogan.com/resources/future-of-jewelry-photography))
+
+Third, smaller point: the warm ivory predates the palette rebuild. The site is
+now neutral white + `#1c1c1c` + gold, with no cream anywhere in it.
+
+### What the surfaces actually do
+
+| Ground | Effect on a diamond |
+|---|---|
+| **Black velvet / gloss black** | The most-recommended diamond surface in professional guidance — "best for highlighting diamonds and metallic textures"; gloss black gives "a mirror-like effect that makes the diamond appear more radiant." Cost: shows every speck of dust. |
+| **White seamless** | The versatile pro standard, but "can look flat without proper lighting" — a white stone on white has almost no tonal separation and facet edges vanish. Fixable (see Option A). |
+| **Veined stone (marble/travertine)** | Colour undertones plus environment reflection. Avoid. |
+| **Woven fabric (silk, linen)** | Texture competes at macro scale; linen reads craft-market. |
+| **Gradient** | Quietly effective — "enhances lighting effects, making sparkle more pronounced." |
+| **Water, sand, mirror** | Not hero conventions for diamonds. |
+
+### The scale problem, stated honestly
+
+With no person in frame, nothing tells the viewer how big the ring is. The
+sources are unanimous and blunt: "a ruler beside a ring says it's 6mm wide; a
+ring on a finger says what 6mm actually feels like." Props offered as
+substitutes — coins, rulers, flowers — are described as inferior and will read
+cheap on a luxury site.
+
+Best available substitutes, in order:
+
+1. **A real contact shadow.** An object with a grounded shadow reads as a real
+   object at a real size; a floating object reads as a graphic.
+2. **Don't over-crop.** Frame at roughly natural hand-viewing distance so band
+   thickness, prong height and shank taper are all legible — those proportions
+   are what the eye actually reads size from.
+3. **Shallow depth of field with visible falloff** implies a small object shot close.
+4. **Put the millimetres in the layout,** not in the photograph.
+
+### Composition requirement (do not skip)
+
+The site is Hebrew RTL. On desktop the hero text block sits at **80% from the
+left edge** — measured, not assumed. So the **product belongs left of centre,
+with clean, evenly-lit, low-detail space across the right 40%** of a landscape
+frame. On the mobile portrait crop the wordmark and headline sit across the top
+third, so keep that band quiet and uncluttered.
+
+### Option A — "Clinical light" (recommended)
+`public/images/hero/v7/hero-desktop.webp` (16:9) · `hero-mobile.webp` (9:16)
+
+> Studio product photograph, no people. A single yellow-gold solitaire
+> engagement ring with a round brilliant diamond stands upright on a seamless
+> matte pure-white surface. Shot on a 100mm macro lens at f/5.6 from a low
+> three-quarter angle just above the band line. Neutral 5500K daylight: one
+> large soft key light from the upper left through a scrim, plus a narrow black
+> negative-fill card just out of frame on the right, which reads as a crisp
+> near-black band across the diamond's table and pavilion and gives every facet
+> a hard defined edge. One soft directional contact shadow falls to the right of
+> the ring, anchoring it to the surface. No colour cast anywhere — the gold is
+> the only warm element and the white is truly neutral, not ivory or cream. The
+> ring sits left of centre and occupies about a third of the frame height, with
+> generous clean empty space to the right. Sharp facet edges, visible prong
+> detail. No lens flare, no glitter effects, no props.
+
+Negative: *people, hands, marble, travertine, veined stone, fabric texture,
+cream, ivory, warm cast, coloured background, glitter overlay, lens flare,
+props, text, watermark.*
+
+**Why this one.** The black negative-fill is the specific technique that fixes
+white's one real weakness for diamonds — facets get structure instead of washing
+out. It also means your `#1c1c1c` appears in the frame *as light*, not as a
+prop, so the hero and the palette are the same idea. It reads modern,
+transparent and lab-honest rather than old-money, which is the correct register
+for lab-grown. It is trend-proof, and the clean right side is built for the
+Hebrew type.
+
+**Risk:** it demands real execution. A lazy white hero looks like a marketplace
+packshot. If the negative-fill reflection is missed, the diamond goes to mush.
+
+### Option B — "Onyx ground"
+
+> Studio product photograph, no people. A single yellow-gold solitaire
+> engagement ring stands upright on a seamless matte near-black surface
+> (#1c1c1c), low three-quarter angle. Low-key lighting: one small hard specular
+> source creating bright fire and controlled dispersion in the diamond's crown,
+> plus a soft grazing fill from the left defining the curve of the gold band.
+> The near-black graduates to true black at the top of the frame. A faint soft
+> reflection of the ring in the surface beneath gives it weight. Gold and the
+> diamond's sparkle are the only bright elements. Ring left of centre, deep
+> empty black to the right. Immaculate — no dust, no props, no smoke.
+
+**Why:** the most-recommended diamond ground in every professional source;
+maximum sparkle; the most "jeweller's vault" reading of the palette.
+
+**Risk:** it is the *expected* luxury move, so it is harder to feel distinctive.
+Dark heroes lower perceived brightness on mobile, it leans traditional-luxury
+against a modern lab-grown story, and it shows dust mercilessly.
+
+### Option C — "Crown macro" — supporting frame, not the hero
+
+> Extreme macro, no people. A round brilliant diamond's crown and table fill 70%
+> of the frame, held by four yellow-gold prongs entering from the frame edges,
+> on an out-of-focus neutral near-black ground. Hard specular light produces
+> distinct white fire and controlled spectral dispersion inside the facets;
+> facet junctions razor sharp; shallow depth of field with the table tack-sharp
+> and the girdle falling away. No props, no glitter overlay.
+
+**Why not the hero:** it fails the two jobs a stranger's first screen must do —
+show what the ring looks like, and imply how big it is. For a brand with no
+store where the photograph *is* the showroom, "what does the actual ring look
+like" is the trust question. Excellent as a second frame or a section header.
+
+---
+
+## 7. After the images land
 
 1. Save each `.webp` at the exact path listed.
 2. Update the `src` values:
@@ -189,6 +397,7 @@ the light world. Only regenerate it if you want a higher-resolution version.
    - `src/components/ProductView.tsx` L117–129 (`packagingByCategory`), L660
      (shopping bag), L672 (certificate)
    - `src/app/page.tsx` L415 (bespoke), L550 / L559 (experience section)
+   - `src/app/page.tsx` L29 / L38 — hero desktop and mobile, via `getImageProps`
 3. **Rewrite the Hebrew `alt` text.** The current strings describe the old
    scenes — "על שכבות אבן כחולה" (on layers of blue stone) and "מבד פנינה"
    (pearl fabric) — and would be wrong and misleading to a screen-reader user.
