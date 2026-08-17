@@ -70,9 +70,9 @@ export default function RingSizeGuidePage() {
           שתי מדידות פשוטות מספיקות כדי להגיע למידה מדויקת. בחרו טבעת קיימת או מדדו את היקף האצבע — תמיד במילימטרים.
         </p>
         <nav className="mt-7 flex flex-wrap gap-x-7 gap-y-3 text-sm" aria-label="תוכן המדריך">
-          <a href="#measure" className="border-b border-gold/45 pb-1 text-ink-soft transition-colors hover:border-gold-deep hover:text-ink">איך מודדים</a>
-          <a href="#calculator" className="border-b border-gold/45 pb-1 text-ink-soft transition-colors hover:border-gold-deep hover:text-ink">מציאת המידה</a>
-          <a href="#size-table" className="border-b border-gold/45 pb-1 text-ink-soft transition-colors hover:border-gold-deep hover:text-ink">טבלת מידות</a>
+          <a href="#measure" className="border-b border-gilt/45 pb-1 text-ink-soft transition-colors hover:border-gilt-deep hover:text-ink">איך מודדים</a>
+          <a href="#calculator" className="border-b border-gilt/45 pb-1 text-ink-soft transition-colors hover:border-gilt-deep hover:text-ink">מציאת המידה</a>
+          <a href="#size-table" className="border-b border-gilt/45 pb-1 text-ink-soft transition-colors hover:border-gilt-deep hover:text-ink">טבלת מידות</a>
         </nav>
       </header>
 
@@ -84,7 +84,7 @@ export default function RingSizeGuidePage() {
               <ExistingRingVisual />
             </figure>
             <div className="px-4 pb-11 pt-7 sm:px-8 sm:pb-14 lg:px-12">
-              <span className="text-xs font-semibold text-gold-deep">01</span>
+              <span className="text-xs font-semibold text-gilt-deep">01</span>
               <h3 className="mt-2 font-display text-3xl font-medium text-ink">לפי טבעת קיימת</h3>
               <ol className="mt-5 space-y-3 text-sm leading-7 text-ink-soft">
                 <li>בחרו טבעת שמתאימה לאותה אצבע ובאותה היד.</li>
@@ -99,7 +99,7 @@ export default function RingSizeGuidePage() {
               <FingerCircumferenceVisual />
             </figure>
             <div className="px-4 pb-11 pt-7 sm:px-8 sm:pb-14 lg:px-12">
-              <span className="text-xs font-semibold text-gold-deep">02</span>
+              <span className="text-xs font-semibold text-gilt-deep">02</span>
               <h3 className="mt-2 font-display text-3xl font-medium text-ink">לפי היקף האצבע</h3>
               <ol className="mt-5 space-y-3 text-sm leading-7 text-ink-soft">
                 <li>כרכו פס נייר צר ולא נמתח סביב בסיס האצבע.</li>
@@ -111,7 +111,7 @@ export default function RingSizeGuidePage() {
         </div>
       </section>
 
-      <section id="calculator" className="scroll-mt-24 bg-platinum-soft py-12 sm:py-16 lg:py-20" aria-labelledby="calculator-title">
+      <section id="calculator" className="scroll-mt-24 bg-mist py-12 sm:py-16 lg:py-20" aria-labelledby="calculator-title">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <h2 id="calculator-title" className="font-display text-4xl font-medium text-ink sm:text-5xl">מצאו את המידה</h2>
           <p className="mt-3 max-w-xl text-sm leading-7 text-stone">הזינו את המדידה שקיבלתם. ההמרה תוצג לפי שיטת המידות הישראלית.</p>
@@ -144,7 +144,7 @@ export default function RingSizeGuidePage() {
                 {sizes.map((size) => {
                   const common = size.israel >= 10 && size.israel <= 18;
                   return (
-                    <tr key={size.israel} className={`border-t border-line/75 text-sm ${common ? "bg-ivory" : "bg-white"}`}>
+                    <tr key={size.israel} className={`border-t border-line/75 text-sm ${common ? "bg-paper" : "bg-white"}`}>
                       <td className="px-2 py-3 font-display text-lg font-medium text-ink sm:px-5">{size.israel}</td>
                       <td className="px-2 py-3 text-ink-soft sm:px-5">{size.circumference}</td>
                       <td className="px-2 py-3 text-ink-soft sm:px-5">{size.diameter}</td>
@@ -157,7 +157,7 @@ export default function RingSizeGuidePage() {
         </div>
       </section>
 
-      <section className="border-t border-line bg-ivory py-12 sm:py-16" aria-labelledby="measure-well-title">
+      <section className="border-t border-line bg-paper py-12 sm:py-16" aria-labelledby="measure-well-title">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <h2 id="measure-well-title" className="font-display text-3xl font-medium text-ink sm:text-4xl">לפני שמחליטים</h2>
           <dl className="mt-8 grid gap-x-10 gap-y-7 sm:grid-cols-2">
@@ -176,17 +176,17 @@ export default function RingSizeGuidePage() {
         </div>
       </section>
 
-      <section className="bg-ink py-12 text-ivory sm:py-16">
+      <section className="bg-ink py-12 text-on-velvet sm:py-16">
         <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-7 px-4 sm:px-6 lg:flex-row lg:items-center">
           <div>
             <h2 className="font-display text-3xl font-medium sm:text-4xl">עדיין לא בטוחים?</h2>
-            <p className="mt-2 text-sm leading-7 text-footer-muted">שלחו לנו צילום של הטבעת על הסרגל או של פס הנייר, ונבדוק יחד לפני ההזמנה.</p>
+            <p className="mt-2 text-sm leading-7 text-ink-soft">שלחו לנו צילום של הטבעת על הסרגל או של פס הנייר, ונבדוק יחד לפני ההזמנה.</p>
           </div>
           <a
             href={waLink("היי, מדדתי מידה לטבעת ואשמח לעזרה בבדיקת המדידה")}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-[52px] items-center justify-center gap-2 border border-gold/70 px-7 text-sm font-semibold transition-colors hover:bg-ivory hover:text-ink"
+            className="flex min-h-[52px] items-center justify-center gap-2 border border-gilt/70 px-7 text-sm font-semibold transition-colors hover:bg-paper hover:text-ink"
           >
             <WhatsAppIcon className="h-4 w-4" />
             בדיקת מידה בוואטסאפ
@@ -195,7 +195,7 @@ export default function RingSizeGuidePage() {
       </section>
 
       <div className="mx-auto max-w-5xl px-4 py-8 text-sm sm:px-6">
-        <Link href="/jewelry/rings" className="border-b border-gold/45 pb-1 text-ink-soft transition-colors hover:border-gold-deep hover:text-ink">
+        <Link href="/jewelry/rings" className="border-b border-gilt/45 pb-1 text-ink-soft transition-colors hover:border-gilt-deep hover:text-ink">
           חזרה לטבעות
         </Link>
       </div>

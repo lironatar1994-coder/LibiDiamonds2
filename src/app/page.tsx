@@ -429,11 +429,11 @@ export default function HomePage() {
               <p className="home-bespoke-eyebrow">הבחירה של LIBI</p>
               <h2
                 id="bespoke-inspiration-title"
-                className="mt-3 font-display text-[2.2rem] font-medium leading-tight text-ivory sm:text-5xl"
+                className="mt-3 font-display text-[2.2rem] font-medium leading-tight text-on-velvet sm:text-5xl"
               >
                 כל פרט נבחן לפני שהוא הופך לתכשיט.
               </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-footer-muted sm:text-base sm:leading-8">
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-ink-soft sm:text-base sm:leading-8">
                 מהפרופורציה של האבן ועד גוון הזהב והמידה, אנחנו סוגרים איתכם כל החלטה מראש — כדי שהתוצאה תרגיש מדויקת גם מקרוב.
               </p>
             </div>
@@ -450,7 +450,7 @@ export default function HomePage() {
                 <WhatsAppIcon className="h-4 w-4" />
                 שלחו לנו השראה
               </a>
-              <p className="max-w-xs text-xs leading-5 text-footer-subtle">שלחו תמונה ונחזור עם כיוון ראשוני והערכת מחיר.</p>
+              <p className="max-w-xs text-xs leading-5 text-stone">שלחו תמונה ונחזור עם כיוון ראשוני והערכת מחיר.</p>
             </div>
           </div>
         </div>
@@ -475,7 +475,7 @@ export default function HomePage() {
           <div className="mt-6 grid gap-8 lg:mt-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.55fr)] lg:gap-10">
             <Link href={`/journal/${featuredJournalGuide.slug}`} className="group block">
               <article>
-                <div className="home-photo-surface relative aspect-[3/2] overflow-hidden bg-warm-stone">
+                <div className="home-photo-surface relative aspect-[3/2] overflow-hidden bg-mist">
                   <Image
                     src={featuredJournalCover.src}
                     alt={featuredJournalCover.alt}
@@ -490,7 +490,7 @@ export default function HomePage() {
                 <p className="mt-4 text-xs font-semibold tracking-[0.08em] text-stone">
                   {featuredJournalGuide.readingMinutes} דקות קריאה
                 </p>
-                <h3 className="mt-2 max-w-3xl font-display text-2xl font-medium leading-snug transition-colors group-hover:text-gold-deep sm:text-3xl">
+                <h3 className="mt-2 max-w-3xl font-display text-2xl font-medium leading-snug transition-colors group-hover:text-gilt-deep sm:text-3xl">
                   {featuredJournalGuide.title}
                 </h3>
               </article>
@@ -500,7 +500,7 @@ export default function HomePage() {
               {secondaryJournalGuides.map((guide) => (
                 <Link key={guide.slug} href={`/journal/${guide.slug}`} className="group block border-b border-line py-5 first:pt-5 lg:first:pt-0">
                   <article className="grid grid-cols-[7.25rem_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[9rem_minmax(0,1fr)] lg:grid-cols-1 lg:items-start lg:gap-0">
-                    <div className="home-photo-surface relative aspect-[4/3] overflow-hidden bg-warm-stone lg:aspect-[3/2]">
+                    <div className="home-photo-surface relative aspect-[4/3] overflow-hidden bg-mist lg:aspect-[3/2]">
                       <Image
                         src={assetPath(guide.cover.src)}
                         alt={guide.cover.alt}
@@ -514,7 +514,7 @@ export default function HomePage() {
                     </div>
                     <div className="min-w-0 lg:mt-3">
                       <p className="text-xs font-semibold tracking-[0.07em] text-stone">{guide.readingMinutes} דקות קריאה</p>
-                      <h3 className="mt-1.5 font-display text-lg font-medium leading-snug transition-colors group-hover:text-gold-deep sm:text-xl">
+                      <h3 className="mt-1.5 font-display text-lg font-medium leading-snug transition-colors group-hover:text-gilt-deep sm:text-xl">
                         {guide.title}
                       </h3>
                     </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -192,7 +192,7 @@ export default function ProductHelpSheet({ topic, onClose, product }: ProductHel
         role="dialog"
         aria-modal="true"
         aria-labelledby="product-help-title"
-        className="flex max-h-[82svh] w-full flex-col bg-ivory sm:max-w-xl sm:border sm:border-line"
+        className="flex max-h-[82svh] w-full flex-col bg-paper sm:max-w-xl sm:border sm:border-line"
       >
         <header className="flex shrink-0 items-center justify-between border-b border-line px-5 py-4 sm:px-7">
           <h2 id="product-help-title" className="font-display text-2xl font-medium text-ink">{TOPIC_TITLES[topic]}</h2>

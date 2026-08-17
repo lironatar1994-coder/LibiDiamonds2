@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { createPortal } from "react-dom";
@@ -106,7 +106,7 @@ export default function RingSpinViewer({ open, onClose, asset, productName, meta
   if (!mounted || !open) return null;
 
   return createPortal(
-    <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="ring-spin-title" className="fixed inset-0 z-[95] flex flex-col bg-ivory text-ink">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="ring-spin-title" className="fixed inset-0 z-[95] flex flex-col bg-paper text-ink">
       <header className="flex h-16 shrink-0 items-center justify-between border-b border-line px-4 sm:px-6">
         <div className="min-w-0">
           <h2 id="ring-spin-title" className="truncate text-sm font-semibold">{productName}</h2>

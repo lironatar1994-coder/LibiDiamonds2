@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/icons";
@@ -47,7 +47,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="relative aspect-[4/5] overflow-hidden bg-ivory sm:aspect-[4/3] lg:aspect-[4/5]">
+          <div className="relative aspect-[4/5] overflow-hidden bg-paper sm:aspect-[4/3] lg:aspect-[4/5]">
               <Image
                 src={assetPath("/images/editorial/craft/libi-hands-at-work.webp")}
                 alt="ידיים בעבודת צורפות מדויקת לצד סקיצת טבעת וכלי מדידה"
@@ -65,7 +65,7 @@ export default function AboutPage() {
         <div className="mt-8 grid border-t border-line sm:grid-cols-3 lg:mt-10">
           {process.map((item, index) => (
             <article key={item.title} className="border-b border-line py-7 sm:border-b-0 sm:border-l sm:px-7 sm:first:pr-0 sm:last:border-l-0 lg:px-10">
-              <span className="font-display text-sm text-gold-deep" aria-hidden>{String(index + 1).padStart(2, "0")}</span>
+              <span className="font-display text-sm text-gilt-deep" aria-hidden>{String(index + 1).padStart(2, "0")}</span>
               <h3 className="mt-3 font-display text-2xl font-medium">{item.title}</h3>
               <p className="mt-3 text-sm leading-7 text-stone sm:text-base">{item.text}</p>
             </article>
@@ -73,7 +73,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-platinum px-4 py-10 text-center text-ink sm:px-6 lg:py-14">
+      <section className="bg-fog px-4 py-10 text-center text-ink sm:px-6 lg:py-14">
         <h2 className="font-display text-3xl font-medium sm:text-4xl">מתחילים מהתכשיט שאתם מחפשים.</h2>
         <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a href={waLink(defaultWaMessage)} target="_blank" rel="noopener noreferrer" className="btn-primary">

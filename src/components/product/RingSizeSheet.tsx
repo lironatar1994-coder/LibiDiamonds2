@@ -109,7 +109,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
         role="dialog"
         aria-modal="true"
         aria-labelledby="ring-size-sheet-title"
-        className="flex max-h-[92svh] w-full flex-col bg-ivory sm:max-w-lg sm:border sm:border-line"
+        className="flex max-h-[92svh] w-full flex-col bg-paper sm:max-w-lg sm:border sm:border-line"
       >
         <header className="flex shrink-0 items-center justify-between border-b border-line px-5 py-4 sm:px-7">
           <div>
@@ -117,7 +117,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
             <button
               type="button"
               onClick={onOpenGuide}
-              className="mt-1 border-b border-gold/45 pb-0.5 text-xs font-medium text-ink-soft transition-colors hover:border-gold hover:text-ink"
+              className="mt-1 border-b border-gilt/45 pb-0.5 text-xs font-medium text-ink-soft transition-colors hover:border-gilt hover:text-ink"
             >
               מדריך מידות
             </button>
@@ -172,7 +172,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
                     aria-pressed={draftSize === size}
                     className={`relative flex min-h-9 items-end justify-center pb-0.5 text-[0.68rem] transition-colors before:absolute before:top-0 before:h-1.5 before:w-px ${
                       draftSize === size
-                        ? "font-semibold text-ink before:bg-gold-deep"
+                        ? "font-semibold text-ink before:bg-gilt-deep"
                         : "text-stone before:bg-line hover:text-ink"
                     }`}
                   >
@@ -205,7 +205,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
                       aria-pressed={draftSize === size}
                       className={`min-h-11 border font-display text-lg transition-colors ${
                         draftSize === size
-                          ? "border-ink bg-ink text-ivory"
+                          ? "border-ink bg-ink text-on-velvet"
                           : "border-line bg-white text-ink hover:border-stone"
                       }`}
                     >
@@ -228,7 +228,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
           <button
             type="button"
             onClick={() => choose("unsure")}
-            className="mx-auto mt-4 block border-b border-gold/45 pb-0.5 text-xs font-medium text-ink-soft transition-colors hover:border-gold hover:text-ink"
+            className="mx-auto mt-4 block border-b border-gilt/45 pb-0.5 text-xs font-medium text-ink-soft transition-colors hover:border-gilt hover:text-ink"
           >
             לא בטוחים במידה? נבחר יחד
           </button>

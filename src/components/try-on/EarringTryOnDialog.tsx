@@ -531,7 +531,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
 
   return createPortal(
     <div className="fixed inset-0 z-[100] bg-black/70 sm:grid sm:place-items-center sm:p-5" role="presentation">
-      <div role="dialog" aria-modal="true" aria-labelledby="earring-try-on-title" className="flex h-[100dvh] w-full flex-col overflow-hidden bg-ivory sm:h-[min(92dvh,850px)] sm:max-w-4xl sm:border sm:border-white/20 sm:shadow-2xl">
+      <div role="dialog" aria-modal="true" aria-labelledby="earring-try-on-title" className="flex h-[100dvh] w-full flex-col overflow-hidden bg-paper sm:h-[min(92dvh,850px)] sm:max-w-4xl sm:border sm:border-white/20 sm:shadow-2xl">
         <header className="flex min-h-16 items-center justify-between border-b border-line bg-white px-4 sm:px-6">
           <div className="min-w-0">
             <h2 id="earring-try-on-title" className="truncate font-display text-xl font-medium sm:text-2xl">{productName} על האוזן</h2>
@@ -553,17 +553,17 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
           />
 
           {!photoReady && (
-            <div className="absolute inset-0 grid place-items-center px-7 text-center text-ivory">
+            <div className="absolute inset-0 grid place-items-center px-7 text-center text-on-velvet">
               <div className="max-w-sm">
                 <ToolIcon name="ear" className="mx-auto h-10 w-10 text-[#c9b78e]" />
                 <h3 className="mt-5 font-display text-2xl font-medium sm:text-3xl">בחרו צילום שבו האוזן גלויה</h3>
                 <p className="mt-3 text-sm leading-6 text-white/65">פנים ישרות או בזווית קלה, עם שיער מורחק מהתנוך.</p>
                 <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                  <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 bg-ivory px-5 text-sm font-semibold text-ink">
+                  <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 bg-paper px-5 text-sm font-semibold text-ink">
                     <ToolIcon name="camera" className="h-4 w-4" /> צילום חדש
                     <input type="file" accept="image/*" capture="user" className="sr-only" onChange={handlePhoto} />
                   </label>
-                  <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-ivory">
+                  <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-on-velvet">
                     <ToolIcon name="upload" className="h-4 w-4" /> בחירת תמונה
                     <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
                   </label>
@@ -579,7 +579,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
             <div className="absolute inset-x-4 top-4 mx-auto max-w-sm bg-black/78 px-4 py-3 text-center text-xs leading-5 text-white backdrop-blur">{placementPoints.length ? "סמנו את החלק העליון של האוזן" : "סמנו את מרכז התנוך"}</div>
           )}
           {photoReady && message && !placementActive && (
-            <div className="absolute inset-x-4 top-4 mx-auto max-w-md bg-ivory px-4 py-3 text-center text-xs leading-5 text-ink shadow-lg">{message}</div>
+            <div className="absolute inset-x-4 top-4 mx-auto max-w-md bg-paper px-4 py-3 text-center text-xs leading-5 text-ink shadow-lg">{message}</div>
           )}
 
           {photoReady && (
@@ -595,7 +595,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
 
         <footer className="border-t border-line bg-white px-4 py-3 text-center sm:px-6">
           <p className="text-[0.7rem] leading-5 text-stone">הצילום נשאר במכשיר ואינו נשלח ל־LIBI. ההדמיה להמחשת גודל ומראה.</p>
-          <a href={assetPath("/service#camera-privacy")} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block border-b border-gold/50 text-[0.68rem] text-ink-soft">פרטיות בשימוש בתמונה</a>
+          <a href={assetPath("/service#camera-privacy")} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block border-b border-gilt/50 text-[0.68rem] text-ink-soft">פרטיות בשימוש בתמונה</a>
           {photoName ? <span className="sr-only">קובץ נבחר: {photoName}</span> : null}
         </footer>
       </div>

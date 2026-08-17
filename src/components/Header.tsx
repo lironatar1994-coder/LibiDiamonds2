@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -126,7 +126,7 @@ export default function Header() {
               href={waLink(defaultWaMessage)}
               target="_blank"
               rel="noopener noreferrer"
-              className="-me-2 flex h-11 w-11 items-center justify-center text-ink transition-colors hover:text-gold-deep"
+              className="-me-2 flex h-11 w-11 items-center justify-center text-ink transition-colors hover:text-gilt-deep"
               aria-label={`בדיקת זמינות ומחיר בוואטסאפ עם ${site.name}`}
               title="בדיקת זמינות ומחיר בוואטסאפ"
             >
@@ -165,7 +165,7 @@ export default function Header() {
                   <Link
                     href={item.href}
                     onClick={close}
-                    className="font-display block py-4 text-3xl font-medium text-ink transition-colors active:text-gold-deep"
+                    className="font-display block py-4 text-3xl font-medium text-ink transition-colors active:text-gilt-deep"
                   >
                     {item.label}
                   </Link>
@@ -184,7 +184,7 @@ export default function Header() {
                   <Link
                     href={item.href}
                     onClick={close}
-                    className="flex min-h-11 items-center text-sm text-ink-soft transition-colors active:text-gold-deep"
+                    className="flex min-h-11 items-center text-sm text-ink-soft transition-colors active:text-gilt-deep"
                   >
                     {item.label}
                   </Link>

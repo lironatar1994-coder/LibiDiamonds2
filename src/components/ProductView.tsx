@@ -509,11 +509,11 @@ export default function ProductView({ product }: { product: Product }) {
                     aria-pressed={selected}
                     aria-label={`${option.value} ${caratCopy.qualifier}, ${formatPrice(option.price)}`}
                     className={`pdp-carat-option flex min-h-16 min-w-[25%] flex-1 flex-col items-center justify-center px-1.5 py-2 text-center transition-colors ${
-                      selected ? "pdp-carat-option-selected text-ivory" : "bg-transparent text-ink hover:bg-white/70"
+                      selected ? "pdp-carat-option-selected text-on-velvet" : "bg-transparent text-ink hover:bg-white/70"
                     }`}
                   >
-                    <span className={`block font-display text-[1.35rem] leading-none ${selected ? "text-ivory" : "text-ink"}`} dir="ltr">{option.value}</span>
-                    <span className={`mt-1.5 block whitespace-nowrap text-[0.7rem] font-medium ${selected ? "text-footer-muted" : "text-stone"}`}>
+                    <span className={`block font-display text-[1.35rem] leading-none ${selected ? "text-on-velvet" : "text-ink"}`} dir="ltr">{option.value}</span>
+                    <span className={`mt-1.5 block whitespace-nowrap text-[0.7rem] font-medium ${selected ? "text-ink-soft" : "text-stone"}`}>
                       {formatPrice(option.price)}
                     </span>
                   </button>
@@ -579,7 +579,7 @@ export default function ProductView({ product }: { product: Product }) {
                 }}
                 className="flex min-h-11 flex-col items-center justify-center gap-1.5 px-1 text-center text-[0.72rem] leading-4 text-ink-soft transition-colors hover:text-ink"
               >
-                <Glyph className="h-[1.1rem] w-[1.1rem] text-gold-deep" />
+                <Glyph className="h-[1.1rem] w-[1.1rem] text-gilt-deep" />
                 {label}
               </a>
             ))}
@@ -629,7 +629,7 @@ export default function ProductView({ product }: { product: Product }) {
         </div>
       </section>
 
-      <section className="product-packaging-section -mx-4 mt-12 px-4 py-10 text-ivory sm:-mx-6 sm:mt-16 sm:px-6 sm:py-12 lg:-mx-8 lg:mt-20 lg:px-8 lg:py-16" aria-labelledby="order-includes-title">
+      <section className="product-packaging-section -mx-4 mt-12 px-4 py-10 text-on-velvet sm:-mx-6 sm:mt-16 sm:px-6 sm:py-12 lg:-mx-8 lg:mt-20 lg:px-8 lg:py-16" aria-labelledby="order-includes-title">
         <div className="mx-auto max-w-[88rem]">
         <div className="product-packaging-heading relative z-[1] grid gap-4 pb-6 sm:pb-8 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.42fr)] lg:items-end">
           <div>
@@ -695,13 +695,13 @@ export default function ProductView({ product }: { product: Product }) {
       </section>
 
       {showMobileSticky && (
-        <div className="pdp-sticky-cta fixed inset-x-0 bottom-0 z-40 border-t border-white/10 px-4 pt-3 text-ivory lg:hidden" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
+        <div className="pdp-sticky-cta fixed inset-x-0 bottom-0 z-40 border-t border-white/10 px-4 pt-3 text-on-velvet lg:hidden" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
           <div className="mx-auto flex max-w-lg items-center gap-3">
             <div className="min-w-[5.25rem] shrink-0 leading-tight">
-              <span className="block text-[0.68rem] tracking-[0.04em] text-footer-subtle">מחיר</span>
+              <span className="block text-[0.68rem] tracking-[0.04em] text-stone">מחיר</span>
               <span className="font-display text-lg font-light">{formatPrice(carat.price)}</span>
             </div>
-            <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center gap-2 bg-ivory px-2.5 text-sm font-semibold text-ink">
+            <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center gap-2 bg-paper px-2.5 text-sm font-semibold text-ink">
               <WhatsAppIcon className="h-4 w-4" />
               בדיקת זמינות
             </a>

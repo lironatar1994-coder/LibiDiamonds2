@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { guides } from "@/data/guides";
@@ -48,7 +48,7 @@ export default function JournalPage() {
 
       <Link href={`/journal/${featuredGuide.slug}`} className="group mt-7 block sm:mt-9">
         <article className="grid items-center gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(19rem,0.65fr)] lg:gap-12">
-          <div className="relative aspect-[3/2] overflow-hidden bg-warm-stone">
+          <div className="relative aspect-[3/2] overflow-hidden bg-mist">
             <Image
               src={assetPath(featuredGuide.cover.src)}
               alt={featuredGuide.cover.alt}
@@ -60,7 +60,7 @@ export default function JournalPage() {
           </div>
           <div>
             <p className="text-xs font-semibold tracking-[0.08em] text-stone">{featuredGuide.readingMinutes} דקות קריאה</p>
-            <h2 className="mt-3 font-display text-3xl font-medium leading-snug transition-colors group-hover:text-gold-deep sm:text-4xl">
+            <h2 className="mt-3 font-display text-3xl font-medium leading-snug transition-colors group-hover:text-gilt-deep sm:text-4xl">
               {featuredGuide.title}
             </h2>
           </div>
@@ -71,7 +71,7 @@ export default function JournalPage() {
         {moreGuides.map((guide) => (
           <Link key={guide.slug} href={`/journal/${guide.slug}`} className="group block">
             <article>
-              <div className="relative aspect-[3/2] overflow-hidden bg-warm-stone">
+              <div className="relative aspect-[3/2] overflow-hidden bg-mist">
                 <Image
                   src={assetPath(guide.cover.src)}
                   alt={guide.cover.alt}
@@ -81,7 +81,7 @@ export default function JournalPage() {
                 />
               </div>
               <p className="mt-4 text-xs font-semibold tracking-[0.07em] text-stone">{guide.readingMinutes} דקות קריאה</p>
-              <h2 className="mt-2 font-display text-2xl font-medium leading-snug transition-colors group-hover:text-gold-deep">
+              <h2 className="mt-2 font-display text-2xl font-medium leading-snug transition-colors group-hover:text-gilt-deep">
                 {guide.title}
               </h2>
             </article>

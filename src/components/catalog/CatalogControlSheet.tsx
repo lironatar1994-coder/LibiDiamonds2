@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
@@ -77,7 +77,7 @@ export default function CatalogControlSheet({ open, title, titleId, onClose, chi
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="catalog-control-sheet flex max-h-[88svh] w-full flex-col bg-ivory text-ink"
+        className="catalog-control-sheet flex max-h-[88svh] w-full flex-col bg-paper text-ink"
       >
         <header className="flex shrink-0 items-center justify-between border-b border-line px-5 py-4">
           <h2 id={titleId} className="font-display text-[1.65rem] font-medium">{title}</h2>
@@ -93,7 +93,7 @@ export default function CatalogControlSheet({ open, title, titleId, onClose, chi
         </header>
         <div className="overflow-y-auto px-5 py-5">{children}</div>
         {footer && (
-          <footer className="shrink-0 border-t border-line bg-ivory px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4">
+          <footer className="shrink-0 border-t border-line bg-paper px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4">
             {footer}
           </footer>
         )}

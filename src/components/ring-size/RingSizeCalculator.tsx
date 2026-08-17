@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 
@@ -45,7 +45,7 @@ export default function RingSizeCalculator() {
             onClick={() => changeMode("circumference")}
             aria-pressed={mode === "circumference"}
             className={`relative min-h-12 px-3 text-sm transition-colors after:absolute after:inset-x-5 after:bottom-0 after:h-px ${
-              mode === "circumference" ? "text-ink after:bg-gold-deep" : "text-stone after:bg-transparent hover:text-ink"
+              mode === "circumference" ? "text-ink after:bg-gilt-deep" : "text-stone after:bg-transparent hover:text-ink"
             }`}
           >
             מדדתי היקף אצבע
@@ -55,7 +55,7 @@ export default function RingSizeCalculator() {
             onClick={() => changeMode("diameter")}
             aria-pressed={mode === "diameter"}
             className={`relative min-h-12 px-3 text-sm transition-colors after:absolute after:inset-x-5 after:bottom-0 after:h-px ${
-              mode === "diameter" ? "text-ink after:bg-gold-deep" : "text-stone after:bg-transparent hover:text-ink"
+              mode === "diameter" ? "text-ink after:bg-gilt-deep" : "text-stone after:bg-transparent hover:text-ink"
             }`}
           >
             מדדתי טבעת קיימת

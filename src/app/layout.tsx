@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, Assistant } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -28,6 +28,15 @@ FIRST VIEWPORT: A high-key split composition gives the ring most of the frame an
 FORM: Luminous Atelier Folio, grounded direction 3, seed 02d54efe.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
 -->`;
+
+/* viewportFit: "cover" is what makes the env(safe-area-inset-*) padding on the
+   sticky CTA and the bottom sheets actually resolve on notched iPhones. */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#ffffff",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.domain),

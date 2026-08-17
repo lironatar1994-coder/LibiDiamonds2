@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { waLink } from "@/lib/site";
@@ -22,7 +22,7 @@ export default function ContactForm() {
     .join("\n");
 
   const inputCls =
-    "w-full border border-line bg-ivory px-4 py-3 text-sm outline-none transition-colors focus:border-gold";
+    "w-full border border-line bg-paper px-4 py-3 text-sm outline-none transition-colors focus:border-gilt";
 
   return (
     <form

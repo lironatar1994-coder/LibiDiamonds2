@@ -27,7 +27,7 @@ export default function Footer() {
         <div className="site-footer-lockup mx-auto flex max-w-xl flex-col items-center text-center">
           <BrandSignature className="mb-3" />
           <BrandLogo size="footer" tone="ink" className="footer-logo-centered mx-auto" />
-          <p className="mx-auto mt-4 hidden max-w-[18rem] text-sm leading-relaxed text-footer-subtle sm:block">
+          <p className="mx-auto mt-4 hidden max-w-[18rem] text-sm leading-relaxed text-stone sm:block">
             יהלומי מעבדה בזהב 14K/18K. בחירה אישית, תעודה ואחריות.
           </p>
           <div className="mt-2.5 flex justify-center sm:mt-5">
@@ -36,7 +36,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="אינסטגרם"
-              className="inline-flex h-11 w-11 items-center justify-center text-footer-muted transition-colors hover:text-ivory"
+              className="inline-flex h-11 w-11 items-center justify-center text-ink-soft transition-colors hover:text-ink"
             >
               <InstagramIcon className="h-5 w-5" />
             </a>
@@ -46,10 +46,10 @@ export default function Footer() {
         <div className="site-footer-nav mt-5 grid grid-cols-2 gap-x-8 border-t border-white/15 pt-5 sm:mt-9 sm:gap-x-16 sm:pt-7 lg:mx-auto lg:max-w-2xl">
           <nav aria-label="הקולקציה">
             <h3 className="text-sm font-semibold tracking-wider">הקולקציה</h3>
-            <ul className="mt-2 text-sm text-footer-muted sm:mt-3">
+            <ul className="mt-2 text-sm text-ink-soft sm:mt-3">
               {collectionLinks.map((link) => (
                 <li key={link.href}>
-                  <Link className="inline-flex min-h-11 items-center transition-colors hover:text-ivory" href={link.href}>
+                  <Link className="inline-flex min-h-11 items-center transition-colors hover:text-ink" href={link.href}>
                     {link.label}
                   </Link>
                 </li>
@@ -59,10 +59,10 @@ export default function Footer() {
 
           <nav aria-label="מידע">
             <h3 className="text-sm font-semibold tracking-wider">מידע</h3>
-            <ul className="mt-2 text-sm text-footer-muted sm:mt-3">
+            <ul className="mt-2 text-sm text-ink-soft sm:mt-3">
               {informationLinks.map((link) => (
                 <li key={link.href}>
-                  <Link className="inline-flex min-h-11 items-center transition-colors hover:text-ivory" href={link.href}>
+                  <Link className="inline-flex min-h-11 items-center transition-colors hover:text-ink" href={link.href}>
                     {link.label}
                   </Link>
                 </li>
@@ -73,9 +73,9 @@ export default function Footer() {
         </div>
         </div>
 
-        <div className="site-footer-contact mt-5 flex flex-wrap items-center justify-center gap-x-5 border-t border-white/15 pt-5 text-sm text-footer-muted sm:mt-8 sm:pt-6">
+        <div className="site-footer-contact mt-5 flex flex-wrap items-center justify-center gap-x-5 border-t border-white/15 pt-5 text-sm text-ink-soft sm:mt-8 sm:pt-6">
           <a
-            className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-ivory"
+            className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-ink"
             href={waLink(defaultWaMessage)}
             target="_blank"
             rel="noopener noreferrer"
@@ -83,17 +83,17 @@ export default function Footer() {
             <WhatsAppIcon className="h-4 w-4" />
             <span>ייעוץ בוואטסאפ</span>
           </a>
-          <span className="hidden h-1 w-1 rotate-45 bg-gold/60 sm:block" aria-hidden />
-          <a className="inline-flex min-h-11 items-center text-footer-subtle transition-colors hover:text-ivory" href="tel:+972508611888" dir="ltr">
+          <span className="hidden h-1 w-1 rotate-45 bg-gilt/60 sm:block" aria-hidden />
+          <a className="inline-flex min-h-11 items-center text-stone transition-colors hover:text-ink" href="tel:+972508611888" dir="ltr">
             {site.phoneDisplay}
           </a>
-          <span className="hidden h-1 w-1 rotate-45 bg-gold/60 sm:block" aria-hidden />
-          <a className="inline-flex min-h-11 items-center transition-colors hover:text-ivory" href={`mailto:${site.email}`}>
+          <span className="hidden h-1 w-1 rotate-45 bg-gilt/60 sm:block" aria-hidden />
+          <a className="inline-flex min-h-11 items-center transition-colors hover:text-ink" href={`mailto:${site.email}`}>
             {site.email}
           </a>
         </div>
 
-        <div className="site-footer-legal mt-5 border-t border-white/15 pt-4 text-center text-[0.68rem] text-footer-subtle sm:mt-7 sm:pt-5 sm:text-xs">
+        <div className="site-footer-legal mt-5 border-t border-white/15 pt-4 text-center text-[0.68rem] text-stone sm:mt-7 sm:pt-5 sm:text-xs">
           <p>© {new Date().getFullYear()} {site.name} · כל הזכויות שמורות</p>
         </div>
       </div>

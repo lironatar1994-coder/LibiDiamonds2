@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import { site } from "@/lib/site";
 import { InstagramIcon } from "@/components/icons";
@@ -28,13 +28,13 @@ export default function ContactPage() {
         <div className="space-y-8">
           {/* platinum-soft, not platinum: the heavier stone tone put the gilt
               contact glyphs at 4.2:1 and read muddy against the cream page. */}
-          <div className="border border-line bg-platinum-soft p-8">
+          <div className="border border-line bg-mist p-8">
             <h2 className="font-display text-xl">פרטי קשר</h2>
             <ul className="mt-5 space-y-4 text-sm">
               <li>
                 <a
                   href={`tel:+${site.whatsapp}`}
-                  className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gold-deep"
+                  className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gilt-deep"
                 >
                   <span className="text-gilt-deep">טל׳</span>
                   <span dir="ltr">{site.phoneDisplay}</span>
@@ -43,7 +43,7 @@ export default function ContactPage() {
               <li>
                 <a
                   href={`mailto:${site.email}`}
-                  className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gold-deep"
+                  className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gilt-deep"
                 >
                   <span className="text-gilt-deep">@</span>
                   {site.email}
@@ -54,7 +54,7 @@ export default function ContactPage() {
                   href={site.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gold-deep"
+                  className="flex items-center gap-3 text-ink-soft transition-colors hover:text-gilt-deep"
                 >
                   <InstagramIcon className="h-5 w-5 text-gilt-deep" />
                   libidiamonds@

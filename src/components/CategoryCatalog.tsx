@@ -244,7 +244,7 @@ export default function CategoryCatalog({
                     className={`group shrink-0 text-right ${
                       isRingAtelierStyle
                         ? "catalog-ring-style-button w-[6.5rem] flex-none snap-start text-center sm:w-[8.25rem]"
-                        : "w-[9.25rem] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-deep sm:w-auto"
+                        : "w-[9.25rem] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gilt-deep sm:w-auto"
                     }`}
                   >
                     {isRingAtelierStyle ? (
@@ -291,7 +291,7 @@ export default function CategoryCatalog({
       )}
 
       {category === "rings" && <div
-        className={`catalog-mobile-utility sticky top-16 z-30 -mx-4 mt-2 grid h-14 grid-cols-[44fr_56fr] divide-x divide-x-reverse divide-line/80 border-y border-line/80 bg-ivory/95 backdrop-blur-md transition-[opacity,transform] duration-200 motion-reduce:transition-none sm:hidden ${
+        className={`catalog-mobile-utility sticky top-16 z-30 -mx-4 mt-2 grid h-14 grid-cols-[44fr_56fr] divide-x divide-x-reverse divide-line/80 border-y border-line/80 bg-paper/95 backdrop-blur-md transition-[opacity,transform] duration-200 motion-reduce:transition-none sm:hidden ${
           mobileUtilityVisible ? "opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
         }`}
         aria-hidden={!mobileUtilityVisible}
@@ -325,7 +325,7 @@ export default function CategoryCatalog({
             onClick={() => setFiltersOpen((open) => !open)}
             aria-expanded={filtersOpen}
             aria-controls="catalog-filters"
-            className="h-full min-w-0 text-sm text-ink transition-colors hover:text-gold-deep"
+            className="h-full min-w-0 text-sm text-ink transition-colors hover:text-gilt-deep"
           >
             סינון{activeFilterCount ? ` · ${activeFilterCount}` : ""}
           </button>
@@ -444,7 +444,7 @@ export default function CategoryCatalog({
             type="button"
             onClick={() => setVisibleCount((count) => count + PRODUCT_COUNT_STEP)}
             className={`catalog-load-more flex min-h-12 min-w-64 items-center justify-center gap-3 px-6 text-sm text-ink transition-colors ${
-              category === "rings" ? "border border-gilt bg-ivory hover:bg-[#f8f6f0]" : "border-b border-ink pb-2 hover:border-gold-deep hover:text-gold-deep"
+              category === "rings" ? "border border-gilt bg-paper hover:bg-[#f8f6f0]" : "border-b border-ink pb-2 hover:border-gilt-deep hover:text-gilt-deep"
             }`}
           >
             {category === "rings" && <span className="h-2 w-2 rotate-45 border border-gilt" aria-hidden="true" />}
@@ -583,7 +583,7 @@ function SheetChoice({ active, onClick, children }: { active: boolean; onClick: 
       onClick={onClick}
       aria-pressed={active}
       className={`min-h-11 border px-2 text-sm transition-colors ${
-        active ? "border-ink bg-ink text-ivory" : "border-line bg-white text-ink-soft"
+        active ? "border-ink bg-ink text-on-velvet" : "border-line bg-white text-ink-soft"
       }`}
     >
       {children}
@@ -646,7 +646,7 @@ function MetalChoice({
       onClick={onClick}
       aria-pressed={active}
       className={`flex h-11 items-center justify-center gap-2 border-l border-line first:border-l-0 ${
-        active ? "bg-ink text-ivory" : "text-stone"
+        active ? "bg-ink text-on-velvet" : "text-stone"
       }`}
     >
       <span

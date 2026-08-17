@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { waLink, defaultWaMessage } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/icons";
 import { pageMetadata } from "@/lib/seo";
@@ -67,7 +67,7 @@ export default function ServicePage() {
         <BrandSignature className="mt-4" />
       </header>
 
-      <dl className="mt-8 grid grid-cols-2 bg-platinum sm:grid-cols-4">
+      <dl className="mt-8 grid grid-cols-2 bg-fog sm:grid-cols-4">
         {[
           ["משלוח", servicePromises.insuredDelivery],
           ["זמן אספקה", servicePromises.collectionLeadTime],
@@ -89,7 +89,7 @@ export default function ServicePage() {
             <ul className="mt-4 space-y-3">
               {s.items.map((item) => (
                 <li key={item} className="flex gap-3 leading-relaxed text-ink-soft">
-                  <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-gold" />
+                  <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-gilt" />
                   {item}
                 </li>
               ))}
@@ -98,7 +98,7 @@ export default function ServicePage() {
         ))}
       </div>
 
-      <div className="mt-16 bg-platinum p-8 text-center">
+      <div className="mt-16 bg-fog p-8 text-center">
         <h2 className="font-display text-xl">שאלה שלא מופיעה כאן?</h2>
         <a
           href={waLink(defaultWaMessage)}

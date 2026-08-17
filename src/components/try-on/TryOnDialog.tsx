@@ -1668,7 +1668,7 @@ export default function TryOnDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="try-on-title"
-        className="flex h-[100dvh] w-full flex-col overflow-hidden bg-ivory sm:h-[min(92dvh,850px)] sm:max-w-5xl sm:border sm:border-white/20 sm:shadow-2xl"
+        className="flex h-[100dvh] w-full flex-col overflow-hidden bg-paper sm:h-[min(92dvh,850px)] sm:max-w-5xl sm:border sm:border-white/20 sm:shadow-2xl"
       >
         <header className="flex min-h-16 items-center justify-between border-b border-line bg-white px-4 sm:px-6">
           <div className="min-w-0">
@@ -1702,7 +1702,7 @@ export default function TryOnDialog({
           />
 
           {!hasMedia && (
-            <div className="absolute inset-0 grid place-items-center overflow-y-auto px-5 py-7 text-ivory sm:px-8">
+            <div className="absolute inset-0 grid place-items-center overflow-y-auto px-5 py-7 text-on-velvet sm:px-8">
               <div className="w-full max-w-md text-center">
                 <div className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-[#c9b78e]/60 bg-white/5 text-[#eadab5]">
                   <ToolIcon name="camera" className="h-7 w-7" />
@@ -1715,12 +1715,12 @@ export default function TryOnDialog({
                   <li className="flex items-center gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#c9b78e] font-semibold text-[#171817]">2</span><span>{isBracelet ? "קרבו עד שפרק היד ממלא את רוב המסך" : "קרבו עד שהיד ממלאת את רוב המסך"}</span></li>
                   <li className="flex items-center gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#c9b78e] font-semibold text-[#171817]">3</span><span>{isBracelet ? "הסירו צמידים ושמרו על תאורה טובה" : "פתחו מעט את האצבעות והסירו טבעות"}</span></li>
                 </ol>
-                <label className="mt-6 inline-flex min-h-14 w-full cursor-pointer items-center justify-center gap-2 bg-ivory px-6 text-base font-semibold text-ink outline-offset-4 focus-within:outline-2 focus-within:outline-white">
+                <label className="mt-6 inline-flex min-h-14 w-full cursor-pointer items-center justify-center gap-2 bg-paper px-6 text-base font-semibold text-ink outline-offset-4 focus-within:outline-2 focus-within:outline-white">
                   <ToolIcon name="camera" className="h-5 w-5" /> צילום חדש
                   <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={handlePhoto} />
                 </label>
                 <label
-                  className="mt-3 inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-ivory outline-offset-4 focus-within:outline-2 focus-within:outline-white"
+                  className="mt-3 inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-on-velvet outline-offset-4 focus-within:outline-2 focus-within:outline-white"
                 >
                   <ToolIcon name="upload" className="h-4 w-4" /> בחירת תמונה מהמכשיר
                   <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
@@ -1780,7 +1780,7 @@ export default function TryOnDialog({
             </div>
           )}
           {cameraError && (
-            <div className="absolute inset-x-4 top-4 mx-auto max-w-md bg-ivory px-4 py-3 text-center text-xs leading-5 text-ink shadow-lg">{cameraError}</div>
+            <div className="absolute inset-x-4 top-4 mx-auto max-w-md bg-paper px-4 py-3 text-center text-xs leading-5 text-ink shadow-lg">{cameraError}</div>
           )}
           {hasMedia && calibrationActive && (
             <div className="absolute inset-x-4 top-4 mx-auto max-w-sm bg-black/78 px-4 py-3 text-center text-xs leading-5 text-white backdrop-blur">
@@ -1863,7 +1863,7 @@ export default function TryOnDialog({
 
         <footer className="flex min-h-12 items-center justify-center gap-2 border-t border-line bg-white px-4 py-2 text-center text-xs text-stone sm:px-6">
           <span>הצילום נשאר במכשיר. ההדמיה היא להמחשה.</span>
-          <a href={assetPath("/service#camera-privacy")} target="_blank" rel="noopener noreferrer" className="shrink-0 border-b border-gold/50 font-semibold text-ink-soft">פרטיות</a>
+          <a href={assetPath("/service#camera-privacy")} target="_blank" rel="noopener noreferrer" className="shrink-0 border-b border-gilt/50 font-semibold text-ink-soft">פרטיות</a>
           {photoName ? <span className="sr-only">קובץ נבחר: {photoName}</span> : null}
         </footer>
       </div>
