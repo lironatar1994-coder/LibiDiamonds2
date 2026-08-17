@@ -1461,9 +1461,11 @@ p {
   overflow: hidden;
   border-top: 1px solid rgba(181, 146, 75, 0.64);
   border-bottom: 1px solid rgba(181, 146, 75, 0.52);
+  /* Shares its base with the homepage try-on band so the site's two dark
+     passages read as the same material, lit differently. */
   background:
     radial-gradient(ellipse at 78% -8%, rgba(70, 70, 70, 0.4) 0%, transparent 34rem),
-    linear-gradient(135deg, var(--color-onyx-press) 0%, var(--color-onyx-2) 54%, var(--color-onyx-press) 100%);
+    linear-gradient(135deg, var(--color-onyx) 0%, var(--color-onyx-2) 54%, var(--color-onyx) 100%);
 }
 
 .product-packaging-section::before {
@@ -3396,4 +3398,45 @@ body {
 
 .sheet-closing {
   animation: backdrop-exit var(--dur-fast) var(--ease) both;
+}
+/* ==========================================================================
+   Section rhythm
+   The high-key override flattened every band to paper, which left seven
+   consecutive identical white sections and no vertical rhythm at all. These
+   three tones are the alternation the layout was designed around: the product
+   showcase and the journal sit half a step down so the sections between them
+   read as separate ideas rather than one continuous scroll. Declared last so
+   they win, and kept to a single half-step — this is still a light-majority
+   page, not a striped one.
+   ========================================================================== */
+.section-most-loved,
+.section-gallery-journal {
+  background: var(--color-mist);
+}
+
+.section-most-loved {
+  border-block: 1px solid var(--color-line);
+}
+
+.section-gallery-journal {
+  border-top: 1px solid var(--color-line);
+}
+
+/* The closing service band already carries a hairline; keep it on paper so the
+   page ends on the lightest surface it started on. */
+.home-experience-section {
+  background: var(--color-paper);
+}
+
+@media (min-width: 1024px) {
+  .section-most-loved {
+    background: var(--color-mist);
+  }
+}
+/* The catalog prefooter sat on the same mist as the footer directly beneath it,
+   so the two merged into one undifferentiated band. The prefooter is page
+   content and belongs on paper; the footer keeps mist as the site's closing
+   tone. */
+.catalog-collection-prefooter {
+  background: var(--color-paper);
 }
