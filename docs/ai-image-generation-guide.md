@@ -346,11 +346,26 @@ tool. Techniques, in order of how much they actually contribute:
 
 ### Composition requirement (do not skip)
 
-The site is Hebrew RTL. On desktop the hero text block sits at **80% from the
-left edge** — measured, not assumed. So the **product belongs left of centre,
-with clean, evenly-lit, low-detail space across the right 40%** of a landscape
-frame. On the mobile portrait crop the wordmark and headline sit across the top
-third, so keep that band quiet and uncluttered.
+**The hero layout changed, and it changed what the photograph has to do.** Type
+no longer sits on top of the image. The headline, the paragraph and both buttons
+now live on white beneath it (mobile) or beside it (desktop). So the photograph
+is no longer a background that has to leave a clean corner for text — it is a
+picture, and it should be composed as one.
+
+What this means practically:
+
+- **Do not leave a large empty zone for copy.** The old brief asked for one; it
+  is now wasted frame. Fill the frame with the subject and its ground.
+- **The product can be larger and more central** than the current hero allows.
+- **Two crops, both edge to edge:**
+  - `hero-mobile.webp` — **portrait 9:16**, but only the middle band is
+    guaranteed visible: the frame renders at roughly `46svh` and crops from the
+    top. Keep the ring within the central 60% vertically.
+  - `hero-desktop.webp` — **landscape 3:2 or 16:9**, rendered `object-cover` in
+    a tall left-hand column roughly 60% of viewport width. It is cropped
+    *narrower and taller* than the source, so keep the ring near the horizontal
+    centre and do not put anything essential in the left or right 20%.
+- Both crops are taken from the same scene. Shoot it once, deliver two framings.
 
 ### Option A — "Clinical light" (recommended)
 `public/images/hero/v7/hero-desktop.webp` (16:9) · `hero-mobile.webp` (9:16)
@@ -365,9 +380,10 @@ third, so keep that band quiet and uncluttered.
 > a hard defined edge. One soft directional contact shadow falls to the right of
 > the ring, anchoring it to the surface. No colour cast anywhere — the gold is
 > the only warm element and the white is truly neutral, not ivory or cream. The
-> ring sits left of centre and occupies about a third of the frame height, with
-> generous clean empty space to the right. Sharp facet edges, visible prong
-> detail. No lens flare, no glitter effects, no props.
+> ring sits centred and fills roughly half the frame height — close enough that
+> the band thickness, prong height and shank taper are all clearly legible.
+> Sharp facet edges, visible prong detail. No lens flare, no glitter effects,
+> no props.
 
 Negative: *people, hands, marble, travertine, veined stone, fabric texture,
 cream, ivory, warm cast, coloured background, glitter overlay, lens flare,
@@ -378,8 +394,8 @@ white's one real weakness for diamonds — facets get structure instead of washi
 out. It also means your `#1c1c1c` appears in the frame *as light*, not as a
 prop, so the hero and the palette are the same idea. It reads modern,
 transparent and lab-honest rather than old-money, which is the correct register
-for lab-grown. It is trend-proof, and the clean right side is built for the
-Hebrew type.
+for lab-grown. And it is trend-proof: white seamless will not date the way a
+trend surface does.
 
 **Risk:** it demands real execution. A lazy white hero looks like a marketplace
 packshot. If the negative-fill reflection is missed, the diamond goes to mush.
@@ -393,8 +409,8 @@ packshot. If the negative-fill reflection is missed, the diamond goes to mush.
 > plus a soft grazing fill from the left defining the curve of the gold band.
 > The near-black graduates to true black at the top of the frame. A faint soft
 > reflection of the ring in the surface beneath gives it weight. Gold and the
-> diamond's sparkle are the only bright elements. Ring left of centre, deep
-> empty black to the right. Immaculate — no dust, no props, no smoke.
+> diamond's sparkle are the only bright elements. Ring centred, filling about
+> half the frame height. Immaculate — no dust, no props, no smoke.
 
 **Why:** the most-recommended diamond ground in every professional source;
 maximum sparkle; the most "jeweller's vault" reading of the palette.

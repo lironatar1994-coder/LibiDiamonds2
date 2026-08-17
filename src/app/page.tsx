@@ -15,7 +15,7 @@ import {
   type ProductGalleryImage,
 } from "@/data/products";
 import { guides } from "@/data/guides";
-import { site, waLink, assetPath } from "@/lib/site";
+import { site, waLink, defaultWaMessage, assetPath } from "@/lib/site";
 import { onlineStoreJsonLd, pageMetadata } from "@/lib/seo";
 
 const heroAlt = "טבעת סוליטר מזהב צהוב עם יהלום עגול על שכבות אבן שיש בגוני לבן ושמנת עם עורק זהב עדין";
@@ -246,8 +246,13 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ── Hero ─────────────────────────────────────────── */}
-      <section className="hero-editorial relative isolate overflow-hidden" aria-labelledby="home-hero-title">
+      {/* ── Hero ─────────────────────────────────────────────
+          The photograph gets the frame to itself and the message sits on
+          white beneath it. Type over a photograph has to fight the image for
+          contrast, which caps how much it can say; moving it out means the
+          headline can carry an actual claim and the two actions can be full
+          buttons rather than a single link hiding over the stone. */}
+      <section className="hero-editorial" aria-labelledby="home-hero-title">
         <div className="home-hero-frame">
           <picture className="absolute inset-0 block">
             <source media="(max-width: 1023px)" srcSet={heroMobileSrcSet} sizes="100vw" />
@@ -258,36 +263,30 @@ export default function HomePage() {
               className="ivory-hero-image object-cover object-top lg:object-[center_54%]"
             />
           </picture>
-          <div aria-hidden="true" className="home-hero-brand-veil absolute inset-0" />
+        </div>
 
-          <div className="home-hero-brand" data-home-hero-brand>
-            <div className="home-hero-brand-lockup">
-              <img
-                src={assetPath("/brand/libi-diamonds-logo.svg")}
-                alt="LIBI DIAMONDS"
-                width="184"
-                height="92"
-                className="home-hero-brand-logo"
-              />
-              <p className="home-hero-desktop-kicker hidden lg:block">LAB-GROWN DIAMONDS · 14K / 18K GOLD</p>
-              <h1 id="home-hero-title" className="home-hero-title font-display">
-                היהלום במרכז.
-              </h1>
-              <p className="home-hero-mobile-line lg:hidden">
-                יהלומי מעבדה עם תעודה גמולוגית · זהב 14K/18K
-              </p>
-              <p className="home-hero-desktop-copy hidden lg:block">
-                תכשיטים שנבחרים לאט, נבנים בדיוק ונשארים הרבה אחרי הרגע.
-              </p>
-              <div className="hidden sm:block">
-                <HeroCollectionLink />
-              </div>
+        <div className="home-hero-statement" data-home-hero-brand>
+          <div className="home-hero-statement-inner">
+            <h1 id="home-hero-title" className="home-hero-title font-display">
+              היהלום במרכז.
+            </h1>
+            <p className="home-hero-lede">
+              יהלומי מעבדה עם תעודה גמולוגית של IGI או GIA, בזהב 14K ו־18K.
+              אנחנו עובדים בלי חלון ראווה ובלי מתווכים — כך שהמחיר משקף את היהלום
+              ואת עבודת הצורפות בלבד.
+            </p>
+            <div className="home-hero-actions">
+              <HeroCollectionLink />
+              <a
+                href={waLink(defaultWaMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="home-hero-secondary"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+                ייעוץ אישי בוואטסאפ
+              </a>
             </div>
-          </div>
-
-          {/* Mobile action sits under the jewel, never over it (visibility owned by .home-hero-cta). */}
-          <div className="home-hero-cta">
-            <HeroCollectionLink />
           </div>
         </div>
       </section>
@@ -303,27 +302,6 @@ export default function HomePage() {
       */}
 
       {/* ── Categories ───────────────────────────────────── */}
-      <section className="section-gallery section-gallery-collection section-collection-atmosphere" aria-labelledby="collection-title">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-          <div className="home-collection-heading text-center">
-            <h2 id="collection-title" className="scroll-mt-24 font-display text-[2.15rem] font-medium leading-none text-ink sm:text-[2.8rem]">
-              מצאו את התכשיט שלכם
-            </h2>
-            <div className="home-collection-ornament mx-auto mt-5" aria-hidden="true">
-              <span />
-              <i />
-              <span />
-            </div>
-          </div>
-          <div className="home-collection-grid mt-7 grid grid-cols-2 gap-3 sm:mt-11 sm:gap-5 lg:grid-cols-12 lg:grid-rows-[17rem_17rem] xl:grid-rows-[20rem_20rem]">
-            {collectionOrder.map((category) => (
-              <CollectionTile key={category} category={category} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Four intentional bestsellers, not an endless storefront carousel. */}
       <section className="section-most-loved py-14 sm:py-16 lg:py-20" aria-labelledby="most-loved-title">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="home-most-loved-heading">
@@ -361,6 +339,27 @@ export default function HomePage() {
       </section>
 
       {/* ── Direct atelier — the no-storefront advantage ── */}
+      <section className="section-gallery section-gallery-collection section-collection-atmosphere" aria-labelledby="collection-title">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+          <div className="home-collection-heading text-center">
+            <h2 id="collection-title" className="scroll-mt-24 font-display text-[2.15rem] font-medium leading-none text-ink sm:text-[2.8rem]">
+              מצאו את התכשיט שלכם
+            </h2>
+            <div className="home-collection-ornament mx-auto mt-5" aria-hidden="true">
+              <span />
+              <i />
+              <span />
+            </div>
+          </div>
+          <div className="home-collection-grid mt-7 grid grid-cols-2 gap-3 sm:mt-11 sm:gap-5 lg:grid-cols-12 lg:grid-rows-[17rem_17rem] xl:grid-rows-[20rem_20rem]">
+            {collectionOrder.map((category) => (
+              <CollectionTile key={category} category={category} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Four intentional bestsellers, not an endless storefront carousel. */}
       <section className="home-direct-section" aria-labelledby="direct-title">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
           <h2 id="direct-title" className="scroll-mt-24 font-display text-[2rem] font-medium leading-none sm:text-4xl">

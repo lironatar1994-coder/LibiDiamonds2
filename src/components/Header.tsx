@@ -25,38 +25,7 @@ const navItems = [...collectionNav, ...brandNav];
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [homeHeroPassed, setHomeHeroPassed] = useState(false);
-  const isHome = pathname === "/";
   const isProduct = pathname.startsWith("/product/");
-
-  useEffect(() => {
-    if (!isHome) {
-      setHomeHeroPassed(false);
-      return;
-    }
-
-    const heroBrand = document.querySelector<HTMLElement>("[data-home-hero-brand]");
-    if (!heroBrand) {
-      setHomeHeroPassed(true);
-      return;
-    }
-
-    const syncPosition = () => {
-      setHomeHeroPassed(heroBrand.getBoundingClientRect().bottom <= 0);
-    };
-
-    syncPosition();
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setHomeHeroPassed(false);
-      } else if (entry.boundingClientRect.bottom <= 0) {
-        setHomeHeroPassed(true);
-      }
-    });
-    observer.observe(heroBrand);
-
-    return () => observer.disconnect();
-  }, [isHome]);
 
   // lock page scroll while the full-screen menu is open
   useEffect(() => {
@@ -67,18 +36,16 @@ export default function Header() {
   }, [open]);
 
   const close = () => setOpen(false);
-  const headerVisible = !isHome || homeHeroPassed || open;
 
   return (
     <>
       {/* single-row maison header */}
+      {/* The wordmark used to live inside the hero photograph, so the header
+          could stay hidden until the hero scrolled past. The hero is a plain
+          photograph now, which would leave the first screen with no branding
+          at all — so the header is simply always present. */}
       <header
-        aria-hidden={isHome && !headerVisible ? true : undefined}
-        className={`site-header-ivory ${isProduct ? "site-header-product" : ""} z-50 border-b backdrop-blur-sm ${
-          isHome
-            ? `site-header-home fixed inset-x-0 top-0 ${headerVisible ? "site-header-home-visible" : "site-header-home-hidden"}`
-            : "sticky top-0"
-        }`}
+        className={`site-header-ivory ${isProduct ? "site-header-product" : ""} sticky top-0 z-50 border-b backdrop-blur-sm`}
       >
         <div className="site-shell mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:h-auto sm:px-6 sm:py-3 lg:px-8 lg:py-4">
           {/* start (right in RTL): collections nav / mobile burger */}

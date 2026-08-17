@@ -2249,12 +2249,12 @@ details.faq-item[open] summary .faq-icon {
     box-shadow: 0 30px 90px rgba(0, 0, 0, 0.13);
   }
 
+  /* The picture used to occupy only part of the frame so the overlaid lockup
+     had clean stone to sit on. The frame is its own grid column now, so the
+     photograph fills it; see the hero block at the end of this file. */
   .home-hero-frame > picture {
-    top: 0;
-    right: auto;
-    bottom: 0;
-    left: 0;
-    width: 58%;
+    inset: 0;
+    width: 100%;
     overflow: hidden;
     background: var(--color-fog);
   }
@@ -3176,7 +3176,7 @@ body {
   }
 
   .home-hero-frame > picture {
-    width: 61.5%;
+    width: 100%;
     background: var(--color-mist);
   }
 
@@ -3450,4 +3450,202 @@ body {
    tone. */
 .catalog-collection-prefooter {
   background: var(--color-paper);
+}
+/* ==========================================================================
+   Hero — photograph, then statement
+   The message used to sit on top of the photograph, which meant it could only
+   ever be as loud as the image allowed: a short line, a faint sub-line and a
+   single link, all fighting the stone for contrast. Moving it onto white below
+   the image lets the headline carry a real claim, gives the paragraph room to
+   say what LIBI actually is, and turns one buried link into two full actions.
+   Declared last so it supersedes the earlier overlay rules.
+   ========================================================================== */
+.hero-editorial {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--color-paper);
+}
+
+.home-hero-frame {
+  position: relative;
+  height: clamp(19rem, 46svh, 27rem) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden;
+  background: var(--color-mist);
+}
+
+/* The overlay furniture has no job now. */
+.home-hero-brand,
+.home-hero-brand-veil,
+.home-hero-cta,
+.home-hero-frame::before,
+.home-hero-frame::after {
+  display: none !important;
+}
+
+/* Earlier layers inset the picture to leave room for the overlaid lockup. The
+   frame is its own column now, so the photograph fills it edge to edge. */
+.home-hero-frame > picture,
+.home-hero-frame .ivory-hero-image {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+.home-hero-statement {
+  padding: 1.75rem 1rem 2.25rem;
+  text-align: center;
+}
+
+.home-hero-statement-inner {
+  margin-inline: auto;
+  max-width: 34rem;
+  animation: home-brand-arrive 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.home-hero-title {
+  margin: 0 !important;
+  font-size: clamp(2.1rem, 9vw, 2.6rem) !important;
+  font-weight: 400;
+  line-height: 1.08;
+  color: var(--color-ink);
+  text-shadow: none !important;
+  text-wrap: balance;
+}
+
+.home-hero-lede {
+  margin-top: 0.85rem;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--color-ink-soft);
+  text-wrap: pretty;
+}
+
+.home-hero-actions {
+  display: grid;
+  gap: 0.625rem;
+  margin-top: 1.5rem;
+}
+
+/* Primary action — the collection. Overrides the old floating-link treatment. */
+.home-hero-collection-link {
+  display: inline-flex;
+  min-height: 3.125rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 0 !important;
+  padding: 0 1.75rem;
+  border: 1px solid var(--color-onyx);
+  background: var(--color-onyx);
+  color: var(--color-on-onyx);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-shadow: none;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.home-hero-collection-link:hover,
+.home-hero-collection-link:focus-visible {
+  background: var(--color-onyx-press);
+  border-color: var(--color-onyx-press);
+  color: var(--color-on-onyx);
+}
+
+.home-hero-collection-link:active {
+  transform: translateY(1px);
+}
+
+/* Secondary action — the human one. Quieter, same height. */
+.home-hero-secondary {
+  display: inline-flex;
+  min-height: 3.125rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0 1.75rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.home-hero-secondary:hover,
+.home-hero-secondary:focus-visible {
+  border-color: var(--color-gilt);
+  background: var(--color-mist);
+}
+
+.home-hero-secondary:active {
+  transform: translateY(1px);
+}
+
+.home-hero-collection-rule,
+.home-hero-collection-arrow {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .home-hero-actions {
+    grid-auto-flow: column;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+}
+
+/* Desktop: the photograph takes the left, the statement the right — which is
+   where Hebrew starts reading, so the eye lands on the words and travels into
+   the jewel. */
+@media (min-width: 1024px) {
+  /* The document is RTL, so the first grid track is the RIGHT-hand one. The
+     statement takes it because that is where Hebrew starts reading; the
+     photograph takes the wider left track and the eye travels into it. */
+  .hero-editorial {
+    display: grid;
+    grid-template-columns: minmax(22rem, 0.82fr) minmax(0, 1.18fr);
+    align-items: stretch;
+    min-height: min(82svh, 780px);
+  }
+
+  .home-hero-statement {
+    order: 1;
+    display: flex;
+    align-items: center;
+    padding: 3rem clamp(2rem, 4vw, 4.5rem);
+    text-align: right;
+  }
+
+  .home-hero-frame {
+    order: 2;
+    height: auto !important;
+  }
+
+  .home-hero-statement-inner {
+    margin-inline: 0;
+  }
+
+  .home-hero-title {
+    font-size: clamp(2.6rem, 3.4vw, 3.6rem) !important;
+  }
+
+  .home-hero-lede {
+    margin-top: 1.1rem;
+    font-size: 1rem;
+  }
+
+  .home-hero-actions {
+    grid-auto-flow: column;
+    justify-content: start;
+    margin-top: 2rem;
+  }
 }
