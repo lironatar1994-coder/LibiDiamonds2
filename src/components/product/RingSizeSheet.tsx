@@ -99,7 +99,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[90] flex items-end justify-center bg-velvet/45 sm:items-center sm:p-6"
+      className="fixed inset-0 z-[90] flex items-end justify-center bg-onyx/45 sm:items-center sm:p-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -205,7 +205,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
                       aria-pressed={draftSize === size}
                       className={`min-h-11 border font-display text-lg transition-colors ${
                         draftSize === size
-                          ? "border-ink bg-ink text-on-velvet"
+                          ? "border-ink bg-ink text-on-onyx"
                           : "border-line bg-white text-ink hover:border-stone"
                       }`}
                     >

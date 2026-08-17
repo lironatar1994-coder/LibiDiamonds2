@@ -67,7 +67,7 @@ export default function CatalogControlSheet({ open, title, titleId, onClose, chi
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[90] flex items-end justify-center bg-velvet/45 sm:hidden"
+      className="fixed inset-0 z-[90] flex items-end justify-center bg-onyx/45 sm:hidden"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}

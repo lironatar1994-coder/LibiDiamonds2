@@ -592,7 +592,7 @@ function SheetChoice({ active, onClick, children }: { active: boolean; onClick: 
       onClick={onClick}
       aria-pressed={active}
       className={`min-h-11 border px-2 text-sm transition-colors ${
-        active ? "border-ink bg-ink text-on-velvet" : "border-line bg-white text-ink-soft"
+        active ? "border-ink bg-ink text-on-onyx" : "border-line bg-white text-ink-soft"
       }`}
     >
       {children}
@@ -655,7 +655,7 @@ function MetalChoice({
       onClick={onClick}
       aria-pressed={active}
       className={`flex h-11 items-center justify-center gap-2 border-s border-line first:border-s-0 ${
-        active ? "bg-velvet text-on-velvet" : "text-stone"
+        active ? "bg-onyx text-on-onyx" : "text-stone"
       }`}
     >
       <span

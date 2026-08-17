@@ -176,7 +176,7 @@ export default function RingSizeGuidePage() {
         </div>
       </section>
 
-      <section className="bg-ink py-12 text-on-velvet sm:py-16">
+      <section className="bg-ink py-12 text-on-onyx sm:py-16">
         <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-7 px-4 sm:px-6 lg:flex-row lg:items-center">
           <div>
             <h2 className="font-display text-3xl font-medium sm:text-4xl">עדיין לא בטוחים?</h2>

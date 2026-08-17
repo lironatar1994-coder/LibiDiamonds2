@@ -429,7 +429,7 @@ export default function HomePage() {
               <p className="home-bespoke-eyebrow">הבחירה של LIBI</p>
               <h2
                 id="bespoke-inspiration-title"
-                className="mt-3 font-display text-[2.2rem] font-medium leading-tight text-on-velvet sm:text-5xl"
+                className="mt-3 font-display text-[2.2rem] font-medium leading-tight text-on-onyx sm:text-5xl"
               >
                 כל פרט נבחן לפני שהוא הופך לתכשיט.
               </h2>

@@ -25,7 +25,7 @@ export default function ContactForm() {
     .join("\n");
 
   const fieldCls =
-    "w-full min-h-11 border bg-pearl px-4 py-3 text-sm outline-none transition-colors hover:border-gilt/45 focus:border-velvet";
+    "w-full min-h-11 border bg-pearl px-4 py-3 text-sm outline-none transition-colors hover:border-gilt/45 focus:border-onyx";
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();

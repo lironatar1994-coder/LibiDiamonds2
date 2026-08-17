@@ -1702,7 +1702,7 @@ export default function TryOnDialog({
           />
 
           {!hasMedia && (
-            <div className="absolute inset-0 grid place-items-center overflow-y-auto px-5 py-7 text-on-velvet sm:px-8">
+            <div className="absolute inset-0 grid place-items-center overflow-y-auto px-5 py-7 text-on-onyx sm:px-8">
               <div className="w-full max-w-md text-center">
                 <div className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-[#c9b78e]/60 bg-white/5 text-[#eadab5]">
                   <ToolIcon name="camera" className="h-7 w-7" />
@@ -1720,7 +1720,7 @@ export default function TryOnDialog({
                   <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={handlePhoto} />
                 </label>
                 <label
-                  className="mt-3 inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-on-velvet outline-offset-4 focus-within:outline-2 focus-within:outline-white"
+                  className="mt-3 inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-on-onyx outline-offset-4 focus-within:outline-2 focus-within:outline-white"
                 >
                   <ToolIcon name="upload" className="h-4 w-4" /> בחירת תמונה מהמכשיר
                   <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />

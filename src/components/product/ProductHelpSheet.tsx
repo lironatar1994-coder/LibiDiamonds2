@@ -182,7 +182,7 @@ export default function ProductHelpSheet({ topic, onClose, product }: ProductHel
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[90] flex items-end justify-center bg-velvet/45 sm:items-center sm:p-6"
+      className="fixed inset-0 z-[90] flex items-end justify-center bg-onyx/45 sm:items-center sm:p-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}

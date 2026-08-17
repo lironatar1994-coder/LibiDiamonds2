@@ -553,7 +553,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
           />
 
           {!photoReady && (
-            <div className="absolute inset-0 grid place-items-center px-7 text-center text-on-velvet">
+            <div className="absolute inset-0 grid place-items-center px-7 text-center text-on-onyx">
               <div className="max-w-sm">
                 <ToolIcon name="ear" className="mx-auto h-10 w-10 text-[#c9b78e]" />
                 <h3 className="mt-5 font-display text-2xl font-medium sm:text-3xl">בחרו צילום שבו האוזן גלויה</h3>
@@ -563,7 +563,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
                     <ToolIcon name="camera" className="h-4 w-4" /> צילום חדש
                     <input type="file" accept="image/*" capture="user" className="sr-only" onChange={handlePhoto} />
                   </label>
-                  <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-on-velvet">
+                  <label className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 border border-white/50 px-5 text-sm font-semibold text-on-onyx">
                     <ToolIcon name="upload" className="h-4 w-4" /> בחירת תמונה
                     <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handlePhoto} />
                   </label>

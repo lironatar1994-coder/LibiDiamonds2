@@ -1,23 +1,23 @@
 ---
 name: LIBI DIAMONDS
-description: Pearl-white light table with a garnet velvet counterpoint — the inside of the box
+description: A jeweler's light table — white surfaces, one onyx counterpoint, metal as the only colour
 colors:
   paper: "#ffffff"
-  pearl: "#fdfdfb"
-  mist: "#f7f6f2"
-  fog: "#f0eee8"
-  hairline: "#e3e0d8"
-  ink: "#1c2126"
-  ink-soft: "#41454a"
-  stone: "#6b6c66"
-  velvet: "#41151f"
-  velvet-2: "#54202c"
-  velvet-press: "#2f0e16"
-  on-velvet: "#f7f0e6"
+  pearl: "#fcfcfc"
+  mist: "#f7f7f7"
+  fog: "#efefef"
+  hairline: "#e2e2e2"
+  ink: "#1c1c1c"
+  ink-soft: "#4a4a4a"
+  stone: "#6e6e6e"
+  onyx: "#1c1c1c"
+  onyx-2: "#2a2a2a"
+  onyx-press: "#000000"
+  on-onyx: "#ffffff"
   gilt: "#b5924b"
   gilt-deep: "#7c5d28"
-  clay: "#8a4b3b"
-  selection: "#efe3cf"
+  clay: "#9b2c22"
+  selection: "#e8e8e8"
 typography:
   display:
     fontFamily: "Frank Ruhl Libre, serif"
@@ -46,8 +46,8 @@ spacing:
   xl: "128px"
 components:
   button-primary:
-    backgroundColor: "{colors.velvet}"
-    textColor: "{colors.on-velvet}"
+    backgroundColor: "{colors.onyx}"
+    textColor: "{colors.on-onyx}"
     rounded: "{rounded.square}"
     padding: "14px 35px"
   product-tray:
@@ -65,20 +65,20 @@ components:
 
 ## Overview
 
-**Creative North Star: "The LIBI Box"**
+**Creative North Star: "The Light Table"**
 
-The brand mark is a jewelry box: pearl-white outside, garnet velvet inside. The site is built from the same two materials.
+LIBI is built from the two materials a jeweler actually works on: a white light table and a black display tray. Nothing else supplies colour except the metal and the stone.
 
 The light half is a jeweler''s light table — bright, calm, exact, free of decorative chrome — and it carries the clear majority of every page. Real photography supplies the material richness; the interface contributes white space, fine gilt hairlines and decisive typography, then steps back.
 
-Garnet velvet is the single dark counterpoint: the box interior. It appears in the virtual try-on passage, the packaging story and decisive controls, and nowhere else. Where a competitor reaches for another navy, LIBI reaches for the colour of the lining — warm, close to the skin, and unmistakably ours.
+Onyx is the single dark counterpoint. It appears in the virtual try-on passage, the packaging story and decisive controls, and nowhere else. It is a true neutral by intent: a diamond graded for the absence of colour must not sit on a surface that casts into it. This is also where the reference set lands — Malka #1c1c1c, Jared and Kay #000 — none of them puts a chromatic ground behind a stone.
 
 **Key Characteristics:**
 
 - Paper-white page fields with mist-toned product trays.
 - Large Hebrew display typography paired with quiet utility text.
 - Flat, square-edged compositions with hairline separation.
-- One velvet counterpoint per long commerce surface, never two.
+- One onyx counterpoint per long commerce surface, never two.
 - Real jewelry, packaging and atelier photography. No people, ever.
 
 ## Colors
@@ -87,21 +87,21 @@ Every colour in the build resolves through the token block at the top of `src/ap
 
 ### Primary
 
-- **Velvet (#41151f):** The box interior. Dark sections, primary buttons, the try-on passage. **Velvet-2** raises panels inside it; **velvet-press** is the pressed state.
-- **On-Velvet (#f7f0e6):** The one warm white used for text on velvet.
+- **Onyx (#1c1c1c):** The display tray. Dark sections, primary buttons, the try-on passage. **onyx-2** (#2a2a2a) raises panels inside it; **onyx-press** (#000) is the pressed state.
+- **On-Onyx (#ffffff):** The one white used for text on onyx.
 
 ### Secondary
 
 - **Gilt / Gilt-Deep:** Hairlines, selection, the 45° signature diamond and the focus ring on light grounds. Three hairline weights only — faint, mid, strong.
-- **Clay (#8a4b3b):** The single corrective tone, for form errors. A muted terracotta in velvet''s family; never signal red.
+- **Clay (#8a4b3b):** The single corrective tone, for form errors. A muted terracotta in Onyx''s family; never signal red.
 
 ### Neutral
 
 - **Paper → Pearl → Mist → Fog:** Four light surfaces, lightest to deepest. Paper is the page, pearl is a card, mist is a tray or quiet panel, fog is the deepest light tone and the hover fill.
-- **Ink / Ink-Soft / Stone:** Warm near-black, secondary and tertiary text. All three sit warm; nothing in the palette leans blue.
+- **Ink / Ink-Soft / Stone:** Near-black, secondary and tertiary text. All three are true neutrals; nothing in the palette carries a hue.
 - **Hairline (#e3e0d8):** Rules, tray boundaries and structural dividers.
 
-**The Light Majority Rule.** Light surfaces occupy the clear majority of every commerce page; velvet is rare enough to remain meaningful.
+**The Light Majority Rule.** Light surfaces occupy the clear majority of every commerce page; Onyx is rare enough to remain meaningful.
 
 **The Hairline Gilt Rule.** Gold marks selection and craft at small scale. It never becomes a decorative background.
 
@@ -146,8 +146,8 @@ Major surfaces, image frames, buttons and controls use square corners. The recur
 ### Buttons
 
 - **Shape:** Square and architectural.
-- **Primary:** Velvet background, on-velvet text and generous horizontal padding.
-- **Hover / Press:** Fill shifts to velvet-press and the control drops 1px; keyboard focus is a 2px gilt-deep ring that inverts to warm white inside velvet.
+- **Primary:** Onyx background, on-Onyx text and generous horizontal padding.
+- **Hover / Press:** Fill shifts to onyx-press and the control drops 1px; keyboard focus is a 2px gilt-deep ring that inverts to warm white inside Onyx.
 - **Text action:** A quiet underline or hairline rule replaces a secondary button container.
 
 ### Cards / Containers
@@ -168,7 +168,7 @@ Products sit on a nearly white optical field with a restrained central light blo
 
 ### Virtual Try-On Passage
 
-This is the single immersive velvet section. It pairs a large real product image with one short promise and a bordered action, then returns immediately to the light page world.
+This is the single immersive Onyx section. It pairs a large real product image with one short promise and a bordered action, then returns immediately to the light page world.
 
 ## Do's and Don'ts
 
@@ -183,7 +183,7 @@ This is the single immersive velvet section. It pairs a large real product image
 ### Don't:
 
 - **Don't** rebuild the storefront from equal beige cards with layered shadows.
-- **Don't** place consecutive full-width velvet sections on a commerce page.
+- **Don't** place consecutive full-width onyx sections on a commerce page.
 - **Don't** add decorative kickers above headings or invented luxury copy.
 - **Don't** use gradients or texture to imitate jewelry, paper, stone or metal when a real image should carry the material.
 - **Don't** let gold become a large background or dominant text color.
