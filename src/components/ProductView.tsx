@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
   metalNames,
+  metalSwatches,
   productImages,
   productSpin,
   type CaratScope,
@@ -18,6 +19,7 @@ import { WhatsAppIcon } from "@/components/icons";
 import ProductMedia from "@/components/ProductMedia";
 import ProductHelpSheet, { type ProductHelpTopic } from "@/components/product/ProductHelpSheet";
 import RingSizeSheet from "@/components/product/RingSizeSheet";
+import { CertificateGlyph, ReturnGlyph, ShieldGlyph } from "@/components/ServiceAssurance";
 
 const TryOnDialog = dynamic(() => import("@/components/try-on/TryOnDialog"), { ssr: false });
 const EarringTryOnDialog = dynamic(() => import("@/components/try-on/EarringTryOnDialog"), { ssr: false });
@@ -79,12 +81,6 @@ function ChevronGlyph({ className }: { className?: string }) {
     </svg>
   );
 }
-
-const METAL_SWATCH: Record<Metal, string> = {
-  yellow: "#c9a35e",
-  white: "#c4c8cd",
-  rose: "#d6a289",
-};
 
 const CARAT_SCOPE_COPY: Record<CaratScope, { legend: string; qualifier: string }> = {
   center: { legend: "משקל האבן המרכזית", qualifier: "קראט" },
@@ -475,7 +471,7 @@ export default function ProductView({ product }: { product: Product }) {
                 >
                   <span
                     className={`h-4 w-4 shrink-0 rounded-full border shadow-inner ${metal === option ? "border-ink/25" : "border-black/10"}`}
-                    style={{ backgroundColor: METAL_SWATCH[option] }}
+                    style={{ backgroundColor: metalSwatches[option] }}
                     aria-hidden
                   />
                   <span className="whitespace-nowrap">{metalNames[option]}</span>
@@ -556,9 +552,38 @@ export default function ProductView({ product }: { product: Product }) {
             </div>
           )}
 
-          <p className="pdp-assurance-line mt-5 text-center text-xs leading-6 text-ink-soft">
-            תעודת {product.specs.cert} <span aria-hidden>·</span> משלוח מבוטח <span aria-hidden>·</span> {product.category === "rings" ? "התאמת מידה ראשונה" : "אחריות מלאה"}
-          </p>
+          <div className="pdp-assurance-line mt-5 grid grid-cols-3">
+            {[
+              {
+                id: "certificate-figure",
+                glyph: CertificateGlyph,
+                label: `תעודת ${product.specs.cert}`,
+              },
+              {
+                id: "service-shipping",
+                glyph: ShieldGlyph,
+                label: "משלוח מבוטח",
+              },
+              {
+                id: "service-returns",
+                glyph: ReturnGlyph,
+                label: `החזרה עד ${servicePromises.returnsWindow}`,
+              },
+            ].map(({ id, glyph: Glyph, label }) => (
+              <a
+                key={id}
+                href={`#${id}`}
+                onClick={() => {
+                  const target = document.getElementById(id);
+                  if (target instanceof HTMLDetailsElement) target.open = true;
+                }}
+                className="flex min-h-11 flex-col items-center justify-center gap-1.5 px-1 text-center text-[0.72rem] leading-4 text-ink-soft transition-colors hover:text-ink"
+              >
+                <Glyph className="h-[1.1rem] w-[1.1rem] text-gold-deep" />
+                {label}
+              </a>
+            ))}
+          </div>
 
           <div ref={primaryCtaRef} className="mt-3">
             <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="pdp-primary-cta min-h-14 w-full">

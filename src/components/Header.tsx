@@ -172,6 +172,25 @@ export default function Header() {
                 </li>
               ))}
             </ul>
+            <ul
+              className="menu-item mt-6 border-t border-line/60 pt-5"
+              style={{ animationDelay: `${80 + navItems.length * 55}ms` }}
+            >
+              {[
+                { href: "/ring-size-guide", label: "מדריך מידות לטבעות" },
+                { href: "/service", label: "משלוחים, אחריות והחזרות" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={close}
+                    className="flex min-h-11 items-center text-sm text-ink-soft transition-colors active:text-gold-deep"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </nav>
 
           <div

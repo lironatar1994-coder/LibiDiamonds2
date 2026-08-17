@@ -331,6 +331,12 @@ export const metalNames: Record<Metal, string> = {
   rose: "זהב ורוד",
 };
 
+export const metalSwatches: Record<Metal, string> = {
+  yellow: "#c9a35e",
+  white: "#c4c8cd",
+  rose: "#d6a289",
+};
+
 export const categories: Category[] = [
   {
     slug: "rings",

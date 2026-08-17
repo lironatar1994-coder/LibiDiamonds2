@@ -12,6 +12,7 @@ interface ProductMediaProps {
   priority?: boolean;
   fetchPriority?: "high" | "low" | "auto";
   loading?: "eager" | "lazy";
+  quality?: number;
   unoptimized?: boolean;
   decorative?: boolean;
   variant?: "default" | "pdp" | "catalog";
@@ -28,6 +29,7 @@ export default function ProductMedia({
   priority = false,
   fetchPriority,
   loading,
+  quality,
   unoptimized = false,
   decorative = false,
   variant = "default",
@@ -66,6 +68,7 @@ export default function ProductMedia({
         priority={priority}
         fetchPriority={fetchPriority}
         loading={loading}
+        quality={quality}
         unoptimized={unoptimized}
         className={`${imageClassName} ${pdpImageClass} ${catalogImageClass}`.trim()}
         style={imageStyle}
@@ -77,6 +80,7 @@ export default function ProductMedia({
           fill
           sizes={sizes}
           loading={loading}
+          quality={quality}
           unoptimized={unoptimized}
           className={secondaryImageClassName}
           style={secondaryStyle}

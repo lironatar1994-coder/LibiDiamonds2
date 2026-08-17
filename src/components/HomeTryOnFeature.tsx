@@ -219,9 +219,9 @@ export default function HomeTryOnFeature() {
               alt="טבעת סוליטר אורה מזהב צהוב על שכבות אבן כחולה"
               fill
               sizes="(min-width: 1024px) 58vw, 100vw"
+              quality={85}
               loading="eager"
               fetchPriority="low"
-              unoptimized
               className="object-cover md:hidden lg:block"
             />
             <Image
@@ -229,9 +229,9 @@ export default function HomeTryOnFeature() {
               alt="טבעת סוליטר אורה מזהב צהוב על שכבות אבן כחולה"
               fill
               sizes="(min-width: 1280px) 810px, 65vw"
+              quality={85}
               loading="eager"
               fetchPriority="low"
-              unoptimized
               className="hidden object-cover md:block lg:hidden"
             />
             <span className="home-try-on-media-shade" aria-hidden="true" />

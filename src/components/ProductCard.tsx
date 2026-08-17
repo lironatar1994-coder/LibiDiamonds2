@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metal, Product, ProductGalleryImage } from "@/data/products";
-import { productImages } from "@/data/products";
+import { metalNames, metalSwatches, productImages } from "@/data/products";
 import { formatPrice } from "@/lib/site";
 import ProductMedia from "@/components/ProductMedia";
 import { catalogOpticalScale } from "@/data/catalog-presentation";
@@ -54,7 +54,7 @@ export default function ProductCard({
         sizes={editorial ? "(min-width: 1024px) 34vw, 50vw" : compact ? "(min-width: 1024px) 20vw, 50vw" : "(min-width: 1024px) 33vw, 50vw"}
         loading={compact ? "eager" : undefined}
         fetchPriority={compact ? "low" : undefined}
-        unoptimized={compact}
+        quality={compact ? 85 : undefined}
         variant={catalog ? "catalog" : "default"}
         transparent={transparentMedia}
         className={`product-card-frame ${catalog ? `catalog-card-media catalog-cutout-media ${ringCatalog ? "catalog-ring-media aspect-square sm:aspect-[4/5]" : "aspect-[4/5]"}` : editorial ? "catalog-card-media aspect-[16/9]" : "aspect-square"}`}
@@ -74,6 +74,22 @@ export default function ProductCard({
         <p className={`${ringCatalog ? "catalog-ring-price mt-1 text-[0.94rem] tabular-nums sm:mt-2 sm:text-base" : "font-display tracking-[0.02em]"} font-medium text-ink ${compact ? "mt-1 text-[0.95rem] sm:mt-2 sm:text-base" : ringCatalog ? "" : catalog ? "mt-2 text-[1.05rem] sm:text-lg" : editorial ? "mt-1.5 text-base" : "mt-1.5 text-base sm:mt-2.5 sm:text-[1.08rem]"}`}>
           {catalog || editorial ? `מ־${formatPrice(product.priceFrom)}` : `החל מ־${formatPrice(product.priceFrom)}`}
         </p>
+        {catalog && product.metals.length > 1 && (
+          <p
+            className={`mt-2 flex items-center gap-1.5 ${catalog || editorial ? "justify-start" : "justify-center"}`}
+            aria-label={`זמין ב${product.metals.map((option) => metalNames[option]).join(", ")}`}
+          >
+            {product.metals.map((option) => (
+              <span
+                key={option}
+                title={metalNames[option]}
+                className="h-2.5 w-2.5 rounded-full border border-black/15 shadow-inner"
+                style={{ backgroundColor: metalSwatches[option] }}
+                aria-hidden
+              />
+            ))}
+          </p>
+        )}
       </div>
     </Link>
   );

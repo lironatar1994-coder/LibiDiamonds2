@@ -168,10 +168,10 @@ function CollectionTile({ category }: { category: CategorySlug }) {
           src={images.src}
           alt={images.alt}
           fill
-          sizes="(max-width: 1023px) 100vw, 1px"
+          sizes={tall || wide ? "(max-width: 1023px) 100vw, 1px" : "(max-width: 1023px) 50vw, 1px"}
+          quality={85}
           loading="eager"
           fetchPriority="low"
-          unoptimized
           className="home-collection-image object-cover lg:hidden"
         />
         <Image
@@ -179,9 +179,9 @@ function CollectionTile({ category }: { category: CategorySlug }) {
           alt={images.alt}
           fill
           sizes="(min-width: 1440px) 22vw, (min-width: 1024px) 24vw, 1px"
+          quality={85}
           loading="eager"
           fetchPriority="low"
-          unoptimized
           className="home-collection-image hidden object-cover transition-transform duration-1000 ease-out lg:block motion-safe:lg:group-hover:scale-[1.025]"
         />
         <div
@@ -273,11 +273,21 @@ export default function HomePage() {
               <h1 id="home-hero-title" className="home-hero-title font-display">
                 היהלום במרכז.
               </h1>
+              <p className="home-hero-mobile-line lg:hidden">
+                יהלומי מעבדה עם תעודה גמולוגית · זהב 14K/18K
+              </p>
               <p className="home-hero-desktop-copy hidden lg:block">
                 תכשיטים שנבחרים לאט, נבנים בדיוק ונשארים הרבה אחרי הרגע.
               </p>
-              <HeroCollectionLink />
+              <div className="hidden sm:block">
+                <HeroCollectionLink />
+              </div>
             </div>
+          </div>
+
+          {/* Mobile action sits under the jewel, never over it (visibility owned by .home-hero-cta). */}
+          <div className="home-hero-cta">
+            <HeroCollectionLink />
           </div>
         </div>
       </section>
@@ -350,6 +360,51 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Direct atelier — the no-storefront advantage ── */}
+      <section className="home-direct-section" aria-labelledby="direct-title">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+          <h2 id="direct-title" className="scroll-mt-24 font-display text-[2rem] font-medium leading-none sm:text-4xl">
+            היתרון של בלי חנות.
+          </h2>
+          <div className="mt-7 sm:mt-10 lg:grid lg:grid-cols-3 lg:gap-12">
+            {[
+              {
+                title: "מחיר ישיר, בלי תיווך",
+                detail:
+                  "אנחנו עובדים בלי חלון ראווה ובלי מתווכים — כך שהמחיר משקף את היהלום ואת עבודת הצורפות, לא את השכירות.",
+              },
+              {
+                title: "תעודה לכל יהלום מרכזי",
+                detail:
+                  "תעודת IGI או GIA מתעדת את המשקל, הצבע, הניקיון והליטוש. ברוב האבנים מספר התעודה חרוט בלייזר על חגורת היהלום.",
+              },
+              {
+                title: "בוחרים בביטחון",
+                detail:
+                  "הדמיה על היד, תצוגת 360° וליווי אישי בוואטסאפ — סוגרים כל החלטה לפני ההזמנה, לא אחריה.",
+              },
+            ].map((item) => (
+              <div key={item.title} className="home-direct-item border-t py-5 lg:py-6">
+                <h3 className="flex items-center gap-3 font-display text-xl font-medium sm:text-2xl">
+                  <span className="home-direct-mark" aria-hidden="true" />
+                  {item.title}
+                </h3>
+                <p className="mt-2 max-w-xl text-sm leading-7 text-stone sm:text-[0.95rem]">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+          <a
+            href={waLink("היי, אשמח להתייעץ לפני בחירת תכשיט")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex min-h-11 items-center gap-2 border-b border-gilt/55 text-sm font-semibold text-ink-soft transition-colors hover:border-gilt hover:text-ink"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            יש שאלה? דברו איתנו בוואטסאפ
+          </a>
+        </div>
+      </section>
+
       <HomeTryOnFeature />
 
       <section className="section-bespoke" aria-labelledby="bespoke-inspiration-title">
@@ -361,9 +416,9 @@ export default function HomePage() {
                 alt="טבעת סוליטר מזהב צהוב עם יהלום בוהק לצד סקיצה ועיפרון על משטח שיש בגוון אייבורי"
                 fill
                 sizes="(min-width: 1024px) 1024px, 100vw"
+                quality={85}
                 loading="eager"
                 fetchPriority="low"
-                unoptimized
                 className="home-bespoke-image object-cover object-[center_55%]"
               />
             </div>
@@ -426,9 +481,9 @@ export default function HomePage() {
                     alt={featuredJournalCover.alt}
                     fill
                     sizes="(min-width: 1024px) 67vw, 100vw"
+                    quality={85}
                     loading="eager"
                     fetchPriority="low"
-                    unoptimized
                     className="home-journal-image object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]"
                   />
                 </div>
@@ -451,9 +506,9 @@ export default function HomePage() {
                         alt={guide.cover.alt}
                         fill
                         sizes="(min-width: 1024px) 26vw, 144px"
+                        quality={85}
                         loading="eager"
                         fetchPriority="low"
-                        unoptimized
                         className="home-journal-image scale-[1.035] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.055] lg:scale-100 lg:group-hover:scale-[1.02]"
                       />
                     </div>
@@ -467,6 +522,82 @@ export default function HomePage() {
                 </Link>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── The LIBI experience — service told as a story, closing the page ── */}
+      <section className="home-experience-section" aria-labelledby="experience-title">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+          <div className="text-center">
+            <h2 id="experience-title" className="scroll-mt-24 font-display text-[2rem] font-medium leading-none sm:text-4xl">
+              החוויה מבית LIBI
+            </h2>
+          </div>
+          <div className="mt-8 grid gap-10 sm:mt-12 lg:grid-cols-3 lg:gap-10">
+            {[
+              {
+                image: {
+                  src: assetPath("/images/editorial/v6-bespoke/atelier-tools.webp"),
+                  alt: "סקיצת עיפרון של טבעת סוליטר לצד לופה מוזהבת וכלי צורפות על משטח שיש",
+                },
+                title: "ייעוץ אישי, בקצב שלכם",
+                copy: "שולחים תמונה או שאלה בוואטסאפ, ומקבלים ליווי אישי — מהרעיון הראשון ועד ההחלטה.",
+                cta: { label: "לתיאום ייעוץ", href: waLink("היי, אשמח לתאם ייעוץ אישי לבחירת תכשיט"), external: true },
+              },
+              {
+                image: {
+                  src: assetPath("/images/trust/v5-pearl/libi-packaging-ring-pearl-v1.webp"),
+                  alt: "אריזת טבעת לבנה של LIBI DIAMONDS מבד פנינה עם הטבעת לוגו בזהב",
+                },
+                title: "האריזה של LIBI",
+                copy: "אריזה לבנה בגימור פנינה, שמגיעה עד הבית במשלוח מבוטח — מוכנה לרגע הפתיחה.",
+                cta: { label: "משלוחים והחזרות", href: "/service" },
+              },
+              {
+                image: {
+                  src: assetPath("/images/trust/v5-pearl/libi-certificate-pearl-v1.webp"),
+                  alt: "תעודה גמולוגית בתיקייה לבנה של LIBI DIAMONDS",
+                },
+                title: "היהלום, שחור על גבי לבן",
+                copy: "כל יהלום מרכזי מלווה בתעודה גמולוגית של IGI או GIA — המפרט המלא של האבן שבחרתם.",
+                cta: { label: "מה כלול בכל הזמנה", href: "/service" },
+              },
+            ].map((item) => (
+              <article key={item.title} className="home-experience-tile">
+                <div className="home-photo-surface relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={item.image.src}
+                    alt={item.image.alt}
+                    fill
+                    sizes="(min-width: 1024px) 30vw, 100vw"
+                    quality={85}
+                    loading="lazy"
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="mt-4 font-display text-xl font-medium sm:text-2xl">{item.title}</h3>
+                <p className="mt-2 max-w-md text-sm leading-7 text-stone sm:text-[0.95rem]">{item.copy}</p>
+                {item.cta.external ? (
+                  <a
+                    href={item.cta.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex min-h-11 items-center gap-2 border-b border-gilt/55 text-sm font-semibold text-ink-soft transition-colors hover:border-gilt hover:text-ink"
+                  >
+                    <WhatsAppIcon className="h-4 w-4" />
+                    {item.cta.label}
+                  </a>
+                ) : (
+                  <Link
+                    href={item.cta.href}
+                    className="mt-3 inline-flex min-h-11 items-center border-b border-gilt/55 text-sm font-semibold text-ink-soft transition-colors hover:border-gilt hover:text-ink"
+                  >
+                    {item.cta.label}
+                  </Link>
+                )}
+              </article>
+            ))}
           </div>
         </div>
       </section>
