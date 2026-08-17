@@ -1662,7 +1662,7 @@ export default function TryOnDialog({
   const hasMedia = photoReady;
 
   return createPortal(
-    <div className="fixed inset-0 z-[1000] bg-black/70 sm:grid sm:place-items-center sm:p-5" role="presentation">
+    <div className="fixed inset-0 z-[110] bg-black/70 sm:grid sm:place-items-center sm:p-5" role="presentation">
       <div
         ref={dialogRef}
         role="dialog"

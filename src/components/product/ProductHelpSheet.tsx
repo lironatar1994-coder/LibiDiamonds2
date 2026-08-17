@@ -1,8 +1,8 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import type { Product } from "@/data/products";
+import { metalSwatches, type Product } from "@/data/products";
 
 export type ProductHelpTopic = "size" | "carat" | "metal" | "certificate";
 
@@ -99,12 +99,12 @@ function HelpContent({ topic, product }: { topic: ProductHelpTopic; product: Pro
     return (
       <div className="grid gap-6 sm:grid-cols-2">
         <section>
-          <span className="block h-5 w-5 rounded-full border border-black/10 bg-[#c9a35e]" aria-hidden />
+          <span className="block h-5 w-5 rounded-full border border-black/15 shadow-inner" style={{ backgroundColor: metalSwatches.yellow }} aria-hidden />
           <h3 className="mt-3 font-display text-xl font-medium">זהב צהוב</h3>
           <p className="mt-2 text-sm leading-7 text-stone">גוון חם שמדגיש את הניגוד מול היהלום ומתאים למראה קלאסי.</p>
         </section>
         <section>
-          <span className="block h-5 w-5 rounded-full border border-black/10 bg-[#c4c8cd]" aria-hidden />
+          <span className="block h-5 w-5 rounded-full border border-black/15 shadow-inner" style={{ backgroundColor: metalSwatches.white }} aria-hidden />
           <h3 className="mt-3 font-display text-xl font-medium">זהב לבן</h3>
           <p className="mt-2 text-sm leading-7 text-stone">גוון קריר ורציף שמתחבר חזותית ללובן היהלום.</p>
         </section>
@@ -182,7 +182,7 @@ export default function ProductHelpSheet({ topic, onClose, product }: ProductHel
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[90] flex items-end justify-center bg-black/38 sm:items-center sm:p-6"
+      className="fixed inset-0 z-[90] flex items-end justify-center bg-velvet/45 sm:items-center sm:p-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -192,15 +192,24 @@ export default function ProductHelpSheet({ topic, onClose, product }: ProductHel
         role="dialog"
         aria-modal="true"
         aria-labelledby="product-help-title"
-        className="flex max-h-[82svh] w-full flex-col bg-paper sm:max-w-xl sm:border sm:border-line"
+        className="flex max-h-[88svh] scroll-contain w-full flex-col bg-paper sm:max-w-xl sm:border sm:border-line"
       >
         <header className="flex shrink-0 items-center justify-between border-b border-line px-5 py-4 sm:px-7">
           <h2 id="product-help-title" className="font-display text-2xl font-medium text-ink">{TOPIC_TITLES[topic]}</h2>
-          <button ref={closeRef} type="button" onClick={onClose} className="flex h-11 w-11 items-center justify-center border border-line bg-white text-ink" aria-label="סגירת החלון">
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={onClose}
+            className="flex h-11 w-11 items-center justify-center border border-line bg-paper text-ink transition-colors hover:bg-mist active:bg-fog"
+            aria-label="סגירת החלון"
+          >
             <CloseGlyph />
           </button>
         </header>
-        <div className="overflow-y-auto px-5 py-6 sm:px-7 sm:py-7">
+        <div
+          className="overflow-y-auto px-5 py-6 sm:px-7 sm:py-7"
+          style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
+        >
           <HelpContent topic={topic} product={product} />
         </div>
       </div>

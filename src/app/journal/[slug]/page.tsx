@@ -84,7 +84,7 @@ export default async function GuidePage({ params }: Props) {
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+    <div className="site-shell mx-auto max-w-3xl px-4 py-14 sm:px-6">
       <nav className="text-xs text-stone" aria-label="פירורי לחם">
         <Link href="/" className="hover:text-gold-deep">ראשי</Link>
         <span className="mx-2">/</span>
@@ -208,7 +208,7 @@ export default async function GuidePage({ params }: Props) {
             {guide.commerceBridge && i === guide.commerceBridge.afterSection && (
               <aside className="border-y border-line bg-platinum-soft/45 px-5 py-6 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:px-7" aria-label="המשך לקולקציה">
                 <p className="font-display text-xl font-medium leading-snug text-ink">{guide.commerceBridge.title}</p>
-                <Link href={guide.commerceBridge.href} className="mt-4 inline-flex min-h-11 shrink-0 items-center border-b border-gilt/65 text-sm font-semibold text-ink-soft transition-colors hover:border-gilt hover:text-ink sm:mt-0">
+                <Link href={guide.commerceBridge.href} className="mt-4 inline-flex min-h-11 shrink-0 items-center border-b border-gilt/55 text-sm font-semibold text-ink-soft transition-colors hover:border-gilt hover:text-ink sm:mt-0">
                   {guide.commerceBridge.label} <span className="mr-2" aria-hidden>←</span>
                 </Link>
               </aside>
@@ -239,7 +239,7 @@ export default async function GuidePage({ params }: Props) {
       )}
 
       <aside className="mt-14 bg-cream p-8 text-center">
-        <h2 className="font-display text-2xl">נשארו שאלות?</h2>
+        <h2 className="font-display text-2xl font-medium">נשארו שאלות?</h2>
         {/* ink-soft, not stone: muted grey on the cream panel is 3.96:1. */}
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
           נשמח להסביר, להשוות אבנים אמיתיות עם תעודות, ולעזור לכם לבחור נכון —
@@ -258,7 +258,7 @@ export default async function GuidePage({ params }: Props) {
 
       {more.length > 0 && (
         <section className="mt-16 border-t border-line pt-10">
-          <h2 className="font-display text-2xl">מדריכים נוספים</h2>
+          <h2 className="font-display text-2xl font-medium">מדריכים נוספים</h2>
           <div className="mt-6 grid gap-8 sm:grid-cols-2">
             {more.map((g) => (
               <Link key={g.slug} href={`/journal/${g.slug}`} className="group block">

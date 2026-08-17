@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -154,7 +154,7 @@ export default function Header() {
             <span className="h-11 w-11" aria-hidden />
           </div>
 
-          <nav className="flex-1 overflow-y-auto px-6 py-8" aria-label="ניווט ראשי">
+          <nav className="scroll-contain flex-1 overflow-y-auto px-6 py-8" aria-label="ניווט ראשי">
             <ul>
               {navItems.map((item, i) => (
                 <li

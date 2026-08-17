@@ -99,7 +99,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[90] flex items-end justify-center bg-black/38 sm:items-center sm:p-6"
+      className="fixed inset-0 z-[90] flex items-end justify-center bg-velvet/45 sm:items-center sm:p-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -109,7 +109,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
         role="dialog"
         aria-modal="true"
         aria-labelledby="ring-size-sheet-title"
-        className="flex max-h-[92svh] w-full flex-col bg-paper sm:max-w-lg sm:border sm:border-line"
+        className="flex max-h-[88svh] scroll-contain w-full flex-col bg-paper sm:max-w-lg sm:border sm:border-line"
       >
         <header className="flex shrink-0 items-center justify-between border-b border-line px-5 py-4 sm:px-7">
           <div>
@@ -126,7 +126,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="flex h-10 w-10 items-center justify-center text-ink transition-colors hover:bg-white"
+            className="flex h-11 w-11 items-center justify-center text-ink transition-colors hover:bg-white"
             aria-label="סגירת בחירת המידה"
           >
             <CloseGlyph />
@@ -170,7 +170,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
                     onClick={() => setDraftSize(size)}
                     aria-label={`מידה ${size}`}
                     aria-pressed={draftSize === size}
-                    className={`relative flex min-h-9 items-end justify-center pb-0.5 text-[0.68rem] transition-colors before:absolute before:top-0 before:h-1.5 before:w-px ${
+                    className={`relative flex min-h-11 items-end justify-center pb-0.5 text-[0.68rem] transition-colors before:absolute before:top-0 before:h-1.5 before:w-px ${
                       draftSize === size
                         ? "font-semibold text-ink before:bg-gilt-deep"
                         : "text-stone before:bg-line hover:text-ink"
@@ -188,7 +188,7 @@ export default function RingSizeSheet({ open, sizes, value, onSelect, onClose, o
               <button
                 type="button"
                 onClick={() => setShowAllSizes((current) => !current)}
-                className="flex min-h-9 w-full items-center justify-between text-xs font-medium text-ink-soft transition-colors hover:text-ink"
+                className="flex min-h-11 w-full items-center justify-between text-xs font-medium text-ink-soft transition-colors hover:text-ink"
                 aria-expanded={showAllSizes}
               >
                 <span>מידות נוספות</span>

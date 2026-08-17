@@ -63,7 +63,7 @@ export default function RingSizeGuidePage() {
 
       <header className="mx-auto max-w-5xl px-4 pb-12 pt-14 sm:px-6 sm:pb-16 sm:pt-20 lg:pb-20 lg:pt-24">
         <BrandSignature />
-        <h1 className="mt-5 max-w-3xl font-display text-[2.65rem] font-medium leading-[1.08] text-ink sm:text-6xl">
+        <h1 className="mt-5 max-w-3xl font-display text-[clamp(1.9rem,7vw,2.6rem)] font-medium leading-[1.08] text-ink sm:text-6xl">
           מדריך מידות לטבעות
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-8 text-stone sm:text-lg sm:leading-9">
@@ -144,7 +144,7 @@ export default function RingSizeGuidePage() {
                 {sizes.map((size) => {
                   const common = size.israel >= 10 && size.israel <= 18;
                   return (
-                    <tr key={size.israel} className={`border-t border-line/75 text-sm ${common ? "bg-paper" : "bg-white"}`}>
+                    <tr key={size.israel} className={`border-t border-line/75 text-sm ${common ? "bg-fog" : "bg-paper"}`}>
                       <td className="px-2 py-3 font-display text-lg font-medium text-ink sm:px-5">{size.israel}</td>
                       <td className="px-2 py-3 text-ink-soft sm:px-5">{size.circumference}</td>
                       <td className="px-2 py-3 text-ink-soft sm:px-5">{size.diameter}</td>

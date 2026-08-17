@@ -45,6 +45,10 @@
 
   --color-selection: #efe3cf;
 
+  /* The one corrective tone. A muted terracotta rather than signal red — it
+     belongs to the same warm family as velvet and never shouts. */
+  --color-clay: #8a4b3b;
+
   --font-display: var(--font-frank), "Frank Ruhl Libre", serif;
   --font-body: var(--font-assistant), "Assistant", sans-serif;
 }

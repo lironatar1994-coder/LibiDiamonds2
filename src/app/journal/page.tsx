@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { guides } from "@/data/guides";
@@ -42,7 +42,7 @@ export default function JournalPage() {
   return (
     <div className="site-shell mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-18">
       <header>
-        <h1 className="max-w-2xl font-display text-4xl font-medium leading-tight sm:text-5xl">לדעת מה בוחרים.</h1>
+        <h1 className="max-w-2xl font-display text-[clamp(1.9rem,6vw,2.6rem)] font-medium leading-tight sm:text-5xl">לדעת מה בוחרים.</h1>
         <BrandSignature className="mt-4" />
       </header>
 

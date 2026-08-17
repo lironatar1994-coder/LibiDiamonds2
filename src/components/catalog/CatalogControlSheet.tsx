@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
@@ -67,7 +67,7 @@ export default function CatalogControlSheet({ open, title, titleId, onClose, chi
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[90] flex items-end justify-center bg-[#071a28]/45 sm:hidden"
+      className="fixed inset-0 z-[90] flex items-end justify-center bg-velvet/45 sm:hidden"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -77,7 +77,7 @@ export default function CatalogControlSheet({ open, title, titleId, onClose, chi
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="catalog-control-sheet flex max-h-[88svh] w-full flex-col bg-paper text-ink"
+        className="catalog-control-sheet flex max-h-[88svh] scroll-contain w-full flex-col bg-paper text-ink"
       >
         <header className="flex shrink-0 items-center justify-between border-b border-line px-5 py-4">
           <h2 id={titleId} className="font-display text-[1.65rem] font-medium">{title}</h2>

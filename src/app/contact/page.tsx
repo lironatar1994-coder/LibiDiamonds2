@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import { site } from "@/lib/site";
 import { InstagramIcon } from "@/components/icons";
@@ -16,7 +16,7 @@ export default function ContactPage() {
   return (
     <div className="site-shell mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <header className="max-w-2xl">
-        <h1 className="font-display text-4xl font-medium">נשמח לדבר</h1>
+        <h1 className="font-display text-[clamp(1.9rem,6vw,2.6rem)] font-medium">נשמח לדבר</h1>
         <BrandSignature className="mt-4" />
       </header>
 

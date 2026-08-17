@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { waLink, defaultWaMessage } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/icons";
 import { pageMetadata } from "@/lib/seo";
@@ -61,7 +61,7 @@ export default function ServicePage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
       <header>
-        <h1 className="font-display text-4xl font-medium">
+        <h1 className="font-display text-[clamp(1.9rem,6vw,2.6rem)] font-medium">
           משלוחים, אחריות והחזרות
         </h1>
         <BrandSignature className="mt-4" />

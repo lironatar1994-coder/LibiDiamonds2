@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/icons";
@@ -36,7 +36,7 @@ export default function AboutPage() {
       <section className="bg-white">
         <div className="site-shell mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.86fr_1.14fr] lg:px-8 lg:py-20">
           <div className="max-w-xl">
-            <h1 className="font-display text-4xl font-medium leading-[1.12] sm:text-5xl lg:text-6xl">
+            <h1 className="font-display text-[clamp(1.9rem,6vw,2.6rem)] font-medium leading-[1.12] sm:text-5xl lg:text-6xl">
               כל פרט נבחן,
               <br />
               לפני שהוא הופך לתכשיט.
@@ -47,7 +47,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="relative aspect-[4/5] overflow-hidden bg-paper sm:aspect-[4/3] lg:aspect-[4/5]">
+          <div className="relative aspect-[4/5] overflow-hidden bg-mist sm:aspect-[4/3] lg:aspect-[4/5]">
               <Image
                 src={assetPath("/images/editorial/craft/libi-hands-at-work.webp")}
                 alt="ידיים בעבודת צורפות מדויקת לצד סקיצת טבעת וכלי מדידה"
@@ -64,7 +64,7 @@ export default function AboutPage() {
         <h2 className="font-display text-3xl font-medium sm:text-4xl">כך הבחירה נסגרת.</h2>
         <div className="mt-8 grid border-t border-line sm:grid-cols-3 lg:mt-10">
           {process.map((item, index) => (
-            <article key={item.title} className="border-b border-line py-7 sm:border-b-0 sm:border-l sm:px-7 sm:first:pr-0 sm:last:border-l-0 lg:px-10">
+            <article key={item.title} className="border-b border-line py-7 sm:border-b-0 sm:border-s sm:px-7 sm:first:pe-0 sm:last:border-s-0 lg:px-10">
               <span className="font-display text-sm text-gilt-deep" aria-hidden>{String(index + 1).padStart(2, "0")}</span>
               <h3 className="mt-3 font-display text-2xl font-medium">{item.title}</h3>
               <p className="mt-3 text-sm leading-7 text-stone sm:text-base">{item.text}</p>

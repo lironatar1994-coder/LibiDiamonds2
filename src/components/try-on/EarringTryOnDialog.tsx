@@ -530,7 +530,7 @@ export default function EarringTryOnDialog({ open, onClose, productName, metal, 
   if (!open || typeof document === "undefined") return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] bg-black/70 sm:grid sm:place-items-center sm:p-5" role="presentation">
+    <div className="fixed inset-0 z-[110] bg-black/70 sm:grid sm:place-items-center sm:p-5" role="presentation">
       <div role="dialog" aria-modal="true" aria-labelledby="earring-try-on-title" className="flex h-[100dvh] w-full flex-col overflow-hidden bg-paper sm:h-[min(92dvh,850px)] sm:max-w-4xl sm:border sm:border-white/20 sm:shadow-2xl">
         <header className="flex min-h-16 items-center justify-between border-b border-line bg-white px-4 sm:px-6">
           <div className="min-w-0">

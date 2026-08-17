@@ -6,7 +6,7 @@ import CatalogControlSheet from "@/components/catalog/CatalogControlSheet";
 import ProductCard from "@/components/ProductCard";
 import ProductMedia from "@/components/ProductMedia";
 import RingStyleAtelierIllustration, { type RingAtelierStyle } from "@/components/RingStyleAtelierIllustration";
-import { productImages } from "@/data/products";
+import { metalSwatches, productImages } from "@/data/products";
 import type { CatalogStyle, CategorySlug, DiamondShape, Metal, Product } from "@/data/products";
 import { assetPath } from "@/lib/site";
 
@@ -14,6 +14,15 @@ type SortMode = "popular" | "price-low" | "price-high";
 
 const INITIAL_PRODUCT_COUNT = 18;
 const PRODUCT_COUNT_STEP = 12;
+
+/* Empty-state and load-more copy used to say "טבעת" on every category. Hebrew
+   adjectives agree with gender, so the plural phrase is stored whole. */
+const CATEGORY_NOUN: Record<CategorySlug, { singular: string; morePlural: string }> = {
+  rings: { singular: "טבעת", morePlural: "טבעות נוספות" },
+  earrings: { singular: "עגילים", morePlural: "עגילים נוספים" },
+  necklaces: { singular: "שרשרת", morePlural: "שרשראות נוספות" },
+  bracelets: { singular: "צמיד", morePlural: "צמידים נוספים" },
+};
 
 const categoryEditorial: Record<CategorySlug, { desktop: string; mobile: string; alt: string }> = {
   rings: {
@@ -200,20 +209,20 @@ export default function CategoryCatalog({
       {styleShowcase.length > 1 && (
         <section
           className={category === "rings"
-            ? "catalog-style-showcase -mx-4 mt-4 border-y border-[#e2ddd2] bg-[radial-gradient(circle_at_12%_16%,rgba(176,166,148,0.16),transparent_33%),radial-gradient(circle_at_88%_82%,rgba(199,190,173,0.12),transparent_36%),linear-gradient(118deg,rgba(255,255,255,0.9)_0%,rgba(247,244,237,0.76)_42%,rgba(239,235,226,0.58)_100%),#f5f2ec] pb-3 pt-4 sm:mx-0 sm:mt-9 sm:py-7"
+            ? "catalog-style-showcase -mx-4 mt-4 border-y border-line bg-mist pb-3 pt-4 sm:mx-0 sm:mt-9 sm:py-7"
             : "catalog-style-showcase mt-5 sm:mt-8"
           }
           aria-labelledby="catalog-style-heading"
         >
           {category === "rings" ? (
             <div className="px-4 text-center sm:px-7">
-              <h2 id="catalog-style-heading" className="font-display text-[1.28rem] font-normal text-[#102434] sm:text-[1.55rem]">
+              <h2 id="catalog-style-heading" className="font-display text-xl font-normal text-ink sm:text-2xl">
                 מצאו את סגנון הטבעת שלכם
               </h2>
             </div>
           ) : (
             <div className="mb-3 flex items-center gap-3 sm:mb-4">
-              <h2 id="catalog-style-heading" className="shrink-0 text-[0.68rem] font-medium tracking-[0.14em] text-ink-soft">
+              <h2 id="catalog-style-heading" className="eyebrow shrink-0 text-ink-soft">
                 בחירה לפי סגנון
               </h2>
               <span className="h-px flex-1 bg-line/80" aria-hidden="true" />
@@ -334,7 +343,7 @@ export default function CategoryCatalog({
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value as SortMode)}
-              className="w-full min-w-0 border-0 bg-transparent px-1 text-center text-sm text-ink outline-none"
+              className="select-quiet w-full min-w-0 border-0 bg-transparent text-sm"
               aria-label="מיון מוצרים"
             >
               <option value="popular">הפופולריים ביותר</option>
@@ -431,7 +440,7 @@ export default function CategoryCatalog({
       ) : (
         <div className="my-14 border-y border-line/70 px-5 py-14 text-center sm:my-20 sm:py-20">
           <span className="mx-auto block h-3 w-3 rotate-45 border border-gilt" aria-hidden="true" />
-          <h3 className="mt-6 font-display text-2xl font-medium text-ink">לא מצאנו טבעת בשילוב הזה.</h3>
+          <h3 className="mt-6 font-display text-2xl font-medium text-ink">לא מצאנו {CATEGORY_NOUN[category].singular} בשילוב הזה.</h3>
           <button type="button" onClick={clearFilters} className="mt-5 min-h-11 border-b border-gilt px-3 text-sm text-ink">
             ניקוי הסינון
           </button>
@@ -444,11 +453,11 @@ export default function CategoryCatalog({
             type="button"
             onClick={() => setVisibleCount((count) => count + PRODUCT_COUNT_STEP)}
             className={`catalog-load-more flex min-h-12 min-w-64 items-center justify-center gap-3 px-6 text-sm text-ink transition-colors ${
-              category === "rings" ? "border border-gilt bg-paper hover:bg-[#f8f6f0]" : "border-b border-ink pb-2 hover:border-gilt-deep hover:text-gilt-deep"
+              category === "rings" ? "border border-gilt bg-paper hover:bg-mist" : "border-b border-ink pb-2 hover:border-gilt-deep hover:text-gilt-deep"
             }`}
           >
             {category === "rings" && <span className="h-2 w-2 rotate-45 border border-gilt" aria-hidden="true" />}
-            הצגת טבעות נוספות
+            הצגת {CATEGORY_NOUN[category].morePlural}
           </button>
         </div>
       )}
@@ -645,15 +654,14 @@ function MetalChoice({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`flex h-11 items-center justify-center gap-2 border-l border-line first:border-l-0 ${
-        active ? "bg-ink text-on-velvet" : "text-stone"
+      className={`flex h-11 items-center justify-center gap-2 border-s border-line first:border-s-0 ${
+        active ? "bg-velvet text-on-velvet" : "text-stone"
       }`}
     >
       <span
         aria-hidden="true"
-        className={`h-3 w-3 rounded-full border ${
-          metal === "yellow" ? "border-[#b99449] bg-[#d0aa5d]" : "border-[#b9bdc1] bg-[#d9dcdf]"
-        }`}
+        className="h-3 w-3 rounded-full border border-black/15 shadow-inner"
+        style={{ backgroundColor: metalSwatches[metal] }}
       />
       <span className="text-xs">{children}</span>
     </button>
