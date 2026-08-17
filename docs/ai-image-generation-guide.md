@@ -92,12 +92,80 @@ hearts, gift ribbons in colour, price stickers or sale badges.
 | Deepest shadow | `#000000` |
 | Gilt (metal accents) | `#b5924b` |
 
+---
+
+## 2b. The ground rule — read this before any homepage image
+
+**Every image's own ground must be one of the three page surfaces, matched to
+the section the image sits in.** Not "ivory stone", not "cream marble", not
+"warm travertine" — literally `#ffffff`, `#efefef` or `#1c1c1c`.
+
+### Why this is the most important rule in the document
+
+The current photography breaks it, and it is the single ugliest thing on the
+site. Measured, every editorial photograph on the homepage carries a warm
+ground — R−B between **+8 and +17** — while every section ground is exactly
+neutral, R−B **0**. Warm cream rectangles on a neutral page read as dirty
+patches rather than as photographs, and a mid-grey section behind them looks
+cold and dingy by comparison.
+
+The journal row is the worst case and shows what goes wrong: its large cover is
+**cool** at R−B −14 and its two small covers are **warm** at +15 and +17. Three
+temperatures in one row. It reads as stock imagery bought from three different
+sources, which is exactly the impression a brand with no storefront cannot
+afford.
+
+Compare the featured-rings row directly above it, which looks clean: those are
+cut-outs on `#ffffff`, sitting on a section whose cards are `#ffffff`. Ground
+matches ground, so the image has no visible edge and the eye sees jewelry
+instead of rectangles. That is the whole trick, and it is what Avianne does too
+— their category images are shot on true black and run full-bleed, so there is
+never a patch, only a band.
+
+### The three grounds
+
+| Ground | Hex | Use |
+|---|---|---|
+| **Paper** | `#ffffff` | Cut-outs and product shots that should dissolve into a white section |
+| **Fog** | `#efefef` | Stills on a tinted section — must match the section exactly |
+| **Onyx** | `#1c1c1c` | The dark passage, and any full-bleed dramatic band |
+
+**Never invent a fourth.** No cream, no ivory, no beige, no warm white, no
+gradient ground. If a scene needs texture, the texture must be neutral in
+colour — grey slate, grey suede, white paper — never a stone with a colour
+undertone.
+
+### Per-image ground map for the homepage
+
+Generate against this table. The "section" column is what is behind the image
+today, and the "image ground" column is what the photograph's own surface must
+be so the two agree.
+
+| # | Image | Section ground | **Image ground** |
+|---|---|---|---|
+| 1 | Hero (desktop + mobile crops) | paper `#ffffff` | **`#ffffff`** seamless white |
+| 2 | Featured ring cards ×4 | fog, on white cards | **`#ffffff`** — already correct, do not change |
+| 3 | Category tiles ×4 (rings, earrings, necklaces, bracelets) | paper `#ffffff` | **`#1c1c1c`** onyx, full-bleed |
+| 4 | Try-on frames ×2 | onyx `#1c1c1c` | **`#1c1c1c`** |
+| 5 | Bespoke image | paper `#ffffff` | **`#ffffff`** |
+| 6 | Journal covers ×3 | paper `#ffffff` | **`#ffffff`** — all three identical, this is the fix for the temperature clash |
+| 7 | Experience tiles ×3 | paper `#ffffff` | **`#ffffff`** |
+| 8 | PDP packaging suite | onyx gradient | **`#1c1c1c`** |
+
+**The category tiles are the one deliberate change of register.** They move from
+warm stone to onyx because that is precisely Avianne's category treatment, it is
+the ground professional guidance recommends for diamonds, and four dark tiles
+turn the browse moment into the page's centrepiece instead of four beige
+rectangles. **When those four land, change `.section-gallery-collection` to
+`var(--color-onyx)`** so the tiles are full-bleed inside a dark band rather than
+a checkerboard on white — that is what makes it a band and not patches.
+
 ### Two worlds
 
-The site has a **light table** world (white/ivory stone, high-key, soft daylight)
-and an **onyx** world (charcoal or black ground, single warm key). Each image
-below states which world it belongs to. Do not mix them within one frame except
-where a prompt explicitly asks for the seam.
+The site has a **light table** world (`#ffffff`, high-key, soft daylight) and an
+**onyx** world (`#1c1c1c`, single warm key). Each image below states which world
+it belongs to. Do not mix them within one frame except where a prompt explicitly
+asks for the seam.
 
 ### Output spec
 
@@ -116,12 +184,15 @@ cast against the section it sits in. The result:
 
 | Where | Status |
 |---|---|
-| Hero, category tiles, catalog, journal, bespoke | **Fine.** Light images on white. Their warmth (R−B +17 to +87) is warm gold on warm stone, which is correct on a white ground. |
-| Packaging, shopping bag, certificate (PDP + homepage) | **Fine.** Light images with light grounds sitting on the dark band — they read as deliberately lit tiles, not a clash. Ground warmth only R−B +8 to +15. |
-| **Try-on frames (homepage)** | **The one real mismatch.** |
+| **Category tiles** | **Warm stone on a white page** — four beige rectangles. Biggest visible win, see §4b. |
+| **Journal covers** | **Three different colour temperatures in one row** (−14, +15, +17). See §5 #10. |
+| **Try-on frames** | **Blue-black inside a neutral band.** See §3. |
+| Featured ring cards | **Correct.** Cut-outs on `#ffffff` inside white cards. This is the reference for what right looks like. |
+| Packaging, bag, certificate (PDP) | Acceptable. Light images on the dark band read as lit tiles. Optional, see §4. |
+| Hero, bespoke, experience tiles | Acceptable but warm. Worth regenerating on `#ffffff` when convenient. |
 
-So the product pages need nothing. The list below is **one genuine fix and a set
-of optional improvements** — not a backlog of defects.
+Priority order: **category tiles → journal covers → try-on → hero → everything
+else.**
 
 ### The one real problem
 
@@ -242,17 +313,80 @@ generating specific-looking values would misstate a real gemological report.
 
 ---
 
+## 4b. The category tiles — the biggest visible win
+
+Four images, and the ones that will change the homepage most. They currently sit
+on warm stone and read as four beige rectangles on a white page. On onyx they
+become the page's centrepiece.
+
+All four must be shot as **one set**: identical ground, identical light, identical
+distance. They appear together in a mosaic, so any drift between them is visible
+immediately. This is the "twelve products on twelve slightly different whites"
+failure that professional guidance names as the clearest amateur tell.
+
+Shared prompt skeleton — substitute the piece and the aspect:
+
+> Product photograph, no people. [PIECE] rests on a seamless matte near-black
+> surface (#1c1c1c) that fills the entire frame edge to edge. One warm key light
+> from the upper left rakes across the piece, firing white sparkle in the
+> diamonds and warm highlights along the gold; the background falls to true
+> black in the corners. A soft contact shadow anchors the piece to the surface.
+> The gold is the only warm element in the frame — the ground is a true neutral
+> black with no blue, brown or purple tint. Immaculate, no dust, no props, no
+> text.
+
+Negative for all four: *people, hands, marble, travertine, stone texture, cream,
+ivory, beige, warm background, blue-black, brown-black, coloured tint, glitter
+overlay, props, text, watermark.*
+
+| File (all under `public/images/editorial/categories/v7-onyx/`) | Aspect | `[PIECE]` |
+|---|---|---|
+| `rings.webp` | 1.42:1 | A yellow gold solitaire engagement ring with a round brilliant diamond, standing upright |
+| `earrings.webp` | 1.42:1 | A pair of round diamond stud earrings in yellow gold, lying at a slight angle |
+| `bracelets.webp` | 1.42:1 | A yellow gold diamond tennis bracelet, laid in a soft open curve |
+| `necklaces.webp` | 2:1 | A yellow gold diamond tennis necklace, laid in a long shallow S-curve |
+
+The rings and necklaces tiles are the two large ones in the mosaic and get the
+wider framing; earrings and bracelets are the small pair. Keep the jewelry at a
+consistent visual weight across all four so no tile dominates.
+
+**Code change when these land:** point `collectionEditorialImages` in
+`src/app/page.tsx` at the new files, and set `.section-gallery-collection` to
+`background: var(--color-onyx)` with the heading and description switching to
+`--color-on-onyx`. Without that second step you get four dark tiles floating on
+white, which is a checkerboard, not a band.
+
+---
+
 ## 5. Optional — editorial
 
 ### 9. `public/images/editorial/v7-onyx/bespoke-two-worlds.webp`
 **3:2** · both worlds, deliberately
 
 > Product photograph, no people. A single frame split down the middle by a clean
-> seam: on the left, a pencil sketch of a solitaire ring on white paper over pale
-> ivory marble, with a graphite pencil and a brass loupe. On the right, the
-> finished yellow gold solitaire ring standing on black velvet. Soft daylight on
-> the left half, one warm key light on the right. The two halves share the same
-> warm gold; everything else is neutral.
+> seam: on the left, a pencil sketch of a solitaire ring on white paper over a
+> smooth neutral white surface, with a graphite pencil and a brass loupe. On the
+> right, the finished yellow gold solitaire ring standing on matte near-black.
+> Soft daylight on the left half, one warm key light on the right. The two halves
+> share the same warm gold; every other tone in the frame is a true neutral.
+
+### 10. Journal covers ×3 — `public/images/journal/v7/`
+
+These are the three that currently disagree with each other: one cool at R−B −14
+beside two warm at +15 and +17. **Regenerate all three together, never
+individually,** or the row will stay mismatched.
+
+Shared treatment: seamless **`#ffffff`** ground, soft high-key daylight from the
+upper left, one subject per frame, generous empty space, 3:2.
+
+| File | Subject |
+|---|---|
+| `why-choose-a-lab-diamond.webp` | A single loose round brilliant diamond on seamless white, lit so the facets show structure |
+| `what-is-a-lab-diamond.webp` | A loose round brilliant diamond held in slim steel tweezers, on seamless white |
+| `the-four-cs.webp` | Four loose diamonds of visibly different sizes in a row on seamless white, casting small even shadows |
+
+The four-stone frame does double duty: it is the clearest scale cue on the site
+that does not involve a hand.
 
 Replaces `v6-bespoke/bespoke-combined-contrast.webp` (`src/app/page.tsx` L415).
 
