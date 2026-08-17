@@ -345,6 +345,12 @@ export default function HomePage() {
             <h2 id="collection-title" className="scroll-mt-24 font-display text-[2.15rem] font-medium leading-none text-ink sm:text-[2.8rem]">
               מצאו את התכשיט שלכם
             </h2>
+            {/* A section that opens with a heading and nothing else asks the
+                reader to work out what it contains. One line does that job. */}
+            <p className="mx-auto mt-4 max-w-md text-[0.9375rem] leading-7 text-ink-soft">
+              טבעות אירוסין, עגילים, שרשראות וצמידים — בזהב 14K ו־18K, עם יהלומי
+              מעבדה בכל גוון ומידה.
+            </p>
             <div className="home-collection-ornament mx-auto mt-5" aria-hidden="true">
               <span />
               <i />

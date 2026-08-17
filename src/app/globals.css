@@ -3420,17 +3420,25 @@ body {
    they win, and kept to a single half-step — this is still a light-majority
    page, not a striped one.
    ========================================================================== */
+/* Measured before changing: the mist bands were a 7% luminance step from paper,
+   and the category mosaic ran into the no-storefront section at a 0% step —
+   two identical whites touching with nothing between them. Fog is a 17% step,
+   which reads as a distinct band at arm's length in daylight without ever
+   leaving the light majority. Every boundary now carries either a tonal step
+   or a hairline, and no two adjacent sections share a ground. */
 .section-most-loved,
+.home-direct-section,
 .section-gallery-journal {
-  background: var(--color-mist);
+  background: var(--color-fog);
 }
 
-.section-most-loved {
+.section-most-loved,
+.home-direct-section {
   border-block: 1px solid var(--color-line);
 }
 
 .section-gallery-journal {
-  border-top: 1px solid var(--color-line);
+  border-block: 1px solid var(--color-line);
 }
 
 /* The closing service band already carries a hairline; keep it on paper so the
@@ -3441,7 +3449,7 @@ body {
 
 @media (min-width: 1024px) {
   .section-most-loved {
-    background: var(--color-mist);
+    background: var(--color-fog);
   }
 }
 /* The catalog prefooter sat on the same mist as the footer directly beneath it,
